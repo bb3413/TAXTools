@@ -151,6 +151,19 @@
 }
 
 /*
+ * Used for entering fields below the form.
+ */
+.supplimental-input-line {
+	display:				grid;
+	grid-template-columns:	150px 400px;
+}
+
+.supplimental-input-line p {
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+/*
  * Styles specifically for the SSA-1099 form.
  */
 .ssa-header-left {

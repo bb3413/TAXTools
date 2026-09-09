@@ -2,54 +2,32 @@
 import { Dates }	from "../Classes/Dates.js";
 import { HTML }		from "../Classes/HTML.js";
 import { Str }		from "../Classes/Str.js";
+import { Objects }	from "../Classes/Objects.js";
 import { TaxTable }	from "../Classes/TaxTable.js";
 
-const FIELD_NAMES = [
-	"filing-status",
-	"taxpayers-name",
-	"street-address",
-	"city",
-	"zip-code",
-	"taxpayers-birthday",
-	"is-taxpayer-blind",
-	"is-taxpayer-citizen",
-	"taxpayer-has-ssn",
-	"lived-with-spouse",
-	"can-be-dependent",
-	"rents-home",
-	"tp-taxpayer-educator-expenses",
-	"tp-taxpayer-ltc-premiums",
-	"spouses-birthday",
-	"is-spouse-blind",
-	"is-spouse-citizen",
-	"spouse-has-ssn",
-	"tp-spouse-educator-expenses",
-	"tp-spouse-ltc-premiums",
-	"tp-number-of-dependents",
-	"tp-alimony-paid",
-	"tp-alimony-received",
-	"tp-divorce-date",
-	"tp-federal-estimated-payments",
-	"tp-state-estimated-payments",
-	"tp-medical-insurance-premiums",
-	"tp-medicare-premiums",
-	"tp-other-medical-expenses",
-	"tp-medical-miles",
-	"tp-property-tax",
-	"tp-personal-property-tax",
-	"tp-extra-sales-tax",
-	"tp-cash-gift-to-charity",
-	"tp-noncash-gift-to-charity",
-	"tp-tax-preparation-fees",
-	"tp-investment-expenses",
-	"tp-unreimbursed-employee-expenses",
-];
+const FIELD_NAMES = {
+	// Element ID			Value Type
+	"filing-status":		["text"],
+	"taxpayers-name":		["text"],
+	"street-address":		["text"],
+	"city":					["text"],
+	"state":				["text"],
+	"zip-code":				["text"],
+	"taxpayers-birthday":	["text"],
+	"is-taxpayer-blind":	[""],
+	"taxpayer-has-ssn":		[""],
+
+	// Spouse
+	"spouses-birthday":		["text"],
+	"lived-with-spouse":	[""],
+	"is-spouse-blind":		[""],
+	"spouse-has-ssn":		[""],
+};
 
 let taxpayer = undefined;		// Global variable.
 
+// These two functions ignore an error when an element does not exist.
 function getUserInput(element_id, default_value = 0) {
-	// In some tools the element may not exist and HTML.getUserInput fails in strict
-	// mode if element does not exist. This function ignores that error.
 	if (document.getElementById(element_id)) {
 		return HTML.getUserInput(element_id, default_value);
 	} else {
@@ -58,8 +36,6 @@ function getUserInput(element_id, default_value = 0) {
 }
 
 function putUserOutput(element_id, value, type = "number") {
-	// In some tools the element may not exist and HTML.pytUserOutput fails in strict
-	// mode if element does not exist. This function ignores that error.
 	if (document.getElementById(element_id)) {
 		HTML.putUserOutput(element_id, value, type);
 	}
@@ -74,30 +50,16 @@ function initializeTaxpayer() {
 	const taxpayer = new Taxpayer();
 
 	// Initialize the fields from the web page.
-	for (const field of Object.keys(taxpayer)) {
-		const field_name = field.replace(/^_/, "");
-		const element_id = Str.snakeToKebabCase(field_name);
+	for (const element_id of Object.keys(FIELD_NAMES)) {
+		const variable_name = "_" + Str.kebabToSnakeCase(element_id);
 
-		let default_value;
-		switch (field_name) {
-			case "filing_status":		default_value = "text";		break;
-			case "taxpayers_name":		default_value = "text";		break;
-			case "street_address":		default_value = "text";		break;
-			case "city":				default_value = "text";		break;
-			case "zip_code":			default_value = "text";		break;
-			case "taxpayers_birthday":	default_value = "text";		break;
-			case "spouses_birthday":	default_value = "text";		break;
-			case "tp_divorce_date":		default_value = "text";		break;
-			default:					default_value = "";			break;
-		}
-
-		taxpayer[field_name] = getUserInput(element_id, default_value);
+		taxpayer[variable_name] = getUserInput(element_id, FIELD_NAMES[element_id][0]);
 	}
 
 	return taxpayer;
 }
 
-function printFilingStatus(filing_status) {
+function formatFilingStatus(filing_status) {
 	switch (filing_status) {
 		case "SINGLE":	return "Single";
 		case "HOH":		return "HoH";
@@ -116,10 +78,7 @@ export class Taxpayer {
 	// ---------------- Static Methods ----------------
 	//
 	static getTaxpayer() {
-		if (!taxpayer) {
-			initializeTaxpayer();
-		}
-
+		initializeTaxpayer();
 		return taxpayer;
 	}
 
@@ -183,145 +142,59 @@ export class Taxpayer {
 		taxpayer = this;
 
 		this._filing_status						= "Single";
-
 		this._taxpayers_name					= "";
 		this._street_address					= "";		// Needed for sales tax
 		this._city								= "";		// Needed for sales tax
+		this._state								= "";
 		this._zip_code							= "";		// Needed for sales tax
-
-		// Taxpayer
 		this._taxpayers_birthday				= "";
 		this._taxpayers_age						= 0;
 		this._is_taxpayer_blind					= false;
-		this._is_taxpayer_citizen				= true;
 		this._taxpayer_has_ssn					= true;		// Not an ITIN
-		this._lived_with_spouse					= true;		// Needed when filing MFS
-		this._can_be_dependent					= false;	// Can be clained as dependent
-		this._rents_home						= false;	// For CA renter's credit
-		this._taxpayer_educator_expenses		= 0;
-		this._taxpayer_ltc_premiums				= 0;
 
 		// Spouse
 		this._spouses_birthday					= "";
 		this._spouses_age						= 0;
+		this._lived_with_spouse					= true;		// Needed when filing MFS
 		this._is_spouse_blind					= false;
-		this._is_spouse_citizen					= true;
 		this._spouse_has_ssn					= true;		// Not an ITIN
-		this._spouse_educator_expenses			= 0;
-		this._spouse_ltc_premiums				= 0;
-
-		// Taxpayer and spouse
-		this._number_of_dependents				= 0;
-		this._alimony_paid						= 0;
-		this._alimony_received					= 0;
-		this._divorce_date						= "";
-		this._federal_estimated_payments		= 0;
-		this._state_estimated_payments			= 0;
-		this._medical_insurance_premiums		= 0;
-		this._medicare_repremiums				= 0;
-		this._other_medical_expenses			= 0;
-		this._medical_miles						= 0;
-		this._property_tax						= 0;
-		this._personal_property_tax				= 0;
-		this._extra_sales_tax					= 0;
-		this._cash_gift_to_charity				= 0;
-		this._noncash_gift_to_charity			= 0;
-		this._tax_preparation_fees				= 0;
-		this._investment_expenses				= 0;
-		this._unreimbursed_employee_expenses	= 0;
 	}
 
 	//
 	// ---------------- Getter Methods ----------------
 	//
 	get filing_status() {				return this._filing_status};
-
 	get taxpayers_name() {				return this._taxpayers_name};
 	get street_address() {				return this._street_address};
 	get city() {						return this._city};
+	get state() {						return this._state};
 	get zip_code() {					return this._zip_code};
-
 	get taxpayers_birthday() {			return this._taxpayers_birthday};
 	get taxpayers_age() {				return this._taxpayers_age};
 	get is_taxpayer_blind() {			return this._is_taxpayer_blind};
-	get is_taxpayer_citizen() {			return this._is_taxpayer_citizen};
 	get taxpayer_has_ssn() {			return this._taxpayer_has_ssn};
-	get lived_with_spouse() {			return this._lived_with_spouse};
-	get number_of_dependents() {		return this._number_of_dependents};
-	get rents_home() {					return this._rents_home};
-	get taxpayer_educator_expenses() {	return this._taxpayer_educator_expenses};
-	get taxpayer_ltc_premiums() {		return this._taxpayer_ltc_premiums};
 
 	get spouses_birthday() {			return this._spouses_birthday};
 	get spouses_age() {					return this._spouses_age};
+	get lived_with_spouse() {			return this._lived_with_spouse};
 	get is_spouse_blind() {				return this._is_spouse_blind};
-	get is_spouse_citizen() {			return this._is_spouse_citizen};
 	get spouse_has_ssn() {				return this._spouse_has_ssn};
-	get spouse_educator_expenses() {	return this._spouse_educator_expenses};
-	get spouse_ltc_premiums() {			return this._spouse_ltc_premiums};
-
-	get number_of_dependents() {		return this._number_of_dependents};
-	get alimony_paid() {				return this._alimony_paid};
-	get alimony_received() {			return this._alimony_received};
-	get divorce_date() {				return this._divorce_date};
-	get federal_estimated_payments() {	return this._federal_estimated_payments};
-	get state_estimated_payments() {	return this._state_estimated_payments};
-	get medical_insurance_premiums() {	return this._medical_insurance_premiums};
-	get medicare_repremiums() {			return this._medicare_repremiums};
-	get other_medical_expenses() {		return this._other_medical_expenses};
-	get medical_miles() {				return this._medical_miles};
-	get property_tax() {				return this._property_tax};
-	get personal_property_tax() {		return this._personal_property_tax};
-	get extra_sales_tax() {				return this._extra_sales_tax};
-	get cash_gift_to_charity() {		return this._cash_gift_to_charity};
-	get noncash_gift_to_charity() {		return this._noncash_gift_to_charity};
-	get tax_preparation_fees() {		return this._tax_preparation_fees};
-	get investment_expenses	() {		return this._investment_expenses};
-	get unreimbursed_employee_expenses() {	return this._unreimbursed_employee_expenses};
 
 	//
 	// ---------------- Setter Methods ----------------
 	//
 	set filing_status(fs) {					this._filing_status		= fs.toUpperCase() }
-
 	set taxpayers_name(name) {				this._taxpayers_name				= name }
 	set street_address(str) {				this._street_address				= str }
 	set city(str) {							this._city							= str }
+	set state(str) {						this._state							= str }
 	set zip_code(str) {						this._zip_code						= str }
-
 	set is_taxpayer_blind(bool) {			this._is_taxpayer_blind				= bool }
-	set is_taxpayer_citizen(bool) {			this._is_taxpayer_citizen			= bool }
 	set taxpayer_has_ssn(bool) {			this._taxpayer_has_ssn				= bool }
+
 	set lived_with_spouse(bool) {			this._lived_with_spouse				= bool }
-	set number_of_dependents(num){			this._number_of_dependents			= num }
-	set rents_home(bool) {					this._rents_home					= bool }
-	set taxpayer_educator_expenses(val) {	this._taxpayer_educator_expenses	= val }
-	set taxpayer_ltc_premiums(val) {		this._taxpayer_ltc_premiums			= val }
-
 	set is_spouse_blind(bool) {				this._is_spouse_blind				= bool }
-	set is_spouse_citizen(bool) {			this._is_spouse_citizen				= bool }
 	set spouse_has_ssn(bool) {				this._spouse_has_ssn				= bool }
-	set spouse_educator_expenses(val) {		this._spouse_educator_expenses		= val }
-	set spouse_ltc_premiums(val) {			this._spouse_ltc_premiums			= val }
-
-	set number_of_dependents(val) {			this._number_of_dependents			= val }
-	set alimony_paid(val) {					this._alimony_paid					= val }
-	set alimony_received(val) {				this._alimony_received				= val }
-	set divorce_date(val) {					this._divorce_date					= val }
-	set federal_estimated_payments(val) {	this._federal_estimated_payments	= val }
-	set state_estimated_payments(val) {		this._state_estimated_payments		= val }
-	set medical_insurance_premiums(val) {	this._medical_insurance_premiums	= val }
-	set medicare_repremiums	(val) {			this._medicare_repremiums			= val }
-	set other_medical_expenses(val) {		this._other_medical_expenses		= val }
-	set medical_miles(val) {				this._medical_miles					= val }
-	set property_tax(val) {					this._property_tax					= val }
-	set personal_property_tax(val) {		this._personal_property_tax			= val }
-	set extra_sales_tax(val) {				this._extra_sales_tax				= val }
-	set cash_gift_to_charity(val) {			this._cash_gift_to_charity			= val }
-	set noncash_gift_to_charity(val) {		this._noncash_gift_to_charity		= val }
-	set tax_preparation_fees(val) {			this._tax_preparation_fees			= val }
-	set investment_expenses(val) {			this._investment_expenses			= val }
-	set unreimbursed_employee_expenses(val) { this._unreimbursed_employee_expenses = val }
 
 	set taxpayers_birthday(birthday) {
 		if (birthday === null || birthday === undefined) { return; }
@@ -356,19 +229,37 @@ export class Taxpayer {
 	//
 	// ---------------- Utility Methods ----------------
 	//
+	familySize() {
+		let size = 1;	// Taxpayer
+		if (this.fileing_status === "MFJ") {
+			size++;		// Spouse
+		}
+
+/*
+		let dependents = TaxFormWeb.getForm("Dependents");
+		for (const dependent of dependents) {
+			if (Objects.isUsed(dependent)) {
+				size += dependents.length;
+			}
+		}
+*/
+		return size;
+	}
+
 	putTaxpayerInformation() {
 		//
 		// Put the taxpayer information on the output form 1040.
 		//
 		HTML.putUserOutput("f1040-1-filing-status",
-			printFilingStatus(this.filing_status), "text");
+			formatFilingStatus(this.filing_status), "text");
 		HTML.putUserOutput("f1040-1-taxpayers-name",
 			this.taxpayers_name, "text");
 		HTML.putUserOutput("f1040-1-street-address",
 			this.street_address, "text");
 		if (this.city) {
+			const state = this.state ? this.state : "CA";
 			HTML.putUserOutput("f1040-1-city-state-zip",
-				`${this.city}, CA ${this.zip_code}`, "text");
+				`${this.city}, state ${this.zip_code}`, "text");
 		} else {
 			HTML.putUserOutput("f1040-1-city-state-zip","", "text");
 		}
@@ -392,14 +283,15 @@ export class Taxpayer {
 	}
 
 	toPrint() {
-		let lines = [];
+		let lines	= [];
+		const state	= this.state ? this.state : "CA";
 
 		printLine(lines, "Filing Status",		this.filing_status);
 		lines.push("");
 
 		printLine(lines, "Taxpayer's Name",		this.taxpayers_name);
 		printLine(lines, "Street Address",		this.street_address);
-		printLine(lines, "City, State, Zip",	`${this.city}, CA ${this.zip_code}`);
+		printLine(lines, "City, State, Zip",	`${this.city}, state ${this.zip_code}`);
 		printLine(lines, "Taxpayer's Birthday",
 			`${this.taxpayers_birthday}, Age: ${this.taxpayers_age}`);
 		printLine(lines, "Taxpayer Is Blind",	this.is_taxpayer_blind);

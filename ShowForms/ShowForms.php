@@ -27,13 +27,13 @@
 
 		<h2>Input Tax Forms</h2>
 		<!-- Display area for input tax forms. -->
-		<div id="input-forms-container">
-			<?php include "../Library/Classes/Taxpayer.html"; ?>
+		<div id="input-taxforms-container">
+			<?php include "../Library/InputSheets/Taxpayer.html"; ?>
 		</div>
 
 		<h2>Output Tax Forms</h2>
 		<!-- Display area for output tax forms. -->
-		<div id="output-forms-container">
+		<div id="output-taxforms-container">
 		</div>
 
 		<!-- Display area for error messages. -->

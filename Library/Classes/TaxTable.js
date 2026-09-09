@@ -40,4 +40,9 @@ export class TaxTable {
 		// This is implemented as both a staticand instance method.
 		return tax_table_year || Dates.getTaxYear();
 	}
+
+	static reset() {
+		tax_table		= undefined;
+		tax_table_year	= undefined;
+	}
 }

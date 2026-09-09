@@ -29,6 +29,10 @@ export class TaxTableTmpl {
 		return Math.round(miles * this.getTaxValue("BusinessMileage"));
 	}
 
+	getCharitableMileageDeduction(miles) {
+		return Math.round(miles * this.getTaxValue("CharityMileage"));
+	}
+
 	getIncomeTaxFromTable(filing_status, income) {
 		// Note: there is another named getIncomeTax() in
 		// Library/IncomeTax.js.

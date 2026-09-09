@@ -2,11 +2,34 @@
 //
 // This module manages tax forms that have been created as objects of the TaxForm class.
 //
-import { Debug }		from "../Classes/Debug.js";
-import { TaxFormName }	from "../Classes/TaxFormName.js";
+import { Classes }	from "../Classes/Classes.js";
+import { Debug }	from "../Classes/Debug.js";
+
 
 let instances = {};		// This variable is indexed by form name. For each form, it
 						// returns an array with all the instances of that form.
+
+const print_order = [
+	"F1040",
+	"F1040S1",
+	"F1040S1A",
+	"F1040S2",
+	"F1040S3",
+	"F1040SA",
+	"F1040SB",
+	"F1040SC",
+	"F1040SD",
+	"F1040SE",
+	"F1040SSE",
+	"F1041",
+	"F1065B",
+	"F1120S",
+	"F2441",
+	"F6251",
+	"F7206",
+	"F540",
+	"F540CA",
+];
 
 function addForm(formname, form) {
 	if (!formname) {
@@ -20,7 +43,7 @@ function addForm(formname, form) {
 		form_list = instances[formname];
 	}
 
-	if ((form_list.length > 0) && TaxFormName.isSingleton(formname)) {
+	if ((form_list.length > 0) && Classes.isSingleton(formname)) {
 		throw new Error(
 			`TaxFormObj.addForm(): Singleton form ${formname} already exists; cannot add.`);
 		return;
@@ -29,13 +52,36 @@ function addForm(formname, form) {
 	form_list.push(form);
 }
 
+function get1099RValue(lineno, ira) {
+	//
+	// Form 1099-R can be used for IRAs or pensions; see box 7b.
+	//
+	let sum = 0;
+	const formname = "F1099R";
+	let form_list = instances[formname];
+
+	if (form_list) {
+		for (const form of form_list) {
+			if (!form.calculated) {
+				form.calculate();
+			}
+
+			if ( (ira && form.lines["07b"]) || (!ira && !form.lines["07b"]) ) {
+				sum += form.lines[lineno].value;
+			}
+		}
+	}
+
+	return sum;
+}
+
 export class TaxFormObj {
 	static reset() {
 		instances		= {};
 	}
 
 	static createForm(formname) {
-		const form_class = TaxFormName.getClass(formname);
+		const form_class = Classes.getClass(formname);
 
 		if (form_class) {
 			const form = new form_class(formname);
@@ -44,11 +90,6 @@ export class TaxFormObj {
 		}
 
 		return undefined;
-	}
-
-	static deleteAllForms() {
-		// Called when input information has changed so the forms can be recalculated.
-		instances = {};
 	}
 
 	static earnedIncome() {
@@ -64,7 +105,7 @@ export class TaxFormObj {
 	static formsInPrintOrder() {
 		let forms = [];
 
-		for (let formname of TaxFormName.printOrder()) {
+		for (let formname of print_order) {
 			let more_forms = TaxFormObj.getAllForms(formname);
 			for (let next_form of more_forms) {
 				forms.push(next_form);
@@ -115,6 +156,18 @@ export class TaxFormObj {
 		return instance;
 	}
 
+	static getOrCreateForm(formname) {
+		return TaxFormObj.getForm(formname) || TaxFormObj.createForm(formname);
+	}
+
+	static getPensionValue(lineno) {
+		return get1099RValue(lineno, false);
+	}
+	
+	static getIRAValue(lineno) {
+		return get1099RValue(lineno, true);
+	}
+
 	static getTextValue(formname, ...lineno) {
 		// This method will get a text value from a tax form. If the form does not exist,
 		// it will try to create it. If it has not been calculated, it will be calculated.
@@ -124,7 +177,7 @@ export class TaxFormObj {
 		Debug.enter(`TaxFormObj.getTextValue(${formname}, ${lineno})`);
 		let str = "";
 		let form_list = instances[formname];
-		if (!form_list && TaxFormName.createOnDemand(formname)) {
+		if (!form_list && Classes.createOnDemand(formname)) {
 			// Try to create; not an error if it fails; it may be a form that is not
 			// implemented yet.
 			TaxFormObj.createForm(formname);
@@ -158,7 +211,7 @@ export class TaxFormObj {
 		Debug.enter(`TaxFormObj.getValue(${formname}, ${lineno})`);
 		let sum = 0;
 		let form_list = instances[formname];
-		if (!form_list && TaxFormName.createOnDemand(formname)) {
+		if (!form_list && Classes.createOnDemand(formname)) {
 			// Try to create; not an error if it fails; it may be a form that is not
 			// implemented yet.
 			TaxFormObj.createForm(formname);
@@ -178,7 +231,11 @@ export class TaxFormObj {
 			}
 		}
 		Debug.exit(`TaxFormObj.getValue(${sum})`);
-		return sum;
+		return isNaN(sum) ? 0 : sum;
+	}
+
+	static reset() {
+		instances = {};
 	}
 
 	static toConsole() {

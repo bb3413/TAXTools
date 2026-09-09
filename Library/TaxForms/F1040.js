@@ -11,39 +11,39 @@ import { IncTax }		from "../Worksheets/IncTax.js";
 import { SSTax }		from "../Worksheets/SSTax.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1040-XX-details">
+		<details class="taxform-details" id="f1040-XX-container">
 			<summary class="taxform-summary">1040 - Individual Income Tax Return</summary>
 			<div class="taxform-container">
 				<div>&nbsp;</div>
 				<div class="taxform-desc-string">
 					<p>Taxpayer&apos;s Name</p>
-					<input class="output-field" readonly type="text"
-						id="f1040-XX-taxpayers-name" size="10" placeholder="0" />
+					<input class="output-field left" readonly type="text"
+						id="f1040-XX-taxpayers-name" size="10" placeholder="" />
 				</div>
 				<div class="taxform-desc-string">
 					<p>Address</p>
-					<input class="output-field" readonly type="text"
-						id="f1040-XX-street-address" size="10" placeholder="0" />
+					<input class="output-field left" readonly type="text"
+						id="f1040-XX-street-address" size="10" placeholder="" />
 				</div>
 				<div class="taxform-desc-string">
 					<p>City, State, Zip Code</p>
-					<input class="output-field" readonly type="text"
-						id="f1040-XX-city-state-zip" size="10" placeholder="0" />
+					<input class="output-field left" readonly type="text"
+						id="f1040-XX-city-state-zip" size="10" placeholder="" />
 				</div>
 				<div class="taxform-lno-desc-shorttext">
 					<p>Taxpayer&apos;s Birthday</p>
-					<input class="output-field" readonly type="text"
-						id="f1040-XX-taxpayers-birthday" size="10" placeholder="0" />
+					<input class="output-field left" readonly type="text"
+						id="f1040-XX-taxpayers-birthday" size="10" placeholder="mm/dd/yyy" />
 				</div>
 				<div class="taxform-lno-desc-shorttext">
 					<p>Spouse&apos;s Birthday</p>
-					<input class="output-field" readonly type="text"
-						id="f1040-XX-spouses-birthday" size="10" placeholder="0" />
+					<input class="output-field left" readonly type="text"
+						id="f1040-XX-spouses-birthday" size="10" placeholder="mm/dd/yyy" />
 				</div>
 				<div class="taxform-lno-desc-shorttext">
 					<p>Filing Status</p>
-					<input class="output-field" readonly type="text"
-						id="f1040-XX-filing-status" size="10" placeholder="0" />
+					<input class="output-field left" readonly type="text"
+						id="f1040-XX-filing-status" size="10" placeholder="Single" />
 				</div>
 
 				<div>&nbsp;</div>
@@ -497,11 +497,12 @@ export class F1040 extends TaxForm {
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
-							.replace(/readonly/g, "")
-							.replace(/output-color/g, "")
-							.replace(/output-field/g, "input-field");
+								.replace(/202X/g, TaxTable.getTaxYear())
+								.replace(/readonly/g, "")
+								.replace(/output-color/g, "")
+								.replace(/output-field/g, "input-field");
 
-		return [ `f1040-${uid}-details`, html ];
+		return [ `f1040-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -512,9 +513,9 @@ export class F1040 extends TaxForm {
 			throw new Error(`F1040.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1040-${uid}-details`);
+		const element = document.getElementById(`f1040-${uid}-container`);
 		if (!element) {
-			throw new Error(`F1040.getUserInput(): Element not found: f1040-${uid}-details`);
+			throw new Error(`F1040.getUserInput(): Element not found: f1040-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -646,7 +647,11 @@ export class F1040 extends TaxForm {
 		Debug.enter("F1040.Constructor()");
 		super(formname);
 		this.title = `1040 - Individual Income Tax Return`;
-		
+
+		// This field can be used to enter information that does not come from another
+		// tax form.
+		this.estimated_payments	= 0;
+
 		this.lines["01a"]	= new Line("Wages");
 		this.lines["01b"]	= new Line("Household Wages");
 		this.lines["01c"]	= new Line("Tip Income");
@@ -730,17 +735,19 @@ export class F1040 extends TaxForm {
 		this.lines["01h"].value	= 0;									// Other Earned Inc
 		this.lines["01i"].value	= 0;									// Nontaxed Combat
 		this.lines["01z"].value	= this.add("01a","01b","01c","01d","01e","01f","01g","01h");
-		this.lines["02a"].value	= TaxFormObj.getValue("F1099INT",	"08");	// Tax-exempt int
-		this.lines["02b"].value	= TaxFormObj.getValue("F1099INT",	"01");	// Taxable Int
+		this.lines["02a"].value	= TaxFormObj.getValue("F1099INT",	"08") +	// Tax-exempt int
+									TaxFormObj.getValue("F1099OID",	"11");
+		this.lines["02b"].value	= TaxFormObj.getValue("F1099INT",	"01") +	// Taxable Int
+									TaxFormObj.getValue("F1099OID",	"01");
 		this.lines["03a"].value	= TaxFormObj.getValue("F1099DIV",	"01b");	// Qualified Divs
 		this.lines["03b"].value	= TaxFormObj.getValue("F1099DIV",	"01a");	// Ordinary Divs
-		this.lines["04a"].value	= TaxFormObj.getValue("F1099R",		"01");	// IRA Dist
-		this.lines["04b"].value	= TaxFormObj.getValue("F1099R",		"02a") +// Taxable IRA
+		this.lines["04a"].value	= TaxFormObj.getIRAValue("01");				// IRA Dist
+		this.lines["04b"].value	= TaxFormObj.getIRAValue("02a") +			// Taxable IRA
 									TaxFormObj.getValue("F8606",	"15c") +
 									TaxFormObj.getValue("F8606",	"18") +
 									TaxFormObj.getValue("F8606",	"25c");
-		this.lines["05a"].value	= TaxFormObj.getValue("F1099R",		"01");	// Pensions
-		this.lines["05b"].value	= TaxFormObj.getValue("F1099R",		"02a");	// Pensions
+		this.lines["05a"].value	= TaxFormObj.getPensionValue("01");			// Pensions
+		this.lines["05b"].value	= TaxFormObj.getPensionValue("02a");		// Pensions
 		this.lines["06a"].value	= TaxFormObj.getValue("SSA1099",	"05");	// SS Benefits
 		this.lines["06b"].value = 0;  // DELAY INITIALIZATION UNTIL LATER
 
@@ -794,11 +801,16 @@ export class F1040 extends TaxForm {
 		this.lines["25a"].value	= TaxFormObj.getValue("W2", "02");		// W2 Witholding
 		this.lines["25b"].value	= TaxFormObj.getValue("F1099INT", "04") +
 									TaxFormObj.getValue("F1099DIV", "04") +
+									TaxFormObj.getValue("F1099G", "04") +
+									TaxFormObj.getValue("F1099K", "04") +
+									TaxFormObj.getValue("F1099MISC", "04") +
+									TaxFormObj.getValue("F1099NEC", "04") +
+									TaxFormObj.getValue("F1099OID", "04") +
 									TaxFormObj.getValue("F1099R", "04") +
 									TaxFormObj.getValue("SSA1099", "06");// 1099 Withholding
 		this.lines["25c"].value	= TaxFormObj.getValue("F8959", "24");	// Other withholding
 		this.lines["25d"].value	= this.add("25a", "25b", "25c");		// Total Withholding
-		this.lines["26"].value	= 0;									// Estimated payments
+		this.lines["26"].value	= this.estimated_payments;				// Estimated payments
 		this.lines["27a"].value	= TaxFormObj.getValue("EIC", "xx");		// EIC
 		this.lines["28"].value	= TaxFormObj.getValue("F8812", "27");	// Additional CTC
 		this.lines["29"].value	= TaxFormObj.getValue("F8863", "08");	// Amer Opp Cred
@@ -822,6 +834,9 @@ export class F1040 extends TaxForm {
 			throw new Error(`${this.formname}.getOutputHTML(): UID is undefined.`);
 		}
 
-		return [ `f1040-${uid}-details`, HTML_FORM.replace(/XX/g, uid) ];
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
+
+		return [ `f1040-${uid}-container`, html ];
 	}
 }

@@ -38,13 +38,8 @@ export class SalesTax extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		// Input values
-		let family_size = tp.number_of_dependents + 1;
-		if (tp.filing_status === "MFJ") {
-			family_size += 1;
-		}
-		family_size = Num.limit(family_size, 1, 6);
-
+		const family_size = Num.limit(tp.familySize(), 1, 6);
+		
 		const spendable_income =
 			TaxFormObj.getValue("F1040",	"01z") +	// wages
 			TaxFormObj.getValue("F1040",	"02a") +	// tax exempt interest

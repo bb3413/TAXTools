@@ -32,8 +32,7 @@ export class Line {
 	set user_value(new_value) {
 		// This method is called when the value is supplied by the user; not calculated
 		// by the program (see also set value()).
-
-		if (new_value === "") {
+		if (!Num.isNum(new_value) || (new_value === "")) {
 			// If the user did not enter a value or cleared it, use the default for the
 			// line, which will allows the form's steps to calculate the value. If the user
 			// explicitly entered 0, use it.
@@ -55,27 +54,35 @@ export class Line {
 			return;
 		}
 
-		if (Num.isNum(this._min_value) && Num.isNum(new_value)) {
-			if (new_value < this._min_value) {
-				Debug.warn(`${this._label}: Value too small (${new_value}).`)
-			}
-			new_value = Math.max(this._min_value, new_value);
+		if (!Num.isNum(new_value)) {
+			new_value = 0;
 		}
-		if (Num.isNum(this._max_value) && Num.isNum(new_value)) {
-			if (new_value > this._max_value) {
-				Debug.warn(`${this._label}: Value too large (${new_value}).`)
-			}
-			new_value = Math.min(this._max_value, new_value);
+
+		if (new_value < this._min_value) {
+			Debug.warn(`${this._label}: Value too small (${new_value}).`)
 		}
+		new_value = Math.max(this._min_value, new_value);
+
+		if (new_value > this._max_value) {
+			Debug.warn(`${this._label}: Value too large (${new_value}).`)
+		}
+		new_value = Math.min(this._max_value, new_value);
+
 		this._value = new_value;
 	}
 
 	set min_value(new_min) {
+		if (!Num.isNum(new_min)) {
+			new_min = MIN_DOLLAR;
+		}
 		this._min_value = new_min;
 		this._value = Math.min(this._min_value, this._value);	// Update value
 	}
 
 	set max_value(new_max) {
+		if (!Num.isNum(new_max)) {
+			new_max = MAX_DOLLAR;
+		}
 		this._max_value = new_max;
 		this._value = Math.max(this._max_value, this._value);	// Update value
 	}

@@ -33,6 +33,10 @@
 			<p class="input-label">City</p>
 			<input class="input-field left" type="text" id="City" />
 
+			<p class="input-label">State</p>
+			<input class="input-field left" type="text" id="State"
+				placeholder="California" readonly />
+
 			<p class="input-label">Zip Code</p>
 			<input class="input-field left" type="text" id="ZipCode"  />
 		</div>

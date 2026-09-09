@@ -48,6 +48,11 @@ a:visited {
 	color:					var(--light-text-color);
 }
 
+input {
+	font-size:				13px;
+	padding:				2px;
+}
+
 input::placeholder {
 	/* color:				red; */
 	opacity:				0.5;
@@ -181,7 +186,6 @@ input:-webkit-autofill:focus {
 .noborder		{ border:				none !important; }
 .input-color	{ background-color:		var(--input-color); }
 .output-color	{ background-color:		var(--output-color); }
-.notused-color	{ background-color:		var(--notused-color); }
 .right			{ text-align:			right; }
 .left			{ text-align:			left; }
 .span-two		{ grid-column:			span 2; }
@@ -191,3 +195,5 @@ input:-webkit-autofill:focus {
 .span-six		{ grid-column:			span 6; }
 .flex-right		{ justify-content:		right; }	/* Align elems in a flex-box to right. */
 .flex-center	{ justify-content:		center; }	/* Center the elements in a flex-box. */
+.bold			{ font-weight:			bold; }
+.center-text	{ text-align:			center; }

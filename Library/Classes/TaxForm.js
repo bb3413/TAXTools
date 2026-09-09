@@ -24,6 +24,12 @@ export class TaxForm {
 		return sum;
 	}
 
+	getOutputHTML(uid) {
+		let html	= this.toHTML(uid);
+		let id		= `${this.formname.toLowerCase()}-${uid}-container`;
+		return [ id, html ];
+	}
+
 	isUsed() {
 		for (const lineno of Object.keys(this.lines)) {
 			if (this.line(lineno)) {
@@ -61,7 +67,7 @@ export class TaxForm {
 		//
 		// Copy the information from the instance to the output HTML.
 		//
-		let formname = this.formname.toLowerCase();
+		const formname = this.formname.toLowerCase();
 
 		if (!uid) {
 			throw new Error(`${formname}.putInformation(): UID is undefined.`);
@@ -85,9 +91,11 @@ export class TaxForm {
 	}
 
 	toHTML(uid = "99") {
-		const doc = new HTMLBuild();
+		const formname	= this.formname.toLowerCase();
+		const doc		= new HTMLBuild();
+
 		doc.startElement("details", "taxform-details", "",
-				`id="${this.formname}-${uid}-details"`);	// Start of details
+				`id="${formname}-${uid}-container"`);	// Start of details
 			doc.addElement("summary", "taxform-summary", this.title);
 			doc.startElement("div", "taxform-container");	// Start of taxform-contianer
 				doc.addElement("div", "", "&nbsp;");		// Blank line
@@ -99,7 +107,7 @@ export class TaxForm {
 					doc.startElement("div", "taxform-lno-desc-value");	// Start of line
 						doc.addElement("p", "lineno", lineno);
 						doc.addElement("p", "description", line.label);
-						id=`${this.formname}-${uid}-${lineno}`;
+						id=`${formname}-${uid}-${lineno}`;
 						attributes = `readonly type="text" id="${id}" ` +
 							'size="10" placeholder="0"';
 						doc.addVoidElement("input", "output-field",	line.value, attributes);

@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1099g-XX-details">
+		<details class="taxform-details" id="f1099g-XX-container">
 			<summary class="taxform-summary">1099-G - Certain Gevernment Payments</summary>
 			<div>&nbsp;</div>
 			<div class="f1099-taxform-container">
@@ -188,11 +188,10 @@ export class F1099G extends TaxForm {
 			throw new Error(`F1099G.getInputHTML(): UID is undefined.`);
 		}
 
-		const tax_year	= TaxTable.getTaxYear();
-		const html		= HTML_FORM.replace(/XX/g, uid)
-									.replace(/202X/g, tax_year);
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
 
-		return [ `f1099g-${uid}-details`, html ];
+		return [ `f1099g-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -204,10 +203,10 @@ export class F1099G extends TaxForm {
 			throw new Error(`F1099G.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099g-${uid}-details`);
+		const element = document.getElementById(`f1099g-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099G.getUserInput(): Element not found: f1099g-${uid}-details`);
+				`F1099G.getUserInput(): Element not found: f1099g-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -245,10 +244,10 @@ export class F1099G extends TaxForm {
 			throw new Error(`F1099G.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099g-${uid}-details`);
+		const element = document.getElementById(`f1099g-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099G.getUserInput(): Element not found: f1099g-${uid}-details`);
+				`F1099G.getUserInput(): Element not found: f1099g-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -278,13 +277,13 @@ export class F1099G extends TaxForm {
 		Debug.enter("F1099G.Constructor()");
 		super(formname);
 		this.title = `1099-G - Certain Gevernment Payments`;
-		this.isSingleton = false;
 
-		this.lines["payer"]		= new Line("Payer's information");
-		this.lines["ein"]		= new Line("Payer EIN");
-		this.lines["ssn"]		= new Line("Taxpayr's SSN");
-		this.lines["taxpayer"]	= new Line("Taxpayer's address");
-		this.lines["account"]	= new Line("Account number");
+		this.payer				= 0;
+		this.ein				= 0;
+		this.ssn				= 0;
+		this.taxpayer			= 0;
+		this.account			= 0;
+
 		this.lines["01"]		= new Line("Unemployment compensation");
 		this.lines["02"]		= new Line("State tax refunds, credits, or offsets");
 		this.lines["03"]		= new Line("Box 2 amount is for tax year");

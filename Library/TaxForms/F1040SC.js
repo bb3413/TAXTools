@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1040sc-XX-details">
+		<details class="taxform-details" id="f1040sc-XX-container">
 			<summary class="taxform-summary">
 				Schedule C - Profit and Loss From Business</summary>
 			<div class="taxform-container">
@@ -309,12 +309,13 @@ export class F1040SC extends TaxForm {
 			throw new Error("F1040SC.getInputHTML: UID is undefined.");
 		}
 
-		let html = HTML_FORM.replace(/XX/g, uid)
-							.replace(/readonly/g)
-							.replace(/output-color/g, "")
-							.replace(/output-field/g, "input-field");
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear())
+								.replace(/readonly/g)
+								.replace(/output-color/g, "")
+								.replace(/output-field/g, "input-field");
 
-		return [ `f1040sc-${uid}-details`, html ];
+		return [ `f1040sc-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -326,10 +327,10 @@ export class F1040SC extends TaxForm {
 			throw new Error("F1040SC.getUserInput: UID is undefined.");
 		}
 
-		const element = document.getElementById(`f1040sc-${uid}-details`);
+		const element = document.getElementById(`f1040sc-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1040SC.getUserInput: Element not found: f1040sc-${uid}-details`);
+				`F1040SC.getUserInput: Element not found: f1040sc-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -385,10 +386,10 @@ export class F1040SC extends TaxForm {
 			throw new Error("F1040SC.getUserInput: UID is undefined.");
 		}
 
-		const element = document.getElementById(`f1040sc-${uid}-details`);
+		const element = document.getElementById(`f1040sc-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1040SC.getUserInput: Element not found: f1040sc-${uid}-details`);
+				`F1040SC.getUserInput: Element not found: f1040sc-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -541,6 +542,20 @@ export class F1040SC extends TaxForm {
 			throw new Error(`${this.formname}.getOutputHTML(): UID is undefined.`);
 		}
 
-		return [ `f1040sc-${uid}-details`, HTML_FORM.replace(/XX/g, uid) ];
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
+
+		return [ `f1040sc-${uid}-container`, html ];
+	}
+
+	loadUserInputs(inputs) {
+		//
+		// Initialize the for from the fields in the object instance passed.
+		//
+		for (const key of Object.keys(inputs)) {
+			if (this.lines[key] && inputs[key]) {
+				this.lines[key].user_value = inputs[key];
+			}
+		}
 	}
 }

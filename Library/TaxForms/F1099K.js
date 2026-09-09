@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1099k-XX-details">
+		<details class="taxform-details" id="f1099k-XX-container">
 			<summary class="taxform-summary">1099-K - Payment Card and Third
 				Party Network Transactions</summary>
 			<div>&nbsp;</div>
@@ -248,11 +248,10 @@ export class F1099K extends TaxForm {
 			throw new Error(`F1099K.getInputHTML(): UID is undefined.`);
 		}
 
-		const tax_year	= TaxTable.getTaxYear();
-		const html		= HTML_FORM.replace(/XX/g, uid)
-									.replace(/202X/g, tax_year);
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
 
-		return [ `f1099k-${uid}-details`, html ];
+		return [ `f1099k-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -264,10 +263,10 @@ export class F1099K extends TaxForm {
 			throw new Error(`F1099K.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099k-${uid}-details`);
+		const element = document.getElementById(`f1099k-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099K.getUserInput(): Element not found: f1099k-${uid}-details`);
+				`F1099K.getUserInput(): Element not found: f1099k-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -314,10 +313,10 @@ export class F1099K extends TaxForm {
 			throw new Error(`F1099K.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099k-${uid}-details`);
+		const element = document.getElementById(`f1099k-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099K.getUserInput(): Element not found: f1099k-${uid}-details`);
+				`F1099K.getUserInput(): Element not found: f1099k-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -356,13 +355,13 @@ export class F1099K extends TaxForm {
 		Debug.enter("F1099K.Constructor()");
 		super(formname);
 		this.title = `1099-K - Payment Card and Third Party Network Transactions`;
-		this.isSingleton = false;
 
-		this.lines["payer"]		= new Line("Payer's information");
-		this.lines["ein"]		= new Line("Payer EIN");
-		this.lines["ssn"]		= new Line("Taxpayr's SSN");
-		this.lines["taxpayer"]	= new Line("Taxpayer's address");
-		this.lines["account"]	= new Line("Account number");
+		this.payer				= 0;
+		this.ein				= 0;
+		this.ssn				= 0;
+		this.taxpayer			= 0;
+		this.account			= 0;
+
 		this.lines["01a"]		= new Line("Gross amount of payment card/third par");
 		this.lines["01b"]		= new Line("Card Not Present transactions ");
 		this.lines["01c"]		= new Line("Cash tips");

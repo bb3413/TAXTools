@@ -1,43 +1,42 @@
 
+import { Classes }		from "../Library/Classes/Classes.js";
+import { Container }	from "../Library/Classes/Container.js";
 import { HTML }			from "../Library/Classes/HTML.js";
-import { TaxFormName }	from "../Library/Classes/TaxFormName.js";
 import { TaxFormObj }	from "../Library/Classes/TaxFormObj.js";
-import { TaxFormWeb }	from "../Library/Classes/TaxFormWeb.js";
+
+let worksheet_container;
+let input_taxforms_container;
+let output_taxforms_container;
+let asset_sales_container;
 
 function addInputForm(formname) {
-	let uid = TaxFormWeb.getUID(formname);
-	let [ taxform_id, html ] = TaxFormName.getInputHTML(formname, uid);
-	TaxFormWeb.addInputForm(taxform_id, html);
+	let uid = Container.getUID(formname);
+	let [ taxform_id, html ] = Classes.getInputHTML(formname, uid);
+	input_taxforms_container.addEntry(taxform_id, html);
 }
 
 function addOutputForm(formname) {
-	let taxform_id;
-	let taxform_html;
-
-	let uid		= TaxFormWeb.getUID(formname);
-	let form	= TaxFormObj.createForm(formname);
-
-	if (typeof form.getOutputHTML === "function") {
-		[ taxform_id, taxform_html ] = form.getOutputHTML(uid);
-	} else {
-		uid				= "XX";
-		taxform_id		= `${formname}-${uid}-details`;
-		taxform_html	= form.toHTML(uid);
-
-	}
-
-	TaxFormWeb.addOutputForm(taxform_id, taxform_html);
+	let form = TaxFormObj.createForm(formname);
+	let uid = Container.getUID(form.formname);
+	let [ taxform_id, html ] = form.getOutputHTML(uid);
+	output_taxforms_container.addEntry(taxform_id, html);
+	form.putInformation(uid);
 }
 
 function showHandler(event) {
 	try {
-		for (const formname of TaxFormName.listAllForms()) {
+		worksheet_container			= new Container("input-worksheets-container");
+		input_taxforms_container	= new Container("input-taxforms-container");
+		output_taxforms_container	= new Container("output-taxforms-container");
+		asset_sales_container		= new Container("assetsales-container");
+
+		for (const formname of Classes.listAllForms()) {
 			console.log(`Showing ${formname}`);
-			if (TaxFormName.isInputForm(formname)) {
+			if (Classes.isInputForm(formname)) {
 				addInputForm(formname);
 			}
 
-			if (TaxFormName.isOutputForm(formname)) {
+			if (Classes.isOutputForm(formname)) {
 				addOutputForm(formname);
 			}
 		}

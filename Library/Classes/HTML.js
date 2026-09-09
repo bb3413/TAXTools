@@ -172,7 +172,20 @@ export class HTML {
 		return;
 	}
 
-	//-----  Miscellaneous utility functions  ---------------------------------
+//-----  Get/Put the Summary line in a <details> container.  -------------------------------
+	static findSummary(details_id) {
+		document.querySelector(`#{details_id} summary`);
+	}
+
+	static getSummary(details_id) {
+		return document.querySelector(`#{details_id} summary`).textContent;
+	}
+
+	static putSummary(details_id, value) {
+		document.querySelector(`#{details_id} summary`).textContent = value;
+	}
+
+//-----  Miscellaneous utility functions  ---------------------------------
 	static addListener(element_id, event, handler) {
 		const element = document.getElementById(element_id);
 		if (!Debug.verify(element, "addListener: Element not found: " + element_id)) return;
@@ -196,5 +209,9 @@ export class HTML {
 		const value			= rootStyles.getPropertyValue(variableName).trim();
 
 		return value;
+	}
+
+	static remove(element_id) {
+		document.getElementById(element_id).remove();
 	}
 }

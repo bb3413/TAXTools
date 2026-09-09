@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1099oid-XX-details">
+		<details class="taxform-details" id="f1099oid-XX-container">
 			<summary class="taxform-summary">1099-OID - Original Issue Discount</summary>
 			<div>&nbsp;</div>
 			<div class="f1099-taxform-container">
@@ -195,11 +195,10 @@ export class F1099OID extends TaxForm {
 			throw new Error(`F1099OID.getInputHTML(): UID is undefined.`);
 		}
 
-		const tax_year	= TaxTable.getTaxYear();
-		const html		= HTML_FORM.replace(/XX/g, uid)
-									.replace(/202X/g, tax_year);
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
 
-		return [ `f1099oid-${uid}-details`, html ];
+		return [ `f1099oid-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -211,10 +210,10 @@ export class F1099OID extends TaxForm {
 			throw new Error(`F1099OID.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099oid-${uid}-details`);
+		const element = document.getElementById(`f1099oid-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099OID.getUserInput(): Element not found: f1099oid-${uid}-details`);
+				`F1099OID.getUserInput(): Element not found: f1099oid-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -253,10 +252,10 @@ export class F1099OID extends TaxForm {
 			throw new Error(`F1099OID.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099oid-${uid}-details`);
+		const element = document.getElementById(`f1099oid-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099OID.getUserInput(): Element not found: f1099oid-${uid}-details`);
+				`F1099OID.getUserInput(): Element not found: f1099oid-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -287,13 +286,13 @@ export class F1099OID extends TaxForm {
 		Debug.enter("F1099OID.Constructor()");
 		super(formname);
 		this.title = `1099-OID - Original Issue Discount`;
-		this.isSingleton = false;
 
-		this.lines["payer"]		= new Line("Payer's information");
-		this.lines["ein"]		= new Line("Payer EIN");
-		this.lines["ssn"]		= new Line("Taxpayr's SSN");
-		this.lines["taxpayer"]	= new Line("Taxpayer's address");
-		this.lines["account"]	= new Line("Account number");
+		this.payer				= 0;
+		this.ein				= 0;
+		this.ssn				= 0;
+		this.taxpayer			= 0;
+		this.account			= 0;
+
 		this.lines["01"]		= new Line("Original issue discount for the year");
 		this.lines["02"]		= new Line("Other periodic interest");
 		this.lines["03"]		= new Line("Early withdrawal penalty");

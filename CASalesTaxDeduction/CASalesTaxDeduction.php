@@ -69,19 +69,24 @@
 
 			<p>City</p>
 			<input class="input-field left span-two" type="text" id="City" />
+			
+			<p>State</p>
+			<input class="input-field left" type="text" id="State"
+				placeholder="California" readonly />
+			<p>&nbsp;</p>
 
 			<p>Zip Code</p>
 			<input class="input-field left" type="text" id="ZipCode"  />
 			<p>&nbsp;</p>
 
 			<p>Family Size</p>
-			<input class="trigger input-field left" type="text" id="FamilySize"
-				tooltipid="#FamilySizeTT" />
+			<input class="trigger input-field" type="text" id="FamilySize"
+				tooltipid="#FamilySizeTT" placeholder="1" />
 			<p>&nbsp;</p>
 
 			<p>Extra Sales Tax</p>
-			<input class="trigger input-field left" type="text" id="ExtraSalesTax"
-				tooltipid="#ExtraSalesTaxTT" />
+			<input class="trigger input-field" type="text" id="ExtraSalesTax"
+				tooltipid="#ExtraSalesTaxTT" placeholder="0" />
 			<p>&nbsp;</p>
 		</div>
 

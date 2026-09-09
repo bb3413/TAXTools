@@ -4,7 +4,7 @@ import { Dates }				from "../Library/Classes/Dates.js";
 import { Debug }				from "../Library/Classes/Debug.js";
 import { fetchSalesTaxRate }	from "../Library/SalesTax/SalesTaxFromCDTFA.js";
 import { HTML }					from "../Library/Classes/HTML.js";
-import { TaxFormObj }				from "../Library/Classes/TaxFormObj.js";
+import { TaxFormObj }			from "../Library/Classes/TaxFormObj.js";
 import { Taxpayer }				from "../Library/Classes/Taxpayer.js";
 import { TaxTable }				from "../Library/Classes/TaxTable.js";
 
@@ -36,7 +36,7 @@ function changeHandler(event) {
 		TaxFormObj.reset();
 		Taxpayer.reset();
 
-		const inputs	= getInputs();				// Get inputs from the web page
+		const inputs = getInputs();					// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);		// Initialize tax tables
 		createTaxpayer(inputs);						// Initialize taxpayer
 		mapInputValues(inputs);						// Map input values to tax forms
@@ -55,7 +55,7 @@ function createTaxpayer(inputs) {
 	const taxpayer					= new Taxpayer();
 
 	taxpayer.filing_status			= "SINGLE";
-	taxpayer.number_of_dependents	= inputs.family_size - 1;
+	taxpayer.number_of_dependents	= Math.min(0, inputs.family_size - 1);
 
 	return taxpayer;
 }

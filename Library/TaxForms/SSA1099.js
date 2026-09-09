@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="ssa1099-XX-details">
+		<details class="taxform-details" id="ssa1099-XX-container">
 			<summary class="taxform-summary">SSA-1099 - Social Security Benefit
 				Statement</summary>
 			<div>&nbsp;</div>
@@ -148,7 +148,10 @@ export class SSA1099 extends TaxForm {
 			throw new Error(`SSA1099.getInputHTML(): UID is undefined.`);
 		}
 
-		return [ `ssa1099-${uid}-details`, HTML_FORM.replace(/XX/g, uid) ];
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
+
+		return [ `ssa1099-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -160,10 +163,10 @@ export class SSA1099 extends TaxForm {
 			throw new Error(`SSA1099.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`ssa1099-${uid}-details`);
+		const element = document.getElementById(`ssa1099-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`SSA1099.getUserInput(): Element not found: ssa1099-${uid}-details`);
+				`SSA1099.getUserInput(): Element not found: ssa1099-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -193,10 +196,10 @@ export class SSA1099 extends TaxForm {
 			throw new Error(`SSA1099.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`ssa1099-${uid}-details`);
+		const element = document.getElementById(`ssa1099-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`SSA1099.getUserInput(): Element not found: ssa1099-${uid}-details`);
+				`SSA1099.getUserInput(): Element not found: ssa1099-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -218,7 +221,6 @@ export class SSA1099 extends TaxForm {
 		Debug.enter("SSA1099.Constructor()");
 		super(formname);
 		this.title = `SSA-1099 - Social Security Benefit Statement`;
-		this.isSingleton = false;
 
 		this.lines["01"]	= new Line("Name");
 		this.lines["02"]	= new Line("Social Security Number");

@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1099s-XX-details">
+		<details class="taxform-details" id="f1099s-XX-container">
 			<summary class="taxform-summary">1099-S - Proceeds from Real Estate
 				Transactions</summary>
 			<div>&nbsp;</div>
@@ -77,7 +77,7 @@ const HTML_FORM = `
 							<div class="f1099-box">
 								<span class="f1099-box-label">1 Date of closing</span>
 								<input type="text" id="f1099s-XX-01"
-									placeholder="MM/DD/YYYY" />
+									placeholder="mm/dd/yyyyY" />
 							</div>
 							<div class="f1099-box input-color">
 								<span class="f1099-box-label">2a Total gross proceeds</span>
@@ -199,11 +199,10 @@ export class F1099S extends TaxForm {
 			throw new Error(`F1099S.getInputHTML(): UID is undefined.`);
 		}
 
-		const tax_year	= TaxTable.getTaxYear();
-		const html		= HTML_FORM.replace(/XX/g, uid)
-									.replace(/202X/g, tax_year);
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
 
-		return [ `f1099s-${uid}-details`, html ];
+		return [ `f1099s-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -215,10 +214,10 @@ export class F1099S extends TaxForm {
 			throw new Error(`F1099S.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099s-${uid}-details`);
+		const element = document.getElementById(`f1099s-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099S.getUserInput(): Element not found: f1099s-${uid}-details`);
+				`F1099S.getUserInput(): Element not found: f1099s-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -257,10 +256,10 @@ export class F1099S extends TaxForm {
 			throw new Error(`F1099S.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099s-${uid}-details`);
+		const element = document.getElementById(`f1099s-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099S.getUserInput(): Element not found: f1099s-${uid}-details`);
+				`F1099S.getUserInput(): Element not found: f1099s-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -291,13 +290,13 @@ export class F1099S extends TaxForm {
 		Debug.enter("F1099S.Constructor()");
 		super(formname);
 		this.title = `1099-S - Proceeds From Real Estate Transactions`;
-		this.isSingleton = false;
 
-		this.lines["payer"]		= new Line("Payer's information");
-		this.lines["ein"]		= new Line("Payer EIN");
-		this.lines["ssn"]		= new Line("Taxpayr's SSN");
-		this.lines["taxpayer"]	= new Line("Taxpayer's address");
-		this.lines["account"]	= new Line("Account number");
+		this.payer				= 0;
+		this.ein				= 0;
+		this.ssn				= 0;
+		this.taxpayer			= 0;
+		this.account			= 0;
+
 		this.lines["01"]		= new Line("Date of closing");
 		this.lines["02a"]		= new Line("Total gross proceeds");
 		this.lines["02b"]		= new Line("Cash gross proceeds");

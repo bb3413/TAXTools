@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1099int-XX-details">
+		<details class="taxform-details" id="f1099int-XX-container">
 			<summary class="taxform-summary">1099-INT - Interest Income</summary>
 			<div>&nbsp;</div>
 			<div class="f1099-taxform-container">
@@ -181,11 +181,10 @@ export class F1099INT extends TaxForm {
 			throw new Error(`f1099int.getInputHTML(): UID is undefined.`);
 		}
 
-		const tax_year	= TaxTable.getTaxYear();
-		const html		= HTML_FORM.replace(/XX/g, uid)
-									.replace(/202X/g, tax_year);
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
 
-		return [ `f1099int-${uid}-details`, html ];
+		return [ `f1099int-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -197,10 +196,10 @@ export class F1099INT extends TaxForm {
 			throw new Error(`f1099int.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099int-${uid}-details`);
+		const element = document.getElementById(`f1099int-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`f1099int.getUserInput(): Element not found: f1099int-${uid}-details`);
+				`f1099int.getUserInput(): Element not found: f1099int-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -222,8 +221,8 @@ export class F1099INT extends TaxForm {
 		inputs["09"	]		= HTML.getUserInput(`f1099int-${uid}-09`, "");
 		inputs["10"	]		= HTML.getUserInput(`f1099int-${uid}-10`, "");
 		inputs["11"	]		= HTML.getUserInput(`f1099int-${uid}-11`, "");
-		inputs["15"	]		= HTML.getUserInput(`f1099int-${uid}-12`, "text");
-		inputs["17"	]		= HTML.getUserInput(`f1099int-${uid}-13`, "");
+		inputs["15"	]		= HTML.getUserInput(`f1099int-${uid}-15`, "text");
+		inputs["17"	]		= HTML.getUserInput(`f1099int-${uid}-17`, "");
 
 		return inputs;
 	}
@@ -237,10 +236,10 @@ export class F1099INT extends TaxForm {
 			throw new Error(`f1099int.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099int-${uid}-details`);
+		const element = document.getElementById(`f1099int-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`f1099int.getUserInput(): Element not found: f1099int-${uid}-details`);
+				`f1099int.getUserInput(): Element not found: f1099int-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -259,8 +258,8 @@ export class F1099INT extends TaxForm {
 		inputs["09"	]		= HTML.getElementValue(`f1099int-${uid}-09`);
 		inputs["10"	]		= HTML.getElementValue(`f1099int-${uid}-10`);
 		inputs["11"	]		= HTML.getElementValue(`f1099int-${uid}-11`);
-		inputs["15"	]		= HTML.getElementValue(`f1099int-${uid}-12`);
-		inputs["17"	]		= HTML.getElementValue(`f1099int-${uid}-13`);
+		inputs["15"	]		= HTML.getElementValue(`f1099int-${uid}-15`);
+		inputs["17"	]		= HTML.getElementValue(`f1099int-${uid}-17`);
 
 		return inputs;
 	}
@@ -269,13 +268,13 @@ export class F1099INT extends TaxForm {
 		Debug.enter("f1099int.Constructor()");
 		super(formname);
 		this.title = `1099-INT - Interest Income`;
-		this.isSingleton = false;
 
-		this.lines["payer"]		= new Line("Taxpayer's name");
-		this.lines["ein"]		= new Line("Payee EIN");
-		this.lines["ssn"]		= new Line("Taxpayr's SSN");
-		this.lines["taxpayer"]	= new Line("Taxpayer's name");
-		this.lines["account"]	= new Line("Account number");
+		this.payer				= 0;
+		this.ein				= 0;
+		this.ssn				= 0;
+		this.taxpayer			= 0;
+		this.account			= 0;
+
 		this.lines["01"]		= new Line("Interest income");
 		this.lines["02"]		= new Line("Early Withdrawal Penalty");
 		this.lines["03"]		= new Line("Interest on U.S. Savings Bonds");

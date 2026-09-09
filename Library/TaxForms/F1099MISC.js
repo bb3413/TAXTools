@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1099misc-XX-details">
+		<details class="taxform-details" id="f1099misc-XX-container">
 			<summary class="taxform-summary">1099-MISC - Miscellaneous Information</summary>
 			<div>&nbsp;</div>
 			<div class="f1099-taxform-container">
@@ -203,6 +203,12 @@ const HTML_FORM = `
 			</div>		<!-- f1099-taxform-container -->
 			<div class="f1099-footer-note">Form <strong>1099-MISC</strong></div>
 			<div>&nbsp;</div>
+			
+			<div class="supplimental-input-line">
+				<p>Name of Business (if applicable)</p>
+				<input class="input-field left" type="text" spellcheck="false"
+					size="45" id="f1099misc-XX-business-name" />
+			</div>
 		</details>
 `;
 
@@ -231,11 +237,10 @@ export class F1099MISC extends TaxForm {
 			throw new Error(`F1099MISC.getInputHTML(): UID is undefined.`);
 		}
 
-		const tax_year	= TaxTable.getTaxYear();
-		const html		= HTML_FORM.replace(/XX/g, uid)
-									.replace(/202X/g, tax_year);
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
 
-		return [ `f1099misc-${uid}-details`, html ];
+		return [ `f1099misc-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -247,10 +252,10 @@ export class F1099MISC extends TaxForm {
 			throw new Error(`F1099MISC.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099misc-${uid}-details`);
+		const element = document.getElementById(`f1099misc-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099MISC.getUserInput(): Element not found: f1099misc-${uid}-details`);
+				`F1099MISC.getUserInput(): Element not found: f1099misc-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -283,10 +288,10 @@ export class F1099MISC extends TaxForm {
 			throw new Error(`F1099MISC.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099misc-${uid}-details`);
+		const element = document.getElementById(`f1099misc-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099MISC.getUserInput(): Element not found: f1099misc-${uid}-details`);
+				`F1099MISC.getUserInput(): Element not found: f1099misc-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -311,13 +316,13 @@ export class F1099MISC extends TaxForm {
 		Debug.enter("F1099MISC.Constructor()");
 		super(formname);
 		this.title = `1099-MISC - Miscellaneous Information`;
-		this.isSingleton = false;
 
-		this.lines["payer"]		= new Line("Payer's information");
-		this.lines["ein"]		= new Line("Payer EIN");
-		this.lines["ssn"]		= new Line("Taxpayr's SSN");
-		this.lines["taxpayer"]	= new Line("Taxpayer's address");
-		this.lines["account"]	= new Line("Account number");
+		this.payer				= 0;
+		this.ein				= 0;
+		this.ssn				= 0;
+		this.taxpayer			= 0;
+		this.account			= 0;
+
 		this.lines["01"]		= new Line("Rents");
 		this.lines["02"]		= new Line("Royalties");
 		this.lines["03"]		= new Line("Other income");

@@ -1,4 +1,0 @@
-#!/bin/bash
-createFormHTML F1040 0		>F1040-HTML.html
-createFormHTML W2 0			>W2-HTML.html
-# createFormHTML Taxpayer 0	>Taxpayer-HTML.html

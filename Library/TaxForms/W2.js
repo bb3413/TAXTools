@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="w2-XX-details">
+		<details class="taxform-details" id="w2-XX-container">
 			<summary class="taxform-summary">W-2 - Wage and Tax Statement</summary>
 			<div class="taxform-container">
 				<div>&nbsp;</div>
@@ -218,7 +218,10 @@ export class W2 extends TaxForm {
 			throw new Error(`W2.getInputHTML(): UID is undefined.`);
 		}
 
-		return [ `w2-${uid}-details`, HTML_FORM.replace(/XX/g, uid) ];
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
+
+		return [ `w2-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -230,9 +233,9 @@ export class W2 extends TaxForm {
 			throw new Error(`W2.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`w2-${uid}-details`);
+		const element = document.getElementById(`w2-${uid}-container`);
 		if (!element) {
-			throw new Error(`W2.getUserInput(): Element not found: w2-${uid}-details`);
+			throw new Error(`W2.getUserInput(): Element not found: w2-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -289,9 +292,9 @@ export class W2 extends TaxForm {
 			throw new Error(`W2.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`w2-${uid}-details`);
+		const element = document.getElementById(`w2-${uid}-container`);
 		if (!element) {
-			throw new Error(`W2.getUserInput(): Element not found: w2-${uid}-details`);
+			throw new Error(`W2.getUserInput(): Element not found: w2-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -340,7 +343,6 @@ export class W2 extends TaxForm {
 		Debug.enter("W2.Constructor()");
 		super(formname);
 		this.title = `W-2 - Wage and Tax Statement`;
-		this.isSingleton = false;
 
 		this.lines["01"]	= new Line("Wages");
 		this.lines["02"]	= new Line("Federal Tax Withheld");

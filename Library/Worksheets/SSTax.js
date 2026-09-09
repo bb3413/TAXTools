@@ -15,8 +15,6 @@ export class SSTax extends TaxForm {
 		Debug.enter("SSTax.Constructor()");
 		super(formname);
 
-		this.isSingleton = false;
-
 		this.lines["01"]	= new Line("Sum of all SSA-1099, box 5");
 		this.lines["02"]	= new Line("Half of total SS benefits");
 		this.lines["03"]	= new Line("Income w/o SS");

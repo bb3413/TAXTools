@@ -1,7 +1,7 @@
 
+import { Classes }		from "../Library/Classes/Classes.js";
 import { File }			from "../Library/Classes/File.js";
 import { HTML }			from "../Library/Classes/HTML.js";
-import { TaxFormName }	from "../Library/Classes/TaxFormName.js";
 import { TaxFormObj }	from "../Library/Classes/TaxFormObj.js";
 
 const header = `
@@ -31,43 +31,26 @@ const trailer = `
 `;
 
 async function saveInputForm(formname) {
-	let html;
-	let form_id;
-	let page;
-
-	[ form_id, html ] = TaxFormName.getInputHTML(formname, "XX");
-	page = header + html.replace(/<details /g, "<details open ") + trailer;
+	let [ form_id, html ] = Classes.getInputHTML(formname, 1);
+	let page = header + html.replace(/<details /g, "<details open ") + trailer;
 	await File.saveToFile(page, `${formname}.html`, false);
 }
 
 async function saveOutputForm(formname) {
-	let html;
-	let form_id;
-	let page;
-
-	// Find or create an object for the form.
-	let form = TaxFormObj.getForm(formname) || TaxFormObj.createForm(formname);
-	if (typeof form.getOutputHTML === "function") {
-		// This is the output version of the form.
-		[ form_id, html ] = form.getOutputHTML("XX");
-		page = header + html.replace(/<details /g, "<details open ") + trailer;
-		await File.saveToFile(page, `${formname}.html`, false);
-	} else {
-		// There is no output version; create one dynamically.
-		html = form.toHTML("XX");
-		page = header + html.replace(/<details /g, "<details open ") + trailer;
-		await File.saveToFile(page, `${formname}.html`, false);
-	}
+	let form = TaxFormObj.getOrCreateForm(formname);
+	let [ form_id, html ] = form.getOutputHTML(1);
+	let page = header + html.replace(/<details /g, "<details open ") + trailer;
+	await File.saveToFile(page, `${formname}.html`, false);
 }
 
 async function saveHandler(event) {
 	try {
-		for (const formname of TaxFormName.listAllForms()) {
-			if (TaxFormName.isInputForm(formname)) {
+		for (const formname of Classes.listAllForms()) {
+			if (Classes.isInputForm(formname)) {
 				await saveInputForm(formname);
 			}
 
-			if (TaxFormName.isOutputForm(formname)) {
+			if (Classes.isOutputForm(formname)) {
 				await saveOutputForm(formname);
 			}
 		}

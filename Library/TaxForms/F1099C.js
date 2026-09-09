@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1099c-XX-details">
+		<details class="taxform-details" id="f1099c-XX-container">
 			<summary class="taxform-summary">1099-C - Cancellation of Debt</summary>
 			<div>&nbsp;</div>
 			<div class="f1099-taxform-container">
@@ -77,7 +77,7 @@ const HTML_FORM = `
 								<span class="f1099-box-label">1 Date of identifiable
 									event</span>
 								<input type="text" id="f1099c-XX-01"
-									placeholder="MM/DD/YYYY" />
+									placeholder="mm/dd/yyyyY" />
 							</div>
 							<div class="f1099-box input-color">
 								<span class="f1099-box-label">2 Amount of debt
@@ -165,7 +165,7 @@ export class F1099C extends TaxForm {
 		const html		= HTML_FORM.replace(/XX/g, uid)
 									.replace(/202X/g, tax_year);
 
-		return [ `f1099c-${uid}-details`, html ];
+		return [ `f1099c-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -177,10 +177,10 @@ export class F1099C extends TaxForm {
 			throw new Error(`F1099C.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099c-${uid}-details`);
+		const element = document.getElementById(`f1099c-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099C.getUserInput(): Element not found: f1099c-${uid}-details`);
+				`F1099C.getUserInput(): Element not found: f1099c-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -213,10 +213,10 @@ export class F1099C extends TaxForm {
 			throw new Error(`F1099C.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099c-${uid}-details`);
+		const element = document.getElementById(`f1099c-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099C.getUserInput(): Element not found: f1099c-${uid}-details`);
+				`F1099C.getUserInput(): Element not found: f1099c-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -241,13 +241,13 @@ export class F1099C extends TaxForm {
 		Debug.enter("F1099C.Constructor()");
 		super(formname);
 		this.title = `1099-C - Cancellation of Debt`;
-		this.isSingleton = false;
 
-		this.lines["payer"]		= new Line("Payer's information");
-		this.lines["ein"]		= new Line("Payer EIN");
-		this.lines["ssn"]		= new Line("Taxpayr's SSN");
-		this.lines["taxpayer"]	= new Line("Taxpayer's address");
-		this.lines["account"]	= new Line("Account number");
+		this.payer				= 0;
+		this.ein				= 0;
+		this.ssn				= 0;
+		this.taxpayer			= 0;
+		this.account			= 0;
+
 		this.lines["01"]		= new Line("Date of identifiable event");
 		this.lines["02"]		= new Line("Amount of debt discharged");
 		this.lines["03"]		= new Line("Interest, if included in box 2");

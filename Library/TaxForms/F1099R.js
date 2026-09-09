@@ -8,7 +8,7 @@ import { TaxFormObj }	from "../Classes/TaxFormObj.js";
 import { TaxTable }		from "../Classes/TaxTable.js";
 
 const HTML_FORM = `
-		<details class="taxform-details" id="f1099r-XX-details">
+		<details class="taxform-details" id="f1099r-XX-container">
 			<summary class="taxform-summary">1099-R - Distributions from Pensions, Annuities,
 				Retirement Plans, etc.</summary>
 			<div>&nbsp;</div>
@@ -106,7 +106,7 @@ const HTML_FORM = `
 							<div class="f1099-box">
 								<span class="f1099-box-label">3 Capital gain (included
 									in box 2a)</span>
-								<input type="text" id="f1099r-XX-3"
+								<input type="text" id="f1099r-XX-03"
 									placeholder="0" />
 							</div>
 							<div class="f1099-box input-color">
@@ -211,11 +211,10 @@ export class F1099R extends TaxForm {
 			throw new Error(`F1099R.getInputHTML(): UID is undefined.`);
 		}
 
-		const tax_year	= TaxTable.getTaxYear();
-		const html		= HTML_FORM.replace(/XX/g, uid)
-									.replace(/202X/g, tax_year);
+		const html = HTML_FORM.replace(/XX/g, uid)
+								.replace(/202X/g, TaxTable.getTaxYear());
 
-		return [ `f1099r-${uid}-details`, html ];
+		return [ `f1099r-${uid}-container`, html ];
 	}
 
 	static getUserInput(uid) {
@@ -227,10 +226,10 @@ export class F1099R extends TaxForm {
 			throw new Error(`F1099R.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099r-${uid}-details`);
+		const element = document.getElementById(`f1099r-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099R.getUserInput(): Element not found: f1099r-${uid}-details`);
+				`F1099R.getUserInput(): Element not found: f1099r-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -270,10 +269,10 @@ export class F1099R extends TaxForm {
 			throw new Error(`F1099R.getUserInput(): UID is undefined.`);
 		}
 
-		const element = document.getElementById(`f1099r-${uid}-details`);
+		const element = document.getElementById(`f1099r-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099R.getUserInput(): Element not found: f1099r-${uid}-details`);
+				`F1099R.getUserInput(): Element not found: f1099r-${uid}-container`);
 		}
 
 		let inputs = {};
@@ -306,13 +305,13 @@ export class F1099R extends TaxForm {
 		super(formname);
 		this.title =
 			`1099-R - Distributions from Pensions, Annuities, Retirement Plans, etc.`;
-		this.isSingleton = false;
 
-		this.lines["payer"]		= new Line("Payer information");
-		this.lines["ein"]		= new Line("Payer EIN");
-		this.lines["ssn"]		= new Line("Taxpayr's SSN");
-		this.lines["taxpayer"]	= new Line("Taxpayer's address");
-		this.lines["account"]	= new Line("Account number");
+		this.payer				= 0;
+		this.ein				= 0;
+		this.ssn				= 0;
+		this.taxpayer			= 0;
+		this.account			= 0;
+
 		this.lines["01"]		= new Line("Gross distribution");
 		this.lines["02a"]		= new Line("Taxable amount");
 		this.lines["02b"]		= new Line("Taxable amount not determined");
@@ -322,8 +321,8 @@ export class F1099R extends TaxForm {
 		this.lines["06"]		= new Line("Net unrealized appreciation");
 		this.lines["07a"]		= new Line("Distribution code(s)");
 		this.lines["07b"]		= new Line("IRA/SEP/SIMPLE");
-		this.lines["07b"]		= new Line("Trunp account");
-		this.lines["07b"]		= new Line("Earnings on excess contribution");
+		this.lines["07c"]		= new Line("Trunp account");
+		this.lines["07d"]		= new Line("Earnings on excess contribution");
 		this.lines["09b"]		= new Line("Total employee contributions");
 		this.lines["14"]		= new Line("State tax withheld");
 		this.lines["15"]		= new Line("State/state no.");

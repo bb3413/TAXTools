@@ -1,8 +1,7 @@
 
 //
-// This module provides utilities to manage the names of forms.
+// This module provides utilities to manage the names of classes.
 //
-import { TaxFormWeb }	from "../Classes/TaxFormWeb.js";
 
 // Tax Forms
 import { F1040 }		from "../TaxForms/F1040.js";
@@ -52,13 +51,21 @@ import { Refund }		from "../Worksheets/Refund.js";
 import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
 import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
 
+// Input worksheets
+import { Assetitem }	from "../InputWorksheets/Assetitem.js";
+import { Assetsales }	from "../InputWorksheets/Assetsales.js";
+import { Business }		from "../InputWorksheets/Business.js";
+import { Dependent }	from "../InputWorksheets/Dependent.js";
+import { Expenses }		from "../InputWorksheets/Expenses.js";
+import { Income }		from "../InputWorksheets/Income.js";
+
 const CLASS_NAME	= 0;
 const INPUT			= 1;
 const OUTPUT		= 2;
 const SINGLETON		= 3;
 const ON_DEMAND		= 4;
 
-const forms_map = {
+const class_map = {
 	//																Create
 	// Name					Class			Input	Output	Single	on Demand
 	"F1040":				[ F1040,		false,	true,	true,	true	],
@@ -113,33 +120,11 @@ const forms_map = {
 	"CA_HiIncExemptions":	[ CA_HiIncDeductions,	false,	true,	true,	true	],
 };
 
-const print_order = [
-	"F1040",
-	"F1040S1",
-	"F1040S1A",
-	"F1040S2",
-	"F1040S3",
-	"F1040SA",
-	"F1040SB",
-	"F1040SC",
-	"F1040SD",
-	"F1040SE",
-	"F1040SSE",
-	"F1041",
-	"F1065B",
-	"F1120S",
-	"F2441",
-	"F6251",
-	"F7206",
-	"F540",
-	"F540CA",
-];
-
-export class TaxFormName {
+export class Classes {
 	
-	static createForm(formname, uid) {
-		// This method allows you to call the static method createForm() by formname.
-		switch (formname) {
+	static createForm(classname, uid = 1) {
+		// This method allows you to call the static method createForm() by classname.
+		switch (classname) {
 			case "F1040SC":		return F1040SC.createForm(uid);
 			case "F1099C":		return F1099C.createForm(uid);
 			case "F1099DIV":	return F1099DIV.createForm(uid);
@@ -154,7 +139,7 @@ export class TaxFormName {
 			case "SSA1099":		return SSA1099.createForm(uid);
 			case "W2":			return W2.createForm(uid);
 			default:
-				throw new Error(`TaxFormName.createForm(): unplemented form: ${formname}`);
+				throw new Error(`Classes.createForm(): unplemented form: ${classname}`);
 		}
 	}
 
@@ -163,24 +148,24 @@ export class TaxFormName {
 		// the form has not been created. However, some forms get input from other forms and
 		// need to be created and calculated before the value is returned. This array lists
 		// those forms
-		if (forms_map[formname]) {
-			return forms_map[formname][ON_DEMAND];
+		if (class_map[formname]) {
+			return class_map[formname][ON_DEMAND];
 		} else {
 			return false;
 		}
 	}
 
-	static getClass(formname) {
-		if (forms_map[formname]) {
-			return forms_map[formname][CLASS_NAME];
+	static getClass(classname) {
+		if (class_map[classname]) {
+			return class_map[classname][CLASS_NAME];
 		} else {
 			return undefined;
 		}
 	}
 
-	static getInputHTML(formname, uid) {
-		// This method allows you to call the static method getInputHTML() by formname.
-		switch (formname) {
+	static getInputHTML(classname, uid = 1) {
+		// This method allows you to call the static method getInputHTML() by classname.
+		switch (classname) {
 			case "F1040SC":		return F1040SC.getInputHTML(uid);
 			case "F1099C":		return F1099C.getInputHTML(uid);
 			case "F1099DIV":	return F1099DIV.getInputHTML(uid);
@@ -194,14 +179,23 @@ export class TaxFormName {
 			case "F1099S":		return F1099S.getInputHTML(uid);
 			case "SSA1099":		return SSA1099.getInputHTML(uid);
 			case "W2":			return W2.getInputHTML(uid);
+
+			// Input worksheets
+			case "Assetitem":	return Assetitem.getInputHTML(uid);
+			case "Assetsales":	return Assetsales.getInputHTML(uid);
+			case "Business":	return Business.getInputHTML(uid);
+			case "Dependent":	return Dependent.getInputHTML(uid);
+			case "Expenses":	return Expenses.getInputHTML(uid);
+			case "Income":		return Income.getInputHTML(uid);
+
 			default:
-				throw new Error(`TaxFormName.getInputHTML(): unplemented form: ${formname}`);
+				throw new Error(`Classes.getInputHTML(): unplemented form: ${classname}`);
 		}
 	}
 
-	static getUserInput(formname, uid) {
-		// This method allows you to call the static method getUserInput() by formname.
-		switch (formname) {
+	static getUserInput(classname, uid = 1) {
+		// This method allows you to call the static method getUserInput() by classname.
+		switch (classname) {
 			case "F1040SC":		return F1040SC.getUserInput(uid);
 			case "F1099C":		return F1099C.getUserInput(uid);
 			case "F1099DIV":	return F1099DIV.getUserInput(uid);
@@ -215,14 +209,23 @@ export class TaxFormName {
 			case "F1099S":		return F1099S.getUserInput(uid);
 			case "SSA1099":		return SSA1099.getUserInput(uid);
 			case "W2":			return W2.getUserInput(uid);
+			
+			// Input worksheets
+			case "Assetitem":	return Assetitem.getUserInput(uid);
+			case "Assetsales":	return Assetsales.getUserInput(uid);
+			case "Business":	return Business.getUserInput(uid);
+			case "Dependent":	return Dependent.getUserInput(uid);
+			case "Expenses":	return Expenses.getUserInput(uid);
+			case "Income":		return Income.getUserInput(uid);
+
 			default:
-				throw new Error(`TaxFormName.getUserInput(): unplemented form: ${formname}`);
+				throw new Error(`Classes.getUserInput(): unplemented form: ${classname}`);
 		}
 	}
 
-	static saveUserInput(formname, uid) {
-		// This method allows you to call the static method getUserInput() by formname.
-		switch (formname) {
+	static saveUserInput(classname, uid = 1) {
+		// This method allows you to call the static method getUserInput() by classname.
+		switch (classname) {
 			case "F1040SC":		return F1040SC.saveUserInput(uid);
 			case "F1099C":		return F1099C.saveUserInput(uid);
 			case "F1099DIV":	return F1099DIV.saveUserInput(uid);
@@ -236,31 +239,39 @@ export class TaxFormName {
 			case "F1099S":		return F1099S.saveUserInput(uid);
 			case "SSA1099":		return SSA1099.saveUserInput(uid);
 			case "W2":			return W2.saveUserInput(uid);
+			
+			// Input worksheets
+			case "Assetsales":	return Assetsales.saveUserInput(uid);
+			case "Business":	return Business.saveUserInput(uid);
+			case "Dependent":	return Dependent.saveUserInput(uid);
+			case "Expenses":	return Expenses.saveUserInput(uid);
+			case "Income":		return Income.saveUserInput(uid);
+
 			default:
 				throw new Error(
-					`TaxFormName.saveUserInput(): unplemented form: ${formname}`);
+					`Classes.saveUserInput(): unplemented form: ${classname}`);
 		}
 	}
 
-	static isSingleton(formname) {
-		if (forms_map[formname]) {
-			return forms_map[formname][SINGLETON];
+	static isSingleton(classname) {
+		if (class_map[classname]) {
+			return class_map[classname][SINGLETON];
 		} else {
 			return true;
 		}
 	}
 
 	static isInputForm(formname) {
-		if (forms_map[formname]) {
-			return forms_map[formname][INPUT];
+		if (class_map[formname]) {
+			return class_map[formname][INPUT];
 		} else {
 			return false;
 		}
 	}
 
 	static isOutputForm(formname) {
-		if (forms_map[formname]) {
-			return forms_map[formname][OUTPUT];
+		if (class_map[formname]) {
+			return class_map[formname][OUTPUT];
 		} else {
 			return false;
 		}
@@ -268,12 +279,7 @@ export class TaxFormName {
 
 	static listAllForms(){
 		// Return array with the names of the suported tax forms and worksheets.
-		/// The debug module uses this as a list of keywords.
-		return Object.keys(forms_map);
-	}
-
-	static printOrder() {
-		// Used by TaxFormObj.formsInPrintOrder().
-		return print_order;
+		// The debug module uses this as a list of keywords.
+		return Object.keys(class_map);
 	}
 }
