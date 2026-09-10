@@ -3,12 +3,12 @@ import { HTML }			from "../Classes/HTML.js";
 import { Objects }		from "../Classes/Objects.js";
 import { Str }			from "../Classes/Str.js";
 
-const FIELD_NAMES = {
-	// Name				Type
-	"jury-duty":		[],
-	"alimony-received":	[],
-	"divorce-date":		[],
-	"gambling":			[],
+const ELEMENT_IDS = {
+	// Element ID			Value Type
+	"jury-duty":			[],
+	"alimony-received":		[],
+	"divorce-date":			[],
+	"gambling":				[],
 
 };
 
@@ -83,11 +83,11 @@ export class Income {
 		}
 
 		let inputs = {};
-		for (const field_name of Object.keys(FIELD_NAMES)) {
-			const value_type	= FIELD_NAMES[field_name][0];
-			const var_name		= field_name.replace(/-/g, "_");
+		for (const field_name of Object.keys(ELEMENT_IDS)) {
+			const value_type	= ELEMENT_IDS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
 			const element_id	= `income-${uid}-${field_name}`;
-			inputs[var_name]	= HTML.getUserInput(element_id, value_type);
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 
 		return inputs;

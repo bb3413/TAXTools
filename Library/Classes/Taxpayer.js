@@ -5,7 +5,7 @@ import { Str }		from "../Classes/Str.js";
 import { Objects }	from "../Classes/Objects.js";
 import { TaxTable }	from "../Classes/TaxTable.js";
 
-const FIELD_NAMES = {
+const ELEMENT_IDS = {
 	// Element ID			Value Type
 	"filing-status":		["text"],
 	"taxpayers-name":		["text"],
@@ -50,9 +50,9 @@ function initializeTaxpayer() {
 	const taxpayer = new Taxpayer();
 
 	// Initialize the fields from the web page.
-	for (const element_id of Object.keys(FIELD_NAMES)) {
-		const var_name = "_" + Str.kebabToSnakeCase(element_id);
-		taxpayer[var_name] = getUserInput(element_id, FIELD_NAMES[element_id][0]);
+	for (const element_id of Object.keys(ELEMENT_IDS)) {
+		const key_name = "_" + Str.kebabToSnakeCase(element_id);
+		taxpayer[key_name] = getUserInput(element_id, ELEMENT_IDS[element_id][0]);
 	}
 
 	return taxpayer;
@@ -80,11 +80,11 @@ export class Taxpayer {
 		let inputs = {};
 
 		// Copy the fields from the web page.
-		for (const field_name of Object.keys(FIELD_NAMES)) {
-			const value_type	= FIELD_NAMES[field_name][0];
-			const var_name		= field_name.replace(/-/g, "_");
+		for (const field_name of Object.keys(ELEMENT_IDS)) {
+			const value_type	= ELEMENT_IDS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
 			if (document.getElementById(field_name)) {
-				inputs[var_name]= HTML.getUserInput(field_name, value_type);
+				inputs[key_name]= HTML.getUserInput(field_name, value_type);
 			}
 		}
 
@@ -100,26 +100,26 @@ export class Taxpayer {
 
 	static restoreUserInput(data) {
 		// Clean all the fields.
-		for (const field_id of Object.keys(FIELD_NAMES)) {
-			if (document.getElementById(field_id)) {
-				HTML.putElementValue(field_id, "");
+		for (const element_id of Object.keys(ELEMENT_IDS)) {
+			if (document.getElementById(element_id)) {
+				HTML.putElementValue(element_id, "");
 			}
 		}
 
 		// Restore the fields that were saved.
-		for (const var_name of Object.keys(data)) {
-			const field_id = var_name.replace(/_/g, "-");
-			if (document.getElementById(field_id)) {
-				HTML.putElementValue(field_id, data[var_name]);
+		for (const key_name of Object.keys(data)) {
+			const element_id = key_name.replace(/_/g, "-");
+			if (document.getElementById(element_id)) {
+				HTML.putElementValue(element_id, data[key_name]);
 			}
 		}	
 	}
 
 	static reset() {
 		// Clear the taxpayer fields on the web page.
-		for (const field_id of Object.keys(FIELD_NAMES)) {
-			if (document.getElementById(field_id)) {
-				HTML.putElementValue(field_id, "");
+		for (const element_id of Object.keys(ELEMENT_IDS)) {
+			if (document.getElementById(element_id)) {
+				HTML.putElementValue(element_id, "");
 			}
 		}
 
