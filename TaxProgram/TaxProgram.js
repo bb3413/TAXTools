@@ -26,12 +26,34 @@ let input_taxforms_container;
 let output_taxforms_container;
 let asset_sales_container;
 
+function addAssetItemHandler(event) {
+	//
+	// This function is called when the user clicks on the "Add Entry" button to add an
+	// Asset/Stock Sale entry.
+	//
+	addToAssetItems("Assetitem");
+}
+
 function addAssetSaleEntryToWeb(name) {
 	const uid = Container.getUID(name.toLowerCase());
 	const [ html_id, html ] = Classes.getInputHTML(name, uid);
 	asset_sales_container.addEntry(html_id, html);
 
 	return html_id;
+}
+
+function addFormHandler(event) {
+	//
+	// This function is called when the user clicks on the "Add Form" button.
+	//
+	const formname = HTML.getElementValue("add-form-button");	// Get selected form name.
+	HTML.putElementValue("add-form-button", "");				// Reset to "Add Form".
+
+	if (formname === "") {
+			return;
+	}
+
+	addInputFormToWeb(formname);
 }
 
 function addInputFormToWeb(formname) {
@@ -67,6 +89,67 @@ function addWorksheetToWeb(name) {
 	worksheet_container.addEntry(html_id, html);
 
 	return html_id;
+}
+
+function calculateHandler(event) {
+	//
+	// This function is called when the Calculate button is pressed. It causes
+	// the tax return to be generated.
+	//
+	try {
+		// Remove information from previous calculation.
+		resetCalculation();
+
+		TaxTable.getTaxTable(HTML.getUserInput("tax-year"));	// Initialize tax tables
+		Taxpayer.getTaxpayer();									// Initialize taxpayer
+		getInput();
+		TaxFormObj.getOrCreateForm("F1040").calculate();
+		putOutputs();
+		Debug.turnOn();
+	} catch (error) {
+		processError(error);
+	}
+}
+
+async function changeAddressHandler(event) {
+	//
+	// Get the total sales tax (state + local) percentage for the address.
+	//
+	const street_address	= HTML.getUserInput("street-address",	"text");
+	const city				= HTML.getUserInput("city",				"text");
+	const zip_code			= HTML.getUserInput("zip-code",			"text");
+
+	sales_tax = 0;	// Global variable
+	if (street_address && city && zip_code) {
+		sales_tax = await fetchSalesTaxRate(street_address, city, zip_code);
+	}
+}
+
+function changeHandler(event) {
+	//
+	// This function is called when any of the input fields are changed. It will reset
+	// any information that may be affected.
+	//
+	HTML.putElementValue("error-message-output", "");	// Clear error message.
+
+	// Reset information from previous calculation.
+	resetCalculation();
+
+	// See if filing status changed.
+	const filing_status = HTML.getUserInput("filing-status", "text").toUpperCase();
+	if (filing_status === "MFJ") {
+		HTML.showElement("spouse-container");
+	} else {
+		HTML.hideElement("spouse-container");
+	}
+}
+
+function dependentHandler(event) {
+	//
+	// This function is called when the user clicks on the "Enter a Dependentn" button.
+	//
+	let id = addWorksheet("Dependent");
+	HTML.openDetails(id);
 }
 
 function getAssetsales() {
@@ -186,9 +269,7 @@ function initialize() {
 	addAssetSaleEntryToWeb("Assetitem");
 	addAssetSaleEntryToWeb("Assetitem");
 	addAssetSaleEntryToWeb("Assetitem");
-
 	HTML.addListener("add-asset-sale-button", "click", addAssetItemHandler);
-	listBusinessNames();
 
 	HTML.hideElement("output-taxforms-container");
 	HTML.hideElement("debug-container");
@@ -272,15 +353,13 @@ function resetAll() {
 	//
 	// Start over, reset everything.
 	//
-	output_taxforms_container.reset();
-	input_taxforms_container.reset();
-	asset_items_container.reset();
-	worksheet_container.reset();
-	
 	Debug.reset();
 	TaxFormObj.reset();
 	Taxpayer.reset();
 	TaxTable.reset();
+	Container.reset();
+	
+	initialize();
 }
 
 function resetCalculation() {
@@ -308,7 +387,8 @@ function restoreUserData(data) {
 		resetAll();		// Start over, reset ewverything.
 
 		// Restore the taxpayer information.
-		Taxpayer.restoreTaxpayer(data["taxpayer"]);
+		HTML.putUserOutput("tax-year", data.tax_year, "text");
+		Taxpayer.restoreUserInput(data["taxpayer"]);
 
 		// Restore each input form.
 		for (const forminfo of data["input_forms"]) {
@@ -317,12 +397,12 @@ function restoreUserData(data) {
 
 			if (!Classes.isInputForm(formname)) {
 				throw new Error(`restoreUserData(): ${formname} ` +
-					"in an output form, cannot restore.");
+					"is an output form, cannot restore.");
 			}
 
 			const taxform_id = addInputFormToWeb(formname);
-			let [ notused, uid ] = Container.parseElementID(taxform_id);
-			const element_id_prefix = `${formname.toLowerCase()}-${uid}-`;
+			let [ name, uid ] = Container.parseElementID(taxform_id);
+			const element_id_prefix = `${name}-${uid}-`;
 			for (const lineno of Object.keys(lines)) {
 				HTML.putElementValue(element_id_prefix + lineno, lines[lineno]);
 			}
@@ -330,134 +410,6 @@ function restoreUserData(data) {
 	} catch (error) {
 		processError(error);
 	}
-}
-
-function saveUserSuppliedInputValues() {
-	// Return array of: formName: [ formIndex, lineNumber, value ]
-	// This method is used to save the current state to a file. It only saves the
-	// values on the input form web pages, and it only saves the fields where the
-	// user entered a value.
-	let user_values = [];
-
-	// For each form.
-	for (let taxform_id of input_taxforms_container.getEntries()) {
-		let [ formname, uid ] = Container.parseElementID(taxform_id);
-		let inputs = Objects.removeUnused(Classes.saveUserInput(formname, uid));
-		user_values.push( [ formname, inputs ] );
-	}
-
-	return user_values;
-}
-
-function saveUserSuppliedOutputValues() {
-	// Return array of: formName: [ formIndex, { lineNumber: value } }
-	// This method is used to save the current state to a file. It only saves the
-	// values in the tax form objects, and it only saves the fields where the user
-	// entered a value.
-	let user_values = [];
-
-	// For each form.
-	for (const form of TaxFormObj.getAllForms()) {
-		// For each line on the form, save the value if it was supplied by the user.
-		let outputs = {};
-		for (const lineno of Object.keys(form.lines)) {
-			if (form.lines[lineno].isUserSuppliedValue()) {
-				outputs[lineno] = form.lines[lineno].value;
-			}
-		}
-		if (Objects.isUsed(outputs)) {
-			user_values.push( [ form.formname, outputs ] );
-		}
-	}
-
-	return user_values;
-}
-
-
-//
-// Event handlers.
-//
-function addAssetItemHandler(event) {
-	//
-	// This function is called when the user clicks on the "Add Entry" button to add an
-	// Asset/Stock Sale entry.
-	//
-	addToAssetItems("Assetitem");
-}
-
-function addFormHandler(event) {
-	//
-	// This function is called when the user clicks on the "Add Form" button.
-	//
-	const formname = HTML.getElementValue("add-form-button");	// Get selected form name.
-	HTML.putElementValue("add-form-button", "");				// Reset to "Add Form".
-
-	if (formname === "") {
-			return;
-	}
-
-	addInputFormToWeb(formname);
-}
-
-function calculateHandler(event) {
-	//
-	// This function is called when the Calculate button is pressed. It causes
-	// the tax return to be generated.
-	//
-	try {
-		// Remove information from previous calculation.
-		resetCalculation();
-
-		TaxTable.getTaxTable(HTML.getUserInput("tax-year"));	// Initialize tax tables
-		Taxpayer.getTaxpayer();									// Initialize taxpayer
-		getInput();
-		TaxFormObj.getOrCreateForm("F1040").calculate();
-		putOutputs();
-		Debug.turnOn();
-	} catch (error) {
-		processError(error);
-	}
-}
-
-async function changeAddressHandler(event) {
-	//
-	// Get the total sales tax (state + local) percentage for the address.
-	//
-	const street_address	= HTML.getUserInput("street-address",	"text");
-	const city				= HTML.getUserInput("city",				"text");
-	const zip_code			= HTML.getUserInput("zip-code",			"text");
-
-	sales_tax = 0;	// Global variable
-	if (street_address && city && zip_code) {
-		sales_tax = await fetchSalesTaxRate(street_address, city, zip_code);
-	}
-}
-
-function changeHandler(event) {
-	//
-	// This function is called when any of the input fields are changed. It will reset
-	// any information that may be affected.
-	//
-	HTML.putElementValue("error-message-output", "");	// Clear error message.
-
-	// Reset information from previous calculation.
-	resetCalculation();
-
-	// See if filing status changed.
-	const filing_status = HTML.getUserInput("filing-status", "text").toUpperCase();
-	if (filing_status === "MFJ") {
-		HTML.showElement("spouse-container");
-	} else {
-		HTML.hideElement("spouse-container");
-	}
-}
-
-function dependentHandler(event) {
-	//
-	// This function is called when the user clicks on the "Enter a Dependentn" button.
-	//
-	let id = addWorksheet("Dependent");
-	HTML.openDetails(id);
 }
 
 function restoreUserDataHandler(event) {
@@ -471,7 +423,51 @@ function restoreUserDataHandler(event) {
 		return;
 	}
 
-	File.restoreFromFile(filename, restoreDataHandler);
+	File.restoreFromFile(filename, restoreUserData);
+}
+
+function saveInputValues() {
+	// Return array of: formName: [ formIndex, lineNumber, value ]
+	// This method is used to save the current state to a file. It only saves the
+	// values on the input form web pages.
+	let user_values = [];
+
+	// For each form.
+	for (let taxform_id of input_taxforms_container.getEntries()) {
+		let [ formname, uid ] = Container.parseElementID(taxform_id);
+		formname = formname.toUpperCase();
+		let inputs = Objects.removeUnused(Classes.getUserInput(formname, uid));
+		inputs = Objects.removeUnused(inputs);
+		user_values.push( [ formname, inputs ] );
+	}
+
+	return user_values;
+}
+
+function saveOutputValues() {
+	// Return array of: formName: [ formIndex, { lineNumber: value } }
+	// This method is used to save the current state to a file. It only saves the
+	// values in the tax form objects.
+	let user_values = [];
+
+	// For each form.
+	for (const form of TaxFormObj.getAllForms()) {
+		if (!Classes.isOutputForm(form.formname)) {
+			break;
+		}
+
+		let outputs = {};
+		for (const lineno of Object.keys(form.lines)) {
+			if (form.lines[lineno].value) {
+				outputs[lineno] = form.lines[lineno].value;
+			}
+		}
+		if (Objects.isUsed(outputs)) {
+			user_values.push( [ form.formname, outputs ] );
+		}
+	}
+
+	return user_values;
 }
 
 function saveUserDataHandler(event) {
@@ -479,17 +475,14 @@ function saveUserDataHandler(event) {
 	// This function is called when the user wants to save the input fields to a file.
 	//
 	try {
-		const input_taxforms	= saveUserSuppliedInputValues();
-		const output_taxforms	= saveUserSuppliedOutputValues();
-
 		const data = {
 			"tool_name":	HTML.getUserInput("title", "text"),
 			"version":		HTML.getUserInput("tax-tools-version", "text"),
 			"todays_date":	new Date().toLocaleDateString(),
 			"tax_year":		HTML.getUserInput("tax-year", "text"),
-			"taxpayer":		Taxpayer.saveTaxpayer(),
-			"input_forms":	input_taxforms,
-			"output_forms":	output_taxforms,
+			"taxpayer":		Objects.removeUnused(Taxpayer.getUserInput()),
+			"input_forms":	saveInputValues(),
+			"output_forms":	saveOutputValues(),
 		};
 
 		File.saveToFile(data, TAX_PROGRAM_SAVE_FILE);

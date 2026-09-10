@@ -4,12 +4,11 @@ import { Objects }		from "../Classes/Objects.js";
 import { Str }			from "../Classes/Str.js";
 
 const FIELD_NAMES = {
-	// When it is not a text field, specify "" as the value type. This allows the tool to
-	// distinguish between when the user enters a zero and when it is the default value.	
-	"jury-duty":		[""],
-	"alimony-received":	[""],
-	"divorce-date":		[""],
-	"gambling":			[""],
+	// Name				Type
+	"jury-duty":		[],
+	"alimony-received":	[],
+	"divorce-date":		[],
+	"gambling":			[],
 
 };
 
@@ -89,31 +88,6 @@ export class Income {
 			const var_name		= field_name.replace(/-/g, "_");
 			const element_id	= `income-${uid}-${field_name}`;
 			inputs[var_name]	= HTML.getUserInput(element_id, value_type);
-		}
-
-		return inputs;
-	}
-
-	static saveUserInput(uid = 1) {
-		//
-		// Read and save the raw value from the fields of the worksheet.
-		//
-		if (!uid) {
-			throw new Error(`Income.getUserInput(): UID is undefined.`);
-		}
-
-		// Make sure the worksheet exists.
-		const element = document.getElementById(`income-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`Income.getUserInput(): Element not found: income-${uid}-container`);
-		}
-
-		let inputs = {};
-		for (const field_name of Object.keys(FIELD_NAMES)) {
-			const var_name		= field_name.replace(/-/g, "_");
-			const element_id	= `income-${uid}-${field_name}`;
-			inputs[var_name]	= HTML.getElementValue(element_id);
 		}
 
 		return inputs;

@@ -240,101 +240,42 @@ export class W2 extends TaxForm {
 
 		let inputs = {};
 
-		// Specify "" as the default value to getUserInput(). This allows the tool to
-		// distinguish between when the the user enters a zero and when it is the default
-		// value.	
-		inputs["01"]		= HTML.getUserInput(`w2-${uid}-01`, "");
-		inputs["02"]		= HTML.getUserInput(`w2-${uid}-02`, "");
-		inputs["03"]		= HTML.getUserInput(`w2-${uid}-03`, "");
-		inputs["04"]		= HTML.getUserInput(`w2-${uid}-04`, "");
-		inputs["05"]		= HTML.getUserInput(`w2-${uid}-05`, "");
-		inputs["06"]		= HTML.getUserInput(`w2-${uid}-06`, "");
-		inputs["07"]		= HTML.getUserInput(`w2-${uid}-07`, "");
-		inputs["08"]		= HTML.getUserInput(`w2-${uid}-08`, "");
-		inputs["09"]		= HTML.getUserInput(`w2-${uid}-09`, "");
-		inputs["10"]		= HTML.getUserInput(`w2-${uid}-10`, "");
-		inputs["11"]		= HTML.getUserInput(`w2-${uid}-11`, "");
-		inputs["12a1"]		= HTML.getUserInput(`w2-${uid}-12a1`, "");
-		inputs["12a2"]		= HTML.getUserInput(`w2-${uid}-12a2`, "");
-		inputs["12b1"]		= HTML.getUserInput(`w2-${uid}-12b1`, "");
-		inputs["12b2"]		= HTML.getUserInput(`w2-${uid}-12b2`, "");
-		inputs["12c1"]		= HTML.getUserInput(`w2-${uid}-12c1`, "");
-		inputs["12c2"]		= HTML.getUserInput(`w2-${uid}-12c2`, "");
-		inputs["12d1"]		= HTML.getUserInput(`w2-${uid}-12d1`, "");
-		inputs["12d2"]		= HTML.getUserInput(`w2-${uid}-12d2`, "");
-		inputs["13a"]		= HTML.getUserInput(`w2-${uid}-13a`, "");
-		inputs["13b"]		= HTML.getUserInput(`w2-${uid}-13b`, "");
-		inputs["13c"]		= HTML.getUserInput(`w2-${uid}-13c`, "");
+		inputs["01"]		= HTML.getUserInput(`w2-${uid}-01`);
+		inputs["02"]		= HTML.getUserInput(`w2-${uid}-02`);
+		inputs["03"]		= HTML.getUserInput(`w2-${uid}-03`);
+		inputs["04"]		= HTML.getUserInput(`w2-${uid}-04`);
+		inputs["05"]		= HTML.getUserInput(`w2-${uid}-05`);
+		inputs["06"]		= HTML.getUserInput(`w2-${uid}-06`);
+		inputs["07"]		= HTML.getUserInput(`w2-${uid}-07`);
+		inputs["08"]		= HTML.getUserInput(`w2-${uid}-08`);
+		inputs["09"]		= HTML.getUserInput(`w2-${uid}-09`);
+		inputs["10"]		= HTML.getUserInput(`w2-${uid}-10`);
+		inputs["11"]		= HTML.getUserInput(`w2-${uid}-11`);
+		inputs["12a1"]		= HTML.getUserInput(`w2-${uid}-12a1`);
+		inputs["12a2"]		= HTML.getUserInput(`w2-${uid}-12a2`);
+		inputs["12b1"]		= HTML.getUserInput(`w2-${uid}-12b1`);
+		inputs["12b2"]		= HTML.getUserInput(`w2-${uid}-12b2`);
+		inputs["12c1"]		= HTML.getUserInput(`w2-${uid}-12c1`);
+		inputs["12c2"]		= HTML.getUserInput(`w2-${uid}-12c2`);
+		inputs["12d1"]		= HTML.getUserInput(`w2-${uid}-12d1`);
+		inputs["12d2"]		= HTML.getUserInput(`w2-${uid}-12d2`);
+		inputs["13a"]		= HTML.getUserInput(`w2-${uid}-13a`);
+		inputs["13b"]		= HTML.getUserInput(`w2-${uid}-13b`);
+		inputs["13c"]		= HTML.getUserInput(`w2-${uid}-13c`);
 		inputs["14a1"]		= HTML.getUserInput(`w2-${uid}-14a1`, "text");
-		inputs["14a2"]		= HTML.getUserInput(`w2-${uid}-14a2`, "");
+		inputs["14a2"]		= HTML.getUserInput(`w2-${uid}-14a2`);
 		inputs["14b1"]		= HTML.getUserInput(`w2-${uid}-14b1`, "text");
-		inputs["14b2"]		= HTML.getUserInput(`w2-${uid}-14b2`, "");
+		inputs["14b2"]		= HTML.getUserInput(`w2-${uid}-14b2`);
 		inputs["14c1"]		= HTML.getUserInput(`w2-${uid}-14c1`, "text");
-		inputs["14c2"]		= HTML.getUserInput(`w2-${uid}-14c2`, "");
+		inputs["14c2"]		= HTML.getUserInput(`w2-${uid}-14c2`);
 		inputs["14d1"]		= HTML.getUserInput(`w2-${uid}-14d1`, "text");
-		inputs["14d2"]		= HTML.getUserInput(`w2-${uid}-14d2`, "");
+		inputs["14d2"]		= HTML.getUserInput(`w2-${uid}-14d2`);
 		inputs["15"]		= HTML.getUserInput(`w2-${uid}-15`, "text");
-		inputs["16"]		= HTML.getUserInput(`w2-${uid}-16`, "");
-		inputs["17"]		= HTML.getUserInput(`w2-${uid}-17`, "");
-		inputs["18"]		= HTML.getUserInput(`w2-${uid}-18`, "");
-		inputs["19"]		= HTML.getUserInput(`w2-${uid}-19`, "");
+		inputs["16"]		= HTML.getUserInput(`w2-${uid}-16`);
+		inputs["17"]		= HTML.getUserInput(`w2-${uid}-17`);
+		inputs["18"]		= HTML.getUserInput(`w2-${uid}-18`);
+		inputs["19"]		= HTML.getUserInput(`w2-${uid}-19`);
 		inputs["20"]		= HTML.getUserInput(`w2-${uid}-20`, "text");
-
-		return inputs;
-	}
-
-	static saveUserInput(uid) {
-		//
-		// Read the fields of the form from the web, but do not alter the information, for
-		// example by changing "" to 0 or removing commas.
-		//
-		if (!uid) {
-			throw new Error(`W2.getUserInput(): UID is undefined.`);
-		}
-
-		const element = document.getElementById(`w2-${uid}-container`);
-		if (!element) {
-			throw new Error(`W2.getUserInput(): Element not found: w2-${uid}-container`);
-		}
-
-		let inputs = {};
-
-		inputs["01"]		= HTML.getElementValue(`w2-${uid}-01`);
-		inputs["02"]		= HTML.getElementValue(`w2-${uid}-02`);
-		inputs["03"]		= HTML.getElementValue(`w2-${uid}-03`);
-		inputs["04"]		= HTML.getElementValue(`w2-${uid}-04`);
-		inputs["05"]		= HTML.getElementValue(`w2-${uid}-05`);
-		inputs["06"]		= HTML.getElementValue(`w2-${uid}-06`);
-		inputs["07"]		= HTML.getElementValue(`w2-${uid}-07`);
-		inputs["08"]		= HTML.getElementValue(`w2-${uid}-08`);
-		inputs["09"]		= HTML.getElementValue(`w2-${uid}-09`);
-		inputs["10"]		= HTML.getElementValue(`w2-${uid}-10`);
-		inputs["11"]		= HTML.getElementValue(`w2-${uid}-11`);
-		inputs["12a1"]		= HTML.getElementValue(`w2-${uid}-12a1`);
-		inputs["12a2"]		= HTML.getElementValue(`w2-${uid}-12a2`);
-		inputs["12b1"]		= HTML.getElementValue(`w2-${uid}-12b1`);
-		inputs["12b2"]		= HTML.getElementValue(`w2-${uid}-12b2`);
-		inputs["12c1"]		= HTML.getElementValue(`w2-${uid}-12c1`);
-		inputs["12c2"]		= HTML.getElementValue(`w2-${uid}-12c2`);
-		inputs["12d1"]		= HTML.getElementValue(`w2-${uid}-12d1`);
-		inputs["12d2"]		= HTML.getElementValue(`w2-${uid}-12d2`);
-		inputs["13a"]		= HTML.getElementValue(`w2-${uid}-13a`);
-		inputs["13b"]		= HTML.getElementValue(`w2-${uid}-13b`);
-		inputs["13c"]		= HTML.getElementValue(`w2-${uid}-13c`);
-		inputs["14a1"]		= HTML.getElementValue(`w2-${uid}-14a1`);
-		inputs["14a2"]		= HTML.getElementValue(`w2-${uid}-14a2`);
-		inputs["14b1"]		= HTML.getElementValue(`w2-${uid}-14b1`);
-		inputs["14b2"]		= HTML.getElementValue(`w2-${uid}-14b2`);
-		inputs["14c1"]		= HTML.getElementValue(`w2-${uid}-14c1`);
-		inputs["14c2"]		= HTML.getElementValue(`w2-${uid}-14c2`);
-		inputs["14d1"]		= HTML.getElementValue(`w2-${uid}-14d1`);
-		inputs["14d2"]		= HTML.getElementValue(`w2-${uid}-14d2`);
-		inputs["15"]		= HTML.getElementValue(`w2-${uid}-15`);
-		inputs["16"]		= HTML.getElementValue(`w2-${uid}-16`);
-		inputs["17"]		= HTML.getElementValue(`w2-${uid}-17`);
-		inputs["18"]		= HTML.getElementValue(`w2-${uid}-18`);
-		inputs["19"]		= HTML.getElementValue(`w2-${uid}-19`);
-		inputs["20"]		= HTML.getElementValue(`w2-${uid}-20`);
 
 		return inputs;
 	}

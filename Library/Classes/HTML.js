@@ -76,14 +76,8 @@ export class HTML {
 			return value;
 		}
 
-		// To prevent this function from returning 0 when the field is blank, set the
-		// default value to "".
-		if (value === "") {
-			return default_value;
-		} else {
-			// Process dollar sign, commas, and mathmatical expressions.
-			return Num.toInteger(value);
-		}
+		// Process dollar sign, commas, and mathmatical expressions.
+		return Num.toInteger(value);
 	}
 
 	static putUserOutput(element_id, value, type = "number") {

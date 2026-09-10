@@ -224,68 +224,25 @@ export class F1099DIV extends TaxForm {
 
 		let inputs = {};
 
-		// Specify "" as the default value to getUserInput(). This allows the tool to
-		// distinguish between when the the user enters a zero and when it is the default
-		// value.	
 		inputs["payer"]		= HTML.getUserInput(`f1099div-${uid}-payer`,	"text");
 		inputs["ein"]		= HTML.getUserInput(`f1099div-${uid}-ein`,		"text");
 		inputs["ssn"]		= HTML.getUserInput(`f1099div-${uid}-ssn`,		"text");
 		inputs["taxpayer"]	= HTML.getUserInput(`f1099div-${uid}-taxpayer`,	"text");
 		inputs["account"]	= HTML.getUserInput(`f1099div-${uid}-account`,	"text");
-		inputs["01a"]		= HTML.getUserInput(`f1099div-${uid}-01a`,		"");
-		inputs["01b"]		= HTML.getUserInput(`f1099div-${uid}-01b`,		"");
-		inputs["02a"]		= HTML.getUserInput(`f1099div-${uid}-02a`,		"");
-		inputs["02b"]		= HTML.getUserInput(`f1099div-${uid}-02b`,		"");
-		inputs["03"	]		= HTML.getUserInput(`f1099div-${uid}-03`,		"");
-		inputs["04"	]		= HTML.getUserInput(`f1099div-${uid}-04`,		"");
-		inputs["05"	]		= HTML.getUserInput(`f1099div-${uid}-05`,		"");
-		inputs["06"	]		= HTML.getUserInput(`f1099div-${uid}-06`,		"");
-		inputs["07"	]		= HTML.getUserInput(`f1099div-${uid}-07`,		"");
+		inputs["01a"]		= HTML.getUserInput(`f1099div-${uid}-01a`);
+		inputs["01b"]		= HTML.getUserInput(`f1099div-${uid}-01b`);
+		inputs["02a"]		= HTML.getUserInput(`f1099div-${uid}-02a`);
+		inputs["02b"]		= HTML.getUserInput(`f1099div-${uid}-02b`);
+		inputs["03"	]		= HTML.getUserInput(`f1099div-${uid}-03`);
+		inputs["04"	]		= HTML.getUserInput(`f1099div-${uid}-04`);
+		inputs["05"	]		= HTML.getUserInput(`f1099div-${uid}-05`);
+		inputs["06"	]		= HTML.getUserInput(`f1099div-${uid}-06`);
+		inputs["07"	]		= HTML.getUserInput(`f1099div-${uid}-07`);
 		inputs["08"	]		= HTML.getUserInput(`f1099div-${uid}-08`,		"text");
-		inputs["12"	]		= HTML.getUserInput(`f1099div-${uid}-12`,		"");
-		inputs["13"	]		= HTML.getUserInput(`f1099div-${uid}-13`,		"");
+		inputs["12"	]		= HTML.getUserInput(`f1099div-${uid}-12`);
+		inputs["13"	]		= HTML.getUserInput(`f1099div-${uid}-13`);
 		inputs["14"	]		= HTML.getUserInput(`f1099div-${uid}-14`,		"text");
-		inputs["16"	]		= HTML.getUserInput(`f1099div-${uid}-16`,		"");
-
-		return inputs;
-	}
-
-	static saveUserInput(uid) {
-		//
-		// Read the fields of the form from the web, but do not alter the information, for
-		// example by changing "" to 0 or removing commas.
-		//
-		if (!uid) {
-			throw new Error(`f1099div.getUserInput(): UID is undefined.`);
-		}
-
-		const element = document.getElementById(`f1099div-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`f1099div.getUserInput(): Element not found: f1099div-${uid}-container`);
-		}
-
-		let inputs = {};
-
-		inputs["payer"]		= HTML.getElementValue(`f1099div-${uid}-payer`);
-		inputs["ein"]		= HTML.getElementValue(`f1099div-${uid}-ein`);
-		inputs["ssn"]		= HTML.getElementValue(`f1099div-${uid}-ssn`);
-		inputs["taxpayer"]	= HTML.getElementValue(`f1099div-${uid}-taxpayer`);
-		inputs["account"]	= HTML.getElementValue(`f1099div-${uid}-account`);
-		inputs["01a"]		= HTML.getElementValue(`f1099div-${uid}-01a`);
-		inputs["01b"]		= HTML.getElementValue(`f1099div-${uid}-01b`);
-		inputs["02a"]		= HTML.getElementValue(`f1099div-${uid}-02a`);
-		inputs["02b"]		= HTML.getElementValue(`f1099div-${uid}-02b`);
-		inputs["03"	]		= HTML.getElementValue(`f1099div-${uid}-03`);
-		inputs["04"	]		= HTML.getElementValue(`f1099div-${uid}-04`);
-		inputs["05"	]		= HTML.getElementValue(`f1099div-${uid}-05`);
-		inputs["06"	]		= HTML.getElementValue(`f1099div-${uid}-06`);
-		inputs["07"	]		= HTML.getElementValue(`f1099div-${uid}-07`);
-		inputs["08"	]		= HTML.getElementValue(`f1099div-${uid}-08`);
-		inputs["12"	]		= HTML.getElementValue(`f1099div-${uid}-12`);
-		inputs["13"	]		= HTML.getElementValue(`f1099div-${uid}-13`);
-		inputs["14"	]		= HTML.getElementValue(`f1099div-${uid}-14`);
-		inputs["16"	]		= HTML.getElementValue(`f1099div-${uid}-16`);
+		inputs["16"	]		= HTML.getUserInput(`f1099div-${uid}-16`);
 
 		return inputs;
 	}

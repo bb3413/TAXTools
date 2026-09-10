@@ -218,66 +218,24 @@ export class F1099OID extends TaxForm {
 
 		let inputs = {};
 
-		// Specify "" as the default value to getUserInput(). This allows the tool to
-		// distinguish between when the the user enters a zero and when it is the default
-		// value.	
 		inputs["payer"]		= HTML.getUserInput(`f1099oid-${uid}-payer`,	"text");
 		inputs["ein"]		= HTML.getUserInput(`f1099oid-${uid}-ein`,		"text");
 		inputs["ssn"]		= HTML.getUserInput(`f1099oid-${uid}-ssn`,		"text");
 		inputs["taxpayer"]	= HTML.getUserInput(`f1099oid-${uid}-taxpayer`,	"text");
 		inputs["account"]	= HTML.getUserInput(`f1099oid-${uid}-account`,	"text");
-		inputs["01"]		= HTML.getUserInput(`f1099oid-${uid}-01`, "");
-		inputs["02"]		= HTML.getUserInput(`f1099oid-${uid}-02`, "");
-		inputs["03"]		= HTML.getUserInput(`f1099oid-${uid}-03`, "");
-		inputs["04"]		= HTML.getUserInput(`f1099oid-${uid}-04`, "");
-		inputs["05"]		= HTML.getUserInput(`f1099oid-${uid}-05`, "");
-		inputs["06"]		= HTML.getUserInput(`f1099oid-${uid}-06`, "");
-		inputs["07"]		= HTML.getUserInput(`f1099oid-${uid}-07`, "text");
-		inputs["08"]		= HTML.getUserInput(`f1099oid-${uid}-08`, "");
-		inputs["09"]		= HTML.getUserInput(`f1099oid-${uid}-09`, "");
-		inputs["10"]		= HTML.getUserInput(`f1099oid-${uid}-10`, "");
-		inputs["11"]		= HTML.getUserInput(`f1099oid-${uid}-11`, "");
-		inputs["13"]		= HTML.getUserInput(`f1099oid-${uid}-13`, "text");
-		inputs["14"]		= HTML.getUserInput(`f1099oid-${uid}-14`, "");
-
-		return inputs;
-	}
-
-	static saveUserInput(uid) {
-		//
-		// Read the fields of the form from the web, but do not alter the information, for
-		// example by changing "" to 0 or removing commas.
-		//
-		if (!uid) {
-			throw new Error(`F1099OID.getUserInput(): UID is undefined.`);
-		}
-
-		const element = document.getElementById(`f1099oid-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`F1099OID.getUserInput(): Element not found: f1099oid-${uid}-container`);
-		}
-
-		let inputs = {};
-	
-		inputs["payer"]		= HTML.getElementValue(`f1099oid-${uid}-payer`);
-		inputs["ein"]		= HTML.getElementValue(`f1099oid-${uid}-ein`);
-		inputs["ssn"]		= HTML.getElementValue(`f1099oid-${uid}-ssn`);
-		inputs["taxpayer"]	= HTML.getElementValue(`f1099oid-${uid}-taxpayer`);
-		inputs["account"]	= HTML.getElementValue(`f1099oid-${uid}-account`);
-		inputs["01"]		= HTML.getElementValue(`f1099oid-${uid}-01`);
-		inputs["02"]		= HTML.getElementValue(`f1099oid-${uid}-02`);
-		inputs["03"]		= HTML.getElementValue(`f1099oid-${uid}-03`);
-		inputs["04"]		= HTML.getElementValue(`f1099oid-${uid}-04`);
-		inputs["05"]		= HTML.getElementValue(`f1099oid-${uid}-05`);
-		inputs["06"]		= HTML.getElementValue(`f1099oid-${uid}-06`);
-		inputs["07"]		= HTML.getElementValue(`f1099oid-${uid}-07`);
-		inputs["08"]		= HTML.getElementValue(`f1099oid-${uid}-08`);
-		inputs["09"]		= HTML.getElementValue(`f1099oid-${uid}-09`);
-		inputs["10"]		= HTML.getElementValue(`f1099oid-${uid}-10`);
-		inputs["11"]		= HTML.getElementValue(`f1099oid-${uid}-11`);
-		inputs["13"]		= HTML.getElementValue(`f1099oid-${uid}-13`);
-		inputs["14"]		= HTML.getElementValue(`f1099oid-${uid}-14`);
+		inputs["01"]		= HTML.getUserInput(`f1099oid-${uid}-01`);
+		inputs["02"]		= HTML.getUserInput(`f1099oid-${uid}-02`);
+		inputs["03"]		= HTML.getUserInput(`f1099oid-${uid}-03`);
+		inputs["04"]		= HTML.getUserInput(`f1099oid-${uid}-04`);
+		inputs["05"]		= HTML.getUserInput(`f1099oid-${uid}-05`);
+		inputs["06"]		= HTML.getUserInput(`f1099oid-${uid}-06`);
+		inputs["07"]		= HTML.getUserInput(`f1099oid-${uid}-07`,		"text");
+		inputs["08"]		= HTML.getUserInput(`f1099oid-${uid}-08`);
+		inputs["09"]		= HTML.getUserInput(`f1099oid-${uid}-09`);
+		inputs["10"]		= HTML.getUserInput(`f1099oid-${uid}-10`);
+		inputs["11"]		= HTML.getUserInput(`f1099oid-${uid}-11`);
+		inputs["13"]		= HTML.getUserInput(`f1099oid-${uid}-13`,		"text");
+		inputs["14"]		= HTML.getUserInput(`f1099oid-${uid}-14`);
 
 		return inputs;
 	}

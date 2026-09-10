@@ -14,14 +14,14 @@ const FIELD_NAMES = {
 	"state":				["text"],
 	"zip-code":				["text"],
 	"taxpayers-birthday":	["text"],
-	"is-taxpayer-blind":	[""],
-	"taxpayer-has-ssn":		[""],
+	"is-taxpayer-blind":	[],
+	"taxpayer-has-ssn":		[],
 
 	// Spouse
 	"spouses-birthday":		["text"],
-	"lived-with-spouse":	[""],
-	"is-spouse-blind":		[""],
-	"spouse-has-ssn":		[""],
+	"lived-with-spouse":	[],
+	"is-spouse-blind":		[],
+	"spouse-has-ssn":		[],
 };
 
 let taxpayer = undefined;		// Global variable.
@@ -51,9 +51,8 @@ function initializeTaxpayer() {
 
 	// Initialize the fields from the web page.
 	for (const element_id of Object.keys(FIELD_NAMES)) {
-		const variable_name = "_" + Str.kebabToSnakeCase(element_id);
-
-		taxpayer[variable_name] = getUserInput(element_id, FIELD_NAMES[element_id][0]);
+		const var_name = "_" + Str.kebabToSnakeCase(element_id);
+		taxpayer[var_name] = getUserInput(element_id, FIELD_NAMES[element_id][0]);
 	}
 
 	return taxpayer;
@@ -77,62 +76,54 @@ export class Taxpayer {
 	//
 	// ---------------- Static Methods ----------------
 	//
-	static getTaxpayer() {
-		initializeTaxpayer();
-		return taxpayer;
+	static getUserInput() {
+		let inputs = {};
+
+		// Copy the fields from the web page.
+		for (const field_name of Object.keys(FIELD_NAMES)) {
+			const value_type	= FIELD_NAMES[field_name][0];
+			const var_name		= field_name.replace(/-/g, "_");
+			if (document.getElementById(field_name)) {
+				inputs[var_name]= HTML.getUserInput(field_name, value_type);
+			}
+		}
+
+		return inputs;
 	}
 
-	static restoreTaxpayer(taxpayer_data) {
+	static getTaxpayer() {
 		if (!taxpayer) {
 			initializeTaxpayer();
 		}
-
-		for (const field of Object.keys(taxpayer_data)) {
-			taxpayer[field] = taxpayer_data[field];
-		}
+		return taxpayer;
 	}
 
-	static reset() {
-		// Clear the taxpayer fields on the web page.
-		if (taxpayer) {
-			for (const field of Object.keys(taxpayer)) {
-				const element_id = Str.snakeToKebabCase(field).replace(/^-/, "");
-				putUserOutput(element_id, "");
-			}
-
-			taxpayer = undefined;
-		}
-	}
-
-	static restoreTaxpayer(data) {
+	static restoreUserInput(data) {
 		// Clean all the fields.
-		for (const field_id of FIELD_NAMES) {
+		for (const field_id of Object.keys(FIELD_NAMES)) {
 			if (document.getElementById(field_id)) {
 				HTML.putElementValue(field_id, "");
 			}
 		}
 
 		// Restore the fields that were saved.
-		for (const field_id of Object.keys(data)) {
+		for (const var_name of Object.keys(data)) {
+			const field_id = var_name.replace(/_/g, "-");
 			if (document.getElementById(field_id)) {
-				HTML.putElementValue(field_id, data[field_id]);
+				HTML.putElementValue(field_id, data[var_name]);
 			}
 		}	
 	}
 
-	static saveTaxpayer() {
-		let inputs = {};
-
-		for (const field_id of FIELD_NAMES) {
+	static reset() {
+		// Clear the taxpayer fields on the web page.
+		for (const field_id of Object.keys(FIELD_NAMES)) {
 			if (document.getElementById(field_id)) {
-				let value = HTML.getElementValue(field_id);
-				if (value !== "") {
-					inputs[field_id] = value;
-				}
+				HTML.putElementValue(field_id, "");
 			}
 		}
 
-		return inputs;
+		taxpayer = undefined;
 	}
 
 	//

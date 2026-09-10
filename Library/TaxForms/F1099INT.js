@@ -204,62 +204,22 @@ export class F1099INT extends TaxForm {
 
 		let inputs = {};
 
-		// Specify "" as the default value to getUserInput(). This allows the tool to
-		// distinguish between when the the user enters a zero and when it is the default
-		// value.	
 		inputs["payer"]		= HTML.getUserInput(`f1099int-${uid}-payer`,	"text");
 		inputs["ein"]		= HTML.getUserInput(`f1099int-${uid}-ein`,		"text");
 		inputs["ssn"]		= HTML.getUserInput(`f1099int-${uid}-ssn`,		"text");
 		inputs["taxpayer"]	= HTML.getUserInput(`f1099int-${uid}-taxpayer`,	"text");
 		inputs["account"]	= HTML.getUserInput(`f1099int-${uid}-account`,	"text");
-		inputs["01"	]		= HTML.getUserInput(`f1099int-${uid}-01`, "");
-		inputs["02"	]		= HTML.getUserInput(`f1099int-${uid}-02`, "");
-		inputs["03"	]		= HTML.getUserInput(`f1099int-${uid}-03`, "");
-		inputs["04"	]		= HTML.getUserInput(`f1099int-${uid}-04`, "");
-		inputs["05"	]		= HTML.getUserInput(`f1099int-${uid}-05`, "");
-		inputs["08"	]		= HTML.getUserInput(`f1099int-${uid}-08`, "");
-		inputs["09"	]		= HTML.getUserInput(`f1099int-${uid}-09`, "");
-		inputs["10"	]		= HTML.getUserInput(`f1099int-${uid}-10`, "");
-		inputs["11"	]		= HTML.getUserInput(`f1099int-${uid}-11`, "");
+		inputs["01"	]		= HTML.getUserInput(`f1099int-${uid}-01`);
+		inputs["02"	]		= HTML.getUserInput(`f1099int-${uid}-02`);
+		inputs["03"	]		= HTML.getUserInput(`f1099int-${uid}-03`);
+		inputs["04"	]		= HTML.getUserInput(`f1099int-${uid}-04`);
+		inputs["05"	]		= HTML.getUserInput(`f1099int-${uid}-05`);
+		inputs["08"	]		= HTML.getUserInput(`f1099int-${uid}-08`);
+		inputs["09"	]		= HTML.getUserInput(`f1099int-${uid}-09`);
+		inputs["10"	]		= HTML.getUserInput(`f1099int-${uid}-10`);
+		inputs["11"	]		= HTML.getUserInput(`f1099int-${uid}-11`);
 		inputs["15"	]		= HTML.getUserInput(`f1099int-${uid}-15`, "text");
-		inputs["17"	]		= HTML.getUserInput(`f1099int-${uid}-17`, "");
-
-		return inputs;
-	}
-
-	static saveUserInput(uid) {
-		//
-		// Read the fields of the form from the web, but do not alter the information, for
-		// example by changing "" to 0 or removing commas.
-		//
-		if (!uid) {
-			throw new Error(`f1099int.getUserInput(): UID is undefined.`);
-		}
-
-		const element = document.getElementById(`f1099int-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`f1099int.getUserInput(): Element not found: f1099int-${uid}-container`);
-		}
-
-		let inputs = {};
-
-		inputs["payer"]		= HTML.getElementValue(`f1099int-${uid}-payer`);
-		inputs["ein"]		= HTML.getElementValue(`f1099int-${uid}-ein`);
-		inputs["ssn"]		= HTML.getElementValue(`f1099int-${uid}-ssn`);
-		inputs["taxpayer"]	= HTML.getElementValue(`f1099int-${uid}-taxpayer`);
-		inputs["account"]	= HTML.getElementValue(`f1099int-${uid}-account`);
-		inputs["01"	]		= HTML.getElementValue(`f1099int-${uid}-01`);
-		inputs["02"	]		= HTML.getElementValue(`f1099int-${uid}-02`);
-		inputs["03"	]		= HTML.getElementValue(`f1099int-${uid}-03`);
-		inputs["04"	]		= HTML.getElementValue(`f1099int-${uid}-04`);
-		inputs["05"	]		= HTML.getElementValue(`f1099int-${uid}-05`);
-		inputs["08"	]		= HTML.getElementValue(`f1099int-${uid}-08`);
-		inputs["09"	]		= HTML.getElementValue(`f1099int-${uid}-09`);
-		inputs["10"	]		= HTML.getElementValue(`f1099int-${uid}-10`);
-		inputs["11"	]		= HTML.getElementValue(`f1099int-${uid}-11`);
-		inputs["15"	]		= HTML.getElementValue(`f1099int-${uid}-15`);
-		inputs["17"	]		= HTML.getElementValue(`f1099int-${uid}-17`);
+		inputs["17"	]		= HTML.getUserInput(`f1099int-${uid}-17`);
 
 		return inputs;
 	}

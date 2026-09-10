@@ -95,4 +95,8 @@ export class Container {
 		const parts = element_id.split("-");
 		return [ parts[0], parts[1].replace(/-/g, "") ];
 	}
+
+	static reset() {
+		next_uid = {};
+	}
 }

@@ -223,36 +223,6 @@ export class Classes {
 		}
 	}
 
-	static saveUserInput(classname, uid = 1) {
-		// This method allows you to call the static method getUserInput() by classname.
-		switch (classname) {
-			case "F1040SC":		return F1040SC.saveUserInput(uid);
-			case "F1099C":		return F1099C.saveUserInput(uid);
-			case "F1099DIV":	return F1099DIV.saveUserInput(uid);
-			case "F1099G":		return F1099G.saveUserInput(uid);
-			case "F1099INT":	return F1099INT.saveUserInput(uid);
-			case "F1099K":		return F1099K.saveUserInput(uid);
-			case "F1099MISC":	return F1099MISC.saveUserInput(uid);
-			case "F1099NEC":	return F1099NEC.saveUserInput(uid);
-			case "F1099OID":	return F1099OID.saveUserInput(uid);
-			case "F1099R":		return F1099R.saveUserInput(uid);
-			case "F1099S":		return F1099S.saveUserInput(uid);
-			case "SSA1099":		return SSA1099.saveUserInput(uid);
-			case "W2":			return W2.saveUserInput(uid);
-			
-			// Input worksheets
-			case "Assetsales":	return Assetsales.saveUserInput(uid);
-			case "Business":	return Business.saveUserInput(uid);
-			case "Dependent":	return Dependent.saveUserInput(uid);
-			case "Expenses":	return Expenses.saveUserInput(uid);
-			case "Income":		return Income.saveUserInput(uid);
-
-			default:
-				throw new Error(
-					`Classes.saveUserInput(): unplemented form: ${classname}`);
-		}
-	}
-
 	static isSingleton(classname) {
 		if (class_map[classname]) {
 			return class_map[classname][SINGLETON];

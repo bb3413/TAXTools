@@ -4,13 +4,12 @@ import { Objects }		from "../Classes/Objects.js";
 import { Str }			from "../Classes/Str.js";
 
 const FIELD_NAMES = {
-	// When it is not a text field, specify "" as the value type. This allows the tool to
-	// distinguish between when the user enters a zero and when it is the default value.	
-	"long-term":	[""],
-	"name":			[""],
-	"proceeds":		[""],
-	"basis":		[""],
-	"wash-sale":	[""],
+	// Name			Type
+	"long-term":	[],
+	"name":			["Text"],
+	"proceeds":		[],
+	"basis":		[],
+	"wash-sale":	[],
 };
 
 const HTML_WORKSHEET = `
@@ -61,31 +60,6 @@ export class Assetitem {
 			const var_name		= field_name.replace(/-/g, "_");
 			const element_id	= `assetitem-${uid}-${field_name}`;
 			inputs[var_name]	= HTML.getUserInput(element_id, value_type);
-		}
-
-		return inputs;
-	}
-
-	static saveUserInput(uid) {
-		//
-		// Read and save the raw value from the fields of the worksheet.
-		//
-		if (!uid) {
-			throw new Error(`Assetitem.getUserInput(): UID is undefined.`);
-		}
-
-		// Make sure the worksheet exists.
-		const element = document.getElementById(`assetitem-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`Assetitem.getUserInput(): Element not found: assetitem-${uid}-container`);
-		}
-
-		let inputs = {};
-		for (const field_name of Object.keys(FIELD_NAMES)) {
-			const var_name		= field_name.replace(/-/g, "_");
-			const element_id	= `assetitem-${uid}-${field_name}`;
-			inputs[var_name]	= HTML.getElementValue(element_id);
 		}
 
 		return inputs;

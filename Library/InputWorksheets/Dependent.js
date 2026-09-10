@@ -4,20 +4,19 @@ import { Objects }		from "../Classes/Objects.js";
 import { Str }			from "../Classes/Str.js";
 
 const FIELD_NAMES = {
-	// When it is not a text field, specify "" as the value type. This allows the tool to
-	// distinguish between when the user enters a zero and when it is the default value.	
-	"name":					[""],
-	"birthday":				[""],
-	"filing-status":		[""],
-	"months-lived-at-home":	[""],
-	"gross-income":			[""],
-	"fulltime-student":		[""],
-	"mfj":					[""],
-	"provides-half-support":[""],
-	"disabled":				[""],
-	"has-ssn":				[""],
-	"has-itin":				[""],
-	"has-atin":				[""],
+	// Name					Type	
+	"name":					[],
+	"birthday":				[],
+	"filing-status":		[],
+	"months-lived-at-home":	[],
+	"gross-income":			[],
+	"fulltime-student":		[],
+	"mfj":					[],
+	"provides-half-support":[],
+	"disabled":				[],
+	"has-ssn":				[],
+	"has-itin":				[],
+	"has-atin":				[],
 };
 
 const HTML_WORKSHEET = `
@@ -138,31 +137,6 @@ export class Dependent {
 			const var_name		= field_name.replace(/-/g, "_");
 			const element_id	= `dependent-${uid}-${field_name}`;
 			inputs[var_name]	= HTML.getUserInput(element_id, value_type);
-		}
-
-		return inputs;
-	}
-
-	static saveUserInput(uid) {
-		//
-		// Read and save the raw value from the fields of the worksheet.
-		//
-		if (!uid) {
-			throw new Error(`Dependent.getUserInput(): UID is undefined.`);
-		}
-
-		// Make sure the worksheet exists.
-		const element = document.getElementById(`dependent-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`Dependent.getUserInput(): Element not found: dependent-${uid}-container`);
-		}
-
-		let inputs = {};
-		for (const field_name of Object.keys(FIELD_NAMES)) {
-			const var_name		= field_name.replace(/-/g, "_");
-			const element_id	= `dependent-${uid}-${field_name}`;
-			inputs[var_name]	= HTML.getElementValue(element_id);
 		}
 
 		return inputs;

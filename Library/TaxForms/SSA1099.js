@@ -170,49 +170,16 @@ export class SSA1099 extends TaxForm {
 		}
 
 		let inputs = {};
-
-		// Specify "" as the default value to getUserInput(). This allows the tool to
-		// distinguish between when the the user enters a zero and when it is the default
-		// value.	
+	
 		inputs["01"]	= HTML.getUserInput(`ssa1099-${uid}-01`, "text");
 		inputs["02"]	= HTML.getUserInput(`ssa1099-${uid}-02`, "text");
-		inputs["03a"]	= HTML.getUserInput(`ssa1099-${uid}-03a`, "");
-		inputs["03b"]	= HTML.getUserInput(`ssa1099-${uid}-03b`, "");
-		inputs["04"]	= HTML.getUserInput(`ssa1099-${uid}-04`, "");
-		inputs["05"]	= HTML.getUserInput(`ssa1099-${uid}-05`, "");
-		inputs["06"]	= HTML.getUserInput(`ssa1099-${uid}-06`, "");
+		inputs["03a"]	= HTML.getUserInput(`ssa1099-${uid}-03a`);
+		inputs["03b"]	= HTML.getUserInput(`ssa1099-${uid}-03b`);
+		inputs["04"]	= HTML.getUserInput(`ssa1099-${uid}-04`);
+		inputs["05"]	= HTML.getUserInput(`ssa1099-${uid}-05`);
+		inputs["06"]	= HTML.getUserInput(`ssa1099-${uid}-06`);
 		inputs["07"]	= HTML.getUserInput(`ssa1099-${uid}-07`, "text");
 		inputs["08"]	= HTML.getUserInput(`ssa1099-${uid}-08`, "text");
-
-		return inputs;
-	}
-
-	static saveUserInput(uid) {
-		//
-		// Read the fields of the form from the web, but do not alter the information, for
-		// example by changing "" to 0 or removing commas.
-		//
-		if (!uid) {
-			throw new Error(`SSA1099.getUserInput(): UID is undefined.`);
-		}
-
-		const element = document.getElementById(`ssa1099-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`SSA1099.getUserInput(): Element not found: ssa1099-${uid}-container`);
-		}
-
-		let inputs = {};
-
-		inputs["01"]	= HTML.getElementValue(`ssa1099-${uid}-01`);
-		inputs["02"]	= HTML.getElementValue(`ssa1099-${uid}-02`);
-		inputs["03a"]	= HTML.getElementValue(`ssa1099-${uid}-03a`);
-		inputs["03b"]	= HTML.getElementValue(`ssa1099-${uid}-03b`);
-		inputs["04"]	= HTML.getElementValue(`ssa1099-${uid}-04`);
-		inputs["05"]	= HTML.getElementValue(`ssa1099-${uid}-05`);
-		inputs["06"]	= HTML.getElementValue(`ssa1099-${uid}-06`);
-		inputs["07"]	= HTML.getElementValue(`ssa1099-${uid}-07`);
-		inputs["08"]	= HTML.getElementValue(`ssa1099-${uid}-08`);
 
 		return inputs;
 	}

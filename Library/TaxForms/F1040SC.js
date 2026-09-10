@@ -334,101 +334,42 @@ export class F1040SC extends TaxForm {
 		}
 
 		let inputs = {};
-
-		// Specify "" as the default value to getUserInput(). This allows the tool to
-		// distinguish between when the the user enters a zero and when it is the default
-		// value.	
-		inputs["01"]		= HTML.getUserInput(`f1040sc-${uid}-01`, "");
-		inputs["02"]		= HTML.getUserInput(`f1040sc-${uid}-02`, "");
-		inputs["03"]		= HTML.getUserInput(`f1040sc-${uid}-03`, "");
-		inputs["04"]		= HTML.getUserInput(`f1040sc-${uid}-04`, "");
-		inputs["05"]		= HTML.getUserInput(`f1040sc-${uid}-05`, "");
-		inputs["06"]		= HTML.getUserInput(`f1040sc-${uid}-06`, "");
-		inputs["07"]		= HTML.getUserInput(`f1040sc-${uid}-07`, "");
-		inputs["08"]		= HTML.getUserInput(`f1040sc-${uid}-08`, "");
-		inputs["09"]		= HTML.getUserInput(`f1040sc-${uid}-09`, "");
-		inputs["10"]		= HTML.getUserInput(`f1040sc-${uid}-10`, "");
-		inputs["11"]		= HTML.getUserInput(`f1040sc-${uid}-11`, "");
-		inputs["12"]		= HTML.getUserInput(`f1040sc-${uid}-12`, "");
-		inputs["13"]		= HTML.getUserInput(`f1040sc-${uid}-13`, "");
-		inputs["14"]		= HTML.getUserInput(`f1040sc-${uid}-14`, "");
-		inputs["15"]		= HTML.getUserInput(`f1040sc-${uid}-15`, "");
-		inputs["16a"]		= HTML.getUserInput(`f1040sc-${uid}-16a`, "");
-		inputs["16b"]		= HTML.getUserInput(`f1040sc-${uid}-16b`, "");
-		inputs["17"]		= HTML.getUserInput(`f1040sc-${uid}-17`, "");
-		inputs["18"]		= HTML.getUserInput(`f1040sc-${uid}-18`, "");
-		inputs["19"]		= HTML.getUserInput(`f1040sc-${uid}-19`, "");
-		inputs["20a"]		= HTML.getUserInput(`f1040sc-${uid}-20a`, "");
-		inputs["20b"]		= HTML.getUserInput(`f1040sc-${uid}-20b`, "");
-		inputs["21"]		= HTML.getUserInput(`f1040sc-${uid}-21`, "");
-		inputs["22"]		= HTML.getUserInput(`f1040sc-${uid}-22`, "");
-		inputs["23"]		= HTML.getUserInput(`f1040sc-${uid}-23`, "");
-		inputs["24a"]		= HTML.getUserInput(`f1040sc-${uid}-24a`, "");
-		inputs["24b"]		= HTML.getUserInput(`f1040sc-${uid}-24b`, "");
-		inputs["25"]		= HTML.getUserInput(`f1040sc-${uid}-25`, "");
-		inputs["26"]		= HTML.getUserInput(`f1040sc-${uid}-26`, "");
-		inputs["27a"]		= HTML.getUserInput(`f1040sc-${uid}-27a`, "");
-		inputs["27b"]		= HTML.getUserInput(`f1040sc-${uid}-27b`, "");
-		inputs["28"]		= HTML.getUserInput(`f1040sc-${uid}-28`, "");
-		inputs["29"]		= HTML.getUserInput(`f1040sc-${uid}-29`, "");
-		inputs["30"]		= HTML.getUserInput(`f1040sc-${uid}-30`, "");
-		inputs["31"]		= HTML.getUserInput(`f1040sc-${uid}-31`, "");
-
-		return inputs;
-	}
-
-	static saveUserInput(uid) {
-		//
-		// Read the fields of the form from the web, but do not alter the information, for
-		// example by changing "" to 0 or removing commas.
-		//
-		if (!uid) {
-			throw new Error("F1040SC.getUserInput: UID is undefined.");
-		}
-
-		const element = document.getElementById(`f1040sc-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`F1040SC.getUserInput: Element not found: f1040sc-${uid}-container`);
-		}
-
-		let inputs = {};
-
-		inputs["01"]		= HTML.getElementValue(`f1040sc-${uid}-01`);
-		inputs["02"]		= HTML.getElementValue(`f1040sc-${uid}-02`);
-		inputs["03"]		= HTML.getElementValue(`f1040sc-${uid}-03`);
-		inputs["04"]		= HTML.getElementValue(`f1040sc-${uid}-04`);
-		inputs["05"]		= HTML.getElementValue(`f1040sc-${uid}-05`);
-		inputs["06"]		= HTML.getElementValue(`f1040sc-${uid}-06`);
-		inputs["07"]		= HTML.getElementValue(`f1040sc-${uid}-07`);
-		inputs["08"]		= HTML.getElementValue(`f1040sc-${uid}-08`);
-		inputs["09"]		= HTML.getElementValue(`f1040sc-${uid}-09`);
-		inputs["10"]		= HTML.getElementValue(`f1040sc-${uid}-10`);
-		inputs["11"]		= HTML.getElementValue(`f1040sc-${uid}-11`);
-		inputs["12"]		= HTML.getElementValue(`f1040sc-${uid}-12`);
-		inputs["13"]		= HTML.getElementValue(`f1040sc-${uid}-13`);
-		inputs["14"]		= HTML.getElementValue(`f1040sc-${uid}-14`);
-		inputs["15"]		= HTML.getElementValue(`f1040sc-${uid}-15`);
-		inputs["16a"]		= HTML.getElementValue(`f1040sc-${uid}-16a`);
-		inputs["16b"]		= HTML.getElementValue(`f1040sc-${uid}-16b`);
-		inputs["17"]		= HTML.getElementValue(`f1040sc-${uid}-17`);
-		inputs["18"]		= HTML.getElementValue(`f1040sc-${uid}-18`);
-		inputs["19"]		= HTML.getElementValue(`f1040sc-${uid}-19`);
-		inputs["20a"]		= HTML.getElementValue(`f1040sc-${uid}-20a`);
-		inputs["20b"]		= HTML.getElementValue(`f1040sc-${uid}-20b`);
-		inputs["21"]		= HTML.getElementValue(`f1040sc-${uid}-21`);
-		inputs["22"]		= HTML.getElementValue(`f1040sc-${uid}-22`);
-		inputs["23"]		= HTML.getElementValue(`f1040sc-${uid}-23`);
-		inputs["24a"]		= HTML.getElementValue(`f1040sc-${uid}-24a`);
-		inputs["24b"]		= HTML.getElementValue(`f1040sc-${uid}-24b`);
-		inputs["25"]		= HTML.getElementValue(`f1040sc-${uid}-25`);
-		inputs["26"]		= HTML.getElementValue(`f1040sc-${uid}-26`);
-		inputs["27a"]		= HTML.getElementValue(`f1040sc-${uid}-27a`);
-		inputs["27b"]		= HTML.getElementValue(`f1040sc-${uid}-27b`);
-		inputs["28"]		= HTML.getElementValue(`f1040sc-${uid}-28`);
-		inputs["29"]		= HTML.getElementValue(`f1040sc-${uid}-29`);
-		inputs["30"]		= HTML.getElementValue(`f1040sc-${uid}-30`);
-		inputs["31"]		= HTML.getElementValue(`f1040sc-${uid}-31`);
+	
+		inputs["01"]		= HTML.getUserInput(`f1040sc-${uid}-01`);
+		inputs["02"]		= HTML.getUserInput(`f1040sc-${uid}-02`);
+		inputs["03"]		= HTML.getUserInput(`f1040sc-${uid}-03`);
+		inputs["04"]		= HTML.getUserInput(`f1040sc-${uid}-04`);
+		inputs["05"]		= HTML.getUserInput(`f1040sc-${uid}-05`);
+		inputs["06"]		= HTML.getUserInput(`f1040sc-${uid}-06`);
+		inputs["07"]		= HTML.getUserInput(`f1040sc-${uid}-07`);
+		inputs["08"]		= HTML.getUserInput(`f1040sc-${uid}-08`);
+		inputs["09"]		= HTML.getUserInput(`f1040sc-${uid}-09`);
+		inputs["10"]		= HTML.getUserInput(`f1040sc-${uid}-10`);
+		inputs["11"]		= HTML.getUserInput(`f1040sc-${uid}-11`);
+		inputs["12"]		= HTML.getUserInput(`f1040sc-${uid}-12`);
+		inputs["13"]		= HTML.getUserInput(`f1040sc-${uid}-13`);
+		inputs["14"]		= HTML.getUserInput(`f1040sc-${uid}-14`);
+		inputs["15"]		= HTML.getUserInput(`f1040sc-${uid}-15`);
+		inputs["16a"]		= HTML.getUserInput(`f1040sc-${uid}-16a`);
+		inputs["16b"]		= HTML.getUserInput(`f1040sc-${uid}-16b`);
+		inputs["17"]		= HTML.getUserInput(`f1040sc-${uid}-17`);
+		inputs["18"]		= HTML.getUserInput(`f1040sc-${uid}-18`);
+		inputs["19"]		= HTML.getUserInput(`f1040sc-${uid}-19`);
+		inputs["20a"]		= HTML.getUserInput(`f1040sc-${uid}-20a`);
+		inputs["20b"]		= HTML.getUserInput(`f1040sc-${uid}-20b`);
+		inputs["21"]		= HTML.getUserInput(`f1040sc-${uid}-21`);
+		inputs["22"]		= HTML.getUserInput(`f1040sc-${uid}-22`);
+		inputs["23"]		= HTML.getUserInput(`f1040sc-${uid}-23`);
+		inputs["24a"]		= HTML.getUserInput(`f1040sc-${uid}-24a`);
+		inputs["24b"]		= HTML.getUserInput(`f1040sc-${uid}-24b`);
+		inputs["25"]		= HTML.getUserInput(`f1040sc-${uid}-25`);
+		inputs["26"]		= HTML.getUserInput(`f1040sc-${uid}-26`);
+		inputs["27a"]		= HTML.getUserInput(`f1040sc-${uid}-27a`);
+		inputs["27b"]		= HTML.getUserInput(`f1040sc-${uid}-27b`);
+		inputs["28"]		= HTML.getUserInput(`f1040sc-${uid}-28`);
+		inputs["29"]		= HTML.getUserInput(`f1040sc-${uid}-29`);
+		inputs["30"]		= HTML.getUserInput(`f1040sc-${uid}-30`);
+		inputs["31"]		= HTML.getUserInput(`f1040sc-${uid}-31`);
 
 		return inputs;
 	}
