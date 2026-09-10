@@ -2,16 +2,16 @@
 import { Debug }	from "../Classes/Debug.js";
 import { Num }		from "../Classes/Num.js";
 
-export class HTML {
-	static closeDetails(element_id) {
+const HTML = {
+	closeDetails(element_id) {
 		const element = document.getElementById(element_id);
 		if (element) {
 			element.open = false;
 			// Another option: element.removeAttribute('open');
 		}
-	}
+	},
 
-	static closeAllDetails() {
+	closeAllDetails() {
 		const elements = document.querySelectorAll("details");
 		for (const element of elements) {
 			if (element) {
@@ -19,48 +19,46 @@ export class HTML {
 				// Another option: element.removeAttribute('open');
 			}
 		}
-	}
+	},
 
-	static openDetails(element_id) {
+	openDetails(element_id) {
 		const element = document.getElementById(element_id);
 		if (element) {
 			element.open = true;
 		}
-	}
+	},
 	//-----  Show/hide element  ---------------------------------
-	static showElement(element_id) {
+	showElement(element_id) {
 		const element = document.getElementById(element_id);
-		if(!Debug.verify(element, "showElement: Element not found: " + element_id)) return;
+		if (!Debug.verify(element, "showElement: Element not found: " + element_id)) return;
 
 		element.classList.remove('hidden');
-	}
-	
-	static hideElement(element_id) {
+	},
+
+	hideElement(element_id) {
 		const element = document.getElementById(element_id);
 		if (!Debug.verify(element, "hideElement: Element not found: " + element_id)) return;
 
 		element.classList.add('hidden');
-	}
+	},
 
 	//---- Change background/foreground color  ----------------------------------
-	static changeBackgroundColor(element_id, color) {
+	changeBackgroundColor(element_id, color) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element,
-			"changeBackgroundColor: Element not found: " + element_id)) return;
+		if (!Debug.verify(element, "changeBackgroundColor: Element not found: " + element_id)) return;
 
 		element.style.background = color;
-	}
+	},
 
-	static changeTextColor(element_id, color) {
+	changeTextColor(element_id, color) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element,
-			"changeTextColor: Element not found: " + element_id)) return;
+		if (!Debug.verify(element, "changeTextColor: Element not found: " + element_id)) return;
 
 		element.style.color = color;
-	}
+	},
 
 	//-----  Get/put user input/output---------------------------------
-	static getUserInput(element_id, default_value = 0) {
+	getUserInput(element_id, default_value = 0) {
 		let value = HTML.getElementValue(element_id);
 		if (typeof value === "boolean") {
 			return value;
@@ -78,25 +76,24 @@ export class HTML {
 
 		// Process dollar sign, commas, and mathmatical expressions.
 		return Num.toInteger(value);
-	}
+	},
 
-	static putUserOutput(element_id, value, type = "number") {
+	static putUserOutput(element_id, value, type = "") {
 		if (type === "dollars") {
 			// Add commas and prepend with dollar sign.
 			HTML.putElementValue(element_id,
-				"$" + Num.format(value===undefined ? 0 : value));
+				"$" + Num.format(typeof value === "number" ? value : 0));
 
-		} else if (type === "number") {
+		} else if (typeof value === "number") {
 			// Add commas.
-			HTML.putElementValue(element_id,
-				Num.format(value===undefined ? 0 : value));
+			HTML.putElementValue(element_id, Num.format(value));
 
 		} else {	// tpye === "text"
 			// Put the value as is.
 			HTML.putElementValue(element_id,
 				value===undefined ? "" : value);
 		}
-	}
+	},
 
 	//-----  Get/put element value  ---------------------------------
 	//
@@ -109,10 +106,10 @@ export class HTML {
 	// it returns the content as it is displayed. If the elemenet is hidden, it won"t
 	// return the content.
 	//
-	static getElementValue(element_id) {
+	getElementValue(element_id) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element,
-			"getElementValue: Element not found: " + element_id)) return;
+		if (!Debug.verify(element, 
+				"getElementValue: Element not found: " + element_id)) return;
 
 		if (element.type === "checkbox" || element.type === "radio") {
 			return element.checked;
@@ -131,12 +128,11 @@ export class HTML {
 
 		// Get other elements (div, span, p).
 		return element.textContent;
-	}
+	},
 
-	static putElementValue(element_id, value) {
+	putElementValue(element_id, value) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element,
-			"putElementValue: Element not found: " + element_id)) return;
+		if (!Debug.verify(element, "putElementValue: Element not found: " + element_id)) return;
 
 		if (String(element.placeholder) === String(value)) {
 			value = "";
@@ -164,30 +160,37 @@ export class HTML {
 		// Restore other elements (e.g., div, span, p).
 		element.textContent = value;
 		return;
-	}
+	},
 
-//-----  Get/Put the Summary line in a <details> container.  -------------------------------
-	static findSummary(details_id) {
-		document.querySelector(`#{details_id} summary`);
-	}
+	//-----  Get/Put the Summary line in a <details> container.  -------------------------------
+	findSummary(details_id) {
+		if (!details_id) {
+			return null;
+		}
+		return document.querySelector(`#${details_id} summary`);
+	},
 
-	static getSummary(details_id) {
-		return document.querySelector(`#{details_id} summary`).textContent;
-	}
+	getSummary(details_id) {
+		const summary = HTML.findSummary(details_id);
+		return summary ? summary.textContent : "";
+	},
 
-	static putSummary(details_id, value) {
-		document.querySelector(`#{details_id} summary`).textContent = value;
-	}
+	putSummary(details_id, value) {
+		const summary = HTML.findSummary(details_id);
+		if (summary) {
+			summary.textContent = value ?? "";
+		}
+	},
 
-//-----  Miscellaneous utility functions  ---------------------------------
-	static addListener(element_id, event, handler) {
+	//-----  Miscellaneous utility functions  ---------------------------------
+	addListener(element_id, event, handler) {
 		const element = document.getElementById(element_id);
 		if (!Debug.verify(element, "addListener: Element not found: " + element_id)) return;
-		
-		element.addEventListener(event, handler);
-	}
 
-	static getCSSGlobalVariable(variableName) {
+		element.addEventListener(event, handler);
+	},
+
+	getCSSGlobalVariable(variableName) {
 		//
 		// if you define a global variable in CSS, for example:
 		//		:root {
@@ -199,13 +202,61 @@ export class HTML {
 		//
 
 		// Read the CSS variable from the root (or from a specific element)
-		const rootStyles	= getComputedStyle(document.documentElement);
-		const value			= rootStyles.getPropertyValue(variableName).trim();
+		const rootStyles = getComputedStyle(document.documentElement);
+		const value = rootStyles.getPropertyValue(variableName).trim();
 
 		return value;
-	}
+	},
 
-	static remove(element_id) {
-		document.getElementById(element_id).remove();
+	remove(element_id) {
+		const element = document.getElementById(element_id);
+		if (element) {
+			element.remove();
+		}
 	}
+};
+
+const {
+	closeDetails,
+	closeAllDetails,
+	openDetails,
+	showElement,
+	hideElement,
+	changeBackgroundColor,
+	changeTextColor,
+	getUserInput,
+	putUserOutput,
+	getElementValue,
+	putElementValue,
+	findSummary,
+	getSummary,
+	putSummary,
+	addListener,
+	getCSSGlobalVariable,
+	remove
+} = HTML;
+
+export {
+	HTML,
+	closeDetails,
+	closeAllDetails,
+	openDetails,
+	showElement,
+	hideElement,
+	changeBackgroundColor,
+	changeTextColor,
+	getUserInput,
+	putUserOutput,
+	getElementValue,
+	putElementValue,
+	findSummary,
+	getSummary,
+	putSummary,
+	addListener,
+	getCSSGlobalVariable,
+	remove
+};
+
+if (typeof window !== "undefined") {
+	window.HTML ??= HTML;
 }

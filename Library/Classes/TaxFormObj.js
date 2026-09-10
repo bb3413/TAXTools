@@ -75,12 +75,12 @@ function get1099RValue(lineno, ira) {
 	return sum;
 }
 
-export class TaxFormObj {
-	static reset() {
-		instances		= {};
-	}
+const TaxFormObj = {
+	reset() {
+		instances = {};
+	},
 
-	static createForm(formname) {
+	createForm(formname) {
 		const form_class = Classes.getClass(formname);
 
 		if (form_class) {
@@ -90,19 +90,19 @@ export class TaxFormObj {
 		}
 
 		return undefined;
-	}
+	},
 
-	static earnedIncome() {
-		return TaxFormObj.getValue( "F1040",   "01z") +		// Wages
-				TaxFormObj.getValue("F1040S1", "03" ) +		// Business income
-				TaxFormObj.getValue("F1040S1", "06" ) +		// Farm income
-				TaxFormObj.getValue("F1040S1", "08r") +		// Scholarship
-				TaxFormObj.getValue("F1040S1", "08t") +		// Pension
-				TaxFormObj.getValue("F1040S1", "08u") -		// Wages while incarcerated
-				TaxFormObj.getValue("F1040S1", "015");		// Deductible part of SE tax
-	}
+	earnedIncome() {
+		return TaxFormObj.getValue("F1040", "01z") +
+			TaxFormObj.getValue("F1040S1", "03") +
+			TaxFormObj.getValue("F1040S1", "06") +
+			TaxFormObj.getValue("F1040S1", "08r") +
+			TaxFormObj.getValue("F1040S1", "08t") +
+			TaxFormObj.getValue("F1040S1", "08u") -
+			TaxFormObj.getValue("F1040S1", "015");
+	},
 
-	static formsInPrintOrder() {
+	formsInPrintOrder() {
 		let forms = [];
 
 		for (let formname of print_order) {
@@ -113,16 +113,16 @@ export class TaxFormObj {
 		}
 
 		return forms;
-	}
+	},
 
-	static getAllForms(formname = "") {
+	getAllForms(formname = "") {
 		// Get all the form objects that have been created, or all the forms of a
 		// particular type.
-		let all_forms	= [];
-		let formnames	= [];
+		let all_forms = [];
+		let formnames = [];
 
 		if (formname) {
-			formnames = [ formname ];
+			formnames = [formname];
 		} else {
 			formnames = Object.keys(instances);
 		}
@@ -136,9 +136,9 @@ export class TaxFormObj {
 			}
 		}
 		return all_forms;
-	}
+	},
 
-	static getForm(formname) {
+	getForm(formname) {
 		//
 		// Get an instance of a form. If it has not been created, undefined will be returned.
 		//
@@ -154,21 +154,21 @@ export class TaxFormObj {
 		}
 
 		return instance;
-	}
+	},
 
-	static getOrCreateForm(formname) {
+	getOrCreateForm(formname) {
 		return TaxFormObj.getForm(formname) || TaxFormObj.createForm(formname);
-	}
+	},
 
-	static getPensionValue(lineno) {
+	getPensionValue(lineno) {
 		return get1099RValue(lineno, false);
-	}
-	
-	static getIRAValue(lineno) {
-		return get1099RValue(lineno, true);
-	}
+	},
 
-	static getTextValue(formname, ...lineno) {
+	getIRAValue(lineno) {
+		return get1099RValue(lineno, true);
+	},
+
+	getTextValue(formname, ...lineno) {
 		// This method will get a text value from a tax form. If the form does not exist,
 		// it will try to create it. If it has not been calculated, it will be calculated.
 		// If the form has not been implemented, "" will be returned. If there is more than
@@ -201,9 +201,9 @@ export class TaxFormObj {
 		}
 		Debug.exit(`TaxFormObj.getTextValue(${str})`);
 		return str;
-	}
+	},
 
-	static getValue(formname, ...lineno) {
+	getValue(formname, ...lineno) {
 		// This method will get a value from a tax form. If the form does not exist, it wlll
 		// try to create it. If it has not been calculated, it will be calculated. If the
 		// form has not been implemented, zero will be returned. If there is more than one
@@ -232,29 +232,62 @@ export class TaxFormObj {
 		}
 		Debug.exit(`TaxFormObj.getValue(${sum})`);
 		return isNaN(sum) ? 0 : sum;
-	}
+	},
 
-	static reset() {
-		instances = {};
-	}
-
-	static toConsole() {
-		let form_list = getAllFotms();
+	toConsole() {
+		const form_list = TaxFormObj.getAllForms();
 		for (const form of form_list) {
 			form.toConsole();
 		}
-	}
+	},
 
-	static unearnedIncome() {
+	unearnedIncome() {
 		return Math.max(0,
-				TaxFormObj.getValue("F1040",   "09" ) +		// Total income
-				TaxFormObj.getValue("F1040S1", "24j") -		// Housing deduction
-				TaxFormObj.getValue("F1040",   "01z") -		// Wages
-				TaxFormObj.getValue("F1040S1", "03" ) -		// Business income
-				TaxFormObj.getValue("F1040S1", "06" ) -		// Farm income
-				TaxFormObj.getValue("F1040S1", "08a") -		// Net operating loss
-				TaxFormObj.getValue("F1040S1", "08d") -		// Foreign income exclusion
-				TaxFormObj.getValue("F1040S1", "08u") -		// Wages while incarcerated
-				TaxFormObj.getValue("F1040S1", "18" ) );	// Penalty on early withdrawal
+			TaxFormObj.getValue("F1040", "09") +
+			TaxFormObj.getValue("F1040S1", "24j") -
+			TaxFormObj.getValue("F1040", "01z") -
+			TaxFormObj.getValue("F1040S1", "03") -
+			TaxFormObj.getValue("F1040S1", "06") -
+			TaxFormObj.getValue("F1040S1", "08a") -
+			TaxFormObj.getValue("F1040S1", "08d") -
+			TaxFormObj.getValue("F1040S1", "08u") -
+			TaxFormObj.getValue("F1040S1", "18"));
 	}
+};
+
+const {
+	reset,
+	createForm,
+	earnedIncome,
+	formsInPrintOrder,
+	getAllForms,
+	getForm,
+	getOrCreateForm,
+	getPensionValue,
+	getIRAValue,
+	getTextValue,
+	getValue,
+	toConsole,
+	unearnedIncome
+} = TaxFormObj;
+
+export {
+	TaxFormObj,
+	reset,
+	createForm,
+	earnedIncome,
+	formsInPrintOrder,
+	getAllForms,
+	getForm,
+	getOrCreateForm,
+	getPensionValue,
+	getIRAValue,
+	getTextValue,
+	getValue,
+	toConsole,
+	unearnedIncome
+};
+
+if (typeof window !== "undefined") {
+	window.TaxFormObj ??= TaxFormObj;
 }

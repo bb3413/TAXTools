@@ -1,9 +1,8 @@
 
-export class File {
-	static async saveToFile(data, filename, json = true) {
+async function saveToFile(data, filename, json = true) {
 		// This function will convert the data to a JSON string (if json is true) and
 		// save it to the file in the user's Download folder.
-		
+
 		// NOTE: This method is declared asynchronous, but the caller only needs to wait for
 		// it to return if they are saving several files in a loop. Browsers limit concurrent
 		// automated downloads for security reasons. To avoid being throttled, this method is
@@ -14,12 +13,12 @@ export class File {
 		// The URL is a tempory URL pointing to the blob. Create an anchor HTML element that
 		// reference the URL. Add the anchor to the HTML document. Fake a click on the
 		// anchor, which will start the download, then remove the anchor and URL.
-		const dataString	= json ? JSON.stringify(data, null, 2) : data;
-		const blob			= new Blob([dataString], {type: "text/plain"});
-		const url			= URL.createObjectURL(blob);
-		const a				= document.createElement("a");
-		a.href				= url;
-		a.download			= filename;
+		const dataString = json ? JSON.stringify(data, null, 2) : data;
+		const blob = new Blob([dataString], { type: "text/plain" });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = filename;
 
 		document.body.appendChild(a);
 		a.click();
@@ -34,7 +33,7 @@ export class File {
 		return new Promise((resolve) => setTimeout(resolve, 300));
 	}
 
-	static restoreFromFile(filename, restoreDataHandler) {
+function restoreFromFile(filename, restoreDataHandler) {
 		// This function will read the file. When the data becomes available, it will be
 		// parsed so it is in its original format, then the restore data handler function
 		// will be called with the data to restore the data to its original location.
@@ -42,7 +41,7 @@ export class File {
 		const reader = new FileReader();
 
 		// Define a handler to process the file once it is read.
-		reader.onload = function(event) {
+		reader.onload = function (event) {
 			// Reading the file is asynchronous. When this event fires, the data is ready.
 			try {
 				// The file content is stored in e.target.result as a string.
@@ -51,15 +50,20 @@ export class File {
 				return;
 			} catch (error) {
 				throw new Error("Error parsing file.");
-				console.error(error);
 			}
-		}
+		};
 
 		// Define a handler in case the file cannot be read.
-		reader.onerror = function() {
+		reader.onerror = function () {
 			throw new Error("Error reading file.");
-		}
+		};
 		// Start reading the file.
 		reader.readAsText(filename);
-	}
+}
+
+export const File = { saveToFile, restoreFromFile };
+export { saveToFile, restoreFromFile };
+
+if (typeof window !== "undefined") {
+	window.File ??= File;
 }

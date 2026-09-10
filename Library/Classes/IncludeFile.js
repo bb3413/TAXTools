@@ -18,7 +18,7 @@
 //
 
 async function loadIncludes(container = document, depth = 0) {
-	const MAX_DEPTH = 5;	// Prevent accidental recursion
+	const MAX_DEPTH = 5; // Prevent accidental recursion
 	if (depth > MAX_DEPTH) {
 		console.error("Recursive include limit reached. Check for circular references.");
 		return;
@@ -35,7 +35,7 @@ async function loadIncludes(container = document, depth = 0) {
 
 			// Insert the included file content into the element.
 			el.innerHTML = file_content;
-			el.removeAttribute("include-file");	// Not really necessary
+			el.removeAttribute("include-file"); // Not really necessary
 
 			// Manually execute any script elements found in the included file.
 			// This is necessary if there are script elements in the included file.
@@ -93,6 +93,10 @@ async function loadIncludes(container = document, depth = 0) {
 	}
 }
 
+const IncludeFile = {
+	loadIncludes
+};
+
 // The following statement does not work because it will invoke loadIncludes() as the
 // event handler, which, in turn, causes it to receive an event object as its first
 // parameter.
@@ -102,6 +106,9 @@ async function loadIncludes(container = document, depth = 0) {
 // Instead, this statement passes an anonymous function as the event handler, which,
 // in turn, calls loadIncludes() without a parameter so loadIncludes() will use its
 // default parameter values.
-window.onload = () => loadIncludes();
+if (typeof window !== "undefined") {
+	window.onload = () => loadIncludes();
+	window.IncludeFile ??= IncludeFile;
+}
 
-export { loadIncludes };
+export { IncludeFile, loadIncludes };

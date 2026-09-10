@@ -95,6 +95,9 @@ export class TaxTableTmpl {
 
 	getSalesTaxDeduction(income, family_size) {
 		family_size = Num.limit(family_size, 1, 6);
+		if (!Number.isFinite(income)) {
+			return 0;
+		}
 
 		let deduction	= 0;
 		let col			= family_size + 1;

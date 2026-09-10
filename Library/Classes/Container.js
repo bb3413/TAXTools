@@ -27,6 +27,10 @@ export class Container {
 	}
 
 	addEntry(html_id, html) {
+		if (!html_id || !html) {
+			throw new TypeError("Container.addEntry(): Missing parameter.");
+		}
+
 		let where_id	= this.container_id;	// ID of block to inset after.
 		let where		= "beforeend";	// beforebegin, afterbegin, beforeend, afterend
 
@@ -52,7 +56,11 @@ export class Container {
 
 		// Insert the HTML in the web page.
 		const element = document.getElementById(where_id);
-		element.insertAdjacentHTML(where, html);
+		if (!element) {
+			throw new TypeError("Container.addEntry(): Logic error.");
+		} else {
+			element.insertAdjacentHTML(where, html);
+		}
 	}
 
 	getEntries() {
@@ -92,8 +100,13 @@ export class Container {
 
 	static parseElementID(element_id) {
 		// Returns:  [ name, uid ]
+		if (!element_id || typeof element_id !== "string") {
+			throw new TypeError("Container.parseElementID(): Logic error.");
+		}
 		const parts = element_id.split("-");
-		return [ parts[0], parts[1].replace(/-/g, "") ];
+		const name = parts[0] || "";
+		const uid = parts.length > 1 ? parts.slice(1).join("").replace(/-/g, "") : "";
+		return [ name, uid ];
 	}
 
 	static reset() {

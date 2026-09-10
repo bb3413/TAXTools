@@ -101,7 +101,9 @@ function mapInputValues(inputs) {
 	const f1040		= TaxFormObj.createForm("F1040");
 	const salestax	= TaxFormObj.createForm("SalesTax");
 
+	salestax.family_size			= inputs.family_size;
 	salestax.lines["07"].user_value	= inputs.extra_sales_tax;
+
 	f1040.lines["01z"].user_value	= inputs.wages;
 	f1040.lines["02a"].user_value	= inputs.tax_exempt_interest;
 	f1040.lines["02b"].user_value	= inputs.taxable_interest;

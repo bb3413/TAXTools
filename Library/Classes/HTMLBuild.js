@@ -77,9 +77,12 @@ export class HTMLBuild {
 		const start	= `<div id=${this.id}>\n`;
 		const stop	= "</div>\n";
 		const where	= "afterend";		// beforebegin, afterbegin, beforeend, afterend
-		const whole_doc = start + this.htmldoc.join("\n"); + stop;
+		const whole_doc = start + this.htmldoc.join("\n") + stop;
 
 		const element = document.getElementById(element_id);
+		if (!element) {
+			throw new Error(`HTMLBuild.putAfter(): Cannot find element(${element_id}).`);
+		}
 		element.insertAdjacentHTML(where, whole_doc);
 		this.added = true;
 	}

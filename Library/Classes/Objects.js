@@ -1,8 +1,11 @@
 
-export class Objects {
-	static isUsed(obj) {
+function isUsed(obj) {
+		if (!obj || typeof obj !== "object") {
+			return false;
+		}
+
 		for (const value of Object.values(obj)) {
-			if (value) {
+			if (value !== null && value !== undefined && value !== "") {
 				return true;
 			}
 		}
@@ -10,15 +13,25 @@ export class Objects {
 		return false;
 	}
 
-	static removeUnused(obj) {
-		let newobj = {}
+function removeUnused(obj) {
+		if (!obj || typeof obj !== "object") {
+			return {};
+		}
 
+		const newobj = {};
 		for (const key of Object.keys(obj)) {
-			if (obj[key]) {
-				newobj[key] = obj[key];
+			const value = obj[key];
+			if (value !== null && value !== undefined && value !== "") {
+				newobj[key] = value;
 			}
 		}
 
 		return newobj;
-	}
+}
+
+export const Objects = { isUsed, removeUnused };
+export { isUsed, removeUnused };
+
+if (typeof window !== "undefined") {
+	window.Objects ??= Objects;
 }

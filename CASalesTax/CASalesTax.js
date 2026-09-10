@@ -10,7 +10,7 @@ async function buttonHandler(event) {
 		const city		= document.getElementById("City").value;
 		const zip		= document.getElementById("ZipCode").value;
 
-		HTML.putUserOutput("SalesTaxRate", "");
+		HTML.putElementValue("SalesTaxRate", "");
 		if (!address || !city || !zip) {
 			// Alert.slowAlert("Street address, city, and zip code must all be provided.");
 			throw new Error("Street address, city, and zip code must all be provided.");

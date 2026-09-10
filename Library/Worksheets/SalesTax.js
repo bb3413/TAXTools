@@ -16,6 +16,10 @@ export class SalesTax extends TaxForm {
 		Debug.enter("SalesTax.Constructor()");
 		super(formname);
 
+		// This field can be used to enter information that does not come from another
+		// tax form.
+		this.family_size	= 0;
+
 		this.lines["01"]	= new Line("Sales Tax from Table");
 		this.lines["02"]	= new Line("Not used in California");
 		this.lines["03"]	= new Line("Local Sales Tax");
@@ -38,8 +42,12 @@ export class SalesTax extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		const family_size = Num.limit(tp.familySize(), 1, 6);
-		
+		let family_size = this.family_size;
+		if (family_size == 0) {
+			family_size = tp.familySize();
+		}
+		family_size = Num.limit(family_size, 1, 6);
+
 		const spendable_income =
 			TaxFormObj.getValue("F1040",	"01z") +	// wages
 			TaxFormObj.getValue("F1040",	"02a") +	// tax exempt interest

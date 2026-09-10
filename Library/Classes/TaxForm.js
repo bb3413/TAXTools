@@ -17,8 +17,10 @@ export class TaxForm {
 	add(...index_list) {
 		let sum = 0;
 
-		for (let index of index_list) {
-			sum += this.lines[index].value
+		for (const index of index_list) {
+			if (this.lines[index] !== undefined) {
+				sum += this.lines[index].value;
+			}
 		}
 
 		return sum;
@@ -32,7 +34,7 @@ export class TaxForm {
 
 	isUsed() {
 		for (const lineno of Object.keys(this.lines)) {
-			if (this.line(lineno)) {
+			if (this.lines[lineno] !== undefined && this.lines[lineno].value !== undefined) {
 				return true;
 			}
 		}
@@ -40,27 +42,32 @@ export class TaxForm {
 	}
 
 	line(lineno) {
-		return this.lines[lineno].value;
+		const line = this.lines[lineno];
+		return line ? line.value : 0;
 	}
 
 	min(...index_list) {
-		let values = [];
+		const values = [];
 
-		for (let index of index_list) {
-			values.push(this.lines[index].value);
+		for (const index of index_list) {
+			if (this.lines[index] !== undefined) {
+				values.push(this.lines[index].value);
+			}
 		}
 
-		return Math.min(...values);
+		return values.length ? Math.min(...values) : 0;
 	}
 
 	max(...index_list) {
-		let values = [];
+		const values = [];
 
-		for (let index of index_list) {
-			values.push(this.lines[index].value);
+		for (const index of index_list) {
+			if (this.lines[index] !== undefined) {
+				values.push(this.lines[index].value);
+			}
 		}
 
-		return Math.max(...values);
+		return values.length ? Math.max(...values) : 0;
 	}
 
 	putInformation(uid) {
@@ -79,11 +86,14 @@ export class TaxForm {
 	}
 
 	round(index) {
+		if (this.lines[index] === undefined) {
+			return 0;
+		}
 		return Math.round(this.lines[index].value);
 	}
 
 	subtract(lineno1, lineno2) {
-		return this.lines[lineno1].value - this.lines[lineno2].value;
+		return this.line(lineno1) - this.line(lineno2);
 	}
 
 	toConsole() {
@@ -132,8 +142,8 @@ export class TaxForm {
 
 		const linenos = Object.keys(this.lines).sort();
 		for (const lineno of linenos) {
-			let line = this.lines[lineno];
-			if (line.value || Debug.verbose()) {	// Skip empty lines.
+			const line = this.lines[lineno];
+			if (line && (line.value !== 0 || Debug.verbose())) {	// Skip empty lines.
 				let s = `	line[${lineno}]`;
 				s = s.padEnd(18, " ") + line.label;
 				s = s.padEnd(65, " ") + line.value;

@@ -222,7 +222,7 @@ export class Taxpayer {
 	//
 	familySize() {
 		let size = 1;	// Taxpayer
-		if (this.fileing_status === "MFJ") {
+		if (this.filing_status === "MFJ") {
 			size++;		// Spouse
 		}
 
@@ -250,7 +250,7 @@ export class Taxpayer {
 		if (this.city) {
 			const state = this.state ? this.state : "CA";
 			HTML.putUserOutput("f1040-1-city-state-zip",
-				`${this.city}, state ${this.zip_code}`, "text");
+				`${this.city}, ${state} ${this.zip_code}`.trim(), "text");
 		} else {
 			HTML.putUserOutput("f1040-1-city-state-zip","", "text");
 		}

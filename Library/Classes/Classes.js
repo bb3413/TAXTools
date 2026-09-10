@@ -29,7 +29,7 @@ import { F1099K }		from "../TaxForms/F1099K.js";
 //import { F1099LTC }	from "../TaxForms/F1099LTC.js";
 import { F1099MISC }	from "../TaxForms/F1099MISC.js";
 import { F1099NEC }		from "../TaxForms/F1099NEC.js";
-import { F1099OID }	from "../TaxForms/F1099OID.js";
+import { F1099OID }		from "../TaxForms/F1099OID.js";
 import { F1099R }		from "../TaxForms/F1099R.js";
 import { F1099S }		from "../TaxForms/F1099S.js";
 //import { F1120S }		from "../TaxForms/F1120S.js";
@@ -117,33 +117,35 @@ const class_map = {
 
 	// California Worksheets
 	"CA_HiIncDeductions":	[ CA_HiIncDeductions,	false,	true,	true,	true	],
-	"CA_HiIncExemptions":	[ CA_HiIncDeductions,	false,	true,	true,	true	],
+	"CA_HiIncExemptions":	[ CA_HiIncExemptions,	false,	true,	true,	true	],
 };
 
-export class Classes {
-	
-	static createForm(classname, uid = 1) {
+const Classes = {
+	createForm(classname, uid = 1) {
+		if (!classname || typeof classname !== "string") {
+			throw new TypeError("classname must be a non-empty string.");
+		}
 		// This method allows you to call the static method createForm() by classname.
 		switch (classname) {
-			case "F1040SC":		return F1040SC.createForm(uid);
-			case "F1099C":		return F1099C.createForm(uid);
-			case "F1099DIV":	return F1099DIV.createForm(uid);
-			case "F1099G":		return F1099G.createForm(uid);
-			case "F1099INT":	return F1099INT.createForm(uid);
-			case "F1099K":		return F1099K.createForm(uid);
-			case "F1099MISC":	return F1099MISC.createForm(uid);
-			case "F1099NEC":	return F1099NEC.createForm(uid);
-			case "F1099OID":	return F1099OID.createForm(uid);
-			case "F1099R":		return F1099R.createForm(uid);
-			case "F1099S":		return F1099S.createForm(uid);
-			case "SSA1099":		return SSA1099.createForm(uid);
-			case "W2":			return W2.createForm(uid);
+			case "F1040SC": return F1040SC.createForm(uid);
+			case "F1099C": return F1099C.createForm(uid);
+			case "F1099DIV": return F1099DIV.createForm(uid);
+			case "F1099G": return F1099G.createForm(uid);
+			case "F1099INT": return F1099INT.createForm(uid);
+			case "F1099K": return F1099K.createForm(uid);
+			case "F1099MISC": return F1099MISC.createForm(uid);
+			case "F1099NEC": return F1099NEC.createForm(uid);
+			case "F1099OID": return F1099OID.createForm(uid);
+			case "F1099R": return F1099R.createForm(uid);
+			case "F1099S": return F1099S.createForm(uid);
+			case "SSA1099": return SSA1099.createForm(uid);
+			case "W2": return W2.createForm(uid);
 			default:
 				throw new Error(`Classes.createForm(): unplemented form: ${classname}`);
 		}
-	}
+	},
 
-	static createOnDemand(formname) {
+	createOnDemand(formname) {
 		// When getValue() or getTextValue() is called, the default is to return 0 or "" if
 		// the form has not been created. However, some forms get input from other forms and
 		// need to be created and calculated before the value is returned. This array lists
@@ -153,103 +155,148 @@ export class Classes {
 		} else {
 			return false;
 		}
-	}
+	},
 
-	static getClass(classname) {
+	getClass(classname) {
 		if (class_map[classname]) {
 			return class_map[classname][CLASS_NAME];
 		} else {
 			return undefined;
 		}
-	}
+	},
 
-	static getInputHTML(classname, uid = 1) {
+	getInputHTML(classname, uid = 1) {
+		if (!classname || typeof classname !== "string") {
+			throw new TypeError("classname must be a non-empty string.");
+		}
 		// This method allows you to call the static method getInputHTML() by classname.
 		switch (classname) {
-			case "F1040SC":		return F1040SC.getInputHTML(uid);
-			case "F1099C":		return F1099C.getInputHTML(uid);
-			case "F1099DIV":	return F1099DIV.getInputHTML(uid);
-			case "F1099G":		return F1099G.getInputHTML(uid);
-			case "F1099INT":	return F1099INT.getInputHTML(uid);
-			case "F1099K":		return F1099K.getInputHTML(uid);
-			case "F1099MISC":	return F1099MISC.getInputHTML(uid);
-			case "F1099NEC":	return F1099NEC.getInputHTML(uid);
-			case "F1099OID":	return F1099OID.getInputHTML(uid);
-			case "F1099R":		return F1099R.getInputHTML(uid);
-			case "F1099S":		return F1099S.getInputHTML(uid);
-			case "SSA1099":		return SSA1099.getInputHTML(uid);
-			case "W2":			return W2.getInputHTML(uid);
+			case "F1040SC": return F1040SC.getInputHTML(uid);
+			case "F1099C": return F1099C.getInputHTML(uid);
+			case "F1099DIV": return F1099DIV.getInputHTML(uid);
+			case "F1099G": return F1099G.getInputHTML(uid);
+			case "F1099INT": return F1099INT.getInputHTML(uid);
+			case "F1099K": return F1099K.getInputHTML(uid);
+			case "F1099MISC": return F1099MISC.getInputHTML(uid);
+			case "F1099NEC": return F1099NEC.getInputHTML(uid);
+			case "F1099OID": return F1099OID.getInputHTML(uid);
+			case "F1099R": return F1099R.getInputHTML(uid);
+			case "F1099S": return F1099S.getInputHTML(uid);
+			case "SSA1099": return SSA1099.getInputHTML(uid);
+			case "W2": return W2.getInputHTML(uid);
 
 			// Input worksheets
-			case "Assetitem":	return Assetitem.getInputHTML(uid);
-			case "Assetsales":	return Assetsales.getInputHTML(uid);
-			case "Business":	return Business.getInputHTML(uid);
-			case "Dependent":	return Dependent.getInputHTML(uid);
-			case "Expenses":	return Expenses.getInputHTML(uid);
-			case "Income":		return Income.getInputHTML(uid);
+			case "Assetitem": return Assetitem.getInputHTML(uid);
+			case "Assetsales": return Assetsales.getInputHTML(uid);
+			case "Business": return Business.getInputHTML(uid);
+			case "Dependent": return Dependent.getInputHTML(uid);
+			case "Expenses": return Expenses.getInputHTML(uid);
+			case "Income": return Income.getInputHTML(uid);
 
 			default:
 				throw new Error(`Classes.getInputHTML(): unplemented form: ${classname}`);
 		}
-	}
+	},
 
-	static getUserInput(classname, uid = 1) {
+	getUserInput(classname, uid = 1) {
+		if (!classname || typeof classname !== "string") {
+			throw new TypeError("classname must be a non-empty string.");
+		}
 		// This method allows you to call the static method getUserInput() by classname.
 		switch (classname) {
-			case "F1040SC":		return F1040SC.getUserInput(uid);
-			case "F1099C":		return F1099C.getUserInput(uid);
-			case "F1099DIV":	return F1099DIV.getUserInput(uid);
-			case "F1099G":		return F1099G.getUserInput(uid);
-			case "F1099INT":	return F1099INT.getUserInput(uid);
-			case "F1099K":		return F1099K.getUserInput(uid);
-			case "F1099MISC":	return F1099MISC.getUserInput(uid);
-			case "F1099NEC":	return F1099NEC.getUserInput(uid);
-			case "F1099OID":	return F1099OID.getUserInput(uid);
-			case "F1099R":		return F1099R.getUserInput(uid);
-			case "F1099S":		return F1099S.getUserInput(uid);
-			case "SSA1099":		return SSA1099.getUserInput(uid);
-			case "W2":			return W2.getUserInput(uid);
-			
+			case "F1040SC": return F1040SC.getUserInput(uid);
+			case "F1099C": return F1099C.getUserInput(uid);
+			case "F1099DIV": return F1099DIV.getUserInput(uid);
+			case "F1099G": return F1099G.getUserInput(uid);
+			case "F1099INT": return F1099INT.getUserInput(uid);
+			case "F1099K": return F1099K.getUserInput(uid);
+			case "F1099MISC": return F1099MISC.getUserInput(uid);
+			case "F1099NEC": return F1099NEC.getUserInput(uid);
+			case "F1099OID": return F1099OID.getUserInput(uid);
+			case "F1099R": return F1099R.getUserInput(uid);
+			case "F1099S": return F1099S.getUserInput(uid);
+			case "SSA1099": return SSA1099.getUserInput(uid);
+			case "W2": return W2.getUserInput(uid);
+
 			// Input worksheets
-			case "Assetitem":	return Assetitem.getUserInput(uid);
-			case "Assetsales":	return Assetsales.getUserInput(uid);
-			case "Business":	return Business.getUserInput(uid);
-			case "Dependent":	return Dependent.getUserInput(uid);
-			case "Expenses":	return Expenses.getUserInput(uid);
-			case "Income":		return Income.getUserInput(uid);
+			case "Assetitem": return Assetitem.getUserInput(uid);
+			case "Assetsales": return Assetsales.getUserInput(uid);
+			case "Business": return Business.getUserInput(uid);
+			case "Dependent": return Dependent.getUserInput(uid);
+			case "Expenses": return Expenses.getUserInput(uid);
+			case "Income": return Income.getUserInput(uid);
 
 			default:
 				throw new Error(`Classes.getUserInput(): unplemented form: ${classname}`);
 		}
-	}
+	},
 
-	static isSingleton(classname) {
+	isSingleton(classname) {
+		if (!classname || typeof classname !== "string") {
+			throw new TypeError("classname must be a non-empty string.");
+		}
 		if (class_map[classname]) {
 			return class_map[classname][SINGLETON];
 		} else {
 			return true;
 		}
-	}
+	},
 
-	static isInputForm(formname) {
+	isInputForm(formname) {
+		if (!formname || typeof formname !== "string") {
+			throw new TypeError("formname must be a non-empty string.");
+		}
 		if (class_map[formname]) {
 			return class_map[formname][INPUT];
 		} else {
 			return false;
 		}
-	}
+	},
 
-	static isOutputForm(formname) {
+	isOutputForm(formname) {
+		if (!formname || typeof formname !== "string") {
+			throw new TypeError("formname must be a non-empty string.");
+		}
 		if (class_map[formname]) {
 			return class_map[formname][OUTPUT];
 		} else {
 			return false;
 		}
-	}
+	},
 
-	static listAllForms(){
+	listAllForms() {
 		// Return array with the names of the suported tax forms and worksheets.
 		// The debug module uses this as a list of keywords.
 		return Object.keys(class_map);
 	}
+};
+
+const {
+	createForm,
+	createOnDemand,
+	getClass,
+	getInputHTML,
+	getUserInput,
+	isSingleton,
+	isInputForm,
+	isOutputForm,
+	listAllForms
+} = Classes;
+
+export {
+	Classes,
+	class_map,
+	createForm,
+	createOnDemand,
+	getClass,
+	getInputHTML,
+	getUserInput,
+	isSingleton,
+	isInputForm,
+	isOutputForm,
+	listAllForms
+};
+
+if (typeof window !== "undefined") {
+	window.Classes ??= Classes;
 }

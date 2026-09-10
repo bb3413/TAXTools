@@ -1,74 +1,95 @@
 
-export class Dates {
-	static getAge(start_date, end_date) {
-		// Determine the number of years between the start date and end date.
-		const startday	= Dates.getDateObject(start_date);
-		const endday	= Dates.getDateObject(end_date);
+function getAge(start_date, end_date) { 
+	// Determine the number of years between the start date and end date.
+	const startday = getDateObject(start_date);
+	const endday = getDateObject(end_date);
 
-		// Make sure the dates are valid.
-		if (!startday || !endday)
-			return 0;
-
-		const start_year		= startday.getFullYear();
-		const end_year			= endday.getFullYear();
-		const startday_end_year	= new Date(start_date);
-		let age					= end_year - start_year;
-
-		// Has the anniversery of the start day happended this year yet?
-		startday_end_year.setFullYear(end_year);
-		if (Dates.isBefore(endday, startday_end_year)) {
-			age -= 1;	// Birthday has not occurred this year.
-		}
-
-		return age;
+	if (!startday || !endday) {
+		return 0;
 	}
 
-	static getEndOfYearAge(birthday, year) {
-		return Dates.getAge(birthday, new Date("12/31/" + year).toLocaleDateString());
+	const start_year = startday.getFullYear();
+	const end_year = endday.getFullYear();
+	const startday_end_year = new Date(startday);
+	let age = end_year - start_year;
+
+	startday_end_year.setFullYear(end_year);
+	if (isBefore(endday, startday_end_year)) {
+		age -= 1;
 	}
 
-	static getLastYear() {
-		return Dates.getThisYear() - 1;
+	return age;
+}
+
+function getEndOfYearAge(birthday, year) {
+	return getAge(birthday, new Date(year, 11, 31));	// Months atart at 0
+}
+
+function getLastYear() {
+	return getThisYear() - 1;
+}
+
+function getTaxYear() {
+	const today = new Date();
+	const tax_day = new Date(getThisYear(), 3, 15);	// Months atart at 0
+
+	if (today < tax_day) {
+		return getLastYear();
 	}
+	return getThisYear();
+}
 
-	static getTaxYear() {
-		const today		= new Date();
-		const tax_day	= new Date("04/15/" + Dates.getThisYear());
+function getThisYear() {
+	return new Date().getFullYear();
+}
 
-		if (today < tax_day) {
-			return Dates.getLastYear();
-		} else {
-			return Dates.getThisYear();
-		}
+function getToday() {
+	// Return today's date formatted according to the user's locale.
+	return new Date().toLocaleDateString();
+}
+
+function getDateObject(date) {
+	const d = date instanceof Date ? date : new Date(date);
+	return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function isBefore(date1, date2) {
+	const d1 = getDateObject(date1);
+	const d2 = getDateObject(date2);
+	if (!d1 || !d2) {
+		return false;
 	}
+	return d1.getTime() < d2.getTime();
+}
 
-	static getThisYear() {
-		return new Date().getFullYear();
-	}
+function isValid(date) {
+	return getDateObject(date) !== null;
+}
 
-	static getToday() {
-		// Return today's date formatted as mm/dd/yyyy.
-		return new Date().toLocaleDateString();
-	}
+export const Dates = {
+	getAge,
+	getEndOfYearAge,
+	getLastYear,
+	getTaxYear,
+	getThisYear,
+	getToday,
+	getDateObject,
+	isBefore,
+	isValid
+};
 
-	static getDateObject(date) {
-		// If date is a Date object, return it; otherwise, create a date object.
+export {
+	getAge,
+	getEndOfYearAge,
+	getLastYear,
+	getTaxYear,
+	getThisYear,
+	getToday,
+	getDateObject,
+	isBefore,
+	isValid
+};
 
-		const d = date instanceof Date ? date : new Date(date);
-
-		return Number.isNaN(d.getTime()) ? null : d;
-
-	}
-
-	static isBefore(date1, date2) {
-		// Convert to milliseconds since 1/1/1970 and compare numerically.
-		return Dates.getDateObject(date1).getTime() < Dates.getDateObject(date2).getTime();
-	}
-
-	static isValid(date) {
-		const d = date instanceof Date ? date : new Date(date);
-
-		return Number.isNaN(d.getTime());
-
-	}
+if (typeof window !== "undefined") {
+	window.Dates ??= Dates;
 }
