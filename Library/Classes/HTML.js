@@ -78,7 +78,7 @@ const HTML = {
 		return Num.toInteger(value);
 	},
 
-	static putUserOutput(element_id, value, type = "") {
+	putUserOutput(element_id, value, type = "") {
 		if (type === "dollars") {
 			// Add commas and prepend with dollar sign.
 			HTML.putElementValue(element_id,
