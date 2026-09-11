@@ -1,5 +1,5 @@
 
-import { Eval } from "../Library/Classes/Eval.js";
+import { Eval } from "../Library/Modules/Eval.js";
 
 let currentInput = "";
 const display = document.getElementById("display");

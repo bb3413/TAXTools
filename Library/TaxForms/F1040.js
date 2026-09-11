@@ -1,11 +1,11 @@
 
-import { Debug }		from "../Classes/Debug.js";
+import { Debug }		from "../Modules/Debug.js";
 import { Line }			from "../Classes/Line.js";
-import { HTML }			from "../Classes/HTML.js";
-import { Str }			from "../Classes/Str.js";
+import { HTML }			from "../Modules/HTML.js";
+import { Str }			from "../Modules/Str.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
-import { TaxFormObj }	from "../Classes/TaxFormObj.js";
-import { TaxTable }		from "../Classes/TaxTable.js";
+import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { IncTax }		from "../Worksheets/IncTax.js";
 import { SSTax }		from "../Worksheets/SSTax.js";

@@ -1,9 +1,9 @@
 
-import { Classes } from "../Classes/Classes.js";
-import { HTML } from "../Classes/HTML.js";
-import { Str } from "../Classes/Str.js";
-import { TaxFormObj } from "../Classes/TaxFormObj.js";
-import { Taxpayer } from "../Classes/Taxpayer.js";
+import { Classes }		from "../Modules/Classes.js";
+import { HTML }			from "../Modules/HTML.js";
+import { Str }			from "../Modules/Str.js";
+import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { Taxpayer }		from "../Classes/Taxpayer.js";
 
 let indentation			= 0;
 let debug_all			= false;
@@ -25,7 +25,7 @@ function keywordList() {
 }
 
 function hideField(name) {
-	// The debug field is an HTML area that display additional information when debugging 
+	// The debug field is an HTML area that display additional information when debugging
 	// is enabled.
 	const debug_field = document.getElementById(name);
 	if (debug_field) {

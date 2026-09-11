@@ -1,6 +1,6 @@
 
-import { Alert }				from "../Library/Classes/Alert.js";
-import { HTML }					from "../Library/Classes/HTML.js";
+import { Alert }				from "../Library/Modules/Alert.js";
+import { HTML }					from "../Library/Modules/HTML.js";
 import { fetchSalesTaxRate }	from "../Library/SalesTax/SalesTaxFromCDTFA.js";
 
 async function buttonHandler(event) {

@@ -2,8 +2,8 @@
 //
 // This module manages tax forms that have been created as objects of the TaxForm class.
 //
-import { Classes }	from "../Classes/Classes.js";
-import { Debug }	from "../Classes/Debug.js";
+import { Classes }	from "../Modules/Classes.js";
+import { Debug }	from "../Modules/Debug.js";
 
 
 let instances = {};		// This variable is indexed by form name. For each form, it

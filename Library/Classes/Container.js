@@ -12,8 +12,8 @@
 // there is already an enrty with the same name, in which case, the entry will be added
 // after the last entry with the same name.
 //
-import { HTML }		from "../Classes/HTML.js";
-import { Str }		from "../Classes/Str.js";
+import { HTML }		from "../Modules/HTML.js";
+import { Str }		from "../Modules/Str.js";
 
 // Web pages need unique IDs to include in their element IDs to avoid name collisions
 // when the same HTML code is added more than once. Thnext_uid variable is indexed by

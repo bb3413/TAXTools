@@ -1,7 +1,7 @@
 
-import { Dates }	from "../Library/Classes/Dates.js";
-import { HTML }		from "../Library/Classes/HTML.js";
-import { Num }		from "../Library/Classes/Num.js";
+import { Dates }	from "../Library/Modules/Dates.js";
+import { HTML }		from "../Library/Modules/HTML.js";
+import { Num }		from "../Library/Modules/Num.js";
 
 let start			= "";
 let end				= "";

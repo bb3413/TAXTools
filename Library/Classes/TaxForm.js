@@ -2,8 +2,8 @@
 //
 // This is a template for all tax forms and worksheets.
 //
-import { Debug }		from "../Classes/Debug.js";
-import { HTML }			from "../Classes/HTML.js";
+import { Debug }		from "../Modules/Debug.js";
+import { HTML }			from "../Modules/HTML.js";
 import { HTMLBuild }	from "../Classes/HTMLBuild.js";
 
 export class TaxForm {

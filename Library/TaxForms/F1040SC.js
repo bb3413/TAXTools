@@ -1,11 +1,11 @@
 
-import { Debug }		from "../Classes/Debug.js";
-import { HTML }			from "../Classes/HTML.js";
+import { Debug }		from "../Modules/Debug.js";
+import { HTML }			from "../Modules/HTML.js";
 import { Line }			from "../Classes/Line.js";
-import { Objects }		from "../Classes/Objects.js";
+import { Objects }		from "../Modules/Objects.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
-import { TaxFormObj }	from "../Classes/TaxFormObj.js";
-import { TaxTable }		from "../Classes/TaxTable.js";
+import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 
 const HTML_FORM = `
 		<details class="taxform-details" id="f1040sc-XX-container">

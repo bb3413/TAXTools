@@ -1,9 +1,9 @@
 
-import { Dates }	from "../Classes/Dates.js";
-import { HTML }		from "../Classes/HTML.js";
-import { Str }		from "../Classes/Str.js";
-import { Objects }	from "../Classes/Objects.js";
-import { TaxTable }	from "../Classes/TaxTable.js";
+import { Dates }	from "../Modules/Dates.js";
+import { HTML }		from "../Modules/HTML.js";
+import { Str }		from "../Modules/Str.js";
+import { Objects }	from "../Modules/Objects.js";
+import { TaxTable }	from "../Modules/TaxTable.js";
 
 const ELEMENT_IDS = {
 	// Element ID			Value Type

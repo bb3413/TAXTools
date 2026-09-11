@@ -1,7 +1,7 @@
 
-import { HTML }			from "../Classes/HTML.js";
-import { Objects }		from "../Classes/Objects.js";
-import { Str }			from "../Classes/Str.js";
+import { HTML }			from "../Modules/HTML.js";
+import { Objects }		from "../Modules/Objects.js";
+import { Str }			from "../Modules/Str.js";
 
 const ELEMENT_IDS = {
 	// Element ID			Value Type

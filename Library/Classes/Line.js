@@ -1,7 +1,7 @@
 
 import { MAX_DOLLAR, MIN_DOLLAR }	from "../TAXTools/TAXTools.js";
-import { Debug }					from "../Classes/Debug.js";
-import { Num }						from "../Classes/Num.js";
+import { Debug }					from "../Modules/Debug.js";
+import { Num }						from "../Modules/Num.js";
 
 export class Line {
 	constructor(label)

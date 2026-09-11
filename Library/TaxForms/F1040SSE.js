@@ -3,10 +3,10 @@
 // This worksheet calculates the XXXXX from the
 // XXXXX, line xx, page xx.
 //
-import { Debug }		from "../Classes/Debug.js";
+import { Debug }		from "../Modules/Debug.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
-import { TaxFormObj }	from "../Classes/TaxFormObj.js";
+import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 
 
 export class F1040SSE extends TaxForm {

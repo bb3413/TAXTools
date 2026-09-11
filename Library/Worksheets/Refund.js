@@ -6,11 +6,11 @@
 // Income, Line 1 on page 88. Instructions say to use the State and Local Income
 // Tax Refund Worksheet on page 90, which is implemented in this worksheet.
 //
-import { Debug }		from "../Classes/Debug.js";
+import { Debug }		from "../Modules/Debug.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
-import { TaxFormObj }	from "../Classes/TaxFormObj.js";
-import { TaxTable }		from "../Classes/TaxTable.js";
+import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
 export class Refund extends TaxForm {

@@ -1,8 +1,8 @@
 
-import { Classes }		from "../Library/Classes/Classes.js";
-import { File }			from "../Library/Classes/File.js";
-import { HTML }			from "../Library/Classes/HTML.js";
-import { TaxFormObj }	from "../Library/Classes/TaxFormObj.js";
+import { Classes }		from "../Library/Modules/Classes.js";
+import { File }			from "../Library/Modules/File.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 
 const header = `
 <!DOCTYPE html>

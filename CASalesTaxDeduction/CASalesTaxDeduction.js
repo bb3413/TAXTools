@@ -1,12 +1,12 @@
 
-import { Alert }				from "../Library/Classes/Alert.js";
-import { Dates }				from "../Library/Classes/Dates.js";
-import { Debug }				from "../Library/Classes/Debug.js";
+import { Alert }				from "../Library/Modules/Alert.js";
+import { Dates }				from "../Library/Modules/Dates.js";
+import { Debug }				from "../Library/Modules/Debug.js";
 import { fetchSalesTaxRate }	from "../Library/SalesTax/SalesTaxFromCDTFA.js";
-import { HTML }					from "../Library/Classes/HTML.js";
-import { TaxFormObj }			from "../Library/Classes/TaxFormObj.js";
+import { HTML }					from "../Library/Modules/HTML.js";
+import { TaxFormObj }			from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }				from "../Library/Classes/Taxpayer.js";
-import { TaxTable }				from "../Library/Classes/TaxTable.js";
+import { TaxTable }				from "../Library/Modules/TaxTable.js";
 
 let total_sales_tax			= 0;
 let total_spendable_income	= 0;

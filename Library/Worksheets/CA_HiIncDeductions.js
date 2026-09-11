@@ -3,11 +3,11 @@
 // California Itemized Deductions Worksheet for high incomes from the
 // Instructions for Schedule CA (540) California Adjustments, page 36.
 //
-import { Debug }		from "../Classes/Debug.js";
+import { Debug }		from "../Modules/Debug.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
-import { TaxFormObj }	from "../Classes/TaxFormObj.js";
-import { TaxTable }		from "../Classes/TaxTable.js";
+import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
 export class CA_HiIncDeductions extends TaxForm {

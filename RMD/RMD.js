@@ -1,8 +1,8 @@
 
-import { Dates }		from "../Library/Classes/Dates.js";
-import { Debug }		from "../Library/Classes/Debug.js";
-import { HTML }			from "../Library/Classes/HTML.js";
-import { TaxTable }		from "../Library/Classes/TaxTable.js";
+import { Dates }		from "../Library/Modules/Dates.js";
+import { Debug }		from "../Library/Modules/Debug.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
 let input_color			= "";
 let output_color		= "";

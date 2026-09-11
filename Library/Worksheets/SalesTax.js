@@ -3,12 +3,12 @@
 // This worksheet calculates the State and Local General Sales Tax Deduction Worksheet
 // from the Instructions for Schedule A, line 5a, page 6.
 //
-import { Debug }		from "../Classes/Debug.js";
+import { Debug }		from "../Modules/Debug.js";
 import { Line }			from "../Classes/Line.js";
-import { Num }			from "../Classes/Num.js";
+import { Num }			from "../Modules/Num.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
-import { TaxFormObj }	from "../Classes/TaxFormObj.js";
-import { TaxTable }		from "../Classes/TaxTable.js";
+import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
 export class SalesTax extends TaxForm {

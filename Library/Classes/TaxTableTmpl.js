@@ -1,6 +1,6 @@
 
-import { Num }		from "../Classes/Num.js";
-import { Str }		from "../Classes/Str.js";
+import { Num }		from "../Modules/Num.js";
+import { Str }		from "../Modules/Str.js";
 
 // Values columns
 const SINGLE	= 0;

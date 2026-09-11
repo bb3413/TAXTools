@@ -1,8 +1,8 @@
 
-import { Classes }		from "../Library/Classes/Classes.js";
+import { Classes }		from "../Library/Modules/Classes.js";
 import { Container }	from "../Library/Classes/Container.js";
-import { HTML }			from "../Library/Classes/HTML.js";
-import { TaxFormObj }	from "../Library/Classes/TaxFormObj.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 
 let worksheet_container;
 let input_taxforms_container;
