@@ -1,5 +1,6 @@
 
 import { Classes }		from "../Modules/Classes.js";
+import { Container }	from "../Classes/Container.js";
 import { HTML }			from "../Modules/HTML.js";
 import { Str }			from "../Modules/Str.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
@@ -21,7 +22,7 @@ function keywordList() {
 		"Verbose" ];
 
 	// Keywords are the debug keywords plus the names of the tax forms and worksheets.
-	return debug_keywords.concat(Classes.listAllForms());
+	return debug_keywords.concat(Classes.listAllForms(), Container.listAllContainers());
 }
 
 function hideField(name) {
@@ -64,7 +65,6 @@ const Debug = {
 		// keywords and the value. The final string will have all commas and unnecessary
 		// whitespace removed.
 		//
-		debug_used_keywords = [];
 		for (const keyword of keywordList()) {
 			const regex = new RegExp(`\\b${keyword}\\b`, 'ig');
 			if (input_string && input_string.match(regex)) {
@@ -137,6 +137,12 @@ const Debug = {
 			let tp = Taxpayer.getTaxpayer();
 			if (tp) {
 				output += tp.toString();
+			}
+		}
+
+		for (const container of Container.getContainers()) {
+			if (debug_all || debug_used_keywords.includes(container.name)) {
+				output += container.toString();
 			}
 		}
 

@@ -4,7 +4,7 @@ import { Objects }		from "../Modules/Objects.js";
 import { Str }			from "../Modules/Str.js";
 
 const HTML_WORKSHEET = `
-		<details class="taxform-details" id="asset-XX-container">
+		<details class="taxform-details" id="assetsales-XX-container">
 			<summary class="taxform-summary">Asset / Stock Sales</summary>
 			<div>
 				<input class="add-asset-sale-button center-text" type="button"
@@ -40,6 +40,10 @@ export class Assetsales {
 
 		const html = HTML_WORKSHEET.replace(/XX/g, uid);
 
-		return [ `asset-${uid}-container`, html ];
+		return [ `assetsales-${uid}-container`, html ];
+	}
+
+	static getUserInput(uid) {
+		return {};
 	}
 }

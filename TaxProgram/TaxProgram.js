@@ -167,7 +167,7 @@ function getDependents() {
 
 function getExpenses() {
 	const tt		= TaxTable.getTaxTable();
-	const tp		= Taxpayer.getTaxpayer();	
+	const tp		= Taxpayer.getTaxpayer();
 	const inputs	= Classes.getUserInput("Expenses");
 	const f1040		= TaxFormObj.getOrCreateForm("F1040");
 	const f1040s1	= TaxFormObj.getOrCreateForm("F1040S1");
@@ -233,7 +233,7 @@ function getInput() {
 	// from the web page to objects instances of the tax form.
 	//
 
-	// Get information frm the input worksheets.
+	// Get information from the input worksheets.
 	getDependents();
 	getExpenses();
 	getIncome();
@@ -358,7 +358,7 @@ function resetAll() {
 	Taxpayer.reset();
 	TaxTable.reset();
 	Container.reset();
-	
+
 	initialize();
 }
 
@@ -369,6 +369,7 @@ function resetCalculation() {
 	Debug.reset();
 	Debug.set_strict();
 	TaxFormObj.reset();						// Reset the tax calculations.
+	Taxpayer.resetCalculation();			// Re-read the input fields.
 	output_taxforms_container.reset();
 	HTML.hideElement("output-taxforms-container");
 }

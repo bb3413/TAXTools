@@ -13,20 +13,27 @@
 // after the last entry with the same name.
 //
 import { HTML }		from "../Modules/HTML.js";
+import { Objects }	from "../Modules/Objects.js";
 import { Str }		from "../Modules/Str.js";
 
 // Web pages need unique IDs to include in their element IDs to avoid name collisions
-// when the same HTML code is added more than once. Thnext_uid variable is indexed by
-// name so each name has its own series of UIDs starting at 1.
+// when the same HTML code is added more than once. The next_uid variable is indexed by
+// classname so each class instance has its own series of UIDs starting at 1.
 let next_uid = {};
+let containers = [];
 
 export class Container {
 	constructor(container_id) {
 		this.container_id	= container_id;
 		this.entry_ids		= [];
+		containers.push(this);
 	}
 
 	addEntry(html_id, html) {
+		//
+		// Add an entry into the container and insert its HTML into the web page element
+		// identified by the container ID.
+		//
 		if (!html_id || !html) {
 			throw new TypeError("Container.addEntry(): Missing parameter.");
 		}
@@ -39,7 +46,8 @@ export class Container {
 
 		// Find the last block with the same name.
 		for (let i = 0; i < this.entry_ids.length; i++) {
-			const old_name = this.entry_ids[i].split('-')[0];
+			const entry_id = this.entry_ids[i];
+			const old_name = entry_id.split('-')[0];
 			if (new_name === old_name) {
 				last_found = i;
 			}
@@ -68,34 +76,64 @@ export class Container {
 	}
 
 	removeEntry(html_id) {
-		this.entry_ids = this.entry_ids.filter(item => item !== html_id);
+		this.entry_ids = this.entry_ids.filter(id => id !== html_id);
 		HTML.remove(html_id);
 	}
 
 	reset() {
-		for (const container_id of this.entry_ids) {
-			document.getElementById(container_id).remove();
-			const [ name, uid ] = Container.parseElementID(container_id);
-			next_uid[Str.upshiftFirst(name)]--;
+		for (const entry_id of this.entry_ids) {
+			document.getElementById(entry_id).remove();
+			const [ name, uid ] = Container.parseElementID(entry_id);
+			const classname = Classes.findClassName(name);
+			next_uid[Str.upshiftFirst(classname)]--;
 		}
 		this.entry_ids = [];
+	}
+
+	toString() {
+		let str = [];
+		str.push("Container ID: " + this.container_id);
+		for (const entry_id of this.entry_ids) {
+			const [ name, uid ] = Container.parseElementID(entry_id);
+			const classname = Classes.findClassName(name);
+			if (Classes.isInputForm(classname)) {
+				str.push("  Entry: " + name);
+				let inputs = Classes.getUserInput(classname, uid);
+				if (Objects.isUsed(inputs)) {
+					inputs = Objects.removeUnused(inputs);
+					str.push(
+						Str.prefixLines("    ", Objects.toString(inputs, 61)));
+				}
+			}
+		}
+
+		return str.join("\n") + "\n\n";
 	}
 
 	//
 	// Static entries for managing UIDs.
 	//
-	static getUID(name) {
+	static getContainers() {
+		return containers;
+	}
+
+	static getUID(classname) {
 		// Get a number that is unique to the name.
-		let uid = next_uid[name];
+		let uid = next_uid[classname];
 
 		if (uid) {
-			next_uid[name]++;
+			next_uid[classname]++;
 		} else {
 			uid = 1;
-			next_uid[name] = 2;
+			next_uid[classname] = 2;
 		}
 
 		return uid;
+	}
+
+	static listAllContainers() {
+		// List the names of the containers for Debug.js.
+		return containers.map(container => container.name);
 	}
 
 	static parseElementID(element_id) {
@@ -105,11 +143,12 @@ export class Container {
 		}
 		const parts = element_id.split("-");
 		const name = parts[0] || "";
-		const uid = parts.length > 1 ? parts.slice(1).join("").replace(/-/g, "") : "";
+		const uid = parts.length > 1 ? parts[1] : "0";
 		return [ name, uid ];
 	}
 
 	static reset() {
 		next_uid = {};
+		containers = [];
 	}
 }

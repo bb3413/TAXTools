@@ -84,7 +84,7 @@ const HTML = {
 			HTML.putElementValue(element_id,
 				"$" + Num.format(typeof value === "number" ? value : 0));
 
-		} else if (typeof value === "number") {
+		} else if ((type !== "text") && (typeof value === "number")) {
 			// Add commas.
 			HTML.putElementValue(element_id, Num.format(value));
 

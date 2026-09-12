@@ -144,7 +144,7 @@ export class TaxForm {
 		for (const lineno of linenos) {
 			const line = this.lines[lineno];
 			if (line && (line.value !== 0 || Debug.verbose())) {	// Skip empty lines.
-				let s = `	line[${lineno}]`;
+				let s = `  line[${lineno}]`;
 				s = s.padEnd(18, " ") + line.label;
 				s = s.padEnd(65, " ") + line.value;
 				str.push(s);

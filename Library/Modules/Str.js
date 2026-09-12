@@ -44,6 +44,21 @@ const equal = (s1, s2) => {
 	return s1 === s2;
 };
 
+const prefixLines = (prefix, str) => {
+	//
+	// Add the prefix to the front of each string inside a string that contains multiple
+	// lines (i.e., embedded newlines).
+	//
+	prefix	= _expectString(prefix, "prefix");
+	str		= _expectString(str, "str");
+
+	const lines = str.split("\n");
+	for (let i = 0; i < lines.length; i++) {
+		lines[i] = prefix + lines[i];
+	}
+	return lines.join("\n");
+};
+
 const upshift = (s) => {
 	s = _expectString(s, "s");
 	return s.toUpperCase();
@@ -60,6 +75,9 @@ const wrap = (str, maxLength = 80) => {
 	if (!Number.isInteger(maxLength) || maxLength <= 0) {
 		throw new TypeError("maxLength must be a positive integer.");
 	}
+
+	const leadingWhitespace = str.match(/^\s*/)[0];
+	str = str.slice(leadingWhitespace.length);
 
 	// Match words and the spaces following them
 	const words = str.match(/\S+\s*/g) || [];
@@ -95,7 +113,7 @@ const wrap = (str, maxLength = 80) => {
 		chunks.push(currentChunk.trim());
 	}
 
-	return chunks.join("\n");
+	return leadingWhitespace + chunks.join("\n");
 };
 
 const wrapLines = (str, maxLength = 80) => {
@@ -165,6 +183,11 @@ const kebabToSnakeCase = (name) => {
 	return name.replace(/-/g, "_");
 };
 
+const kebabToCamelCase = (name) => {
+	name = _expectString(name, "name");
+	return snakeToCamelCase(name.replace(/-/g, "_"));
+};
+
 const snakeCaseToEnglish = (name) => {
 	name = _expectString(name, "name");
 	if (name === "") {
@@ -205,6 +228,7 @@ export const Str = {
 	downshift,
 	empty,
 	equal,
+	prefixLines,
 	upshift,
 	wrap,
 	wrapLines,
@@ -223,6 +247,7 @@ export {
 	downshift,
 	empty,
 	equal,
+	prefixLines,
 	upshift,
 	wrap,
 	wrapLines,

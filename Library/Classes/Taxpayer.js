@@ -126,6 +126,10 @@ export class Taxpayer {
 		taxpayer = undefined;
 	}
 
+	static resetCalculation() {
+		taxpayer = undefined;
+	}
+
 	//
 	// ---------------- Constructor ----------------
 	//
@@ -309,7 +313,7 @@ export class Taxpayer {
 				continue;
 			}
 			if (value) {	// Skip empty lines.
-				let s = "	" + Str.snakeCaseToEnglish(field);
+				let s = "  " + Str.snakeCaseToEnglish(field);
 				s = s.padEnd(65, " ") + value;
 				str.push(s);
 			}
