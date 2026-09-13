@@ -11,7 +11,7 @@ export class F540CA extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F540CA.Constructor()");
 		super(formname);
-		this.title = `CA (540) - California Adjustments — Residents`;
+		this.title = `CA (540) - California Adjustments ï¿½ Residents`;
 
 		// Part I Income Adjustment Schedule - Section A
 		// Income
@@ -243,13 +243,13 @@ export class F540CA extends TaxForm {
 		this.lines["C-14B"]		= new Line("Subtract from Moving Expenses");
 		this.lines["C-14C"]		= new Line("Add to Moving Expenses");
 
-		this.lines["C-15A"]		= new Line("Deductable SE Tax");
-		this.lines["C-15B"]		= new Line("Subtract from Deductable SE Tax");
-		this.lines["C-15C"]		= new Line("Add to Deductable SE Tax");
+		this.lines["C-15A"]		= new Line("Deductible SE Tax");
+		this.lines["C-15B"]		= new Line("Subtract from Deductible SE Tax");
+		this.lines["C-15C"]		= new Line("Add to Deductible SE Tax");
 
-		this.lines["C-16A"]		= new Line("Deductable SEP, Simple");
-		this.lines["C-16B"]		= new Line("Subtract from Deductable SEP, Simple");
-		this.lines["C-16C"]		= new Line("Add to Deductable SEP, Simple");
+		this.lines["C-16A"]		= new Line("Deductible SEP, Simple");
+		this.lines["C-16B"]		= new Line("Subtract from Deductible SEP, Simple");
+		this.lines["C-16C"]		= new Line("Add to Deductible SEP, Simple");
 
 		this.lines["C-17A"]		= new Line("Self-employed Health Insurance");
 		this.lines["C-17B"]		= new Line("Subtract from Self-employed Health Insurance");
@@ -420,9 +420,9 @@ export class F540CA extends TaxForm {
 		this.lines["D-11B"]		= new Line("Subtract from Cash Donations");
 		this.lines["D-11C"]		= new Line("Add to Cash Donations");
 
-		this.lines["D-12A"]		= new Line("Non-cash Donatons");
-		this.lines["D-12B"]		= new Line("Subtract from Non-cash Donatons");
-		this.lines["D-12C"]		= new Line("Add to Non-cash Donatons");
+		this.lines["D-12A"]		= new Line("Non-cash Donations");
+		this.lines["D-12B"]		= new Line("Subtract from Non-cash Donations");
+		this.lines["D-12C"]		= new Line("Add to Non-cash Donations");
 
 		this.lines["D-13A"]		= new Line("Carry-over Donations");
 		this.lines["D-13B"]		= new Line("Subtract from Carry-over Donations");
@@ -447,7 +447,7 @@ export class F540CA extends TaxForm {
 		this.lines["D-18"]		= new Line("CA Itemized Deductions");
 
 		// Job Expenses and Miscellaneous Deductions
-		this.lines["D-19"]		= new Line("Unreimbursed Employee Expenses");
+		this.lines["D-19"]		= new Line("Un-reimbursed Employee Expenses");
 		this.lines["D-20"]		= new Line("Tax Preparation Fees");
 		this.lines["D-21"]		= new Line("Investment Expenses");
 		this.lines["D-22"]		= new Line("Total Miscellaneous Deductions");
@@ -623,7 +623,7 @@ export class F540CA extends TaxForm {
 
 		// Gambling
 		this.lines["B-08bA"].value	= TaxFormObj.getValue("F1040S1", "08b");
-		this.lines["B-08bB"].value	= 0;	// Californi lottery winning
+		this.lines["B-08bB"].value	= 0;	// California lottery winning
 		this.lines["B-08bC"].value	= 0;	// DO NOT ENTER
 
 		// Cancellation of Debt
@@ -804,12 +804,12 @@ export class F540CA extends TaxForm {
 		this.lines["C-14B"].value	= 0;	// DO NOT ENTER
 		this.lines["C-14C"].value	= 0;
 
-		// Deductable SE Tax
+		// Deductible SE Tax
 		this.lines["C-15A"].value	= TaxFormObj.getValue("F1040S1", "15");
 		this.lines["C-15B"].value	= 0;
 		this.lines["C-15C"].value	= 0;	// DO NOT ENTER
 
-		// Deductable SEP, Simple
+		// Deductible SEP, Simple
 		this.lines["C-16A"].value	= TaxFormObj.getValue("F1040S1", "16");
 		this.lines["C-16B"].value	= 0;	// DO NOT ENTER
 		this.lines["C-16C"].value	= 0;	// DO NOT ENTER
@@ -1042,7 +1042,7 @@ export class F540CA extends TaxForm {
 		this.lines["D-11B"].value	= 0;
 		this.lines["D-11C"].value	= 0;
 
-		// Non-cash Donatons
+		// Non-cash Donations
 		this.lines["D-12A"].value	= TaxFormObj.getValue("F1040SA", "12");
 		this.lines["D-12B"].value	= 0;
 		this.lines["D-12C"].value	= 0;
@@ -1095,7 +1095,7 @@ export class F540CA extends TaxForm {
 		this.lines["D-27"].value	= 0;								// Other Adjs
 		this.lines["D-28"].value	= this.add("D-26","D-27");			// Total Deduction
 
-		if (TaxFormObj.getValue("F1040", "11b") <= 
+		if (TaxFormObj.getValue("F1040", "11b") <=
 			tt.getTaxValue("CA_HiIncPhaseout", tp.filing_status)) {
 			this.lines["D-29"].value = this.line("D-28");			// Itemized Deduction
 		} else {

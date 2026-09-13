@@ -187,9 +187,9 @@
 			<input class="trigger input-field" type="text" id="MiningCosts"
 				placeholder="0" tooltipid="#MiningCostsTT" />
 
-			<p>Reseach Costs</p>
-			<input class="trigger input-field" type="text" id="ReseachCosts"
-				placeholder="0" tooltipid="#ReseachCostsTT" />
+			<p>Research Costs</p>
+			<input class="trigger input-field" type="text" id="ResearchCosts"
+				placeholder="0" tooltipid="#ResearchCostsTT" />
 
 			<p>Installment Sales (subtraction)</p>
 			<input class="trigger input-field" type="text" id="InstallmentSales"
@@ -204,7 +204,7 @@
 				placeholder="0" tooltipid="#OtherIncomeTT" />
 		</div>
 
-		<h2>Alternative Mimimum Tax</h2>
+		<h2>Alternative Minimum Tax</h2>
 		<div class="table-2">
 			<p>AMT Income</p>
 			<p class="trigger output-field" id="AMTIncome"

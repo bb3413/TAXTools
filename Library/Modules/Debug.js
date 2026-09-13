@@ -30,7 +30,7 @@ function hideField(name) {
 	// is enabled.
 	const debug_field = document.getElementById(name);
 	if (debug_field) {
-		// Only hide if element exists; non-existant element is not an error.
+		// Only hide if element exists; non-existent element is not an error.
 		HTML.hideElement(name);
 	}
 }
@@ -40,7 +40,7 @@ function showField(name) {
 	// is enabled.
 	const debug_field = document.getElementById(name);
 	if (debug_field) {
-		// Only show if element exists; non-existant element is not an error.
+		// Only show if element exists; non-existent element is not an error.
 		HTML.showElement(name);
 	}
 }
@@ -120,7 +120,7 @@ const Debug = {
 	},
 
 	turnOn() {
-		// Turn on debugging after input has been proceessed and the debug keywords have
+		// Turn on debugging after input has been processed and the debug keywords have
 		// been collected.
 		if (debug_used_keywords.length === 0) {
 			return;

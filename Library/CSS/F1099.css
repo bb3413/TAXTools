@@ -90,7 +90,6 @@
 	text-transform:			uppercase;
 	display:				block;
 	margin-bottom:			2px;
-	/* color:					#333; */
 }
 
 .f1099-flex-row {
@@ -111,7 +110,7 @@
 }
 
 /* Styling Input Fields to fit seamlessly */
-.f1099-taxform-container input[type="text"], 
+.f1099-taxform-container input[type="text"],
 .f1099-taxform-container input[type="number"],
 .f1099-taxform-container textarea {
 	width:					100%;
@@ -123,7 +122,7 @@
 	background-color:		inherit;
 }
 
-.f1099-taxform-container input[type="text"]:focus, 
+.f1099-taxform-container input[type="text"]:focus,
 .f1099-taxform-container input[type="number"]:focus,
 .f1099-taxform-container textarea:focus {
 	outline:				none;
@@ -153,12 +152,12 @@
 /*
  * Used for entering fields below the form.
  */
-.supplimental-input-line {
+.supplemental-input-line {
 	display:				grid;
 	grid-template-columns:	150px 400px;
 }
 
-.supplimental-input-line p {
+.supplemental-input-line p {
 	margin-top:				0;
 	margin-bottom:			0;
 }

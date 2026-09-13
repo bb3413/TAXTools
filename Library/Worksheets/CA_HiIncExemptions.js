@@ -16,7 +16,7 @@ export class CA_HiIncExemptions extends TaxForm {
 		super(formname);
 
 		this.lines["0a"]	= new Line("Federal AGI");
-		this.lines["0b"]	= new Line("Exemption Phseout");
+		this.lines["0b"]	= new Line("Exemption Phaseout");
 		this.lines["0c"]	= new Line("");
 		this.lines["0d"]	= new Line("");
 		this.lines["0e"]	= new Line("");

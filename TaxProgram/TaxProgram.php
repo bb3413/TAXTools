@@ -166,7 +166,7 @@
 				<option value="F1099R">		1099-R</option>
 				<option value="F1099S">		1099-S</option>
 			</select>
-			
+
 			<input type="button" id="dependent-button"
 				class="trigger button dependent-button"
 				value="Enter a Dependent" tooltipid="#dependent-button-tt" />

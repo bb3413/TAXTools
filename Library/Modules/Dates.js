@@ -1,5 +1,5 @@
 
-function getAge(start_date, end_date) { 
+function getAge(start_date, end_date) {
 	// Determine the number of years between the start date and end date.
 	const startday = getDateObject(start_date);
 	const endday = getDateObject(end_date);
@@ -22,7 +22,7 @@ function getAge(start_date, end_date) {
 }
 
 function getEndOfYearAge(birthday, year) {
-	return getAge(birthday, new Date(year, 11, 31));	// Months atart at 0
+	return getAge(birthday, new Date(year, 11, 31));	// Months start at 0
 }
 
 function getLastYear() {
@@ -31,7 +31,7 @@ function getLastYear() {
 
 function getTaxYear() {
 	const today = new Date();
-	const tax_day = new Date(getThisYear(), 3, 15);	// Months atart at 0
+	const tax_day = new Date(getThisYear(), 3, 15);	// Months start at 0
 
 	if (today < tax_day) {
 		return getLastYear();

@@ -94,7 +94,7 @@ function getInputs() {
 	inputs.circulation_costs				= HTML.getUserInput("CirculationCosts");
 	inputs.long_term_contracts				= HTML.getUserInput("LongTermContracts");
 	inputs.mining_costs						= HTML.getUserInput("MiningCosts");
-	inputs.reseach_costs					= HTML.getUserInput("ReseachCosts");
+	inputs.research_costs					= HTML.getUserInput("ResearchCosts");
 	inputs.installment_sales				= HTML.getUserInput("InstallmentSales");
 	inputs.intangible_drilling_costs		= HTML.getUserInput("IntangibleDrillingCosts");
 	inputs.other_income						= HTML.getUserInput("OtherIncome");
@@ -134,7 +134,7 @@ function mapInputValues(inputs) {
 	f6251.lines["02o"].user_value	= inputs.circulation_costs;
 	f6251.lines["02p"].user_value	= inputs.long_term_contracts;
 	f6251.lines["02q"].user_value	= inputs.mining_costs;
-	f6251.lines["02r"].user_value	= inputs.reseach_costs;
+	f6251.lines["02r"].user_value	= inputs.research_costs;
 	f6251.lines["02s"].user_value	= inputs.installment_sales;
 	f6251.lines["02t"].user_value	= inputs.intangible_drilling_costs;
 	f6251.lines["03"].user_value	= inputs.other_income;
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.addListener("CirculationCosts",			"change", changeHandler);
 	HTML.addListener("LongTermContracts",			"change", changeHandler);
 	HTML.addListener("MiningCosts",					"change", changeHandler);
-	HTML.addListener("ReseachCosts",				"change", changeHandler);
+	HTML.addListener("ResearchCosts",				"change", changeHandler);
 	HTML.addListener("InstallmentSales",			"change", changeHandler);
 	HTML.addListener("IntangibleDrillingCosts",		"change", changeHandler);
 	HTML.addListener("OtherIncome",					"change", changeHandler);

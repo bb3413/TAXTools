@@ -9,7 +9,7 @@
 // When a block of HTML code is added to the container, it must also be an HTML container
 // with a unique ID. The ID of an entry should be prefixed with the name of the entry
 // (id="name-somethingElse"). New entries will be added to the end of the container, unless
-// there is already an enrty with the same name, in which case, the entry will be added
+// there is already an entry with the same name, in which case, the entry will be added
 // after the last entry with the same name.
 //
 import { HTML }		from "../Modules/HTML.js";

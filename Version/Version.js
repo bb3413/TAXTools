@@ -3,7 +3,7 @@
  * there is a lot of shared code between the tools. The shared code is in the Library
  * folders.
  *
- * This file defines the version mnumber of the tax tools in the variable below. The variable
+ * This file defines the version number of the tax tools in the variable below. The variable
  * can be displayed in HTML code using a section of code similar to this:
  *
  *		<p class="version-number">Version: <a href="../Version/Version.html">

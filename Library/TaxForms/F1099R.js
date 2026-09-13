@@ -15,7 +15,7 @@ const HTML_FORM = `
 			<div class="f1099-taxform-container">
 				<!-- Header Section -->
 				<div class="f1099-header-row">
-					<div class="f1099-header-left"> 
+					<div class="f1099-header-left">
 						<label><input type="checkbox" disabled
 							id="corrected" /> CORRECTED</label>
 					</div>
@@ -119,7 +119,7 @@ const HTML_FORM = `
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
-								<span class="f1099-box-label">5 Employee contrib. / 
+								<span class="f1099-box-label">5 Employee contrib. /
 									Designated Roth</span>
 								<input type="text" id="f1099r-XX-05"
 									placeholder="0" />
@@ -278,7 +278,7 @@ export class F1099R extends TaxForm {
 		this.lines["06"]		= new Line("Net unrealized appreciation");
 		this.lines["07a"]		= new Line("Distribution code(s)");
 		this.lines["07b"]		= new Line("IRA/SEP/SIMPLE");
-		this.lines["07c"]		= new Line("Trunp account");
+		this.lines["07c"]		= new Line("Trump account");
 		this.lines["07d"]		= new Line("Earnings on excess contribution");
 		this.lines["09b"]		= new Line("Total employee contributions");
 		this.lines["14"]		= new Line("State tax withheld");

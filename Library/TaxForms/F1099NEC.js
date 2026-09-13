@@ -9,12 +9,12 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 const HTML_FORM = `
 		<details class="taxform-details" id="f1099nec-XX-container">
-			<summary class="taxform-summary">1099-NEC - Nonemployee Compensation</summary>
+			<summary class="taxform-summary">1099-NEC - Non-employee Compensation</summary>
 			<div>&nbsp;</div>
 			<div class="f1099-taxform-container">
 				<!-- Header Section -->
 				<div class="f1099-header-row">
-					<div class="f1099-header-left"> 
+					<div class="f1099-header-left">
 						<label><input type="checkbox" disabled
 							id="corrected" /> CORRECTED</label>
 					</div>
@@ -27,7 +27,7 @@ const HTML_FORM = `
 						<strong>Nonemployee Compensation</strong>
 					</div>
 				</div>
-			
+
 				<!-- Main Content Grid -->
 				<div class="f1099-main-grid">
 					<!-- Left Column: Payer & Recipient Info Inputs -->
@@ -40,7 +40,7 @@ const HTML_FORM = `
 								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
 							</textarea>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">PAYER&apos;S TIN</span>
@@ -53,7 +53,7 @@ const HTML_FORM = `
 									placeholder="123-45-6789" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-box f1099-box-large">
 							<span class="f1099-box-label">TAXPAYER&apos;S name, street
 								address, city or town, state, and ZIP code</span>
@@ -69,12 +69,12 @@ const HTML_FORM = `
 								placeholder="Optional Account #" />
 						</div>
 					</div>
-			
+
 					<!-- Right Column: Numbered Input Boxes -->
 					<div class="f1099-col-right">
 						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
-								<span class="f1099-box-label">1a Nonemployee
+								<span class="f1099-box-label">1a Non-employee
 									compensation</span>
 								<input type="text" id="f1099nec-XX-01a"
 									placeholder="0" />
@@ -97,7 +97,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">2 Payer made direct sales
@@ -108,7 +108,7 @@ const HTML_FORM = `
 								</div>
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">3 Excess golden parachute
@@ -117,7 +117,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
 								<span class="f1099-box-label">4 Federal income tax
@@ -126,7 +126,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box input-color" style="border-bottom: none;">
 								<span class="f1099-box-label">5 State tax withheld</span>
@@ -150,7 +150,7 @@ const HTML_FORM = `
 			<div class="f1099-footer-note">Form <strong>1099-NEC</strong></div>
 			<div>&nbsp;</div>
 
-			<div class="supplimental-input-line">
+			<div class="supplemental-input-line">
 				<p>Name of Business</p>
 				<input class="input-field left" type="text" spellcheck="false"
 					size="45" id="f1099nec-XX-business-name" />
@@ -228,7 +228,7 @@ export class F1099NEC extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F1099NEC.Constructor()");
 		super(formname);
-		this.title = `1099-NEC - Nonemployee Compensation`;
+		this.title = `1099-NEC - Non-employee Compensation`;
 
 		this.payer				= 0;
 		this.ein				= 0;
@@ -236,7 +236,7 @@ export class F1099NEC extends TaxForm {
 		this.taxpayer			= 0;
 		this.account			= 0;
 
-		this.lines["01a"]		= new Line("Nonemployee compensation");
+		this.lines["01a"]		= new Line("Non-employee compensation");
 		this.lines["01b"]		= new Line("Cash tips");
 		this.lines["01c"]		= new Line("TTOC");
 		this.lines["01d"]		= new Line("Overtime compensation");

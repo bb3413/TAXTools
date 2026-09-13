@@ -28,7 +28,7 @@ const HTML_FORM = `
 						<strong>Proceeds from Real Estate Transactions</strong>
 					</div>
 				</div>
-			
+
 				<!-- Main Content Grid -->
 				<div class="f1099-main-grid">
 					<!-- Left Column: Payer & Recipient Info Inputs -->
@@ -41,7 +41,7 @@ const HTML_FORM = `
 								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
 							</textarea>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">PAYER&apos;S TIN</span>
@@ -54,7 +54,7 @@ const HTML_FORM = `
 									placeholder="123-45-6789" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-box f1099-box-large">
 							<span class="f1099-box-label">TAXPAYER&apos;S name, street
 								address, city or town, state, and ZIP code</span>
@@ -70,7 +70,7 @@ const HTML_FORM = `
 								placeholder="Optional Account #" />
 						</div>
 					</div>
-			
+
 					<!-- Right Column: Numbered Input Boxes -->
 					<div class="f1099-col-right">
 						<div class="f1099-flex-row">
@@ -110,7 +110,7 @@ const HTML_FORM = `
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
-								<span class="f1099-box-label">4 Buyer’s part of real
+								<span class="f1099-box-label">4 Buyerï¿½s part of real
 									estate tax</span>
 								<input type="text" id="f1099s-XX-04"
 									placeholder="0" />
@@ -221,7 +221,7 @@ export class F1099S extends TaxForm {
 		}
 
 		let inputs = {};
-	
+
 		inputs["payer"]		= HTML.getUserInput(`f1099s-${uid}-payer`,		"text");
 		inputs["ein"]		= HTML.getUserInput(`f1099s-${uid}-ein`,		"text");
 		inputs["ssn"]		= HTML.getUserInput(`f1099s-${uid}-ssn`,		"text");
@@ -260,7 +260,7 @@ export class F1099S extends TaxForm {
 		this.lines["02b"]		= new Line("Cash gross proceeds");
 		this.lines["02c"]		= new Line("Digital asset gross proceeds");
 		this.lines["03"]		= new Line("Address");
-		this.lines["04"]		= new Line("Buyer’s part of real estate tax");
+		this.lines["04"]		= new Line("Buyerï¿½s part of real estate tax");
 		this.lines["05"]		= new Line("");
 		this.lines["06"]		= new Line("Received other than cash");
 		this.lines["07"]		= new Line("Foreign person");

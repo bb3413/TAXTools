@@ -40,7 +40,7 @@
 
 .tooltip a {
 	/* Since you cannot move the cursor over a tooltip, the user cannot click on a link in a
-	 * tooltip. Therefore, make them look like the surrounding text so the user doesn"t try
+	 * tooltip. Therefore, make them look like the surrounding text so the user doesn't try
 	 * to click on them.
 	 */
 	color:				inherit;

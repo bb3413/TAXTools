@@ -107,7 +107,7 @@ export class TaxForm {
 		doc.startElement("details", "taxform-details", "",
 				`id="${formname}-${uid}-container"`);	// Start of details
 			doc.addElement("summary", "taxform-summary", this.title);
-			doc.startElement("div", "taxform-container");	// Start of taxform-contianer
+			doc.startElement("div", "taxform-container");	// Start of taxform-container
 				doc.addElement("div", "", "&nbsp;");		// Blank line
 				for (const lineno of Object.keys(this.lines).sort()) {
 					let attributes;
@@ -124,7 +124,7 @@ export class TaxForm {
 					doc.stopElement("div");					// End of line
 				}
 				doc.addElement("div", "", "&nbsp;");		// Blank line
-			doc.stopElement("div");							// End of taxform-contianer
+			doc.stopElement("div");							// End of taxform-container
 		doc.stopElement("details");							// End of details
 
 		return doc.toString();

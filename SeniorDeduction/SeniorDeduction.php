@@ -26,7 +26,7 @@
 		older can claim a deduction of up to $6,000 if they are single or $12,000 if they
 		are married filing jointly. This deduction begins to phase out when AGI is over
 		$75,000 for single taxpayers and $150,000 if married. This deduction is in addition
-		to the existing standard deduction or itemized debuctions.</p>
+		to the existing standard deduction or itemized deductions.</p>
 
 		<div class="table">
 			<p>Tax Year</p>
@@ -44,25 +44,25 @@
 
 		   	<p>Adjusted Gross Income (AGI)</p>
 			<input class="input-field" type="text" autofocus id="AdjustedGrossIncome"
-				placeeholder="0" />
+				placeholder="0" />
 
 			<p>Taxpayer's Birthday</p>
 			<input class="input-field" type="text" id="TaxpayersBirthday"
-				placeeholder="mm/dd/yyyy" />
+				placeholder="mm/dd/yyyy" />
 
 			<p>Taxpayer's Age</p>
 			<input class="input-field" type="text" id="TaxpayersAge"
-				placeeholder="0" />
+				placeholder="0" />
 		</div>
 
 		<div  class="table" id="SpouseContainer">
 		   	<p>Spouse's Birthday</p>
 			<input class="input-field" type="text" id="SpousesBirthday"
-				placeeholder="mm/dd/yyyy" />
+				placeholder="mm/dd/yyyy" />
 
 		   	<p>Spouse's Age</p>
 		   	<input class="input-field" type="text" id="SpousesAge"
-				placeeholder="0" />
+				placeholder="0" />
 		</div>
 
 		<div class="table">
@@ -82,9 +82,9 @@
 			every year that it is allowed.</p>
 
 			<h4>Filing Status</h4>
-			<p>This is your filing status. If the filing status is married filking jointly
+			<p>This is your filing status. If the filing status is married filing jointly
 			(MFJ), then
-			the spouse, if over 65, will also be elegible for the senior deduction.</p>
+			the spouse, if over 65, will also be eligible for the senior deduction.</p>
 
 			<h4>Adjusted Gross Income (AGI)</h4>
 			<p>Adjusted gross income is taxable income minus adjustments. It is on the

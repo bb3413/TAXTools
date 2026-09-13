@@ -50,8 +50,8 @@ export class F1040S1 extends TaxForm {
 		this.lines["12"]	= new Line("Business Expense from Form 2106");
 		this.lines["13"]	= new Line("HSA Deduction");
 		this.lines["14"]	= new Line("Moving Expenses");
-		this.lines["15"]	= new Line("Deductable SE Tax");
-		this.lines["16"]	= new Line("Deductable SEP, Simple");
+		this.lines["15"]	= new Line("Deductible SE Tax");
+		this.lines["16"]	= new Line("Deductible SEP, Simple");
 		this.lines["17"]	= new Line("Self-employed Health Insurance");
 		this.lines["18"]	= new Line("Early Withdrawal Penalty");
 		this.lines["19a"]	= new Line("Alimony Paid");
@@ -87,7 +87,7 @@ export class F1040S1 extends TaxForm {
 		Debug.enter("F1040S1.calculate()");
 		this.calculated = true;
 
-		// Aditions to Income
+		// Additions to Income
 		this.lines["01"].value	= 0;									// Taxable Refund
 		this.lines["02a"].value	= 0;									// Alimony Received
 		this.lines["02b"].value	= 0;									// Business Income
@@ -100,7 +100,7 @@ export class F1040S1 extends TaxForm {
 		this.lines["08b"].value	= 0;									// Gambling
 		this.lines["08c"].value	= 0;									// Cancelled Debt
 		// Foreign Earned Income Exclusion (Subtract)
-		this.lines["08d"].value	= -(TaxFormObj.getValue("F2555", "xx"));	
+		this.lines["08d"].value	= -(TaxFormObj.getValue("F2555", "xx"));
 		this.lines["08e"].value	= TaxFormObj.getValue("F8853", "xx");	// Income from 8853
 		this.lines["08f"].value	= TaxFormObj.getValue("F8889", "16") +	// Income from 8889
 									TaxFormObj.getValue("F8889", "20");
@@ -137,7 +137,7 @@ export class F1040S1 extends TaxForm {
 		this.lines["12"].value	= 0;									// Business Expense
 		this.lines["13"].value	= TaxFormObj.getValue("F8889", "13");	// HSA Deduction
 		this.lines["14"].value	= 0;									// Moving Expenses
-		this.lines["15"].value	= TaxFormObj.getValue("F1040SSE", "13");// Deductable SE Tax
+		this.lines["15"].value	= TaxFormObj.getValue("F1040SSE", "13");// Deductible SE Tax
 		this.lines["16"].value	= 0;									// SEP, Simple
 		this.lines["17"].value	= 0;									// SE Health Ins
 		this.lines["18"].value	= 0;									// Early Withdrawal

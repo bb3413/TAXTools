@@ -95,7 +95,7 @@
 }
 
 .taxform-lno-desc-lno-value-lno-desc-lno-value {
-	/* Cloumn 1							Column 2
+	/* Column 1							Column 2
 	/* Line Description...line value	Line Description...line value */
 	display:				grid;
 	grid-template-columns:	35px 1fr 35px 90px 35px 1fr 35px 90px;	/* 35px line numbers */

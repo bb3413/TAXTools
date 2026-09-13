@@ -9,7 +9,7 @@ import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
 import { ESTIMATED_TAX_CA_SAVE_FILE } from "../Library/TAXTools/TAXTools.js";
 
-// Tis variable need to be global so it can be accssed by the save and restore handlers.
+// This variable needs to be global so it can be accessed by the save and restore handlers.
 let inputs = {};
 
 function changeHandler(event) {
@@ -24,7 +24,7 @@ function changeHandler(event) {
 		TaxFormObj.reset();
 		Taxpayer.reset();
 
-		
+
 		TaxTable.getTaxTable(HTML.getUserInput("tax-year"));// Initialize tax tables.
 		inputs = getInputs();								// Get inputs from the web page
 		const taxpayer = createTaxpayer(inputs);			// Initialize taxpayer
@@ -142,8 +142,8 @@ function getInputs() {
 		HTML.getUserInput("SharedResponsibilityPenalty");
 	inputs.interest_and_penalties =
 		HTML.getUserInput("InterestAndPenalties");
-	inputs.underepayment_of_estimated_tax =
-		HTML.getUserInput("UnderepaymentOfEstimatedTax");
+	inputs.underpayment_of_estimated_tax =
+		HTML.getUserInput("UnderpaymentOfEstimatedTax");
 	inputs.use_tax =
 		HTML.getUserInput("UseTax");
 	inputs.miscellaneous_taxes =
@@ -224,7 +224,7 @@ function mapInputValues(inputs) {
 	// Other Taxes, Interest, and Penalties
 	f540.lines[	"092"].user_value	= inputs.shared_responsibility_penalty;
 	f540.lines[	"112"].user_value	= inputs.interest_and_penalties;
-	f540.lines[	"113"].user_value	= inputs.underepayment_of_estimated_tax;
+	f540.lines[	"113"].user_value	= inputs.underpayment_of_estimated_tax;
 	f540.lines[	"091"].user_value	= inputs.use_tax;
 	f540.lines[	"063"].user_value	= inputs.miscellaneous_taxes;
 
@@ -384,8 +384,8 @@ function restoreDataHandler(data) {
 						 inputs.shared_responsibility_penalty);
 	HTML.putElementValue("InterestAndPenalties",
 						 inputs.interest_and_penalties);
-	HTML.putElementValue("UnderepaymentOfEstimatedTax",
-						 inputs.underepayment_of_estimated_tax);
+	HTML.putElementValue("UnderpaymentOfEstimatedTax",
+						 inputs.underpayment_of_estimated_tax);
 	HTML.putElementValue("UseTax",
 						 inputs.use_tax);
 	HTML.putElementValue("MiscellaneousTaxes",
@@ -512,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Other Taxes, Interest, and Penalties
 	HTML.addListener("SharedResponsibilityPenalty",		"change", changeHandler);
 	HTML.addListener("InterestAndPenalties",			"change", changeHandler);
-	HTML.addListener("UnderepaymentOfEstimatedTax",		"change", changeHandler);
+	HTML.addListener("UnderpaymentOfEstimatedTax",		"change", changeHandler);
 	HTML.addListener("UseTax",							"change", changeHandler);
 	HTML.addListener("MiscellaneousTaxes",				"change", changeHandler);
 
@@ -536,7 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.addListener("Contributions",					"change", changeHandler);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
-	// focus but display the page without sccrolling to that element.
+	// focus but display the page without scrolling to that element.
 	const TaxpayersName = document.getElementById('TaxpayersName');
 	TaxpayersName.focus({
 		preventScroll: true

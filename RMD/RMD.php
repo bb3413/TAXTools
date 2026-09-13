@@ -50,11 +50,11 @@
 
 			<p>Taxpayer's Birthday</p>
 			<input class="input-field" type="text" id="TaxpayersBirthday"
-				placeeholder="mm/dd/yyyy" />
+				placeholder="mm/dd/yyyy" />
 
 			<p>Taxpayer's Age</p>
 			<input class="input-field" type="text" id="TaxpayersAge"
-				placeeholder="0" />
+				placeholder="0" />
 
 			<p>&nbsp;</p>
 			<p>&nbsp;</p>

@@ -10,7 +10,7 @@ async function saveToFile(data, filename, json = true) {
 		// it to finish before it starts the next download.
 
 		// The "blob" is something like a file that you will be able to reference with a URL.
-		// The URL is a tempory URL pointing to the blob. Create an anchor HTML element that
+		// The URL is a temporary URL pointing to the blob. Create an anchor HTML element that
 		// reference the URL. Add the anchor to the HTML document. Fake a click on the
 		// anchor, which will start the download, then remove the anchor and URL.
 		const dataString = json ? JSON.stringify(data, null, 2) : data;

@@ -153,7 +153,7 @@ const HTML_WORKSHEET = `
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Forengin Tax (not entered
+					<div class="input-worksheet-row-label">Foreign Tax (not entered
 						elsewhere)</div>
 					<input class="input-worksheet-row-value input-field"
 						type="text" id="expenses-XX-foreign-tax"
@@ -181,7 +181,7 @@ const HTML_WORKSHEET = `
 						size="10" placeholder="0" />
 				</div>
 
-				<h3>Other Expnses</h3>
+				<h3>Other Expenses</h3>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Educator Expense - Taxpayer</div>
 					<input class="input-worksheet-row-value input-field"

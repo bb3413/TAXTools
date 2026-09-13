@@ -98,7 +98,7 @@ export class F540 extends TaxForm {
 		this.lines["072"]	= new Line("Estimated Tax Payments");
 		this.lines["073"]	= new Line("Withholding from Forms 592-B and 593");
 		this.lines["074"]	= new Line("Excess SDI or VPDI");
-		this.lines["075"]	= new Line("Earmed Income Tax Credit");
+		this.lines["075"]	= new Line("Earned Income Tax Credit");
 		this.lines["076"]	= new Line("Young Child Tax Credit");
 		this.lines["077"]	= new Line("Foster Youth Tax Credit");
 		this.lines["078"]	= new Line("Total Payments");
@@ -141,7 +141,7 @@ export class F540 extends TaxForm {
 		this.lines["109"]	= new Line("Reserved");
 
 		// Contributions
-		this.lines["110"]	= new Line("Total Contributon");
+		this.lines["110"]	= new Line("Total Contributions");
 
 		// Amount You Owe
 		this.lines["111"]	= new Line("Amount You Owe");
@@ -365,7 +365,7 @@ export class F540 extends TaxForm {
 		this.lines["109"].value	= 0;									// Reserved
 
 		// Contributions
-		this.lines["110"].value	= 0;									// Total Contributon
+		this.lines["110"].value	= 0;									// Total Contributions
 
 		// Amount You Owe
 		this.lines["111"].value	= 0;									// Amount You Owe

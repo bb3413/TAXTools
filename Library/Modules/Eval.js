@@ -6,7 +6,7 @@ function expression(input) {
 	// (RPN) before evaluating it.
 	//
 	// This function supports:
-	//		Dedimal numbers
+	//		Decimal numbers
 	//		Operators for addition (+), subtraction (-), multiplication (*), and division (/)
 	//		Unary minus operator (-)
 	//		Parentheses

@@ -39,10 +39,10 @@ async function loadIncludes(container = document, depth = 0) {
 
 			// Manually execute any script elements found in the included file.
 			// This is necessary if there are script elements in the included file.
-			// The browser parses them into the document, but does not execure
+			// The browser parses them into the document, but does not execute
 			// them for security reasons. This block creates a new script element,
 			// copies the contents of the old script element, and appends the new
-			// script element to the document, which the browser will execue when it
+			// script element to the document, which the browser will execute when it
 			// is added.
 			const scripts = el.querySelectorAll("script");
 			scripts.forEach(oldScript => {
@@ -75,7 +75,7 @@ async function loadIncludes(container = document, depth = 0) {
 	// Initialization code for other JavaScript files may start running before this
 	// function has finished loading the include files. That is, the DOMContentLoaded
 	// event has occurred, but this function is still loading files. This section
-	// resend the DOMContentLoaded event so they JavaScripts will reexecute their
+	// resend the DOMContentLoaded event so they JavaScripts will re-execute their
 	// initialization code.
 	//
 	// Since this function is recursive, only trigger this event when the top level

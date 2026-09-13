@@ -64,7 +64,7 @@
 				<p>Tax-Exempt Interest</p>
 				<input class="trigger input-field" type="text"
 					id="TaxExemptInterest-0"
-					placeholder="0" tooltipid="#TaxExemptInterest-0-TT" 
+					placeholder="0" tooltipid="#TaxExemptInterest-0-TT"
 					ize="10" />
 				<p>&nbsp;</p>
 
@@ -115,14 +115,14 @@
 					size="10" />
 				<p>&nbsp;</p>
 
-				<p>Tax-Exempt Interest from Pevious Year (1040, line 2a)</p>
+				<p>Tax-Exempt Interest from Previous Year (1040, line 2a)</p>
 				<input class="trigger input-field" type="text"
 					id="TaxExemptInterest-1"
 					placeholder="0" tooltipid="#TaxExemptInterest-1-TT"
 					size="10" />
 				<p>&nbsp;</p>
 
-				<p>Total Social Security from Pevious Year (1040, line 6a)</p>
+				<p>Total Social Security from Previous Year (1040, line 6a)</p>
 				<input class="trigger input-field" type="text"
 					id="SocialSecurityReceivedReported-1"
 			 		placeholder="0" tooltipid="#SocialSecurityReceivedReported-1-TT"
@@ -170,14 +170,14 @@
 					size="10" />
 				<p>&nbsp;</p>
 
-				<p>Tax-Exempt Interest from Pevious Year (1040, line 2a)</p>
+				<p>Tax-Exempt Interest from Previous Year (1040, line 2a)</p>
 				<input class="trigger input-field" type="text"
 					id="TaxExemptInterest-2"
 					placeholder="0" tooltipid="#TaxExemptInterest-1-TT"
 					size="10" />
 				<p>&nbsp;</p>
 
-				<p>Total Social Security from Pevious Year (1040, line 6a)</p>
+				<p>Total Social Security from Previous Year (1040, line 6a)</p>
 				<input class="trigger input-field" type="text"
 					id="SocialSecurityReceivedReported-2"
 					placeholder="0" tooltipid="#SocialSecurityReceivedReported-1-TT"

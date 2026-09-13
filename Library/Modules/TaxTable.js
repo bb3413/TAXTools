@@ -36,7 +36,7 @@ function getTaxTable(tax_year) {
 	}
 
 function getTaxYear() {
-		// This is implemented as both a staticand instance method.
+		// This is implemented as both a static and instance method.
 		return tax_table_year || Dates.getTaxYear();
 	}
 

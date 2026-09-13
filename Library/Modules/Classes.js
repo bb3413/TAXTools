@@ -288,7 +288,7 @@ const Classes = {
 	},
 
 	listAllForms() {
-		// Return array with the names of the suported tax forms and worksheets.
+		// Return array with the names of the supported tax forms and worksheets.
 		// The debug module uses this as a list of keywords.
 		return Object.keys(class_map);
 	}

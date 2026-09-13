@@ -13,7 +13,7 @@ export class F6251 extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F6251.Constructor()");
 		super(formname);
-		this.title = `6251 - Alternative Minimum Tax—Individuals`;
+		this.title = `6251 - Alternative Minimum Taxï¿½Individuals`;
 
 		// Form 6251, Part I - AMT Income
 		this.lines["01a"]	= new Line("Total Deductions w/o Senior Deduction");
@@ -35,7 +35,7 @@ export class F6251 extends TaxForm {
 		this.lines["02o"]	= new Line("Circulation Costs");
 		this.lines["02p"]	= new Line("Long-term Contracts");
 		this.lines["02q"]	= new Line("Mining Costs");
-		this.lines["02r"]	= new Line("Reseach and Experimental Costs");
+		this.lines["02r"]	= new Line("Research and Experimental Costs");
 		this.lines["02s"]	= new Line("Installment Sales");
 		this.lines["02t"]	= new Line("Intangible Drilling Costs");
 		this.lines["03"]	= new Line("Other Income");
@@ -138,7 +138,7 @@ export class F6251 extends TaxForm {
 		this.lines["02o"].value	= 0;					// Circulation Costs
 		this.lines["02p"].value	= 0;					// Long-term Contracts
 		this.lines["02q"].value	= 0;					// Mining Costs
-		this.lines["02r"].value	= 0;					// Reseach and Experimental Costs
+		this.lines["02r"].value	= 0;					// Research and Experimental Costs
 		this.lines["02s"].value	= (0);	// Subtract			Installment Sales
 		this.lines["02t"].value	= 0;					// Intangible Drilling Costs
 		this.lines["03"].value	= 0;					// Other Income
@@ -150,7 +150,7 @@ export class F6251 extends TaxForm {
 
 		// Form 6251, Part III
 		//
-		// Calculate part I and III before II becuase par II references values from
+		// Calculate part I and III before II because par II references values from
 		//the other parts.
 		this.lines["12"].value	= this.line("06");					// AMT Inc - AMT Exempt
 		this.lines["13"].value	= capital_gains + qualified_dividends;

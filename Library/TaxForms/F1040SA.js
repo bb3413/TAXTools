@@ -44,7 +44,7 @@ export class F1040SA extends TaxForm {
 		this.lines["09"]	= new Line("Investment Interest");
 		this.lines["10"]	= new Line("Interest Deduction");
 		this.lines["11"]	= new Line("Cash Donations");
-		this.lines["12"]	= new Line("Non-cash Donatons");
+		this.lines["12"]	= new Line("Non-cash Donations");
 		this.lines["13"]	= new Line("Carry-over Donations");
 		this.lines["14"]	= new Line("Donation Deduction");
 		this.lines["15"]	= new Line("Casualty and Theft Deduction");
@@ -85,8 +85,8 @@ export class F1040SA extends TaxForm {
 		this.lines["08e"].value	= this.add("08a","08b","08c");		// Mortgage Deduction
 		this.lines["09"].value	= 0;								// Investment Interest
 		this.lines["10"].value	= this.add("08e","09");				// Interest Deduction
-		this.lines["11"].value	= this.cash_donations;		// Cash Donations
-		this.lines["12"].value	= this.noncash_donations;	// Non-cash Donatons
+		this.lines["11"].value	= this.cash_donations;				// Cash Donations
+		this.lines["12"].value	= this.noncash_donations;			// Non-cash Donations
 		this.lines["13"].value	= 0;								// Carry-over Donations
 		this.lines["14"].value	= this.add("11","12","13");			// Donation Deduction
 		this.lines["15"].value	= 0;								// Casualty and Theft

@@ -118,7 +118,7 @@ export class TaxTable_2026 extends TaxTableTmpl {
 	// matches and the income is within the bracket. The tax is computed by
 	// subtracting the start of the bracket from the income to determine the amount
 	// of income within the bracket. Multiply that amount by the tax rate and add
-	// the cumlative tax.
+	// the cumulative tax.
 	//
 	// The cumulative tax is the cumulative amount of tax from each of the previous
 	// brackets.
@@ -174,7 +174,7 @@ export class TaxTable_2026 extends TaxTableTmpl {
 	// is limited by the age of the person.
 	//
 	ltc_table = [
-		// 			Mximum
+		// 			Maximum
 		// Age		Premium
 		[	71,		6020	],		// TY25
 		[	61,		4810	],		// TY25
@@ -247,7 +247,7 @@ export class TaxTable_2026 extends TaxTableTmpl {
 	//
 	// This is the IRS table for determining the sales tax deduction for California.
 	//
-	// The informaton in this table comes from the instructions for schedule A at
+	// The information in this table comes from the instructions for schedule A at
 	// https://www.irs.gov/pub/irs-pdf/i1040sca.pdf.
 	//
 	sales_tax_table = [

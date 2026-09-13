@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// HTML.addListener("TotalExpenses",		"change", changeHandler);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
-	// focus but display the page without sccrolling to that element.
+	// focus but display the page without scrolling to that element.
 	const Sales = document.getElementById('Sales');
 	Sales.focus({
 		preventScroll: true

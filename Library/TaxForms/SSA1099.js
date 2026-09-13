@@ -24,7 +24,7 @@ const HTML_FORM = `
 						<ul>
 							<li>Part of your Social Security benefits shown in box 5 may
 								be taxable income.</li>
-							<li>See the reverse for more infrmation.</li>
+							<li>See the reverse for more information.</li>
 						</ul>
 					</div>
 				</div>
@@ -142,7 +142,7 @@ export class SSA1099 extends TaxForm {
 	static getInputHTML(uid) {
 		//
 		// Get the HTML code to display the tax form for inputting values. Return an array
-		// with the element ID for the form's outer contaner and the HTML code.
+		// with the element ID for the form's outer container and the HTML code.
 		//
 		if (!uid) {
 			throw new Error(`SSA1099.getInputHTML(): UID is undefined.`);
@@ -170,7 +170,7 @@ export class SSA1099 extends TaxForm {
 		}
 
 		let inputs = {};
-	
+
 		inputs["01"]	= HTML.getUserInput(`ssa1099-${uid}-01`, "text");
 		inputs["02"]	= HTML.getUserInput(`ssa1099-${uid}-02`, "text");
 		inputs["03a"]	= HTML.getUserInput(`ssa1099-${uid}-03a`);

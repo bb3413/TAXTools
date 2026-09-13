@@ -73,8 +73,8 @@ export class Simple extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		let taxpayers_age_at_atart	= 0;
-		let spouses_age_at_atart	= 0;
+		let taxpayers_age_at_start	= 0;
+		let spouses_age_at_start	= 0;
 
 		if (Str.empty(this.annuity_start_date)) {
 			throw new Error("Annuity start date is not specified.");
@@ -86,9 +86,9 @@ export class Simple extends TaxForm {
 			throw new Error("Spouse's birthday is not specified.");
 		}
 
-		taxpayers_age_at_atart = Dates.getAge(tp.taxpayers_birthday, annuity_start_date);
+		taxpayers_age_at_start = Dates.getAge(tp.taxpayers_birthday, annuity_start_date);
 		if (!Str.empty(tp.spouses_birthday)) {
-			spouses_age_at_atart = Dates.getAge(tp.spouses_birthday, annuity_start_date);
+			spouses_age_at_start = Dates.getAge(tp.spouses_birthday, annuity_start_date);
 		}
 
 		this.lines["01"].value	= this.annuity_start_date;	// Gross Dist (1099-R, box 1)

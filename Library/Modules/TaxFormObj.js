@@ -172,7 +172,7 @@ const TaxFormObj = {
 		// This method will get a text value from a tax form. If the form does not exist,
 		// it will try to create it. If it has not been calculated, it will be calculated.
 		// If the form has not been implemented, "" will be returned. If there is more than
-		// one instance of the form, the lines from all the instances are concatinated
+		// one instance of the form, the lines from all the instances are concatenated
 		// together.
 		Debug.enter(`TaxFormObj.getTextValue(${formname}, ${lineno})`);
 		let str = "";
@@ -204,7 +204,7 @@ const TaxFormObj = {
 	},
 
 	getValue(formname, ...lineno) {
-		// This method will get a value from a tax form. If the form does not exist, it wlll
+		// This method will get a value from a tax form. If the form does not exist, it will
 		// try to create it. If it has not been calculated, it will be calculated. If the
 		// form has not been implemented, zero will be returned. If there is more than one
 		// instance of the form, the lines from all the instances are added together.

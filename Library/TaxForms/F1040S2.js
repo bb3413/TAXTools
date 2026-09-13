@@ -27,7 +27,7 @@ export class F1040S2 extends TaxForm {
 		this.lines["05"]	= new Line("SS Tax on Unreported Income");
 		this.lines["06"]	= new Line("SS Tax Not Collected on Wages");
 		this.lines["07"]	= new Line("Total Additional SS Tax");
-		this.lines["08"]	= new Line("Aditonal Tax on IRAs");
+		this.lines["08"]	= new Line("Additional Tax on IRAs");
 		this.lines["09"]	= new Line("Household Employment Tax");
 		this.lines["10"]	= new Line("Reserved for Future Use");
 		this.lines["11"]	= new Line("Additional Medicare Tax");
@@ -88,7 +88,7 @@ export class F1040S2 extends TaxForm {
 		this.lines["05"].value	= 0;	// SS Tax on Unreported Income
 		this.lines["06"].value	= 0;	// SS Tax Not Collected on Wages
 		this.lines["07"].value	= 0;	// Total Additional SS Tax
-		this.lines["08"].value	= 0;	// Aditonal Tax on IRAs
+		this.lines["08"].value	= 0;	// Additional Tax on IRAs
 		this.lines["09"].value	= 0;	// Household Employment Tax
 		this.lines["10"].value	= 0;	// Reserved for Future Use
 		this.lines["11"].value	= TaxFormObj.getValue("F8959", "18");	// Medicare

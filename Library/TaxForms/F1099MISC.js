@@ -27,7 +27,7 @@ const HTML_FORM = `
 						<strong>Miscellaneous Information</strong>
 					</div>
 				</div>
-			
+
 				<!-- Main Content Grid -->
 				<div class="f1099-main-grid">
 					<!-- Left Column: Payer & Recipient Info Inputs -->
@@ -40,7 +40,7 @@ const HTML_FORM = `
 								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
 							</textarea>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">PAYER&apos;S TIN</span>
@@ -53,7 +53,7 @@ const HTML_FORM = `
 									placeholder="123-45-6789" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-box f1099-box-large">
 							<span class="f1099-box-label">TAXPAYER&apos;S name, street
 								address, city or town, state, and ZIP code</span>
@@ -69,7 +69,7 @@ const HTML_FORM = `
 								placeholder="Optional Account #" />
 						</div>
 					</div>
-			
+
 					<!-- Right Column: Numbered Input Boxes -->
 					<div class="f1099-col-right">
 						<div class="f1099-flex-row">
@@ -117,7 +117,7 @@ const HTML_FORM = `
 							<div class="f1099-box">
 								<span class="f1099-box-label">7 Payer made direct sales
 									totaling $5,000 or more of consumer products to recipient
-									forresale</span>
+									for resale</span>
 								<div class="f1099-checkbox-center">
 									<input type="checkbox" id="f1099misc-XX-07" />
 								</div>
@@ -203,8 +203,8 @@ const HTML_FORM = `
 			</div>		<!-- f1099-taxform-container -->
 			<div class="f1099-footer-note">Form <strong>1099-MISC</strong></div>
 			<div>&nbsp;</div>
-			
-			<div class="supplimental-input-line">
+
+			<div class="supplemental-input-line">
 				<p>Name of Business (if applicable)</p>
 				<input class="input-field left" type="text" spellcheck="false"
 					size="45" id="f1099misc-XX-business-name" />

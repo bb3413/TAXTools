@@ -14,7 +14,7 @@ const HTML_FORM = `
 			<div class="f1099-taxform-container">
 				<!-- Header Section -->
 				<div class="f1099-header-row">
-					<div class="f1099-header-left"> 
+					<div class="f1099-header-left">
 						<label><input type="checkbox" disabled
 							id="corrected" /> CORRECTED</label>
 					</div>
@@ -40,7 +40,7 @@ const HTML_FORM = `
 								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
 							</textarea>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">PAYER&apos;S TIN</span>
@@ -53,7 +53,7 @@ const HTML_FORM = `
 									placeholder="123-45-6789" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-box f1099-box-large">
 							<span class="f1099-box-label">TAXPAYER&apos;S name, street
 								address, city or town, state, and ZIP code</span>
@@ -61,7 +61,7 @@ const HTML_FORM = `
 								placeholder="Taxpayer&apos;s Name&#10;Street Address&#10;City, State, ZIP">
 							</textarea>
 						</div>
-			
+
 						<div class="f1099-box" style="border-bottom: none;">
 							<span class="f1099-box-label">Account number (see
 								instructions)</span>
@@ -85,7 +85,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">2a Total capital gain
@@ -100,7 +100,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">3 Nondividend
@@ -115,7 +115,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
 								<span class="f1099-box-label">5 Section 199A dividends</span>
@@ -128,7 +128,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
 								<span class="f1099-box-label">7 Foreign tax paid</span>
@@ -141,7 +141,7 @@ const HTML_FORM = `
 								<input type="text" id="f1099div-XX-08" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">12 Section 1202 gain</span>
@@ -155,7 +155,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box" style="border-bottom: none;">
 								<span class="f1099-box-label">14/15 State/state no.</span>

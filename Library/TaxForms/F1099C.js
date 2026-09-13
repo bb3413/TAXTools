@@ -27,20 +27,20 @@ const HTML_FORM = `
 						<strong>Cancellation of Debt</strong>
 					</div>
 				</div>
-			
+
 				<!-- Main Content Grid -->
 				<div class="f1099-main-grid">
 					<!-- Left Column: Payer & Recipient Info Inputs -->
 					<div class="f1099-col-left">
 						<div class="f1099-box f1099-box-large">
-							<span class="f1099-box-label">PAYER&apos;S name, street 
+							<span class="f1099-box-label">PAYER&apos;S name, street
 								address, city or town, state or province, country,
 								ZIP or foreign postal code, and telephone no.</span>
 							<textarea id="f1099c-XX-payer"
 								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
 							</textarea>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">PAYER&apos;S TIN</span>
@@ -53,7 +53,7 @@ const HTML_FORM = `
 									placeholder="123-45-6789" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-box f1099-box-large">
 							<span class="f1099-box-label">TAXPAYER&apos;S name, street
 								address, city or town, state, and ZIP code</span>
@@ -69,7 +69,7 @@ const HTML_FORM = `
 								placeholder="Optional Account #" />
 						</div>
 					</div>
-			
+
 					<!-- Right Column: Numbered Input Boxes -->
 					<div class="f1099-col-right">
 						<div class="f1099-flex-row">
@@ -97,14 +97,14 @@ const HTML_FORM = `
 							<div class="f1099-box">
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">4 Debt description</span>
 								<textarea id="f1099c-XX-04"></textarea>
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">5 If checked, the debtor

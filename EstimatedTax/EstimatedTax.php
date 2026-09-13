@@ -559,7 +559,7 @@
 		<h3>Non-refundable Credits</h3>
 		<div class="data-line">
 			<p>Schedule 3, line 3</p>
-			<p>Americal Opportunity Credit (non-refundable part)</p>
+			<p>American Opportunity Credit (non-refundable part)</p>
 			<input class="trigger input-field" type="text"
 				tooltipid="#AmericanOppCreditNoRefundTT"
 				id="AmericanOppCreditNoRefund" placeholder="0" size="10" />
@@ -625,7 +625,7 @@
 		<h3>Refundable Credits</h3>
 		<div class="data-line">
 			<p>Schedule 3, line 3</p>
-			<p>Americal Opportunity Credit (refundable part)</p>
+			<p>American Opportunity Credit (refundable part)</p>
 			<input class="trigger input-field" type="text"
 				tooltipid="#AmericanOppCreditRefundableTT"
 				id="AmericanOppCreditRefundable" placeholder="0" size="10" />

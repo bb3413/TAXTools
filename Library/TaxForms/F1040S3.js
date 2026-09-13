@@ -64,7 +64,7 @@ export class F1040S3 extends TaxForm {
 									TaxFormObj.getValue("F1041", "xx") +
 									TaxFormObj.getValue("F1165", "xx");
 		if foreignTaxCredt < 300 per spouse
-			1040S3[1] = foreignTaxCredt
+			1040S3[1] = foreignTaxCredit
 		else
 			1040S3[1] f1116[35]
 */
@@ -100,7 +100,7 @@ export class F1040S3 extends TaxForm {
 		this.lines["09"].value	= TaxFormObj.getValue("F8962", "xx");	// PTC
 		this.lines["10"].value	= 0;								// Extension Request
 		this.lines["11"].value	= 0;								// Excess SS Withheld
-		this.lines["12"].value	= TaxFormObj.getValue("F4136", "xx");	// Tax on Fuels 
+		this.lines["12"].value	= TaxFormObj.getValue("F4136", "xx");	// Tax on Fuels
 		this.lines["13a"].value	= TaxFormObj.getValue("F2439", "xx");	// LT Gains
 		this.lines["13b"].value	= 0;								// Section 1341 Credit
 		this.lines["13c"].value	= TaxFormObj.getValue("F3800", "06");	// Form 3800

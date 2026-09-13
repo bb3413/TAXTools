@@ -74,7 +74,7 @@ const HTML = {
 			return value;
 		}
 
-		// Process dollar sign, commas, and mathmatical expressions.
+		// Process dollar sign, commas, and mathematical expressions.
 		return Num.toInteger(value);
 	},
 
@@ -88,7 +88,7 @@ const HTML = {
 			// Add commas.
 			HTML.putElementValue(element_id, Num.format(value));
 
-		} else {	// tpye === "text"
+		} else {	// type === "text"
 			// Put the value as is.
 			HTML.putElementValue(element_id,
 				value===undefined ? "" : value);
@@ -103,12 +103,12 @@ const HTML = {
 	//
 	// Other elements use "textContent" and "innerText". The "textContent" attribute
 	// returns the content of the element. The "innerText" attribute is not used often;
-	// it returns the content as it is displayed. If the elemenet is hidden, it won"t
+	// it returns the content as it is displayed. If the element is hidden, it won"t
 	// return the content.
 	//
 	getElementValue(element_id) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, 
+		if (!Debug.verify(element,
 				"getElementValue: Element not found: " + element_id)) return;
 
 		if (element.type === "checkbox" || element.type === "radio") {

@@ -304,7 +304,7 @@ export class W2 extends TaxForm {
 		this.lines["12c2"]	= new Line("Option C");
 		this.lines["12d1"]	= new Line("Option D");
 		this.lines["12d2"]	= new Line("Option D");
-		this.lines["13a"]	= new Line("Statuatory Employee");
+		this.lines["13a"]	= new Line("Statutory Employee");
 		this.lines["13b"]	= new Line("Retirement Plan");
 		this.lines["13c"]	= new Line("Third-Party Sick Plan");
 		this.lines["14a1"]	= new Line("Other A");

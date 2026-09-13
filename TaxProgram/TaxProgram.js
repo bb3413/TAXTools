@@ -146,7 +146,7 @@ function changeHandler(event) {
 
 function dependentHandler(event) {
 	//
-	// This function is called when the user clicks on the "Enter a Dependentn" button.
+	// This function is called when the user clicks on the "Enter a Dependent" button.
 	//
 	let id = addWorksheet("Dependent");
 	HTML.openDetails(id);
@@ -385,7 +385,7 @@ function restoreUserData(data) {
 			throw new Error(`Restored data file is intended for the ${data.tool} tool.`);
 		}
 
-		resetAll();		// Start over, reset ewverything.
+		resetAll();		// Start over, reset everything.
 
 		// Restore the taxpayer information.
 		HTML.putUserOutput("tax-year", data.tax_year, "text");

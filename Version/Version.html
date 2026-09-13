@@ -44,7 +44,7 @@
 				<li>9/1/2026 - 019 - Changed the name of the project to TAXTools and
 				renamed all the files and folders accordingly.</li>
 				<li>8/30/2026 - 018 - Fixes to make SaveForms work. Changed saveToFile() to
-				prevent throttling when saveing several files.</li>
+				prevent throttling when saving several files.</li>
 				<li>8/29/2026 - 017 - Reduced line length in source code so it will fit
 				on a printed page (using VS-Code) without wrapping around.</li>
 				<li>8/27/2026 - 016 - Added forms 1099-C, 1099-G, 1099-MISC, 1099-OID, and
@@ -64,7 +64,7 @@
 				<li>7/28/2026 - 009 - Remove TaxData.js. Rename Line.override_value() to
 				user_value().</li>
 				<li>7/28/2026 - 008 - Make Forms.addForm() local to Forms instead of being
-				called from all of the contructors.</li>
+				called from all of the constructors.</li>
 				<li>7/27/2026 - 007 - Filing status in always an uppercase string now.</li>
 				<li>7/22/2026 - 006 - Start using for-of in place of forEach.</li>
 				<li>7/22/2026 - 005 - Improved the selectivity of which forms to calculate.
@@ -77,10 +77,10 @@
 				correct path going forward, but it will remain in a separate Git branch
 				(oo-dev) until I have all the tools working again.</p>
 
-				<p>The point of this change is the tools will provide correct tax calculatons
-				while providng the ability to override specific fields. This solves the
+				<p>The point of this change is the tools will provide correct tax calculations
+				while providing the ability to override specific fields. This solves the
 				problem of when should the program calculate a value and when should the user
-				enter the value. It now calculates everthing that it knows how to calculate
+				enter the value. It now calculates everything that it knows how to calculate
 				based on the information from the user. The user can override any field in
 				the tax return and any information that is not overridden will be calculated
 				by the tool.</p>

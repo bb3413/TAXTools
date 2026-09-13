@@ -386,8 +386,8 @@
 			<p>540, line 113</p>
 			<p>Underpayment of Estimated Tax</p>
 			<input class="trigger input-field" type="text" size="10"
-				placeholder="0" id="UnderepaymentOfEstimatedTax"
-				tooltipid="#UnderepaymentOfEstimatedTaxTT" />
+				placeholder="0" id="UnderpaymentOfEstimatedTax"
+				tooltipid="#UnderpaymentOfEstimatedTaxTT" />
 
 			<p>540, line 91</p>
 			<p>Use Tax</p>

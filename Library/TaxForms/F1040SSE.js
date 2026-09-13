@@ -17,7 +17,7 @@ export class F1040SSE extends TaxForm {
 		this.lines["01a"]	= new Line("Not used");
 		this.lines["01b"]	= new Line("Not used");
 		this.lines["02"]	= new Line("Net profit from business");
-		this.lines["03"]	= new Line("Total self-imployment income");
+		this.lines["03"]	= new Line("Total self-employment income");
 		this.lines["04a"]	= new Line("92.35%");
 		this.lines["04b"]	= new Line("Ignore");
 		this.lines["04c"]	= new Line("Add lines 04a and 04b");
@@ -50,7 +50,7 @@ export class F1040SSE extends TaxForm {
 		this.lines["01b"].value		= 0;							// Farm income
 		this.lines["02"].value		= TaxFormObj.getValue("F1040SC", "31");	// Net profit
 		this.lines["03"].value		= this.add("01a", "01b", "02");	// Total income
-		this.lines["04a"].value		= 
+		this.lines["04a"].value		=
 			Math.round((this.line("03") > 0) ? this.line("03") * 0.9235 : this.line("03"));
 		this.lines["04b"].value		= 0;							// Ignore
 		this.lines["04c"].value		= this.add("04a", "04b");
@@ -76,7 +76,7 @@ export class F1040SSE extends TaxForm {
 		} else {
 			this.lines["10"].value	= Math.round(this.min("06", "09") * 0.124);	// SS tax
 		}
-		this.lines["11"].value		= Math.round(this.min("06") * 0.029);// Medicatre tax
+		this.lines["11"].value		= Math.round(this.min("06") * 0.029);// Medicare tax
 		this.lines["12"].value		= Math.round(this.add("10", "11"));	// SS+Med = SE Tax
 		this.lines["13"].value		= Math.round(this.line("12") / 2);	// SE Tax Deduction
 

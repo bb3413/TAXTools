@@ -27,7 +27,7 @@ const HTML_FORM = `
 						<strong>Original Issue Discount</strong>
 					</div>
 				</div>
-			
+
 				<!-- Main Content Grid -->
 				<div class="f1099-main-grid">
 					<!-- Left Column: Payer & Recipient Info Inputs -->
@@ -40,7 +40,7 @@ const HTML_FORM = `
 								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
 							</textarea>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">PAYER&apos;S TIN</span>
@@ -53,7 +53,7 @@ const HTML_FORM = `
 									placeholder="123-45-6789" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-box f1099-box-large">
 							<span class="f1099-box-label">TAXPAYER&apos;S name, street
 								address, city or town, state, and ZIP code</span>
@@ -69,7 +69,7 @@ const HTML_FORM = `
 								placeholder="Optional Account #" />
 						</div>
 					</div>
-			
+
 					<!-- Right Column: Numbered Input Boxes -->
 					<div class="f1099-col-right">
 						<div class="f1099-flex-row">
@@ -114,7 +114,7 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 						</div>
-			
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">7 Description</span>
@@ -261,7 +261,7 @@ export class F1099OID extends TaxForm {
 		this.lines["08"]		= new Line("OID on U.S. Treasury obligations");
 		this.lines["09"]		= new Line("Investment expenses");
 		this.lines["10"]		= new Line("Bond premium");
-		this.lines["11"]		= new Line("Tax-exempt OID");	
+		this.lines["11"]		= new Line("Tax-exempt OID");
 		this.lines["13"]		= new Line("State/state no.");
 		this.lines["14"]		= new Line("State tax withheld");
 

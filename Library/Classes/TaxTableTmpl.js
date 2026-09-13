@@ -37,7 +37,7 @@ export class TaxTableTmpl {
 		// Note: there is another named getIncomeTax() in
 		// Library/IncomeTax.js.
 		//
-		// Find the tax baracket for the filing status and income, then compute
+		// Find the tax bracket for the filing status and income, then compute
 		// the tax:
 		//
 		//		((income - start_of_bracket) * tax_rate) + cumulative_tax
@@ -178,7 +178,7 @@ export class TaxTableTmpl {
 	}
 
 	getTaxYear() {
-		// This is implemented as both a staticand instance method.
+		// This is implemented as both a static and instance method.
 		return this.tax_year;
 	}
 
@@ -243,7 +243,7 @@ export class TaxTableTmpl {
 	}
 
 	get_CA_IncomeTax(filing_status, income) {
-		// Find the tax baracket for the filing status and income, then compute
+		// Find the tax bracket for the filing status and income, then compute
 		// the tax:
 		//
 		//		((income - start_of_bracket) * tax_rate) + cumulative_tax
@@ -312,7 +312,7 @@ export class TaxTableTmpl {
 	}
 
 	cumulativeTax(table, curr_row) {
-		// This calculates the cumulative income tax for the pevious tax brackets.
+		// This calculates the cumulative income tax for the previous tax brackets.
 		// The table is constructed with each tax bracket in a separate row. The state and
 		// federal income tax tables are laid out the same so this works for both
 		// of them.

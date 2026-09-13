@@ -334,7 +334,7 @@ export class F1040SC extends TaxForm {
 		}
 
 		let inputs = {};
-	
+
 		inputs["01"]		= HTML.getUserInput(`f1040sc-${uid}-01`);
 		inputs["02"]		= HTML.getUserInput(`f1040sc-${uid}-02`);
 		inputs["03"]		= HTML.getUserInput(`f1040sc-${uid}-03`);

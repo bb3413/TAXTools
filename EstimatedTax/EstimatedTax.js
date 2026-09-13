@@ -9,7 +9,7 @@ import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
 import { ESTIMATED_TAX_SAVE_FILE } from "../Library/TAXTools/TAXTools.js";
 
-// This variable need to be global so it can be accssed by the save handler.
+// This variable needs to be global so it can be accessed by the save handler.
 let inputs = {};
 
 function changeHandler(event) {
@@ -240,7 +240,7 @@ function getInputs() {
 	inputs.qualified_charitable_distribution =
 		HTML.getUserInput("QualifiedCharitableDistribution");
 
-	// Non-redundable Credits
+	// Non-refundable Credits
 	inputs.american_opp_credit_no_refund =
 		HTML.getUserInput("AmericanOppCreditNoRefund");
 	inputs.child_care_credit =
@@ -491,7 +491,7 @@ function restoreDataHandler(data) {
 						 inputs.doctor_visits);
 	HTML.putElementValue("PrescriptionDrugs",
 						 inputs.prescription_drugs);
-	HTML.putElementValue("MedicalAids",	
+	HTML.putElementValue("MedicalAids",
 						 inputs.medical_aids);
 	HTML.putElementValue("LTCTaxpayer",
 						 inputs.ltc_taxpayer);
@@ -518,7 +518,7 @@ function restoreDataHandler(data) {
 	HTML.putElementValue("QualifiedCharitableDistribution",
 						 inputs.qualified_charitable_distribution);
 
-	// Non-redundable Credits
+	// Non-refndable Credits
 	HTML.putElementValue("AmericanOppCreditNoRefund",
 						 inputs.american_opp_credit_no_refund);
 	HTML.putElementValue("ChildCareCredit",
@@ -530,7 +530,7 @@ function restoreDataHandler(data) {
 	HTML.putElementValue("LifetimeLearningCredit",
 						 inputs.lifetime_learning_credit);
 	HTML.putElementValue("ResidentialEnergyCredit",
-						 
+
 						 inputs.residential_energy_credit);
 	HTML.putElementValue("RetirementSavingsCredit",
 						 inputs.retirement_savings_credit);
@@ -679,7 +679,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.addListener("EstimatedTaxPaid",				"change", changeHandler);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
-	// focus but display the page without sccrolling to that element.
+	// focus but display the page without scrolling to that element.
 	const TaxpayersName = document.getElementById("TaxpayersName");
 	TaxpayersName.focus({preventScroll: true});
 
