@@ -19,21 +19,20 @@ export class SSTax extends TaxForm {
 		this.lines["02"]	= new Line("Half of total SS benefits");
 		this.lines["03"]	= new Line("Income w/o SS");
 		this.lines["04"]	= new Line("Tax Exempt Interest");
-		this.lines["05"]	= new Line("Not used");
-		this.lines["06"]	= new Line("Add Lines 2, 3, 4, and 5");
-		this.lines["07"]	= new Line("Adjustments");
-		this.lines["08"]	= new Line("SS income");
-		this.lines["09"]	= new Line("Start of 50% Taxable Range");
-		this.lines["10"]	= new Line("Amount Above Base of Range") ;
-		this.lines["11"]	= new Line("Length of 50% Taxable Range");
-		this.lines["12"]	= new Line("Amount Above Top of Range");
-		this.lines["13"]	= new Line("Amount Within Range");
-		this.lines["14"]	= new Line("50% of Amount Within Range");
-		this.lines["15"]	= new Line("At Most 50% is Taxable");
-		this.lines["16"]	= new Line("85% of Amount Above Range");
-		this.lines["17"]	= new Line("Taxable Amount");
-		this.lines["18"]	= new Line("At Most 85% is Taxable");
-		this.lines["19"]	= new Line("Taxable Amount");
+		this.lines["05"]	= new Line("Add Lines 2, 3, 4");
+		this.lines["06"]	= new Line("Adjustments");
+		this.lines["07"]	= new Line("SS income");
+		this.lines["08"]	= new Line("Start of 50% Taxable Range");
+		this.lines["09"]	= new Line("Amount Above Base of Range") ;
+		this.lines["10"]	= new Line("Length of 50% Taxable Range");
+		this.lines["11"]	= new Line("Amount Above Top of Range");
+		this.lines["12"]	= new Line("Amount Within Range");
+		this.lines["13"]	= new Line("50% of Amount Within Range");
+		this.lines["14"]	= new Line("At Most 50% is Taxable");
+		this.lines["15"]	= new Line("85% of Amount Above Range");
+		this.lines["16"]	= new Line("Taxable Amount");
+		this.lines["17"]	= new Line("At Most 85% is Taxable");
+		this.lines["18"]	= new Line("Taxable Amount");
 
 		Debug.exit("SSTax.Constructor()");
 	}
@@ -85,35 +84,34 @@ export class SSTax extends TaxForm {
 		this.lines["02"].value	= Math.round(this.line("01") / 2);	// Half of total SS
 		this.lines["03"].value	= income_wo_ss;						// Income w/o SS
 		this.lines["04"].value	= tax_exempt_int;					// Tax Exempt Interest
-		this.lines["05"].value	= 0;								// Not used
-		this.lines["06"].value	= this.add("02","03","04","05");
-		this.lines["07"].value	= adjustments - student_loan_int;	// Adjustments
-		if (this.line("07") >= this.line("06")) {
-			this.lines["19"].value = 0;
+		this.lines["05"].value	= this.add("02","03","04");
+		this.lines["06"].value	= adjustments - student_loan_int;	// Adjustments
+		if (this.line("06") >= this.line("05")) {
+			this.lines["18"].value = 0;
 			return 0;
 		}
-		this.lines["08"].value	= Math.max(0, this.subtract("06", "07"));	// SS income
+		this.lines["07"].value	= Math.max(0, this.subtract("05", "06"));	// SS income
 		if ((filing_status === "MFS") && lived_with_spouse) {
-			this.lines["17"].value = this.line("08") * 0.85;				// 85%
+			this.lines["16"].value = Math.round(this.line("07") * 0.85);	// 85%
 		} else {
-			this.lines["09"].value = tt.get_SS_Start_50(filing_status);	// Start of 50% range
-			if (this.line("09") >= this.line("08")) {
-				this.lines["19"].value = 0;
+			this.lines["08"].value = tt.get_SS_Start_50(filing_status);		// Start 50% range
+			if (this.line("08") >= this.line("07")) {
+				this.lines["18"].value = 0;
 				return 0;
 			}
-			this.lines["10"].value	= Math.max(0, this.subtract("08","09"));// Amount over
-			this.lines["11"].value	= tt.get_SS_50_Range(filing_status);	// Len of range
-			this.lines["12"].value	= Math.max(0, this.subtract("10","11"));// Amt over range
-			this.lines["13"].value	= this.min("10","11");			// Amount within range
-			this.lines["14"].value	= this.line("13") * 0.50;		// 50% of amt in range
-			this.lines["15"].value	= this.min("02","14");			// At Most 50% taxable
-			this.lines["16"].value	= this.line("12") * 0.85;		// 85% of amt over range
-			this.lines["17"].value	= this.add("15","16");			// Taxable amount
+			this.lines["09"].value	= Math.max(0, this.subtract("07","08"));// Amount over
+			this.lines["10"].value	= tt.get_SS_50_Range(filing_status);	// Len of range
+			this.lines["11"].value	= Math.max(0, this.subtract("09","10"));// Amt over range
+			this.lines["12"].value	= this.min("09","10");					// Amount in range
+			this.lines["13"].value	= Math.round(this.line("12") * 0.50);	// 50% of in range
+			this.lines["14"].value	= this.min("02","13");				// At Most 50% taxable
+			this.lines["15"].value	= Math.round(this.line("11") * 0.85);// 85% of over range
+			this.lines["16"].value	= this.add("14","15");					// Taxable amount
 		}
-		this.lines["18"].value	= this.line("01") * 0.85;			// At Most 85% is taxable
-		this.lines["19"].value	= Math.round(this.min("17","18"));	// Taxable amount
+		this.lines["17"].value	= Math.round(this.line("01") * 0.85);	// At Most 85% taxable
+		this.lines["18"].value	= Math.round(this.min("16","17"));		// Taxable amount
 
 		Debug.exit("SSTax.calculate()");
-		return this.line("19");
+		return this.line("18");
 	}
 }
