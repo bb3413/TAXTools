@@ -49,6 +49,11 @@ export class Num {
 		return value;
 	}
 
+	static round2(num) {
+		// Round to a string with 2 decimal places, then convert back to a number.
+		return  parseFloat(num.toFixed(2));
+	}
+
 	static toInteger(str) {
 		// Convert the string to a number. If the string contains commas, dollar
 		// signs, or whitespace they will be removed. The string is then evaluated
