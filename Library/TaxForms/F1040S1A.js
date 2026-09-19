@@ -114,16 +114,18 @@ export class F1040S1A extends TaxForm {
 		this.lines["04c"].value	= 0;									// Qualified Tips
 		this.lines["05"].value	= 0;									// Qualified Tips
 		this.lines["06"].value	= this.add("04c","05");					// Total Tips
-		this.lines["07"].value	= Math.min(this.line("06"), max_deduction);	// Limit
-		this.lines["08"].value	= this.line("03");						// AGI + Foreign Inc
-		this.lines["09"].value	= start_of_phase_out;
-		this.lines["10"].value	= this.subtract("08", "09");			// Amount Over Limit
-		if (this.line("10") <= 0) {
-			this.lines["13"].value = this.line("07");					// Tip Deduction
-		} else {
-			this.lines["11"].value	= roundDown(this.line("10") / 1000);// Calc Phase Out
-			this.lines["12"].value	= this.line("11") * 100;			// Calc Phase Out
-			this.lines["13"].value	= Math.max(0, this.subtract("07", "12"));// Tip Deduction
+		if (this.line("06") > 0) { 
+			this.lines["07"].value	= Math.min(this.line("06"), max_deduction);	// Limit
+			this.lines["08"].value	= this.line("03");					// AGI + Foreign Inc
+			this.lines["09"].value	= start_of_phase_out;
+			this.lines["10"].value	= this.subtract("08", "09");		// Amount Over Limit
+			if (this.line("10") <= 0) {
+				this.lines["13"].value = this.line("07");				// Tip Deduction
+			} else {
+				this.lines["11"].value	= roundDown(this.line("10") / 1000);// Calc Phase Out
+				this.lines["12"].value	= this.line("11") * 100;		// Calc Phase Out
+				this.lines["13"].value	= Math.max(0, this.subtract("07", "12"));// Deduction
+			}
 		}
 
 		// No Tax on Overtime
@@ -135,16 +137,18 @@ export class F1040S1A extends TaxForm {
 		this.lines["14a"].value	= 0;									// Overtime Pay
 		this.lines["14b"].value	= 0;									// Overtime Pay
 		this.lines["14c"].value	= this.add("14a","14b");				// Total Overtime
-		this.lines["15"].value	= Math.min(this.line("14c"), max_deduction);// Limit
-		this.lines["16"].value	= this.line("03");						// AGI + Foreign Inc
-		this.lines["17"].value	= start_of_phase_out;
-		this.lines["18"].value	= this.subtract("16", "17");			// Over Phase Out
-		if (this.line("18") <= 0) {
-			this.lines["21"].value = this.line("15");					// Overtime Deduction
-		} else {
-			this.lines["19"].value	= roundDown(this.line("18") / 1000);// Calc Phase Out
-			this.lines["20"].value	= this.line("19") * 100;			// Calc Phase Out
-			this.lines["21"].value	= Math.max(0, this.subtract("15", "20"));// Deduction
+		if (this.line("14c") > 0) {
+			this.lines["15"].value	= Math.min(this.line("14c"), max_deduction);// Limit
+			this.lines["16"].value	= this.line("03");					// AGI + Foreign Inc
+			this.lines["17"].value	= start_of_phase_out;
+			this.lines["18"].value	= this.subtract("16", "17");		// Over Phase Out
+			if (this.line("18") <= 0) {
+				this.lines["21"].value = this.line("15");				// Overtime Deduction
+			} else {
+				this.lines["19"].value	= roundDown(this.line("18") / 1000);// Calc Phase Out
+				this.lines["20"].value	= this.line("19") * 100;		// Calc Phase Out
+				this.lines["21"].value	= Math.max(0, this.subtract("15", "20"));// Deduction
+			}
 		}
 
 		// No Tax on Car Loan Interest
@@ -156,16 +160,18 @@ export class F1040S1A extends TaxForm {
 		this.lines["22a"].value	= 0;								// Car Loan #1 Interest
 		this.lines["22b"].value	= 0;								// Car Loan #2 Interest
 		this.lines["23"].value	= this.add("22a","22b");			// Total Interest
-		this.lines["24"].value	= Math.min(this.line("23"), max_deduction);	// Limit
-		this.lines["25"].value	= this.line("03");					// AGI + Foreign Income
-		this.lines["26"].value	= start_of_phase_out;
-		this.lines["27"].value	= this.subtract("25", "26");		// Amount Over Phase Out
-		if (this.line("27") <= 0) {
-			this.lines["30"].value = this.line("24");				// Car Loan Deduction
-		} else {
-			this.lines["28"].value	= roundUp(this.line("27") / 1000);	// Calc Phase Out
-			this.lines["29"].value	= this.line("28") * 200;			// Calc Phase Out
-			this.lines["30"].value	= Math.max(0, this.subtract("24", "29"));// Car Deduction
+		if (this.line("23") > 0) {
+			this.lines["24"].value	= Math.min(this.line("23"), max_deduction);	// Limit
+			this.lines["25"].value	= this.line("03");				// AGI + Foreign Income
+			this.lines["26"].value	= start_of_phase_out;
+			this.lines["27"].value	= this.subtract("25", "26");	// Amount Over Phase Out
+			if (this.line("27") <= 0) {
+				this.lines["30"].value = this.line("24");			// Car Loan Deduction
+			} else {
+				this.lines["28"].value	= roundUp(this.line("27") / 1000);	// Calc Phase Out
+				this.lines["29"].value	= this.line("28") * 200;		// Calc Phase Out
+				this.lines["30"].value	= Math.max(0, this.subtract("24", "29"));// Deduction
+			}
 		}
 
 		// Enhanced Deduction for Seniors
