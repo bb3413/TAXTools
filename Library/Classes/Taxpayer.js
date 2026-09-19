@@ -48,13 +48,11 @@ function initializeTaxpayer() {
 	//
 	// Create a new taxpayer and initialize it with information from the Web page.
 	//
-	let inputs = {};
-
 	const taxpayer = new Taxpayer();
 
 	// Initialize the fields from the web page.
 	for (const element_id of Object.keys(ELEMENTS)) {
-		const key_name = "_" + Str.kebabToSnakeCase(element_id);
+		const key_name = Str.kebabToSnakeCase(element_id);
 		taxpayer[key_name] = getUserInput(element_id, ELEMENTS[element_id][0]);
 	}
 
@@ -147,7 +145,7 @@ export class Taxpayer {
 	constructor() {
 		taxpayer = this;
 
-		this._filing_status					= "Single";
+		this._filing_status					= "SINGLE";
 		this._taxpayers_name				= "";
 		this._street_address				= "";		// Needed for sales tax
 		this._city							= "";		// Needed for sales tax
@@ -270,7 +268,7 @@ export class Taxpayer {
 			this._taxpayers_name, "text");
 		HTML.putUserOutput("f1040-1-street-address",
 			this._street_address, "text");
-		if (this._city) {
+		if (!Str.empty(this._city)) {
 			const state = this._state ? this._state : "CA";
 			HTML.putUserOutput("f1040-1-city-state-zip",
 				`${this._city}, ${state} ${this._zip_code}`.trim(), "text");
@@ -278,13 +276,13 @@ export class Taxpayer {
 			HTML.putUserOutput("f1040-1-city-state-zip","", "text");
 		}
 
-		if (this._taxpayers_birthday) {
+		if (!Str.empty(this._taxpayers_birthday)) {
 			HTML.putUserOutput("f1040-1-taxpayers-birthday",
 				`${this._taxpayers_birthday} (Age ${this._taxpayers_age})`, "text");
 		} else {
 			HTML.putUserOutput("f1040-1-taxpayers-birthday", "", "text");
 		}
-		if (this._spouses_birthday) {
+		if (!Str.empty(this._spouses_birthday)) {
 			HTML.putUserOutput("f1040-1-spouses-birthday",
 				`${this._spouses_birthday} (Age ${this._spouses_age})`, "text");
 		} else {
