@@ -263,12 +263,11 @@ export class F1099R extends TaxForm {
 		this.title =
 			`1099-R - Distributions from Pensions, Annuities, Retirement Plans, etc.`;
 
-		this.payer				= 0;
-		this.ein				= 0;
-		this.ssn				= 0;
-		this.taxpayer			= 0;
-		this.account			= 0;
-
+		this.lines["payer"]		= new Line("Payer");
+		this.lines["ein"]		= new Line("EIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["account"]	= new Line("Account");
 		this.lines["01"]		= new Line("Gross distribution");
 		this.lines["02a"]		= new Line("Taxable amount");
 		this.lines["02b"]		= new Line("Taxable amount not determined");

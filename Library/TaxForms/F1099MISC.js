@@ -209,6 +209,7 @@ const HTML_FORM = `
 				<input class="input-field left" type="text" spellcheck="false"
 					size="45" id="f1099misc-XX-business-name" />
 			</div>
+			<div>&nbsp;</div>
 		</details>
 `;
 
@@ -265,6 +266,7 @@ export class F1099MISC extends TaxForm {
 		inputs["ssn"]		= HTML.getUserInput(`f1099misc-${uid}-ssn`,		"text");
 		inputs["taxpayer"]	= HTML.getUserInput(`f1099misc-${uid}-taxpayer`,"text");
 		inputs["account"]	= HTML.getUserInput(`f1099misc-${uid}-account`,	"text");
+		inputs["business_name"]	= HTML.getUserInput(`f1099nec-${uid}-business-name`, "text");
 		inputs["01"]		= HTML.getUserInput(`f1099misc-${uid}-01`);
 		inputs["02"]		= HTML.getUserInput(`f1099misc-${uid}-02`);
 		inputs["03"]		= HTML.getUserInput(`f1099misc-${uid}-03`);
@@ -281,12 +283,12 @@ export class F1099MISC extends TaxForm {
 		super(formname);
 		this.title = `1099-MISC - Miscellaneous Information`;
 
-		this.payer				= 0;
-		this.ein				= 0;
-		this.ssn				= 0;
-		this.taxpayer			= 0;
-		this.account			= 0;
-
+		this.lines["payer"]		= new Line("Payer");
+		this.lines["ein"]		= new Line("EIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["account"]	= new Line("Account");
+		this.lines["business_name"]	= new Line("Business Name");
 		this.lines["01"]		= new Line("Rents");
 		this.lines["02"]		= new Line("Royalties");
 		this.lines["03"]		= new Line("Other income");

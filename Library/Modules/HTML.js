@@ -30,14 +30,18 @@ const HTML = {
 	//-----  Show/hide element  ---------------------------------
 	showElement(element_id) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "showElement: Element not found: " + element_id)) return;
+		if (!Debug.verify(element, "showElement: Element not found: " + element_id)) {
+			return;
+		}
 
 		element.classList.remove('hidden');
 	},
 
 	hideElement(element_id) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "hideElement: Element not found: " + element_id)) return;
+		if (!Debug.verify(element, "hideElement: Element not found: " + element_id)) {
+			return;
+		}
 
 		element.classList.add('hidden');
 	},
@@ -45,14 +49,20 @@ const HTML = {
 	//---- Change background/foreground color  ----------------------------------
 	changeBackgroundColor(element_id, color) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "changeBackgroundColor: Element not found: " + element_id)) return;
+		if (!Debug.verify(element,
+				"changeBackgroundColor: Element not found: " + element_id)) {
+			return;
+		}
 
 		element.style.background = color;
 	},
 
 	changeTextColor(element_id, color) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "changeTextColor: Element not found: " + element_id)) return;
+		if (!Debug.verify(element,
+				"changeTextColor: Element not found: " + element_id)) {
+			return;
+		}
 
 		element.style.color = color;
 	},
@@ -132,10 +142,8 @@ const HTML = {
 
 	putElementValue(element_id, value) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "putElementValue: Element not found: " + element_id)) return;
-
-		if (String(element.placeholder) === String(value)) {
-			value = "";
+		if (!Debug.verify(element, "putElementValue: Element not found: " + element_id)) {
+			return;
 		}
 
 		if (element.type === "checkbox" || element.type === "radio") {
@@ -151,6 +159,17 @@ const HTML = {
 			return;
 		}
 
+		// This was intended to not write 0's when that was the placeholder value. It doesn't
+		// produce the desired output on the form 1040 in the Tax Program.
+		// if (String(element.placeholder) === String(value)) {
+		//	value = "";
+		// }
+		if ((typeof value === "string") && (value === "")) {
+			// Assigning "" to a field will cause the placeholder value to be displayed. This
+			// is not desirable for dates.
+			value = " ";
+		}
+
 		if ("value" in element) {
 			// Restore input, textarea, and selects elements.
 			element.value = value;
@@ -162,7 +181,7 @@ const HTML = {
 		return;
 	},
 
-	//-----  Get/Put the Summary line in a <details> container.  -------------------------------
+	//-----  Get/Put the Summary line in a <details> container.  -----------------------------
 	findSummary(details_id) {
 		if (!details_id) {
 			return null;

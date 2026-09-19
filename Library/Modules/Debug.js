@@ -25,6 +25,54 @@ function keywordList() {
 	return debug_keywords.concat(Classes.listAllForms(), Container.listAllContainers());
 }
 
+function removeKeyword(text, keyword) {
+	//
+	// This function parses the text string to extract the keyword and return whatever is
+	// left. The keyword is not case-sensitive and is delimited with whitespace, a comma or
+	// both. The text string may contain newline characters. If the keyword is present, it
+	// will be removed and replaced as follows:
+	//
+	// 1.	If the keyword and the delimiting characters are on a line by itself, the
+	//		line will be removed.
+	// 2.	If the keyword and the delimiting characters are at the end of a line, they
+	//		should be removed, but the newline should not be removed.
+	// 3.	If there is a comma before the keyword, the keyword and the delimiting
+	//		characters should be replaced with a comma and a single space.
+	// 4.	Otherwise, the keyword and the delimiting characters should be replaced with
+	//		a single space.
+	//
+	const pattern = new RegExp(
+		// Rule 1: Alone on line
+		`^[ \\t]*,?[ \\t]*${keyword}[ \\t]*,?[ \\t]*$(\\r?\\n)?` +
+		// Rule 2 & 3: End of line with comma
+		`|,[ \\t]*${keyword}[ \\t]*(?=$|\\r?\\n)` +
+		// Rule 2: End of line without comma
+		`|[ \\t]*${keyword}[ \\t]*(?=$|\\r?\\n)` +
+		// Rule 3: Middle with comma
+		`|,[ \\t]*${keyword}[ \\t]*,?` +
+		// Rule 4: Standard middle replacement
+		`|[ \\t]*${keyword}[ \\t]*,?`,
+		'gmi'
+	);
+
+	const updatedText = text.replace(pattern, (match) => {
+		// Rule 1: Match contains only the keyword, delimiters (commas/whitespace), and
+		// optional line breaks
+		const textWithoutKeyword = match.replace(
+									new RegExp(keyword, 'i'), '').replace(/[,\s\r\n]/g, '');
+		if (textWithoutKeyword === '') {
+			return '';
+		}
+
+		if (match.startsWith(',')) return ', '; // Rule 3
+		return ' ';								// Rule 4 / Fallback
+	});
+
+	const wasFound = updatedText !== text;
+
+	return [updatedText, wasFound];
+}
+
 function hideField(name) {
 	// The debug field is an HTML area that display additional information when debugging
 	// is enabled.
@@ -47,12 +95,13 @@ function showField(name) {
 
 const Debug = {
 	reset() {
-		indentation = 0;
-		debug_all = false;
-			strict_enabled = false;
-			verbose_enabled = false;
-		debug_used_keywords = [];
-		trace_log = [];
+		indentation			= 0;
+		debug_all			= false;
+		strict_enabled		= false;
+		verbose_enabled		= false;
+		debug_used_keywords	= [];
+		trace_log			= [];
+
 		HTML.putElementValue("debug-output", "");
 		hideField("debug-container");
 	},
@@ -62,29 +111,22 @@ const Debug = {
 		// This function parses the input string to extract debugging keywords and return
 		// whatever is left. The keywords are not case-sensitive and they may appear in any
 		// order within the input string. You can use commas or whitespace to separate the
-		// keywords and the value. The final string will have all commas and unnecessary
-		// whitespace removed.
+		// keywords and the value.
 		//
-		for (const keyword of keywordList()) {
-			const regex = new RegExp(`\\b${keyword}\\b`, 'ig');
-			if (input_string && input_string.match(regex)) {
-				input_string = input_string.replace(regex, "");
-				debug_used_keywords.push(keyword);
+		if (input_string) {
+			for (const keyword of keywordList()) {
+				let wasRemoved = false;
+				[input_string, wasRemoved] = removeKeyword(input_string, keyword);
+				if (wasRemoved) {
+					debug_used_keywords.push(keyword);
+				}
+			}
+
+			if (debug_used_keywords.includes("Debug")) {
+				debug_all = true;
 			}
 		}
 
-		if (debug_used_keywords.includes("Debug")) {
-			debug_all = true;
-		}
-
-		// Replace double commas with one comma
-		// Replace whitespace with a single space
-		// Remove leading and trailing whitespace
-		// Remove leading and trailing commas
-		input_string = input_string.replace(/,\s*,/g, ",")
-			.replace(/\s+/g, " ")
-			.trim()
-			.replace(/^,\s*|\s*,$/g, "");
 		return input_string;
 	},
 

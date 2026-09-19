@@ -3,10 +3,10 @@ import { HTML }			from "../Modules/HTML.js";
 import { Objects }		from "../Modules/Objects.js";
 import { Str }			from "../Modules/Str.js";
 
-const ELEMENT_IDS = {
+const ELEMENTS = {
 	// Element ID			Value Type
 	"long-term":			[],
-	"name":					["Text"],
+	"name":					["text"],
 	"proceeds":				[],
 	"basis":				[],
 	"wash-sale":			[],
@@ -16,7 +16,7 @@ const HTML_WORKSHEET = `
 						<div class="assetsales-container" id="assetitem-XX-container">
 							<input class="input-field" type="checkbox"
 								id="assetitem-XX-long-term" size="10" />
-							<input class="input-field" type="text"
+							<input class="input-field left" type="text"
 								id="assetitem-XX-name" size="10" placeholder="" />
 							<input class="input-field" type="text"
 								id="assetitem-XX-proceeds" size="10" placeholder="0" />
@@ -55,13 +55,26 @@ export class Assetitem {
 		}
 
 		let inputs = {};
-		for (const field_name of Object.keys(ELEMENT_IDS)) {
-			const value_type	= ELEMENT_IDS[field_name][0];
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
 			const element_id	= `assetitem-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 
 		return inputs;
+	}
+
+	static putUserInput(inputs, uid) {
+		//
+		// Copy the value of the fields from the inputs object to the web.
+		//
+		for (const key_name of Object.keys(inputs)) {
+			const element_name	= key_name.replace(/_/g, "-");
+			const element_id	= `assetitem-${uid}-${element_name}`;
+			if (document.getElementById(element_id)) {
+				HTML.putUserInput(element_id, inputs[key_name]);
+			}
+		}
 	}
 }

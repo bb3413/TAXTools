@@ -306,12 +306,11 @@ export class F1099K extends TaxForm {
 		super(formname);
 		this.title = `1099-K - Payment Card and Third Party Network Transactions`;
 
-		this.payer				= 0;
-		this.ein				= 0;
-		this.ssn				= 0;
-		this.taxpayer			= 0;
-		this.account			= 0;
-
+		this.lines["payer"]		= new Line("Payer");
+		this.lines["ein"]		= new Line("EIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["account"]	= new Line("Account");
 		this.lines["01a"]		= new Line("Gross amount of payment card/third par");
 		this.lines["01b"]		= new Line("Card Not Present transactions ");
 		this.lines["01c"]		= new Line("Cash tips");

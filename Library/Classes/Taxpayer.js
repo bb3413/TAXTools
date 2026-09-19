@@ -1,11 +1,12 @@
 
-import { Dates }	from "../Modules/Dates.js";
-import { HTML }		from "../Modules/HTML.js";
-import { Str }		from "../Modules/Str.js";
-import { Objects }	from "../Modules/Objects.js";
-import { TaxTable }	from "../Modules/TaxTable.js";
+import { Dates }		from "../Modules/Dates.js";
+import { Dependent }	from "../InputWorksheets/Dependent.js";
+import { HTML }			from "../Modules/HTML.js";
+import { Str }			from "../Modules/Str.js";
+import { Objects }		from "../Modules/Objects.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 
-const ELEMENT_IDS = {
+const ELEMENTS = {
 	// Element ID			Value Type
 	"filing-status":		["text"],
 	"taxpayers-name":		["text"],
@@ -16,12 +17,14 @@ const ELEMENT_IDS = {
 	"taxpayers-birthday":	["text"],
 	"is-taxpayer-blind":	[],
 	"taxpayer-has-ssn":		[],
+	"taxpayer-has-itin":	[],		// Ignored
 
 	// Spouse
 	"spouses-birthday":		["text"],
-	"lived-with-spouse":	[],
+	"months-lived-together":["text"],
 	"is-spouse-blind":		[],
 	"spouse-has-ssn":		[],
+	"spouse-has-itin":		[],		// Ignored
 };
 
 let taxpayer = undefined;		// Global variable.
@@ -50,9 +53,17 @@ function initializeTaxpayer() {
 	const taxpayer = new Taxpayer();
 
 	// Initialize the fields from the web page.
-	for (const element_id of Object.keys(ELEMENT_IDS)) {
+	for (const element_id of Object.keys(ELEMENTS)) {
 		const key_name = "_" + Str.kebabToSnakeCase(element_id);
-		taxpayer[key_name] = getUserInput(element_id, ELEMENT_IDS[element_id][0]);
+		taxpayer[key_name] = getUserInput(element_id, ELEMENTS[element_id][0]);
+	}
+
+	if (taxpayer.filing_status === "MFJ") {
+		if (taxpayer.months_lived_together === "") {
+			taxpayer.months_lived_together = 12;
+		} else {
+			taxpayer.months_lived_together = Number(taxpayer.months_lived_together);
+		}
 	}
 
 	return taxpayer;
@@ -80,8 +91,8 @@ export class Taxpayer {
 		let inputs = {};
 
 		// Copy the fields from the web page.
-		for (const field_name of Object.keys(ELEMENT_IDS)) {
-			const value_type	= ELEMENT_IDS[field_name][0];
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
 			if (document.getElementById(field_name)) {
 				inputs[key_name]= HTML.getUserInput(field_name, value_type);
@@ -100,7 +111,7 @@ export class Taxpayer {
 
 	static restoreUserInput(data) {
 		// Clean all the fields.
-		for (const element_id of Object.keys(ELEMENT_IDS)) {
+		for (const element_id of Object.keys(ELEMENTS)) {
 			if (document.getElementById(element_id)) {
 				HTML.putElementValue(element_id, "");
 			}
@@ -116,8 +127,8 @@ export class Taxpayer {
 	}
 
 	static reset() {
-		// Clear the taxpayer fields on the web page.
-		for (const element_id of Object.keys(ELEMENT_IDS)) {
+		// Clear the fields on the web page.
+		for (const element_id of Object.keys(ELEMENTS)) {
 			if (document.getElementById(element_id)) {
 				HTML.putElementValue(element_id, "");
 			}
@@ -136,23 +147,25 @@ export class Taxpayer {
 	constructor() {
 		taxpayer = this;
 
-		this._filing_status						= "Single";
-		this._taxpayers_name					= "";
-		this._street_address					= "";		// Needed for sales tax
-		this._city								= "";		// Needed for sales tax
-		this._state								= "";
-		this._zip_code							= "";		// Needed for sales tax
-		this._taxpayers_birthday				= "";
-		this._taxpayers_age						= 0;
-		this._is_taxpayer_blind					= false;
-		this._taxpayer_has_ssn					= true;		// Not an ITIN
+		this._filing_status					= "Single";
+		this._taxpayers_name				= "";
+		this._street_address				= "";		// Needed for sales tax
+		this._city							= "";		// Needed for sales tax
+		this._state							= "";
+		this._zip_code						= "";		// Needed for sales tax
+		this._taxpayers_birthday			= "";
+		this._taxpayers_age					= 0;
+		this._is_taxpayer_blind				= false;
+		this._taxpayer_has_ssn				= true;		// Not an ITIN
 
 		// Spouse
-		this._spouses_birthday					= "";
-		this._spouses_age						= 0;
-		this._lived_with_spouse					= true;		// Needed when filing MFS
-		this._is_spouse_blind					= false;
-		this._spouse_has_ssn					= true;		// Not an ITIN
+		this._spouses_birthday				= "";
+		this._spouses_age					= 0;
+		this._months_lived_together			= 12;		// Needed when filing MFS
+		this._is_spouse_blind				= false;
+		this._spouse_has_ssn				= true;		// Not an ITIN
+
+		this._dependents					= [];
 	}
 
 	//
@@ -171,25 +184,25 @@ export class Taxpayer {
 
 	get spouses_birthday() {			return this._spouses_birthday};
 	get spouses_age() {					return this._spouses_age};
-	get lived_with_spouse() {			return this._lived_with_spouse};
+	get months_lived_together() {		return this._months_lived_together};
 	get is_spouse_blind() {				return this._is_spouse_blind};
 	get spouse_has_ssn() {				return this._spouse_has_ssn};
 
 	//
 	// ---------------- Setter Methods ----------------
 	//
-	set filing_status(fs) {					this._filing_status		= fs.toUpperCase() }
-	set taxpayers_name(name) {				this._taxpayers_name				= name }
-	set street_address(str) {				this._street_address				= str }
-	set city(str) {							this._city							= str }
-	set state(str) {						this._state							= str }
-	set zip_code(str) {						this._zip_code						= str }
-	set is_taxpayer_blind(bool) {			this._is_taxpayer_blind				= bool }
-	set taxpayer_has_ssn(bool) {			this._taxpayer_has_ssn				= bool }
+	set filing_status(fs) {				this._filing_status		= fs.toUpperCase() }
+	set taxpayers_name(name) {			this._taxpayers_name	= name }
+	set street_address(str) {			this._street_address	= str }
+	set city(str) {						this._city				= str }
+	set state(str) {					this._state				= str }
+	set zip_code(str) {					this._zip_code			= str }
+	set is_taxpayer_blind(bool) {		this._is_taxpayer_blind	= bool }
+	set taxpayer_has_ssn(bool) {		this._taxpayer_has_ssn	= bool }
 
-	set lived_with_spouse(bool) {			this._lived_with_spouse				= bool }
-	set is_spouse_blind(bool) {				this._is_spouse_blind				= bool }
-	set spouse_has_ssn(bool) {				this._spouse_has_ssn				= bool }
+	set months_lived_together(num) {	this._months_lived_together	= num }
+	set is_spouse_blind(bool) {			this._is_spouse_blind	= bool }
+	set spouse_has_ssn(bool) {			this._spouse_has_ssn	= bool }
 
 	set taxpayers_birthday(birthday) {
 		if (birthday === null || birthday === undefined) { return; }
@@ -202,7 +215,7 @@ export class Taxpayer {
 		if (age === null || age === undefined) { return; }
 		if (age !== 0) {
 			this._taxpayers_birthday	= "";
-			this._taxpayers_age			= age;
+			this._taxpayers_age		= age;
 		}
 	}
 
@@ -216,29 +229,35 @@ export class Taxpayer {
 	set spouses_age(age) {
 		if (age === null || age === undefined) { return; }
 		if (age !== 0) {
-			this._spouses_birthday		= "";
-			this._spouses_age			= age;
+			this._spouses_birthday	= "";
+			this._spouses_age		= age;
 		}
 	}
 
 	//
 	// ---------------- Utility Methods ----------------
 	//
+	addDependent(inputs) {
+		this._dependents.push(new Dependent(inputs));
+	}
+
 	familySize() {
 		let size = 1;	// Taxpayer
-		if (this.filing_status === "MFJ") {
+		if (this._filing_status === "MFJ") {
 			size++;		// Spouse
 		}
 
-/*
-		let dependents = TaxFormWeb.getForm("Dependents");
-		for (const dependent of dependents) {
-			if (Objects.isUsed(dependent)) {
-				size += dependents.length;
-			}
-		}
-*/
+		size += this._dependents.length();
+
 		return size;
+	}
+
+	isMarried() {
+		switch (this.filing_status) {
+			case "MFJ":	return true;
+			case "MFS":	return true;
+		}
+		return false;
 	}
 
 	putTaxpayerInformation() {
@@ -246,55 +265,55 @@ export class Taxpayer {
 		// Put the taxpayer information on the output form 1040.
 		//
 		HTML.putUserOutput("f1040-1-filing-status",
-			formatFilingStatus(this.filing_status), "text");
+			formatFilingStatus(this._filing_status), "text");
 		HTML.putUserOutput("f1040-1-taxpayers-name",
-			this.taxpayers_name, "text");
+			this._taxpayers_name, "text");
 		HTML.putUserOutput("f1040-1-street-address",
-			this.street_address, "text");
-		if (this.city) {
-			const state = this.state ? this.state : "CA";
+			this._street_address, "text");
+		if (this._city) {
+			const state = this._state ? this._state : "CA";
 			HTML.putUserOutput("f1040-1-city-state-zip",
-				`${this.city}, ${state} ${this.zip_code}`.trim(), "text");
+				`${this._city}, ${state} ${this._zip_code}`.trim(), "text");
 		} else {
 			HTML.putUserOutput("f1040-1-city-state-zip","", "text");
 		}
 
-		if (this.taxpayers_birthday) {
+		if (this._taxpayers_birthday) {
 			HTML.putUserOutput("f1040-1-taxpayers-birthday",
-				`${this.taxpayers_birthday} (Age ${this.taxpayers_age})`, "text");
+				`${this._taxpayers_birthday} (Age ${this._taxpayers_age})`, "text");
 		} else {
 			HTML.putUserOutput("f1040-1-taxpayers-birthday", "", "text");
 		}
-		if (this.spouses_birthday) {
+		if (this._spouses_birthday) {
 			HTML.putUserOutput("f1040-1-spouses-birthday",
-				`${this.spouses_birthday} (Age ${this.spouses_age})`, "text");
+				`${this._spouses_birthday} (Age ${this._spouses_age})`, "text");
 		} else {
 			HTML.putUserOutput("f1040-1-spouses-birthday", "", "text");
 		}
 		HTML.putUserOutput("f1040-1-taxpayer-is-blind",
-			this.is_taxpayer_blind ? "X" : "", "text");
+			this._is_taxpayer_blind ? "X" : "", "text");
 		HTML.putUserOutput("f1040-1-spouse-is-blind",
-			this.is_spouse_blind ? "X" : "", "text");
+			this._is_spouse_blind ? "X" : "", "text");
 	}
 
 	toPrint() {
 		let lines	= [];
-		const state	= this.state ? this.state : "CA";
+		const state	= this._state ? this._state : "CA";
 
-		printLine(lines, "Filing Status",		this.filing_status);
+		printLine(lines, "Filing Status",		this._filing_status);
 		lines.push("");
 
-		printLine(lines, "Taxpayer's Name",		this.taxpayers_name);
-		printLine(lines, "Street Address",		this.street_address);
-		printLine(lines, "City, State, Zip",	`${this.city}, state ${this.zip_code}`);
+		printLine(lines, "Taxpayer's Name",		this._taxpayers_name);
+		printLine(lines, "Street Address",		this._street_address);
+		printLine(lines, "City, State, Zip",	`${this._city}, state ${this._zip_code}`);
 		printLine(lines, "Taxpayer's Birthday",
-			`${this.taxpayers_birthday}, Age: ${this.taxpayers_age}`);
-		printLine(lines, "Taxpayer Is Blind",	this.is_taxpayer_blind);
+			`${this._taxpayers_birthday}, Age: ${this._taxpayers_age}`);
+		printLine(lines, "Taxpayer Is Blind",	this._is_taxpayer_blind);
 
-		if (this.filing_status === "MFJ") {
+		if (this._filing_status === "MFJ") {
 			printLine(lines, "Spouse's Birthday",
-				`${this.spouses_birthday}, Age: ${this.spouses_age}`);
-			printLine(lines, "Spouse Is Blind",	this.is_spouse_blind);
+				`${this._spouses_birthday}, Age: ${this._spouses_age}`);
+			printLine(lines, "Spouse Is Blind",	this._is_spouse_blind);
 		}
 		lines.push("");
 		return lines.join("\n");
@@ -309,7 +328,7 @@ export class Taxpayer {
 		const fields = Object.keys(this);
 		for (const field of fields) {
 			let value = this[field];
-			if ((this.filing_status !== "MFJ") && field.match(/spouse/i)) {
+			if ((this._filing_status !== "MFJ") && field.match(/spouse/i)) {
 				continue;
 			}
 			if (value) {	// Skip empty lines.

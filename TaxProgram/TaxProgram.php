@@ -24,7 +24,7 @@
 			<span id="tax-tools-version"></span></a></p>
 
 		<h1 class="title" id="title">Tax Return Calculator</h1>
-		<h2 class="title">for the Tax Year
+		<h2 class="subtitle">for the Tax Year
 			<select id="tax-year" class="trigger" tooltipid="#tax-year-tt">
 				<option value="2026">2026</option>
 				<option value="2025">2025</option>
@@ -32,16 +32,15 @@
 			</select>
 		</h2>
 
-		<p>&nbsp;</p>
-		<p>This is a simple income tax return calculation tool. There are a number of forms
-		that resemble the forms you receive to report your tax information.
-		This is where you input your information. When you are finished entering
-		your tax information, press the Calculate button and the tool will calculate
-		your income tax and display the relevant tax forms. Click
-		<a href="TaxProgram-Help.html"> this link</a> for more help with this tool.</p>
+		<p>This is a simple income tax return calculation tool. It is a vastly incomplete
+		tool and only capable of processing the most common tax situations. It is only
+		intended for tax planning, not for filing your taxes.</p>
 
-		<p>You can use the Save and Restore buttons to save the information you have entered
-		and restore it again later.</p>
+		<p>Tax information is entered on a variety of worksheets and tax forms at the bottom
+		of this page. You can click on the heading of any worksheet or tax form to alternately
+		expand or collapse that form. After your tax information has been entered, press the
+		Calculate button to create a simulated tax return. Click
+		<a href="TaxProgram-Help.html">this link</a> for more help with this tool.</p>
 
 		<div class="button-container flex-right">
 			<!-- Save Button -->
@@ -104,12 +103,12 @@
 			<div>
 				<input type="radio" id="taxpayer-has-ssn" name="taxpayer-has-ssn" checked />
 				<label for="taxpayer-has-ssn">SSN</label>
-				<input type="radio" id="taxpayer-has-itin" name="taxpayer-has-ssn" />
+				<input type="radio" id="taxpayer-has-itin" name="taxpayer-has-itin" />
 				<label for="taxpayer-has-itin">ITIN</label>
 			</div>
 		</div>
 
-		<!----------  Spouse  ---------->
+		<!----------  Spouse  ---------------------------------------------------------------->
 		<div>&nbsp;</div>
 		<div id="spouse-container">
 			<div class="taxpayer-info-short-line">
@@ -133,14 +132,21 @@
 				<div>
 					<input type="radio" id="spouse-has-ssn" name="spouse-has-ssn" checked />
 					<label for="spouse-has-ssn">SSN</label>
-					<input type="radio" id="spouse-has-itin" name="spouse-has-ssn" />
+					<input type="radio" id="spouse-has-itin" name="spouse-has-itin" />
 					<label for="spouse-has-itin">ITIN</label>
 				</div>
 			</div>
 		</div>
 
-		<div>&nbsp;</div>
-		<div>&nbsp;</div>
+		<!----------  Dependents  ------------------------------------------------------------>
+		<input type="button" id="add-dependent-button"
+			class="trigger button add-dependent-button"
+			value="Add Dependent" tooltipid="#add-dependent-button-tt" />
+			
+		<!-- Display area for dependents. -->
+		<div id="dependents-container">
+		</div>
+
 		<div class="button-container">
 			<!-- Calculate Button -->
 			<input type="button" id="calculate-button"
@@ -148,11 +154,11 @@
 				value="Calculate Tax Return" tooltipid="#calculate-button-tt" />
 		</div>
 
-		<p>&nbsp;</p>
 		<div class="input-form-header">
-			<h2>Enter Tax Information</h2>
-			<select id="add-form-button" class="trigger" tooltipid="#add-form-button-tt">
-				<option value="" hidden disabled selected>Enter Tax Form</option>
+			<h2>Tax Information Worksheets</h2>
+			<select class="selection-button" id="add-form-button" class="trigger"
+					tooltipid="#add-form-button-tt">
+				<option value="None" hidden disabled selected>Add Tax Form</option>
 				<option value="W2">			W-2</option>
 				<option value="SSA1099">	SSA-1099</option>
 				<option value="F1099C">		1099-C</option>
@@ -165,16 +171,259 @@
 				<option value="F1099OID">	1099-OID</option>
 				<option value="F1099R">		1099-R</option>
 				<option value="F1099S">		1099-S</option>
+				<option value="Business">	Small Business</option>
 			</select>
-
-			<input type="button" id="dependent-button"
-				class="trigger button dependent-button"
-				value="Enter a Dependent" tooltipid="#dependent-button-tt" />
 		</div>
 
-		<!-- Display area for input tax forms. -->
-		<div id="input-worksheets-container">
-		</div>
+		<!----------  Expenses  -------------------------------------------------------------->
+		<details class="taxform-details" id="expenses-container">
+			<summary class="taxform-summary">Expenses</summary>
+			<div class="input-worksheet-container">
+				<h3>Medical Insurance Premiums</h3>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Healthcare</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-healthcare"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Dental, Vision</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-dental"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Medicare</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-medicare"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">LTC Taxpayer</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-taxpayer-ltc"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">LTC Spouse</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-spouse-ltc"
+						size="10" placeholder="0" />
+				</div>
+
+				<h3>Other Medical Expenses</h3>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Payments to Doctors,
+						Dentists, etc.</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-doctor"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Prescriptions</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-prescriptions"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Medical Aids (glasses,
+						hearing aids, etc.)</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-medical-aids"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Medical Facilities</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-medical-facilities"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Nursing Services</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-nursing-services"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Medical Miles Driven</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-medical-miles"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Other Medical Expenses</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-other-medical"
+						size="10" placeholder="0" />
+				</div>
+
+				<h3>Taxes Paid</h3>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Estimated Payments - Federal</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-est-payments-federal"
+						size="10" placeholder="0" />
+				</div>
+
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Estimated Payments - State</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-est-payments-state"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Property Tax</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-property-tax"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Personal Property Tax</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-personal-property-tax"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Extra Sales tax</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-extra-sales-tax"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Foreign Tax (not entered
+						elsewhere)</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-foreign-tax"
+						size="10" placeholder="0" />
+				</div>
+
+				<h3>Charitable Donations</h3>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Cash Donations to Charity</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-cash-donations"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Non-cash Donations to
+						Charity</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-noncash-donations"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Miles Driven for Charity</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-charitable-miles"
+						size="10" placeholder="0" />
+				</div>
+
+				<h3>Other Expenses</h3>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Educator Expense - Taxpayer</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-educator-taxpayer"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Educator Expense - Spouse</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-educator-spouse"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Alimony Paid</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-alimony-paid"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Divorce Date</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-divorce-date"
+						size="10" placeholder="mm/dd/yyyy" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Tax Preparation Fees</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-tax-preparation"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Investment Expenses</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="expenses-investment-expenses"
+						size="10" placeholder="0" />
+				</div>
+				<p>&nbsp;</p>
+			</div>
+		</details>
+
+		<!----------  Income  ---------------------------------------------------------------->
+		<details class="taxform-details" id="income-container">
+			<summary class="taxform-summary">Other Income</summary>
+			<div class="input-worksheet-container">
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Jury Duty</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="income-jury-duty"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Alimony Received</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="income-alimony-received"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Divorce Data</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="income-divorce-date"
+						size="10" placeholder="mm/dd/yyyy" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Gambling Winnings</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="income-gambling"
+						size="10" placeholder="0" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Other Income</div>
+					<input class="input-worksheet-row-value input-field"
+						type="text" id="income-other"
+						size="10" placeholder="0" />
+				</div>
+			</div>		<!-- input-worksheet-container -->
+			<div>&nbsp;</div>
+		</details>
+
+		<!----------  Asset/Stock Sales  ----------------------------------------------------->
+		<details class="taxform-details" id="assetsales-container">
+			<summary class="taxform-summary">Asset/Stock Sales</summary>
+			<div>
+				<input class="add-asset-sale-button center-text" type="button"
+					id="add-asset-sale-button" value="Add More Entries" />
+			</div>
+			<div class="assetsales-container assetsales-header">
+				<p class="center-text">Long Term</p>
+				<p></p>
+				<p></p>
+				<p></p>
+				<p></p>
+			</div>
+			<div class="assetsales-container assetsales-header">
+				<p class="center-text">Transaction</p>
+				<p>Name</p>
+				<p>Proceeds</p>
+				<p>Cost Basis</p>
+				<p>Wash Sale</p>
+			</div>
+			<!-- Display area for individual sales. -->
+			<div id="assetsale-items-container">
+			</div>
+			<div>&nbsp;</div>
+		</details>
+
 		<div id="input-taxforms-container">
 		</div>
 

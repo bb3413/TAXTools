@@ -12,7 +12,7 @@ import { F1040S3 }		from "../TaxForms/F1040S3.js";
 import { F1040SA }		from "../TaxForms/F1040SA.js";
 //import { F1040SB }	from "../TaxForms/F1040SB.js";
 import { F1040SC }		from "../TaxForms/F1040SC.js";
-//import { F1040SD }	from "../TaxForms/F1040SD.js";
+import { F1040SD }		from "../TaxForms/F1040SD.js";
 //import { F1040SE }	from "../TaxForms/F1040SE.js";
 import { F1040SSE }		from "../TaxForms/F1040SSE.js";	// Self-employment Tax
 //import { F1041 }		from "../TaxForms/F1041.js";
@@ -51,13 +51,11 @@ import { Refund }		from "../Worksheets/Refund.js";
 import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
 import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
 
-// Input worksheets
+// Input Worksheets
 import { Assetitem }	from "../InputWorksheets/Assetitem.js";
-import { Assetsales }	from "../InputWorksheets/Assetsales.js";
 import { Business }		from "../InputWorksheets/Business.js";
 import { Dependent }	from "../InputWorksheets/Dependent.js";
-import { Expenses }		from "../InputWorksheets/Expenses.js";
-import { Income }		from "../InputWorksheets/Income.js";
+
 
 const CLASS_NAME	= 0;
 const INPUT			= 1;
@@ -76,7 +74,7 @@ const class_map = {
 	"F1040SA":				[ F1040SA,		false,	true,	true,	true	],
 //	"F1040SB":				[ F1040SB,		false,	true,	true,	false	],
 	"F1040SC":				[ F1040SC,		true,	true,	false,	false	],
-//	"F1040SD":				[ F1040SD,		false,	true,	true,	false	],
+	"F1040SD":				[ F1040SD,		false,	true,	true,	false	],
 //	"F1040SE":				[ F1040SE,		false,	true,	true,	false	],
 	"F1040SSE":				[ F1040SSE,		false,	true,	false,	true	],
 //	"F1041":				[ F1041,		true,	false,	false,	false	],
@@ -119,23 +117,23 @@ const class_map = {
 	"CA_HiIncDeductions":	[ CA_HiIncDeductions,	false,	true,	true,	true	],
 	"CA_HiIncExemptions":	[ CA_HiIncExemptions,	false,	true,	true,	true	],
 
-	// Input worksheets
+	// Input Worksheets
 	"Assetitem":			[ Assetitem,	true,	false,	false,	false	],
-	"Assetsales":			[ Assetsales,	true,	false,	true,	false	],
 	"Business":				[ Business,		true,	false,	false,	false	],
 	"Dependent":			[ Dependent,	true,	false,	false,	false	],
-	"Expenses":				[ Expenses,		true,	false,	true,	false	],
-	"Income":				[ Income,		true,	false,	true,	false	],
 };
 
 const Classes = {
-	createForm(classname, uid = 1) {
+	createForm(classname, uid) {
 		if (!classname || typeof classname !== "string") {
 			throw new TypeError("classname must be a non-empty string.");
 		}
+		if (!uid) {
+			throw new TypeError("UID must be > 0.");
+		}
+
 		// This method allows you to call the static method createForm() by classname.
 		switch (classname) {
-			case "F1040SC":		return F1040SC.createForm(uid);
 			case "F1099C":		return F1099C.createForm(uid);
 			case "F1099DIV":	return F1099DIV.createForm(uid);
 			case "F1099G":		return F1099G.createForm(uid);
@@ -174,6 +172,7 @@ const Classes = {
 	},
 
 	findClassName(name) {
+		// Case insensitive conversion of name to classname.
 		if (!name || typeof name !== "string") {
 			throw new TypeError("name must be a non-empty string.");
 		}
@@ -188,13 +187,18 @@ const Classes = {
 		throw new Error(`Classes.findClassName(): ${name} not found.`);
 	},
 
-	getInputHTML(classname, uid = 1) {
+	getInputHTML(classname, uid) {
 		if (!classname || typeof classname !== "string") {
 			throw new TypeError("classname must be a non-empty string.");
 		}
+		if (!uid) {
+			throw new TypeError("UID must be > 0.");
+		}
+
 		// This method allows you to call the static method getInputHTML() by classname.
 		switch (classname) {
 			case "F1040SC":		return F1040SC.getInputHTML(uid);
+			case "F1040SD":		return F1040SD.getInputHTML(uid);
 			case "F1099C":		return F1099C.getInputHTML(uid);
 			case "F1099DIV":	return F1099DIV.getInputHTML(uid);
 			case "F1099G":		return F1099G.getInputHTML(uid);
@@ -208,26 +212,26 @@ const Classes = {
 			case "SSA1099":		return SSA1099.getInputHTML(uid);
 			case "W2":			return W2.getInputHTML(uid);
 
-			// Input worksheets
 			case "Assetitem":	return Assetitem.getInputHTML(uid);
-			case "Assetsales":	return Assetsales.getInputHTML(uid);
 			case "Business":	return Business.getInputHTML(uid);
 			case "Dependent":	return Dependent.getInputHTML(uid);
-			case "Expenses":	return Expenses.getInputHTML(uid);
-			case "Income":		return Income.getInputHTML(uid);
-
 			default:
 				throw new Error(`Classes.getInputHTML(): unimplemented form: ${classname}`);
 		}
 	},
 
-	getUserInput(classname, uid = 1) {
+	getUserInput(classname, uid) {
 		if (!classname || typeof classname !== "string") {
 			throw new TypeError("classname must be a non-empty string.");
 		}
+		if (!uid) {
+			throw new TypeError("UID must be > 0.");
+		}
+
 		// This method allows you to call the static method getUserInput() by classname.
 		switch (classname) {
 			case "F1040SC":		return F1040SC.getUserInput(uid);
+			case "F1040SD":		return F1040SD.getUserInput(uid);
 			case "F1099C":		return F1099C.getUserInput(uid);
 			case "F1099DIV":	return F1099DIV.getUserInput(uid);
 			case "F1099G":		return F1099G.getUserInput(uid);
@@ -241,14 +245,9 @@ const Classes = {
 			case "SSA1099":		return SSA1099.getUserInput(uid);
 			case "W2":			return W2.getUserInput(uid);
 
-			// Input worksheets
 			case "Assetitem":	return Assetitem.getUserInput(uid);
-			case "Assetsales":	return Assetsales.getUserInput(uid);
 			case "Business":	return Business.getUserInput(uid);
 			case "Dependent":	return Dependent.getUserInput(uid);
-			case "Expenses":	return Expenses.getUserInput(uid);
-			case "Income":		return Income.getUserInput(uid);
-
 			default:
 				throw new Error(`Classes.getUserInput(): unimplemented form: ${classname}`);
 		}

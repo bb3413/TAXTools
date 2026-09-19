@@ -54,15 +54,17 @@ function addForm(formname, form) {
 
 function get1099RValue(lineno, ira) {
 	//
-	// Form 1099-R can be used for IRAs or pensions; see box 7b.
+	// Form 1099-R can be used for IRAs or pensions; see box 7b. The ira paraameter says
+	// which you want the value of.
 	//
 	let sum = 0;
-	const formname = "F1099R";
-	let form_list = instances[formname];
+	let form_list = instances["F1099R"];
 
 	if (form_list) {
 		for (const form of form_list) {
 			if (!form.calculated) {
+				// When simplified methood is supported, 1099-Rs will need to be calculated
+				// before they are accessed.
 				form.calculate();
 			}
 
@@ -76,10 +78,6 @@ function get1099RValue(lineno, ira) {
 }
 
 const TaxFormObj = {
-	reset() {
-		instances = {};
-	},
-
 	createForm(formname) {
 		const form_class = Classes.getClass(formname);
 
@@ -136,6 +134,59 @@ const TaxFormObj = {
 			}
 		}
 		return all_forms;
+	},
+
+	getBusinessIncome(business_name) {
+		let sum = 0;
+		const all_1099s = TaxFormObj.getAllForms("F1099NEC")
+							.concat(TaxFormObj.getAllForms("F1099MISC"))
+		
+		for (const form of all_1099s) {
+			let bus_name = "NO_NAME";
+			if (form.lines["business_name"]) {
+				bus_name = form.lines["business_name"];
+			}
+
+			if (bus_name === business_name) {
+				if (form.formname === "F1099NEC") {
+					if (form.lines["01a"] !== undefined) {
+						sum += form.lines["01a"].value;
+					}
+				} else {
+					if (form.lines["01"] !== undefined) {
+						sum += form.lines["01"].value;	// Rents
+					}
+					if (form.lines["02"] !== undefined) {
+						sum += form.lines["02"].value;	// Royalties
+					}
+					if (form.lines["03"] !== undefined) {
+						sum += form.lines["03"].value;	// Other income
+					}
+					if (form.lines["05"] !== undefined) {
+						sum += form.lines["05"].value;	// Fishing boat proceeds
+					}
+				}
+			}
+		}
+
+		return sum;
+	},
+
+	getBusinessNames() {
+		let names = [];
+
+		for (const form of getAllForms("F1099NEC").concat(getAllForms("F1099MISC"))) {
+			let business_name = "NO_NAME";
+			if (form.lines["business_name"]) {
+				business_name = form.lines["business_name"];
+			}
+
+			if (!names.includes(business_name) ) {
+				name.push(business_name);
+			}
+		}
+
+		return names;
 	},
 
 	getForm(formname) {
@@ -234,6 +285,10 @@ const TaxFormObj = {
 		return isNaN(sum) ? 0 : sum;
 	},
 
+	reset() {
+		instances = {};
+	},
+
 	toConsole() {
 		const form_list = TaxFormObj.getAllForms();
 		for (const form of form_list) {
@@ -256,34 +311,38 @@ const TaxFormObj = {
 };
 
 const {
-	reset,
 	createForm,
 	earnedIncome,
 	formsInPrintOrder,
 	getAllForms,
+	getBusinessIncome,
+	getBusinessNames,
 	getForm,
 	getOrCreateForm,
 	getPensionValue,
 	getIRAValue,
 	getTextValue,
 	getValue,
+	reset,
 	toConsole,
 	unearnedIncome
 } = TaxFormObj;
 
 export {
 	TaxFormObj,
-	reset,
 	createForm,
 	earnedIncome,
 	formsInPrintOrder,
 	getAllForms,
+	getBusinessIncome,
+	getBusinessNames,
 	getForm,
 	getOrCreateForm,
 	getPensionValue,
 	getIRAValue,
 	getTextValue,
 	getValue,
+	reset,
 	toConsole,
 	unearnedIncome
 };

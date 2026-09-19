@@ -71,8 +71,22 @@ export class Container {
 		}
 	}
 
-	getEntries() {
-		return this.entry_ids;
+	getEntries(entry_name = "") {
+		if (entry_name === "") {
+			return this.entry_ids;
+		} else {
+			let entries = [];
+			
+			for (const entry_id of this.entry_ids) {
+				const [ name, uid ] = Container.parseElementID(entry_id);
+				const classname = Classes.findClassName(name);
+				if (entry_name === classname) {
+					entries.push(entry_id);
+				}
+			}
+
+			return entries;
+		}
 	}
 
 	removeEntry(html_id) {
@@ -81,6 +95,7 @@ export class Container {
 	}
 
 	reset() {
+		// Containers do not remove themselves, only their entries.
 		for (const entry_id of this.entry_ids) {
 			document.getElementById(entry_id).remove();
 			const [ name, uid ] = Container.parseElementID(entry_id);
@@ -148,6 +163,12 @@ export class Container {
 	}
 
 	static reset() {
+		// Remove all the entries of all the containers. Remove in reverse order of
+		// creation in case they are nested.
+		for (let i = containers.length-1; i >= 0; i--) {
+			containers[i].reset();
+		}
+
 		next_uid = {};
 		containers = [];
 	}

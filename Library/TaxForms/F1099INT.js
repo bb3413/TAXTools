@@ -229,12 +229,11 @@ export class F1099INT extends TaxForm {
 		super(formname);
 		this.title = `1099-INT - Interest Income`;
 
-		this.payer				= 0;
-		this.ein				= 0;
-		this.ssn				= 0;
-		this.taxpayer			= 0;
-		this.account			= 0;
-
+		this.lines["payer"]		= new Line("Payer");
+		this.lines["ein"]		= new Line("EIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["account"]	= new Line("Account");
 		this.lines["01"]		= new Line("Interest income");
 		this.lines["02"]		= new Line("Early Withdrawal Penalty");
 		this.lines["03"]		= new Line("Interest on U.S. Savings Bonds");

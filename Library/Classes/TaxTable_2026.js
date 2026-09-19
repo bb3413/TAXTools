@@ -63,6 +63,9 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"MaxEarnedIncomeCredit":		[ 61555,		61555,		68675,		61555,		0			],	// TY25
 		"MaxPremiumTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
 
+		// Dependents
+		"MaxDependentGrossIncome":		[ 5050,			5050,		5050,		5050,		5050,		],	// TY25
+
 		// AMT							SINGLE			HOH			MFJ			QSS			MFS
 		"AMT_Exemption":				[ 90100,		90100,		140200,		140200,		70100		],
 		"AMT_ExemptionPhaseOut":		[ 500000,		500000,		1000000,	1000000,	500000		],

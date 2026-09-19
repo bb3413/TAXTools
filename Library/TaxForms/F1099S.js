@@ -249,12 +249,11 @@ export class F1099S extends TaxForm {
 		super(formname);
 		this.title = `1099-S - Proceeds From Real Estate Transactions`;
 
-		this.payer				= 0;
-		this.ein				= 0;
-		this.ssn				= 0;
-		this.taxpayer			= 0;
-		this.account			= 0;
-
+		this.lines["payer"]		= new Line("Payer");
+		this.lines["ein"]		= new Line("EIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["account"]	= new Line("Account");
 		this.lines["01"]		= new Line("Date of closing");
 		this.lines["02a"]		= new Line("Total gross proceeds");
 		this.lines["02b"]		= new Line("Cash gross proceeds");

@@ -3,7 +3,7 @@ import { HTML }			from "../Modules/HTML.js";
 import { Objects }		from "../Modules/Objects.js";
 import { Str }			from "../Modules/Str.js";
 
-const ELEMENT_IDS = {
+const ELEMENTS = {
 	// Element ID			Value Type
 	"name":					[],
 	"cash-income":			[],
@@ -26,7 +26,7 @@ const ELEMENT_IDS = {
 
 const HTML_WORKSHEET = `
 		<details class="taxform-details" id="business-XX-container">
-			<summary class="taxform-summary">Small Business</summary>
+			<summary class="taxform-summary">Small Business #-UID-</summary>
 			<div class="input-worksheet-container">
 				<div class="taxpayer-info-long-line">
 					<p>Business Name</p>
@@ -140,47 +140,14 @@ const HTML_WORKSHEET = `
 		</details>
 `;
 
-function setvalue(variable, value) {
-	if (value !== "") {
-		variable = value;
-	}
-}
-
 export class Business {
-	static createF1040SC() {
-		for (const worksheet_id of TaxFormWeb.getInputForms("Business")) {
-			let [ name, uid ] = Container.parseElementID(worksheet_id);
-			const input = Classes.getInputValues("Business", uid);
-			if (!Objects.isUsed(inputs)) {
-				break;
-			}
-
-			setvalue(this.lines["xx"].user_value, inputs["name"]);
-			setvalue(this.lines["xx"].user_value, inputs["cash-income"]);
-			setvalue(this.lines["xx"].user_value, inputs["advertising"]);
-			setvalue(this.lines["xx"].user_value, inputs["commissions"]);
-			setvalue(this.lines["xx"].user_value, inputs["insurance"]);
-			setvalue(this.lines["xx"].user_value, inputs["interest"]);
-			setvalue(this.lines["xx"].user_value, inputs["office-supplies"]);
-			setvalue(this.lines["xx"].user_value, inputs["utilities"]);
-			setvalue(this.lines["xx"].user_value, inputs["licenses"]);
-			setvalue(this.lines["xx"].user_value, inputs["training"]);
-			setvalue(this.lines["xx"].user_value, inputs["tools"]);
-			setvalue(this.lines["xx"].user_value, inputs["travel"]);
-			setvalue(this.lines["xx"].user_value, inputs["meals"]);
-			setvalue(this.lines["xx"].user_value, inputs["rent"]);
-			setvalue(this.lines["xx"].user_value, inputs["business-miles"]);
-			setvalue(this.lines["xx"].user_value, inputs["tolls"]);
-			setvalue(this.lines["xx"].user_value, inputs["other-expenses"]);
-		}
-	}
-
 	static getInputHTML(uid) {
 		if (!uid) {
 			throw new Error(`Business.getInputHTML(): UID is undefined.`);
 		}
 
-		const html = HTML_WORKSHEET.replace(/XX/g, uid);
+		const html = HTML_WORKSHEET.replace(/XX/g, uid)
+									.replace(/-UID-/g, uid);
 
 		return [ `business-${uid}-container`, html ];
 	}
@@ -202,8 +169,8 @@ export class Business {
 		}
 
 		let inputs = {};
-		for (const field_name of Object.keys(ELEMENT_IDS)) {
-			const value_type	= ELEMENT_IDS[field_name][0];
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
 			const element_id	= `business-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);

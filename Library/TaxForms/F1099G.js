@@ -237,12 +237,11 @@ export class F1099G extends TaxForm {
 		super(formname);
 		this.title = `1099-G - Certain Government Payments`;
 
-		this.payer				= 0;
-		this.ein				= 0;
-		this.ssn				= 0;
-		this.taxpayer			= 0;
-		this.account			= 0;
-
+		this.lines["payer"]		= new Line("Payer");
+		this.lines["ein"]		= new Line("EIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["account"]	= new Line("Account");
 		this.lines["01"]		= new Line("Unemployment compensation");
 		this.lines["02"]		= new Line("State tax refunds, credits, or offsets");
 		this.lines["03"]		= new Line("Box 2 amount is for tax year");

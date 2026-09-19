@@ -99,8 +99,11 @@ const HTML_FORM = `
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">Box 7. Address</span>
-								<input type="text" id="ssa1099-XX-07"
-									placeholder="Beneficiary&apos;s address"/>
+								<!--input type="text" id="ssa1099-XX-07"
+									placeholder="Beneficiary&apos;s address"/ -->
+								<textarea id="ssa1099-XX-07"
+									placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
+								</textarea>
 							</div>
 						</div>
 
@@ -173,6 +176,7 @@ export class SSA1099 extends TaxForm {
 
 		inputs["01"]	= HTML.getUserInput(`ssa1099-${uid}-01`, "text");
 		inputs["02"]	= HTML.getUserInput(`ssa1099-${uid}-02`, "text");
+		inputs["03"]	= HTML.getUserInput(`ssa1099-${uid}-03`);
 		inputs["03a"]	= HTML.getUserInput(`ssa1099-${uid}-03a`);
 		inputs["03b"]	= HTML.getUserInput(`ssa1099-${uid}-03b`);
 		inputs["04"]	= HTML.getUserInput(`ssa1099-${uid}-04`);
@@ -191,6 +195,7 @@ export class SSA1099 extends TaxForm {
 
 		this.lines["01"]	= new Line("Name");
 		this.lines["02"]	= new Line("Social Security Number");
+		this.lines["03"]	= new Line("Benefits Paid");
 		this.lines["03a"]	= new Line("Medicare Part B");
 		this.lines["03b"]	= new Line("Medicare Part D");
 		this.lines["04"]	= new Line("Benefits Repaid");

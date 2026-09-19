@@ -155,6 +155,7 @@ const HTML_FORM = `
 				<input class="input-field left" type="text" spellcheck="false"
 					size="45" id="f1099nec-XX-business-name" />
 			</div>
+			<div>&nbsp;</div>
 		</details>
 `;
 
@@ -211,6 +212,7 @@ export class F1099NEC extends TaxForm {
 		inputs["ssn"]		= HTML.getUserInput(`f1099nec-${uid}-ssn`,		"text");
 		inputs["taxpayer"]	= HTML.getUserInput(`f1099nec-${uid}-taxpayer`,	"text");
 		inputs["account"]	= HTML.getUserInput(`f1099nec-${uid}-account`,	"text");
+		inputs["business_name"]	= HTML.getUserInput(`f1099nec-${uid}-business-name`, "text");
 		inputs["01a"]		= HTML.getUserInput(`f1099nec-${uid}-01a`);
 		inputs["01b"]		= HTML.getUserInput(`f1099nec-${uid}-01b`);
 		inputs["01c"]		= HTML.getUserInput(`f1099nec-${uid}-01c`,		"text");
@@ -230,12 +232,12 @@ export class F1099NEC extends TaxForm {
 		super(formname);
 		this.title = `1099-NEC - Non-employee Compensation`;
 
-		this.payer				= 0;
-		this.ein				= 0;
-		this.ssn				= 0;
-		this.taxpayer			= 0;
-		this.account			= 0;
-
+		this.lines["payer"]		= new Line("Payer");
+		this.lines["ein"]		= new Line("EIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["account"]	= new Line("Account");
+		this.lines["business_bame"]	= new Line("Business Name");
 		this.lines["01a"]		= new Line("Non-employee compensation");
 		this.lines["01b"]		= new Line("Cash tips");
 		this.lines["01c"]		= new Line("TTOC");

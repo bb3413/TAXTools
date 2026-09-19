@@ -1,4 +1,8 @@
 
+function isEmpty(obj) {
+	return !Objects.isUsed(obj);
+}
+
 function isUsed(obj) {
 	if (!obj || typeof obj !== "object") {
 		return false;
@@ -33,7 +37,7 @@ function toString(obj, pad=65) {
 	let str = [];
 
 	for (const key of Object.keys(obj)) {
-		let s = key.padEnd(pad, " ") + obj[key];
+		let s = key.padEnd(pad, ".") + obj[key];
 		str.push(s);
 	}
 
@@ -41,12 +45,14 @@ function toString(obj, pad=65) {
 }
 
 export const Objects = {
+	isEmpty,
 	isUsed,
 	removeUnused,
 	toString,
 };
 
 export {
+	isEmpty,
 	isUsed,
 	removeUnused,
 	toString,

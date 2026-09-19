@@ -252,12 +252,11 @@ export class F1099DIV extends TaxForm {
 		super(formname);
 		this.title = `1099-DIV - Dividends and Distributions`;
 
-		this.payer				= 0;
-		this.ein				= 0;
-		this.ssn				= 0;
-		this.taxpayer			= 0;
-		this.account			= 0;
-
+		this.lines["payer"]		= new Line("Payer");
+		this.lines["ein"]		= new Line("EIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["account"]	= new Line("Account");
 		this.lines["01a"]		= new Line("Total ordinary dividends");
 		this.lines["01b"]		= new Line("Qualified dividends");
 		this.lines["02a"]		= new Line("Total capital gain distr.");

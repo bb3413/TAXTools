@@ -752,9 +752,10 @@ export class F1040 extends TaxForm {
 		this.lines["06a"].value	= TaxFormObj.getValue("SSA1099",	"05");	// SS Benefits
 		this.lines["06b"].value = 0;  // DELAY INITIALIZATION UNTIL LATER
 
-		this.lines["07a"].value	= TaxFormObj.getValue("F1040SD",		"16") +	// Cap Gain
+		// Capital gains
+		this.lines["07a"].value	= Math.max(0, TaxFormObj.getValue("F1040SD", "16")) +
 									TaxFormObj.getValue("F1040SD",	"21");
-		this.lines["08"].value	= TaxFormObj.getValue("F1040S1",		"10");	// Other Inc
+		this.lines["08"].value	= TaxFormObj.getValue("F1040S1",	"10");	// Other Inc
 
 		// Reorder fields for dependency. Taxable SS, which is on 1040 line 6b, depends
 		// on 1040 lines 1z, 2a, 2b, 3b, 4b, 5b, 6a, 7, 8, and 10. And, 1040 line 9

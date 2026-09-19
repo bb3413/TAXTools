@@ -29,6 +29,13 @@ h2 {
 	justify-content:		right;		/* Align the div block to the right. */
 }
 
+.add-dependent-button {
+	background:				var(--tool-background-color);
+	padding:				4px;
+	margin-top:				20px;
+	margin-bottom:			20px;
+}
+
 .add-asset-sale-button {
 	background:				var(--tool-background-color);
 }
@@ -42,6 +49,7 @@ h2 {
 	padding-left:			10px;
 	padding-right:			10px;
 	border-radius:			5px;
+	margin-top:				20px;
 }
 
 .save-button {
@@ -95,7 +103,7 @@ h2 {
 	gap:					20px;		/* Optional: adds space between buttons */
 }
 
-#add-form-button {
+.selection-button {
 	background:				var(--tool-background-color);
 	color:					var(--text-color);
 	border:					1px solid var(--border-color);
@@ -103,13 +111,6 @@ h2 {
 	border-radius:			3px;
 	margin-bottom:			5px;
 	padding:				2px;
-}
-
-#dependent-button {
-	background:				var(--tool-background-color);
-	margin-bottom:			5px;
-	padding:				3px;
-	padding-bottom:			2px;
 }
 
 .input-form-header select option {

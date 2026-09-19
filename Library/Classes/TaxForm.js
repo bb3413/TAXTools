@@ -34,7 +34,7 @@ export class TaxForm {
 
 	isUsed() {
 		for (const lineno of Object.keys(this.lines)) {
-			if (this.lines[lineno] !== undefined && this.lines[lineno].value !== undefined) {
+			if (this.lines[lineno].value) {
 				return true;
 			}
 		}
@@ -146,7 +146,7 @@ export class TaxForm {
 			if (line && (line.value !== 0 || Debug.verbose())) {	// Skip empty lines.
 				let s = `  line[${lineno}]`;
 				s = s.padEnd(18, " ") + line.label;
-				s = s.padEnd(65, " ") + line.value;
+				s = s.padEnd(65, ".") + line.value;
 				str.push(s);
 			}
 		}

@@ -89,6 +89,6 @@ export class Line {
 
 	toString() {
 		let str = `${this._label}:`;
-		return str.padEnd(50, " ") + this._value;
+		return str.padEnd(50, ".") + this._value;
 	}
 }

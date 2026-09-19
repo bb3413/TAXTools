@@ -13,6 +13,11 @@ const HTML_FORM = `
 				Schedule C - Profit and Loss From Business</summary>
 			<div class="taxform-container">
 				<div>&nbsp;</div>
+				<div class="taxform-desc-string">
+					<p>Business Name</p>
+					<input class="output-field" readonly type="text"
+						id="f1040sc-XX-name" size="10" placeholder="" />
+				</div>
 				<div class="taxform-section-container">
 					<p class="section-part">Part I</p>
 					<p class="section-title">Income</p>
@@ -335,6 +340,7 @@ export class F1040SC extends TaxForm {
 
 		let inputs = {};
 
+		inputs["name"]		= HTML.getUserInput(`f1040sc-${uid}-name`);
 		inputs["01"]		= HTML.getUserInput(`f1040sc-${uid}-01`);
 		inputs["02"]		= HTML.getUserInput(`f1040sc-${uid}-02`);
 		inputs["03"]		= HTML.getUserInput(`f1040sc-${uid}-03`);
@@ -378,6 +384,10 @@ export class F1040SC extends TaxForm {
 		Debug.enter("F1040SC.Constructor()");
 		super(formname);
 		this.title = `Schedule C - Profit or Loss From Business`;
+
+		this.cash_inccome	= 0;
+
+		this.lines["name"]	= new Line("Business Name");
 
 		// Income
 		this.lines["01"]	= new Line("Gross Receipts or Sales");
@@ -431,8 +441,11 @@ export class F1040SC extends TaxForm {
 		this.calculated = true;
 		const tt = TaxTable.getTaxTable();
 
+		this.lines["name"].value	= "";				//Business Name
+
 		// Income
-		this.lines["01"].value	= 0;				// Gross Receipts or Sales
+		this.lines["01"].value	= this.cash_inccome +	// Gross Receipts or Sales
+									TaxFormObj.getBusinessIncome(this.line("name"));
 		this.lines["02"].value	= 0;				// Returns and Allowances
 		this.lines["03"].value	= this.subtract("01", "02");
 		this.lines["04"].value	= 0;				// Cost of Goods Sold
