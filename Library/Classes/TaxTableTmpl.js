@@ -57,7 +57,7 @@ export class TaxTableTmpl {
 			}
 		}
 
-		return tax;
+		return Math.round(tax);
 	}
 
 	getMaxLTC(age) {
