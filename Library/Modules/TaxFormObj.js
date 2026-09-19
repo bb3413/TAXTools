@@ -68,7 +68,8 @@ function get1099RValue(lineno, ira) {
 				form.calculate();
 			}
 
-			if ( (ira && form.lines["07b"]) || (!ira && !form.lines["07b"]) ) {
+			let isIRA = form.lines["07b"].value;
+			if ((ira && isIRA) || (!ira && !isIRA) ) {
 				sum += form.lines[lineno].value;
 			}
 		}
