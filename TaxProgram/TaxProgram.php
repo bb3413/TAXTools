@@ -155,7 +155,7 @@
 		</div>
 
 		<div class="input-form-header">
-			<h2>Tax Information Worksheets</h2>
+			<h2>Enter Tax Information Here</h2>
 			<select class="selection-button" id="add-form-button" class="trigger"
 					tooltipid="#add-form-button-tt">
 				<option value="None" hidden disabled selected>Add Tax Form</option>
@@ -361,7 +361,7 @@
 
 		<!----------  Income  ---------------------------------------------------------------->
 		<details class="taxform-details" id="income-container">
-			<summary class="taxform-summary">Other Income</summary>
+			<summary class="taxform-summary">Income Not on a Tax Form</summary>
 			<div class="input-worksheet-container">
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Jury Duty</div>
