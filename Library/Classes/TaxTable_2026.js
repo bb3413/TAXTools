@@ -278,6 +278,27 @@ export class TaxTable_2026 extends TaxTableTmpl {
 	];
 
 	//
+	// Credit for Qualified Retirement Savings Contributions
+	//
+	// T%his is the table found on form 8880 to calculate the amount of the credit to allow
+	// based on income.
+	//
+	savings_credit_phase_out = [
+		// Start of		End of						Single
+		// Bracket		Bracket		MFJ		HoH		MFS, QSS
+			0,			23750,		0.5,	0.5,	0.5	],		// TY25
+			23750,		25500,		0.5,	0.5,	0.2	],		// TY25
+			25500,		35625,		0.5,	0.5,	0.1	],		// TY25
+			35625,		38250,		0.5,	0.2,	0.1	],		// TY25
+			38250,		39500,		0.5,	0.1,	0.1	],		// TY25
+			39500,		47500,		0.5,	0.1,	0.0	],		// TY25
+			47500,		51000,		0.2,	0.1,	0.0	],		// TY25
+			51000,		59250,		0.1,	0.1,	0.0	],		// TY25
+			59250,		79000,		0.1,	0.0,	0.0	],		// TY25
+			79000,		MAX_DOLLAR,	0.0,	0.0,	0.0	],		// TY25
+	];
+
+	//
 	// California Income Tax Table
 	//
 	// SINGLE and MFS are the same. MFJ and QSS are the same.
