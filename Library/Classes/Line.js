@@ -32,11 +32,17 @@ export class Line {
 	set user_value(new_value) {
 		// This method is called when the value is supplied by the user; not calculated
 		// by the program (see also set value()).
-		if (!Num.isNum(new_value) || (new_value === "")) {
-			// If the user did not enter a value or cleared it, use the default for the
-			// line, which will allows the form's steps to calculate the value. If the user
-			// explicitly entered 0, use it.
-			this._user_supplied_value = false;
+		//
+		// If the user did not enter a value or cleared it, use the default for the
+		// line, which will allows the form's steps to calculate the value. If the user
+		// explicitly entered 0, use it.
+		if (typeof new_value === "string") {
+			if (new_value === "") {
+				this._user_supplied_value = false;
+			} else {
+				this._value = new_value;
+				this._user_supplied_value = true;
+			}
 			return;
 		}
 
