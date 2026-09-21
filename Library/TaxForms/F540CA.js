@@ -958,7 +958,7 @@ export class F540CA extends TaxForm {
 		this.lines["D-03C"].value	= 0;	// DO NOT ENTER
 
 		// Medical Deduction
-		this.lines["D-04A"].value	= this.subtract("D-01A", "D-03A");
+		this.lines["D-04A"].value	= Math.max(0, this.subtract("D-01A", "D-03A"));
 		this.lines["D-04B"].value	= 0;	// DO NOT ENTER
 		this.lines["D-04C"].value	= 0;	// HSA Distribution for Qualified Expenses
 
