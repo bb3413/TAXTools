@@ -116,7 +116,8 @@ function calculateHandler(event) {
 		TaxTable.getTaxTable(HTML.getUserInput("tax-year"));	// Initialize tax tables
 		Taxpayer.getTaxpayer();									// Initialize taxpayer
 		getInput();												// Get the tax data
-		TaxFormObj.getOrCreateForm("F1040").calculate();		// Calculate the tax
+		TaxFormObj.getOrCreateForm("F1040").calculate();		// Calculate the Fed return
+		TaxFormObj.getOrCreateForm("F540").calculate();			// Calculate the CA return
 		putOutputs();											// Display the tax return
 		Debug.turnOn();											// Display debugging data
 	} catch (error) {
