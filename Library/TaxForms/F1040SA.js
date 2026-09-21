@@ -113,14 +113,15 @@ export class F1040SA extends TaxForm {
 
 	calculateSalesTax() {
 		// Calculate sales tax deduction.
-		return
-			TaxFormObj.getForm("SalesTax").calculate(this.sales_tax_rate) +
-			this.extra_sales_tax;
+		return (	// return cannot be on a line by itself
+			TaxFormObj.createForm("SalesTax").calculate(this.sales_tax_rate) +
+			this.extra_sales_tax
+		);
 	}
 
 	calculateStateIncomeTax() {
 		// Estimated payments + withholding
-		return
+		return (	// return cannot be on a line by itself
 			this.est_payments_state +
 			TaxFormObj.getValue("W2", "17") +
 			TaxFormObj.getValue("F1099INT", "17") +
@@ -130,6 +131,7 @@ export class F1040SA extends TaxForm {
 			TaxFormObj.getValue("F1099MISC", "16") +
 			TaxFormObj.getValue("F1099MISC", "05") +
 			TaxFormObj.getValue("F1099OID", "14") +
-			TaxFormObj.getValue("F1099R", "14");
+			TaxFormObj.getValue("F1099R", "14")
+		);
 	}
 }
