@@ -75,7 +75,7 @@ export class F1040S1A extends TaxForm {
 		this.lines["32"]	= new Line("Start of Phase Out");
 		this.lines["33"]	= new Line("Amount Over Phase Out");
 		this.lines["34"]	= new Line("Calculate Phase Out");
-		this.lines["35"]	= new Line("Amount of Deduction");
+		this.lines["35"]	= new Line("Deduction If Qualified");
 		this.lines["36a"]	= new Line("Senior Deduction for Taxpayer");
 		this.lines["36b"]	= new Line("Senior Deduction for Spouse");
 		this.lines["37"]	= new Line("Senior Deduction");
@@ -108,13 +108,15 @@ export class F1040S1A extends TaxForm {
 		this.lines["02d"].value	= TaxFormObj.getValue("F4563", "15");	// Samoa Income
 		this.lines["02e"].value	= this.add("02a","02b","02c","02d");	// Total Foreign Inc
 		this.lines["03"].value	= this.add("01","02e");					// AGI + Foreign Inc
-		this.lines["04a"].value	= TaxFormObj.getValue("W2", "05") +		// Qualified Tips
-									TaxFormObj.getValue("W2", "07");
+
+		// No Tax on Tips
+		this.lines["04a"].value	= TaxFormObj.getValue("W2", "07") +		// Qualified Tips
+									TaxFormObj.getValue("W2", "08");
 		this.lines["04b"].value	= TaxFormObj.getValue("F4137", "01");	// Qualified Tips
 		this.lines["04c"].value	= 0;									// Qualified Tips
 		this.lines["05"].value	= 0;									// Qualified Tips
 		this.lines["06"].value	= this.add("04c","05");					// Total Tips
-		if (this.line("06") > 0) { 
+		if ((this.line("06") > 0) && this._isQualified()) { 
 			this.lines["07"].value	= Math.min(this.line("06"), max_deduction);	// Limit
 			this.lines["08"].value	= this.line("03");					// AGI + Foreign Inc
 			this.lines["09"].value	= start_of_phase_out;
@@ -137,7 +139,7 @@ export class F1040S1A extends TaxForm {
 		this.lines["14a"].value	= 0;									// Overtime Pay
 		this.lines["14b"].value	= 0;									// Overtime Pay
 		this.lines["14c"].value	= this.add("14a","14b");				// Total Overtime
-		if (this.line("14c") > 0) {
+		if ((this.line("14c") > 0) && this._isQualified()) {
 			this.lines["15"].value	= Math.min(this.line("14c"), max_deduction);// Limit
 			this.lines["16"].value	= this.line("03");					// AGI + Foreign Inc
 			this.lines["17"].value	= start_of_phase_out;
@@ -160,7 +162,7 @@ export class F1040S1A extends TaxForm {
 		this.lines["22a"].value	= 0;								// Car Loan #1 Interest
 		this.lines["22b"].value	= 0;								// Car Loan #2 Interest
 		this.lines["23"].value	= this.add("22a","22b");			// Total Interest
-		if (this.line("23") > 0) {
+		if ((this.line("23") > 0) && (tp.filing_status !== "MFS")) {
 			this.lines["24"].value	= Math.min(this.line("23"), max_deduction);	// Limit
 			this.lines["25"].value	= this.line("03");				// AGI + Foreign Income
 			this.lines["26"].value	= start_of_phase_out;
@@ -178,26 +180,43 @@ export class F1040S1A extends TaxForm {
 		max_deduction		= tt.getTaxValue("MaxSeniorDeduction",		tp.filing_status);
 		start_of_phase_out	= tt.getTaxValue("SeniorDeductionPhaseOut",	tp.filing_status);
 
-		this.lines["31"].value	= this.line("03");					// AGI + Foreign Income
+		this.lines["31"].value	= this.line("03");				// AGI + Foreign Income
 		this.lines["32"].value	= start_of_phase_out;
-		this.lines["33"].value	= this.subtract("31", "32");		// Amount Over Phase Out
+		// Line 33 = Amount Over Phase Out
+		this.lines["33"].value	= Math.max(0, this.subtract("31", "32"));
 		if (this.line("33") <= 0) {
-			this.lines["35"].value	= max_deduction;				// Amount of Deduction
+			this.lines["35"].value	= max_deduction;			// Amount of Deduction
 		} else {
 			this.lines["34"].value	= Math.round(this.line("33") * 0.06);// Calc Phase Out
 			this.lines["35"].value	= Math.max(0, max_deduction - this.line("34"));
 		}
 		this.lines["36a"].value	= 0;
 		if (tp.taxpayer_has_ssn && tp.taxpayers_age >= 65) {
-			this.lines["36a"].value	= this.line("35");				// Senior deduction
+			this.lines["36a"].value	= this.line("35");			// Senior deduction
 		}
 		this.lines["36b"].value	= 0;
 		if ((tp.filing_status === "MFJ") && tp.taxpayer_has_ssn && tp.spouses_age >= 65) {
-			this.lines["36b"].value	= this.line("35");				// Senior deduction
+			this.lines["36b"].value	= this.line("35");			// Senior deduction
 		}
-		this.lines["37"].value	= this.add("36a","36b");			// Senior Deduction
-		this.lines["38"].value	= this.add("13","21","30","37");	// Additional Deductions
+		this.lines["37"].value	= this.add("36a","36b");		// Senior Deduction
+		this.lines["38"].value	= this.add("13","21","30","37");// Additional Deductions
 
 		Debug.exit("F1040S1A.calculate()");
+	}
+
+	_isQualified() {
+		// Check qualification for tips, overtime.
+		const tp = Taxpayer.getTaxpayer();
+		if (tp.filing_status === "MFS"){
+			return false;
+		}
+		if ((tp.filing_status !== "MFJ") && tp.taxpayer_has_ssn) {
+			return true;
+		}
+		if ((tp.filing_status === "MFJ") && tp.taxpayer_has_ssn && tp.spouse_has_ssn) {
+			// FIX THIS; only the spouse that earned the overtime or tips needs an SSN.
+			return true;
+		}
+		return false;
 	}
 }
