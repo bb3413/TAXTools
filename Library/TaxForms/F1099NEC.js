@@ -114,14 +114,22 @@ const HTML_FORM = `
 								<input type="text" id="f1099nec-XX-03"
 									placeholder="0" />
 							</div>
-						</div>
-
-						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
 								<span class="f1099-box-label">4 Federal income tax
 									withheld</span>
 								<input type="text" id="f1099nec-XX-04"
 									placeholder="0" />
+							</div>
+						</div>
+
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label"></span>
+								<input type="text" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label"></span>
+								<input type="text" placeholder="" />
 							</div>
 						</div>
 

@@ -78,6 +78,10 @@ const HTML_FORM = `
 								<input type="text" id="f1099r-XX-01"
 									placeholder="0" />
 							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label"></span>
+								<input type="text" placeholder="" />
+							</div>
 						</div>
 
 						<div class="f1099-flex-row">
@@ -86,9 +90,6 @@ const HTML_FORM = `
 								<input type="text" id="f1099r-XX-02a"
 									placeholder="0" />
 							</div>
-						</div>
-
-						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
 								<span class="f1099-box-label">2b Taxable amount not
 									determined</span>
