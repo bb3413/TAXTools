@@ -5,191 +5,250 @@ import { Line }			from "../Classes/Line.js";
 import { Objects }		from "../Modules/Objects.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
 const HTML_FORM = `
 		<details class="taxform-details" id="w2-XX-container">
 			<summary class="taxform-summary">W-2 - Wage and Tax Statement</summary>
-			<div class="taxform-container">
-				<div>&nbsp;</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-01-tt">
-					<p>Box 1</p>
-					<p>Wages, tips, other compensation</p>
-					<input class="input-field" type="text" id="w2-XX-01" size="10"
-						placeholder="0" />
+			<div>&nbsp;</div>
+			<div class="f1099-taxform-container">
+				<!-- Header Section -->
+				<div class="f1099-header-row">
+					<div class="w2-header-left input-color">
+						<div>
+							<label><input type="checkbox"
+								id="w2-XX-is-taxpayer" />Taxpayer&apos;s W-2</label>
+						</div>
+						<div>
+							<label><input type="checkbox"
+								id="w2-XX-is-spouse" />Spouse&apos;s W-2</label>
+						</div>
+					</div>
+					<div class="w2-header-center">
+						<span class="f1099-box-label">Employee&apos;s social
+							security number</span>
+						<input type="text" id="w2-XX-ssn" placeholder="123-45-6789" />
+					</div>
+					<div class="w2-header-right">
+						<div>OMB No. 1545-0029</div>
+					</div>
 				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-02-tt">
-					<p>Box 2</p>
-					<p>Federal income tax withheld</p>
-					<input class="input-field" type="text" id="w2-XX-02" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-03-tt">
-					<p>Box 3</p>
-					<p>Social security wages</p>
-					<input class="input-field" type="text" id="w2-XX-03" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-04-tt">
-					<p>Box 4</p>
-					<p>Social security tax withheld</p>
-					<input class="input-field" type="text" id="w2-XX-04" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-05-tt">
-					<p>Box 5</p>
-					<p>Medicare wages and tips</p>
-					<input class="input-field" type="text" id="w2-XX-05" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-06-tt">
-					<p>Box 6</p>
-					<p>Medicare tax withheld</p>
-					<input class="input-field" type="text" id="w2-XX-06" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-07-tt">
-					<p>Box 7</p>
-					<p>Social security tips</p>
-					<input class="input-field" type="text" id="w2-XX-07" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-08-tt">
-					<p>Box 8</p>
-					<p>Allocated tips</p>
-					<input class="input-field" type="text" id="w2-XX-08" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-09-tt">
-					<p>Box 9</p>
-					<p>Not used</p>
-					<input class="input-field" type="text" id="w2-XX-09" size="10"
-						placeholder="" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-10-tt">
-					<p>Box 10</p>
-					<p>Dependent care benefits</p>
-					<input class="input-field" type="text" id="w2-XX-10" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-11-tt">
-					<p>Box 11</p>
-					<p>Nonqualified plans</p>
-					<input class="input-field" type="text" id="w2-XX-11" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-code-value trigger" tooltipid="#w2-XX-12a1-tt">
-					<p>Box 12a</p>
-					<p>Option</p>
-					<input class="input-field" type="text" id="w2-XX-12a1" size="10"
-						placeholder="Code" />
-					<input class="input-field" type="text" id="w2-XX-12a2" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-code-value trigger" tooltipid="#w2-XX-12b1-tt">
-					<p>Box 12b</p>
-					<p>Option</p>
-					<input class="input-field" type="text" id="w2-XX-12b1" size="10"
-						placeholder="Code" />
-					<input class="input-field" type="text" id="w2-XX-12b2" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-code-value trigger" tooltipid="#w2-XX-12c1-tt">
-					<p>Box 12c</p>
-					<p>Option</p>
-					<input class="input-field" type="text" id="w2-XX-12c1" size="10"
-						placeholder="Code" />
-					<input class="input-field" type="text" id="w2-XX-12c2" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-code-value trigger" tooltipid="#w2-XX-12d1-tt">
-					<p>Box 12d</p>
-					<p>Option</p>
-					<input class="input-field" type="text" id="w2-XX-12d1" size="10"
-						placeholder="Code" />
-					<input class="input-field" type="text" id="w2-XX-12d2" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-4-checkboxes trigger" tooltipid="#w2-XX-13-tt">
-					<div>Box 13</div>
-					<p>Statutory employee</p>
-					<input class="checkbox" type="checkbox" id="w2-XX-13a" />
-					<p>Retirement plan</p>
-					<input class="checkbox" type="checkbox" id="w2-XX-13b" />
-					<p>Third-party sick pay</p>
-					<input class="checkbox" type="checkbox" id="w2-XX-13c" />
 
+				<!-- Main Content Grid -->
+				<div class="f1099-main-grid">
+					<!-- Left Column: Payer & Recipient Info Inputs -->
+					<div class="f1099-col-left">
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">Employer&apos;s
+									identification number (EIN)</span>
+								<input type="text" id="w2-XX-ein"
+									placeholder="12-3456789" />
+							</div>
+						</div>
+
+						<div class="f1099-box f1099-box-large">
+							<span class="f1099-box-label">Employer&apos;s name, address,
+								and ZIP code</span>
+							<textarea id="w2-XX-payer"
+								placeholder="Employer&apos;s Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number"></textarea>
+						</div>
+
+						<div class="f1099-box f1099-box-large">
+							<span class="f1099-box-label">Employee&apos;s name, address,
+								and ZIP code</span>
+							<textarea id="w2-XX-taxpayer"
+								placeholder="Taxpayer&apos;s Name&#10;Street Address&#10;City, State, ZIP"></textarea>
+						</div>
+					</div>
+
+					<!-- Right Column: Numbered Input Boxes -->
+					<div class="f1099-col-right">
+						<div class="f1099-flex-row">
+							<div class="f1099-box input-color">
+								<span class="f1099-box-label">1 Wages, tips, other
+									compensation</span>
+								<input type="text" id="w2-XX-01" placeholder="0" />
+							</div>
+							<div class="f1099-box input-color">
+								<span class="f1099-box-label">2 Federal income tax
+									withheld</span>
+								<input type="text" id="w2-XX-02" placeholder="0" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">3 Social security wages</span>
+								<input type="text" id="w2-XX-03" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">4 Social security tax
+									withheld</span>
+								<input type="text" id="w2-XX-04" placeholder="0" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">5 Medicare wages and
+									tips</span>
+								<input type="text" id="w2-XX-05" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">6 Medicare tax withheld</span>
+								<input type="text" id="w2-XX-06" placeholder="0" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">7 Social security tips</span>
+								<input type="text" id="w2-XX-07" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">8 Allocated tips</span>
+								<input type="text" id="w2-XX-08" placeholder="0" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label"></span>
+								<input type="text" id="w2-XX-09" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">10 Dependent care
+									benefits</span>
+								<input type="text" id="w2-XX-10" placeholder="0" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">11 Non-qualified plans</span>
+								<input type="text" id="w2-XX-11" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label"></span>
+								<input type="text" placeholder="" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">13 Statutory employee</span>
+								<div><input type="checkbox"
+									id="w2-XX-13a" /></div>
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Retirement plan</span>
+								<div><input type="checkbox"
+									id="w2-XX-13b" /></div>
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Third party sick pay</span>
+								<div><input type="checkbox" id="w2-XX-13c" /></div>
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">12a Code</span>
+								<input type="text" id="w2-XX-12a1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-12a2" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">14a Code</span>
+								<input type="text" id="w2-XX-14a1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-14a2" placeholder="0" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">12b Code</span>
+								<input type="text" id="w2-XX-12b1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-12b2" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">14b Code</span>
+								<input type="text" id="w2-XX-14b1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-14b2" placeholder="0" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">12c Code</span>
+								<input type="text" id="w2-XX-12c1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-12c2" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">14c Code</span>
+								<input type="text" id="w2-XX-14c1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-14c2" placeholder="0" />
+							</div>
+						</div>
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">12d Code</span>
+								<input type="text" id="w2-XX-12d1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-12d2" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">14d Code</span>
+								<input type="text" id="w2-XX-14d1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-14d2" placeholder="0" />
+							</div>
+						</div>
+					</div>
+				</div>		<!-- Main grid -->
+				<div class="f1099-header-row">
+					<div class="f1099-box">
+						<span class="f1099-box-label">15 State ID number</span>
+						<input type="text" id="w2-XX-15" placeholder="" />
+					</div>
+					<div class="f1099-box">
+						<span class="f1099-box-label">16 State wages, tips</span>
+						<input type="text" id="w2-XX-16" placeholder="" />
+					</div>
+					<div class="f1099-box input-color">
+						<span class="f1099-box-label">17 State income tax</span>
+						<input type="text" id="w2-XX-17" placeholder="" />
+					</div>
+					<div class="f1099-box">
+						<span class="f1099-box-label">18 Local wages, tips</span>
+						<input type="text" id="w2-XX-18" placeholder="" />
+					</div>
+					<div class="f1099-box">
+						<span class="f1099-box-label">19 Loca income tax</span>
+						<input type="text" id="w2-XX-19" placeholder="" />
+					</div>
+					<div class="f1099-box">
+						<span class="f1099-box-label">20 Locaity name</span>
+						<input type="text" id="w2-XX-20" placeholder="" />
+					</div>
 				</div>
-				<div class="taxform-lno-desc-code-value trigger" tooltipid="#w2-XX-14a-tt">
-					<p>Box 14a</p>
-					<p>Other</p>
-					<input class="input-field" type="text" id="w2-XX-14a1" size="10"
-						placeholder="Code" />
-					<input class="input-field" type="text" id="w2-XX-14a2" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-code-value trigger" tooltipid="#w2-XX-14b-tt">
-					<p>Box 14b</p>
-					<p>Other</p>
-					<input class="input-field" type="text" id="w2-XX-14b1" size="10"
-						placeholder="Code" />
-					<input class="input-field" type="text" id="w2-XX-14b2" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-code-value trigger" tooltipid="#w2-XX-14c-tt">
-					<p>Box 14c</p>
-					<p>Other</p>
-					<input class="input-field" type="text" id="w2-XX-14c1" size="10"
-						placeholder="Code" />
-					<input class="input-field" type="text" id="w2-XX-14c2" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-code-value trigger" tooltipid="#w2-XX-14d-tt">
-					<p>Box 14d</p>
-					<p>Other</p>
-					<input class="input-field" type="text" id="w2-XX-14d1" size="10"
-						placeholder="Code" />
-					<input class="input-field" type="text" id="w2-XX-14d2" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-15-tt">
-					<p>Box 15</p>
-					<p>State Employer&apos;s state ID number</p>
-					<input class="input-field" type="text" id="w2-XX-15" size="10"
-						placeholder="" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-16-tt">
-					<p>Box 16</p>
-					<p>State wages, tips, etc.</p>
-					<input class="input-field" type="text" id="w2-XX-16" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-17-tt">
-					<p>Box 17</p>
-					<p>State income tax</p>
-					<input class="input-field" type="text" id="w2-XX-17" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-18-tt">
-					<p>Box 18</p>
-					<p>Local wages, tips, etc.</p>
-					<input class="input-field" type="text" id="w2-XX-18" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-19-tt">
-					<p>Box 19</p>
-					<p>Local income tax</p>
-					<input class="input-field" type="text" id="w2-XX-19" size="10"
-						placeholder="0" />
-				</div>
-				<div class="taxform-lno-desc-value trigger" tooltipid="#w2-XX-20-tt">
-					<p>Box 20</p>
-					<p>Locality name</p>
-					<input class="input-field" type="text" id="w2-XX-20" size="10"
-						placeholder="" />
-				</div>
-				<div>&nbsp;</div>
-			</div>
+			</div>		<!-- f1099-taxform-container -->
+			<div class="f1099-footer-note">Form <strong>W-2</strong></div>
+			<div>&nbsp;</div>
 		</details>
 `;
 
@@ -240,6 +299,12 @@ export class W2 extends TaxForm {
 
 		let inputs = {};
 
+		inputs["is_taxpayer"]	= HTML.getUserInput(`w2-${uid}-is-taxpayer`);
+		inputs["is_spouse"]		= HTML.getUserInput(`w2-${uid}-is-spouse`);
+		inputs["payer"]		= HTML.getUserInput(`w2-${uid}-payer`,		"text");
+		inputs["ein"]		= HTML.getUserInput(`w2-${uid}-ein`,		"text");
+		inputs["ssn"]		= HTML.getUserInput(`w2-${uid}-ssn`,		"text");
+		inputs["taxpayer"]	= HTML.getUserInput(`w2-${uid}-taxpayer`,	"text");
 		inputs["01"]		= HTML.getUserInput(`w2-${uid}-01`);
 		inputs["02"]		= HTML.getUserInput(`w2-${uid}-02`);
 		inputs["03"]		= HTML.getUserInput(`w2-${uid}-03`);
@@ -251,13 +316,13 @@ export class W2 extends TaxForm {
 		inputs["09"]		= HTML.getUserInput(`w2-${uid}-09`);
 		inputs["10"]		= HTML.getUserInput(`w2-${uid}-10`);
 		inputs["11"]		= HTML.getUserInput(`w2-${uid}-11`);
-		inputs["12a1"]		= HTML.getUserInput(`w2-${uid}-12a1`);
+		inputs["12a1"]		= HTML.getUserInput(`w2-${uid}-12a1`, "text");
 		inputs["12a2"]		= HTML.getUserInput(`w2-${uid}-12a2`);
-		inputs["12b1"]		= HTML.getUserInput(`w2-${uid}-12b1`);
+		inputs["12b1"]		= HTML.getUserInput(`w2-${uid}-12b1`, "text");
 		inputs["12b2"]		= HTML.getUserInput(`w2-${uid}-12b2`);
-		inputs["12c1"]		= HTML.getUserInput(`w2-${uid}-12c1`);
+		inputs["12c1"]		= HTML.getUserInput(`w2-${uid}-12c1`, "text");
 		inputs["12c2"]		= HTML.getUserInput(`w2-${uid}-12c2`);
-		inputs["12d1"]		= HTML.getUserInput(`w2-${uid}-12d1`);
+		inputs["12d1"]		= HTML.getUserInput(`w2-${uid}-12d1`, "text");
 		inputs["12d2"]		= HTML.getUserInput(`w2-${uid}-12d2`);
 		inputs["13a"]		= HTML.getUserInput(`w2-${uid}-13a`);
 		inputs["13b"]		= HTML.getUserInput(`w2-${uid}-13b`);
@@ -283,8 +348,15 @@ export class W2 extends TaxForm {
 	constructor(formname) {
 		Debug.enter("W2.Constructor()");
 		super(formname);
+
 		this.title = `W-2 - Wage and Tax Statement`;
 
+		this.lines["is_taxpayer"]	= new Line("Taxpayer's W-2");
+		this.lines["is_spouse"]		= new Line("Spouse's W-2");
+		this.lines["payer"]			= new Line("Employer");
+		this.lines["ein"]			= new Line("EmployerEIN");
+		this.lines["ssn"]			= new Line("SSN");
+		this.lines["taxpayer"]		= new Line("Taxpayer");
 		this.lines["01"]	= new Line("Wages");
 		this.lines["02"]	= new Line("Federal Tax Withheld");
 		this.lines["03"]	= new Line("Social Security Wages");
@@ -333,7 +405,42 @@ export class W2 extends TaxForm {
 		Debug.enter("W2.calculate()");
 
 		this.calculated = true;
+		const tt = TaxTable.getTaxTable();
+		const tp = Taxpayer.getTaxpayer();
 
 		Debug.exit("W2.calculate()");
+	}
+
+	getRetirementContributions() {
+		let contributions = 0;
+		
+		if (String(this.line("12a1")).toUpperCase() === "D") {
+			contributions += this.line("12a2");
+		}
+		if (String(this.line("12b1")).toUpperCase() === "D") {
+			contributions += this.line("12b2");
+		}
+		if (String(this.line("12c1")).toUpperCase() === "D") {
+			contributions += this.line("12c2");
+		}
+		if (String(this.line("12d1")).toUpperCase() === "D") {
+			contributions += this.line("12d2");
+		}
+
+		return contributions;
+	}
+
+	isTaxpayersW2() {
+		const tp = Taxpayer.getTaxpayer();
+
+		if (tp.filing_status !== "MFJ") {
+			return true;
+		} else if (!this.line("is_taxpayer") && !this.line("is_spouse")) {
+			return true;
+		} else if (this.line("is_taxpayer") && this.line("is_spouse")) {
+			return false;
+		}
+
+		return this.line("is_taxpayer");
 	}
 }
