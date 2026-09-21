@@ -140,7 +140,8 @@ export class F1040S1 extends TaxForm {
 		this.lines["15"].value	= TaxFormObj.getValue("F1040SSE", "13");// Deductible SE Tax
 		this.lines["16"].value	= 0;									// SEP, Simple
 		this.lines["17"].value	= 0;									// SE Health Ins
-		this.lines["18"].value	= 0;									// Early Withdrawal
+		this.lines["18"].value	=
+			TaxFormObj.getValue("F1099INT", "02");	// Early Withdrawal Penalty
 		this.lines["19a"].value	= 0;									// Alimony Paid
 		this.lines["19b"].value	= 0;									// Recipient SSN
 		this.lines["19c"].value	= 0;									// Date of Divorce
