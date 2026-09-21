@@ -739,29 +739,30 @@ export class F1040 extends TaxForm {
 		this.lines["01i"].value = 0;					// Nontaxed Combat
 		this.lines["01z"].value =
 			this.add("01a","01b","01c","01d","01e","01f","01g","01h");
-		this.lines["02a"].value =						// Tax-exempt interest
-			TaxFormObj.getValue("F1099INT",	"08") +
-			TaxFormObj.getValue("F1099OID",	"11");
+		this.lines["02a"].value =
+			TaxFormObj.getValue("F1099INT",	"08") +		// Tax-exempt interest
+			TaxFormObj.getValue("F1099OID",	"11");		// Tax-exempt OID
 		this.lines["02b"].value =						// Taxable Interest
-			TaxFormObj.getValue("F1099INT",	"01") +
-			TaxFormObj.getValue("F1099OID",	"01");
-		this.lines["03a"].value =						// Qualified Dividends
-			TaxFormObj.getValue("F1099DIV",	"01b");
-		this.lines["03b"].value =						// Ordinary Dividends
-			TaxFormObj.getValue("F1099DIV",	"01a");
-		this.lines["04a"].value =						// Total IRA Distributions
-			TaxFormObj.getIRAValue("01");
-		this.lines["04b"].value =						// Taxable IRA Distributions
-			TaxFormObj.getIRAValue("02a") +
+			TaxFormObj.getValue("F1099INT",	"01") +		// Interest income
+			TaxFormObj.getValue("F1099INT",	"03") +		// Interest on US treasuries
+			TaxFormObj.getValue("F1099OID",	"01");		// Original issue discount
+		this.lines["03a"].value =
+			TaxFormObj.getValue("F1099DIV",	"01b");		// Qualified Dividends
+		this.lines["03b"].value =
+			TaxFormObj.getValue("F1099DIV",	"01a");		// Ordinary Dividends
+		this.lines["04a"].value =
+			TaxFormObj.getIRAValue("01");				// Total IRA Distributions
+		this.lines["04b"].value =
+			TaxFormObj.getIRAValue("02a") +				// Taxable IRA Distributions
 			TaxFormObj.getValue("F8606",	"15c") +
 			TaxFormObj.getValue("F8606",	"18") +
 			TaxFormObj.getValue("F8606",	"25c");
-		this.lines["05a"].value =						// Total Pension Distributions
- 			TaxFormObj.getPensionValue("01");
-		this.lines["05b"].value =						// Taxable Pension Distributions
-			TaxFormObj.getPensionValue("02a");
-		this.lines["06a"].value =						// Total SS Benefits
-			TaxFormObj.getValue("SSA1099",	"05");
+		this.lines["05a"].value =
+ 			TaxFormObj.getPensionValue("01");			// Total Pension Distributions
+		this.lines["05b"].value =
+			TaxFormObj.getPensionValue("02a");			// Taxable Pension Distributions
+		this.lines["06a"].value =
+			TaxFormObj.getValue("SSA1099",	"05");		// Total SS Benefits
 
 		// this.lines["06b"].value = 0;  // DELAY INITIALIZATION UNTIL LATER
 
