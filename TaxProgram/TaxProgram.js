@@ -27,6 +27,7 @@ export {
 	output_taxforms_container,
 	// Functions
 	addInputFormToWeb,
+	changeHandler,
 	processError,
 	resetAll,
 };

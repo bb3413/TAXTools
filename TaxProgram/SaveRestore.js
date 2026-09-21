@@ -22,6 +22,7 @@ import {
 	output_taxforms_container,
 	// Functions
 	addInputFormToWeb,
+	changeHandler,
 	processError,
 	resetAll,
 } from "./TaxProgram.js";
@@ -77,7 +78,7 @@ function restoreInputForms(data) {
 		let [ name, uid ] = Container.parseElementID(taxform_id);
 		const element_id_prefix = `${name}-${uid}-`;
 		for (const lineno of Object.keys(lines)) {
-			HTML.putElementValue(element_id_prefix + lineno, lines[lineno]);
+			HTML.putElementValue(element_id_prefix + lineno.replace(/_/g, "-"), lines[lineno]);
 		}
 	}
 }
@@ -102,6 +103,7 @@ function restoreUserData(data) {
 		Income.putUserInput(data.income);
 		restoreAssetsaleItems(data.assetsale_items);
 		restoreInputForms(data.input_forms);
+		changeHandler();
 	} catch (error) {
 		processError(error);
 	}
