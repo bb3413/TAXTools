@@ -1,6 +1,7 @@
 
 import { Num }		from "../Modules/Num.js";
 import { Str }		from "../Modules/Str.js";
+import { Taxpayer }	from "../Classes/Taxpayer.js";
 
 // Values columns
 const SINGLE	= 0;
@@ -74,6 +75,31 @@ export class TaxTableTmpl {
 
 	getMedicalMileageDeduction(miles) {
 		return Math.round(miles * this.getTaxValue("MedicalMileage"));
+	}
+
+	getRetirementSavingsPhaseOut(agi) {
+		const tp = Taxpayer.getTaxpayer();
+		let factor	= 0.0;
+		let col;
+		
+		if (tp.filing_status === "MFJ") {
+			col = 2;
+		} else if (tp.filing_status === "HOH") {
+			col = 3;
+		} else {
+			col = 4;
+		}
+	
+		for (let row = 0; row < this.savings_credit_phase_out.length; row++) {
+			if (agi > this.savings_credit_phase_out[row][0] &&
+				agi <= this.savings_credit_phase_out[row][1]) {
+
+				factor = this.savings_credit_phase_out[row][col];
+				break;
+			}
+		}
+
+		return factor;
 	}
 
 	getRMDPeriod(age) {

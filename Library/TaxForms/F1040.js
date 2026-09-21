@@ -724,60 +724,80 @@ export class F1040 extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		// User input values are already set. If this calculation modifies one of
-		// those values, it will be ignored.
-		this.lines["01a"].value	= TaxFormObj.getValue("W2", "01");		// Wages
-		this.lines["01b"].value	= 0;									// Household ages
-		this.lines["01c"].value	= 0;									// Tip Income
-		this.lines["01d"].value	= 0;									// MWP
-		this.lines["01e"].value	= TaxFormObj.getValue("F2441", "26");	// Dep Care Benefits
-		this.lines["01f"].value	= TaxFormObj.getValue("F8839", "31");	// Adoption Benefits
-		this.lines["01g"].value	= TaxFormObj.getValue("F8919", "06");	// Wages from f8919
-		this.lines["01h"].value	= 0;									// Other Earned Inc
-		this.lines["01i"].value	= 0;									// Nontaxed Combat
-		this.lines["01z"].value	= this.add("01a","01b","01c","01d","01e","01f","01g","01h");
-		this.lines["02a"].value	= TaxFormObj.getValue("F1099INT",	"08") +	// Tax-exempt int
-									TaxFormObj.getValue("F1099OID",	"11");
-		this.lines["02b"].value	= TaxFormObj.getValue("F1099INT",	"01") +	// Taxable Int
-									TaxFormObj.getValue("F1099OID",	"01");
-		this.lines["03a"].value	= TaxFormObj.getValue("F1099DIV",	"01b");	// Qualified Divs
-		this.lines["03b"].value	= TaxFormObj.getValue("F1099DIV",	"01a");	// Ordinary Divs
-		this.lines["04a"].value	= TaxFormObj.getIRAValue("01");				// IRA Dist
-		this.lines["04b"].value	= TaxFormObj.getIRAValue("02a") +			// Taxable IRA
-									TaxFormObj.getValue("F8606",	"15c") +
-									TaxFormObj.getValue("F8606",	"18") +
-									TaxFormObj.getValue("F8606",	"25c");
-		this.lines["05a"].value	= TaxFormObj.getPensionValue("01");			// Pensions
-		this.lines["05b"].value	= TaxFormObj.getPensionValue("02a");		// Pensions
-		this.lines["06a"].value	= TaxFormObj.getValue("SSA1099",	"05");	// SS Benefits
-		this.lines["06b"].value = 0;  // DELAY INITIALIZATION UNTIL LATER
+		this.lines["01a"].value =						// Wages
+			TaxFormObj.getValue("W2", "01");
+		this.lines["01b"].value = 0;					// Household ages
+		this.lines["01c"].value = 0;					// Tip Income
+		this.lines["01d"].value = 0;					// MWP
+		this.lines["01e"].value =						// Dep Care Benefits
+			TaxFormObj.getValue("F2441", "26");
+		this.lines["01f"].value =						// Adoption Benefits
+			TaxFormObj.getValue("F8839", "31");
+		this.lines["01g"].value =						// Wages from f8919
+			TaxFormObj.getValue("F8919", "06");
+		this.lines["01h"].value = 0;					// Other Earned Inc
+		this.lines["01i"].value = 0;					// Nontaxed Combat
+		this.lines["01z"].value =
+			this.add("01a","01b","01c","01d","01e","01f","01g","01h");
+		this.lines["02a"].value =						// Tax-exempt interest
+			TaxFormObj.getValue("F1099INT",	"08") +
+			TaxFormObj.getValue("F1099OID",	"11");
+		this.lines["02b"].value =						// Taxable Interest
+			TaxFormObj.getValue("F1099INT",	"01") +
+			TaxFormObj.getValue("F1099OID",	"01");
+		this.lines["03a"].value =						// Qualified Dividends
+			TaxFormObj.getValue("F1099DIV",	"01b");
+		this.lines["03b"].value =						// Ordinary Dividends
+			TaxFormObj.getValue("F1099DIV",	"01a");
+		this.lines["04a"].value =						// Total IRA Distributions
+			TaxFormObj.getIRAValue("01");
+		this.lines["04b"].value =						// Taxable IRA Distributions
+			TaxFormObj.getIRAValue("02a") +
+			TaxFormObj.getValue("F8606",	"15c") +
+			TaxFormObj.getValue("F8606",	"18") +
+			TaxFormObj.getValue("F8606",	"25c");
+		this.lines["05a"].value =						// Total Pension Distributions
+ 			TaxFormObj.getPensionValue("01");
+		this.lines["05b"].value =						// Taxable Pension Distributions
+			TaxFormObj.getPensionValue("02a");
+		this.lines["06a"].value =						// Total SS Benefits
+			TaxFormObj.getValue("SSA1099",	"05");
+
+		// this.lines["06b"].value = 0;  // DELAY INITIALIZATION UNTIL LATER
 
 		// Capital gains
-		this.lines["07a"].value	= Math.max(0, TaxFormObj.getValue("F1040SD", "16")) +
-									TaxFormObj.getValue("F1040SD",	"21");
-		this.lines["08"].value	= TaxFormObj.getValue("F1040S1",	"10");	// Other Inc
+		this.lines["07a"].value =
+			Math.max(0, TaxFormObj.getValue("F1040SD", "16")) +
+						TaxFormObj.getValue("F1040SD",	"21");
+		this.lines["08"].value =						// Other Income
+			TaxFormObj.getValue("F1040S1",	"10");
 
 		// Reorder fields for dependency. Taxable SS, which is on 1040 line 6b, depends
 		// on 1040 lines 1z, 2a, 2b, 3b, 4b, 5b, 6a, 7, 8, and 10. And, 1040 line 9
 		// depends on Taxable SS.
-		this.lines["10"].value	= TaxFormObj.getValue("F1040S1", "26");	// Adj to Income
-		this.lines["06b"].value	= TaxFormObj.getValue("SSTax", "19");	// Taxable SS
+		this.lines["10"].value =						// Adjustments to Income
+			TaxFormObj.getValue("F1040S1", "26");
+		this.lines["06b"].value =						// Taxable SS
+			TaxFormObj.getValue("SSTax", "19");
 
 		// Resume normal order
 		// Total Income
-		this.lines["09"].value	= this.add("01z","02b","03b","04b","05b","06b","07a","08");
-		this.lines["11a"].value	= this.subtract("09", "10");			// AGI
-		this.lines["11b"].value	= this.line("11a");						// AGI
+		this.lines["09"].value =
+			this.add("01z","02b","03b","04b","05b","06b","07a","08");
+		this.lines["11a"].value =						// AGI
+			this.subtract("09", "10");
+		this.lines["11b"].value = this.line("11a");		// AGI
 
-		const itemized_deductions	= TaxFormObj.getValue("F1040SA", "17");
-		const standard_deduction	= tt.getStandardDeduction(
-			tp.filing_status,
-			tp.taxpayers_age,
-			tp.spouses_age,
-			tp.is_taxpayer_blind,
-			tp.is_spouse_blind);
+		const itemized_deductions = TaxFormObj.getValue("F1040SA", "17");
+		const standard_deduction =
+			tt.getStandardDeduction(
+				tp.filing_status,
+				tp.taxpayers_age,
+				tp.spouses_age,
+				tp.is_taxpayer_blind,
+				tp.is_spouse_blind);
 
-		this.lines["12e"].value	= Math.max(standard_deduction, itemized_deductions);
+		this.lines["12e"].value = Math.max(standard_deduction, itemized_deductions);
 /*
 		if (this.line("11a") -
 			TaxFormObj.getValue(
@@ -787,46 +807,75 @@ export class F1040 extends TaxForm {
 			this.lines["13a"].value = TaxFormObj.getValue("F8995a", "19");
 		}
 */
-		this.lines["13a"].value	= TaxFormObj.getValue("F8995", "15");	// QBI Deduction
-		this.lines["13b"].value	= TaxFormObj.getValue("F1040S1A", "38");// Additional Deducts
-		this.lines["14"].value	= this.add("12e","13a","13b");			// Total Deductions
-		this.lines["15"].value	= Math.max(0, this.subtract("11b", "14"));	// Taxable Income
-		this.lines["16"].value	= TaxFormObj.getValue("IncTax", "25");	// Income Tax
-		this.lines["17"].value	= TaxFormObj.getValue("F1040S2", "03");	// Additional Tax
-		this.lines["18"].value	= this.add("16", "17");					// Total Tax
-		this.lines["19"].value	= TaxFormObj.getValue("F8812", "14");	// Child Tax Credit
-		this.lines["20"].value	= TaxFormObj.getValue("F1040S3", "08");	// Non-refund Creds
-		this.lines["21"].value	= this.add("19", "20");
-		this.lines["22"].value	= Math.max(0, this.subtract("18", "21"));// Tax - NR Credits
-		this.lines["23"].value	= TaxFormObj.getValue("F1040S2", "21");	// Other Taxes
-		this.lines["24"].value	= this.add("22", "23");					// Total Tax
-		this.lines["25a"].value	= TaxFormObj.getValue("W2", "02");		// W2 Witholding
-		this.lines["25b"].value	= TaxFormObj.getValue("F1099INT", "04") +
-									TaxFormObj.getValue("F1099DIV", "04") +
-									TaxFormObj.getValue("F1099G", "04") +
-									TaxFormObj.getValue("F1099K", "04") +
-									TaxFormObj.getValue("F1099MISC", "04") +
-									TaxFormObj.getValue("F1099NEC", "04") +
-									TaxFormObj.getValue("F1099OID", "04") +
-									TaxFormObj.getValue("F1099R", "04") +
-									TaxFormObj.getValue("SSA1099", "06");// 1099 Withholding
-		this.lines["25c"].value	= TaxFormObj.getValue("F8959", "24");	// Other withholding
-		this.lines["25d"].value	= this.add("25a", "25b", "25c");		// Total Withholding
-		this.lines["26"].value	= this.estimated_payments;				// Estimated payments
-		this.lines["27a"].value	= TaxFormObj.getValue("EIC", "xx");		// EIC
-		this.lines["28"].value	= TaxFormObj.getValue("F8812", "27");	// Additional CTC
-		this.lines["29"].value	= TaxFormObj.getValue("F8863", "08");	// Amer Opp Cred
-		this.lines["30"].value	= TaxFormObj.getValue("F8839", "13");	// Refund Adopt Cred
-		this.lines["31"].value	= TaxFormObj.getValue("F1040S3", "15");	// Other Refund Creds
-		this.lines["32"].value	= this.add("27a","28","29","30","31");	// Estimated Payments
-		this.lines["33"].value	= this.add("25d","26","32");			// Total Payments
+		this.lines["13a"].value =						// QBI Deduction
+			TaxFormObj.getValue("F8995", "15");
+		this.lines["13b"].value =						// Additional Deducts
+			TaxFormObj.getValue("F1040S1A", "38");
+		this.lines["14"].value =						// Total Deductions
+			this.add("12e","13a","13b");
+		this.lines["15"].value =						// Taxable Income
+			Math.max(0, this.subtract("11b", "14"));
+		this.lines["16"].value =						// Income Tax
+			TaxFormObj.getValue("IncTax", "25");
+		this.lines["17"].value =						// Additional Tax
+			TaxFormObj.getValue("F1040S2", "03");
+		this.lines["18"].value =						// Total Tax
+			this.add("16", "17");
+		this.lines["19"].value =						// Child Tax Credit
+			TaxFormObj.getValue("F8812", "14");
+		this.lines["20"].value =						// Non-refund Creds
+			TaxFormObj.getValue("F1040S3", "08");
+		this.lines["21"].value =
+			this.add("19", "20");
+		this.lines["22"].value =						// Tax - NR Credits
+			Math.max(0, this.subtract("18", "21"));
+		this.lines["23"].value =						// Other Taxes
+			TaxFormObj.getValue("F1040S2", "21");
+		this.lines["24"].value =						// Total Tax
+			this.add("22", "23");
+		this.lines["25a"].value =						// W2 Witholding
+			TaxFormObj.getValue("W2", "02");
+		this.lines["25b"].value =						// 1099 Withholding
+			TaxFormObj.getValue("F1099INT", "04") +
+			TaxFormObj.getValue("F1099DIV", "04") +
+			TaxFormObj.getValue("F1099G", "04") +
+			TaxFormObj.getValue("F1099K", "04") +
+			TaxFormObj.getValue("F1099MISC", "04") +
+			TaxFormObj.getValue("F1099NEC", "04") +
+			TaxFormObj.getValue("F1099OID", "04") +
+			TaxFormObj.getValue("F1099R", "04") +
+			TaxFormObj.getValue("SSA1099", "06");
+		this.lines["25c"].value =						// Other withholding
+			TaxFormObj.getValue("F8959", "24");
+		this.lines["25d"].value =						// Total Withholding
+			this.add("25a", "25b", "25c");
+		this.lines["26"].value =						// Estimated payments
+			this.estimated_payments;
+		this.lines["27a"].value =						// EIC
+			TaxFormObj.getValue("EIC", "xx");
+		this.lines["28"].value =						// Additional CTC
+			TaxFormObj.getValue("F8812", "27");
+		this.lines["29"].value =						// Amer Opp Cred
+			TaxFormObj.getValue("F8863", "08");
+		this.lines["30"].value =						// Refund Adopt Cred
+			TaxFormObj.getValue("F8839", "13");
+		this.lines["31"].value =						// Other Refund Creds
+			TaxFormObj.getValue("F1040S3", "15");
+		this.lines["32"].value =						// Estimated Payments
+			this.add("27a","28","29","30","31");
+		this.lines["33"].value =						// Total Payments
+			this.add("25d","26","32");
 		if (this.line("33") > this.line("24")) {
-			this.lines["34"].value	= this.subtract("33", "24");		// Overpaid
-			this.lines["35a"].value	= this.subtract("34", "36");		// Refund
-			this.lines["36"].value	= 0;								// Apply to next year
+			this.lines["34"].value =					// Overpaid
+			this.subtract("33", "24");
+			this.lines["35a"].value =					// Refund
+			this.subtract("34", "36");
+			this.lines["36"].value = 0;					// Apply to next year
 		} else {
-			this.lines["37"].value	= this.subtract("24", "33");		// Amount Owed
-			this.lines["38"].value	= TaxFormObj.getValue("Penalty", "xx");	// EstTax Penalty
+			this.lines["37"].value =					// Amount Owed
+			this.subtract("24", "33");
+			this.lines["38"].value =					// EstTax Penalty
+			TaxFormObj.getValue("Penalty", "xx");
 		}
 		Debug.exit("F1040.calculate()");
 	}

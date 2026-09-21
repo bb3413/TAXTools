@@ -78,6 +78,24 @@ function get1099RValue(lineno, ira) {
 	return sum;
 }
 
+function getRetirementContributions(taxpayer) {
+	//
+	// Get contributions for taxpayer (taxpayer===true) or spouse (taxpayer===false).
+	//
+	let contributions = 0;
+	let form_list = instances["W2"];
+
+	if (form_list) {
+		for (const form of form_list) {
+			if ((taxpayer && form.isTaxpayersW2()) || (!taxpayer && !form.isTaxpayersW2())){
+				contributions += form.getRetirementContributions();
+			}
+		}
+	}
+
+	return contributions;
+}
+
 const TaxFormObj = {
 	createForm(formname) {
 		const form_class = Classes.getClass(formname);
@@ -218,6 +236,15 @@ const TaxFormObj = {
 
 	getIRAValue(lineno) {
 		return get1099RValue(lineno, true);
+	},
+
+
+	getTaxpayerRetirementContributions() {
+		return getRetirementContributions(true);
+	},
+
+	getSpouseRetirementContributions() {
+		return getRetirementContributions(false);
 	},
 
 	getTextValue(formname, ...lineno) {

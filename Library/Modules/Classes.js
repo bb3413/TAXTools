@@ -38,6 +38,7 @@ import { F540 }			from "../TaxForms/F540.js";			// California Income Tax
 import { F540CA }		from "../TaxForms/F540CA.js";		// California Adjustments
 import { F6251 }		from "../TaxForms/F6251.js";		// AMT worksheet
 import { F7206 }		from "../TaxForms/F7206.js";		// Self-employment Health Ins
+import { F8880 }		from "../TaxForms/F8880.js";		// Retirement Credit
 import { SSA1099 }		from "../TaxForms/SSA1099.js";
 import { W2 }			from "../TaxForms/W2.js";
 
@@ -102,6 +103,7 @@ const class_map = {
 	"F540CA":				[ F540CA,		false,	true,	true,	true	],
 	"F6251":				[ F6251,		false,	true,	true,	false	],
 	"F7206":				[ F7206,		false,	true,	true,	false	],
+	"F8880":				[ F8880,		false,	true,	true,	true	],
 	"SSA1099":				[ SSA1099,		true,	false,	false,	false	],
 	"W2":					[ W2,			true,	false,	false,	false	],
 

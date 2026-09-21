@@ -72,7 +72,7 @@ export class F1040S3 extends TaxForm {
 		this.lines["01"].value	= TaxFormObj.getValue("F1116", "xx");	// Foreign Credit"
 		this.lines["02"].value	= TaxFormObj.getValue("F2441", "11");	// Child Care Credit
 		this.lines["03"].value	= TaxFormObj.getValue("F8863", "19");	// Education Credit
-		this.lines["04"].value	= TaxFormObj.getValue("F8880", "xx");	// Retirement Credit
+		// this.lines["04"].value = 0;  // DELAY INITIALIZATION UNTIL LATER
 		this.lines["05a"].value	= TaxFormObj.getValue("F5695", "15");	// Energy Credit
 		this.lines["05b"].value	= TaxFormObj.getValue("F5695", "32");	// Energy Credit
 		this.lines["06a"].value	= TaxFormObj.getValue("F3800", "xx");	// Business Credit
@@ -89,6 +89,10 @@ export class F1040S3 extends TaxForm {
 		this.lines["06l"].value	= TaxFormObj.getValue("F8978", "14");	// Partner's
 		this.lines["06m"].value	= TaxFormObj.getValue("F8936", "xx");	// Used EV Credit
 		this.lines["06z"].value	= 0;	// Non-refundable Credits Not Listed
+
+		// Delay execution because form 8880 references lines 1-3, 6d-6i.
+		this.lines["04"].value	= TaxFormObj.getValue("F8880", "12");	// Retirement Credit
+
 		this.lines["07"].value	= this.add("06a","06b","06c","06d",
 										   "06e","06f","06g","06h",
 										   "06i","06j","06k","06l",
