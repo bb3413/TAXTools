@@ -100,6 +100,14 @@ export class Taxpayer {
 		return inputs;
 	}
 
+	static getFilingStatus() {
+		if (taxpayer) {
+			return taxpayer.filing_status;
+		} else {
+			return "SINGLE";
+		}
+	}
+
 	static getTaxpayer() {
 		if (!taxpayer) {
 			initializeTaxpayer();
