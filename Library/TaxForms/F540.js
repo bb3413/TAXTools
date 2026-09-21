@@ -37,17 +37,6 @@ export class F540 extends TaxForm {
 		this.lines["017"]	= new Line("AGI + Additions = CA AGI");
 		this.lines["018"]	= new Line("Deductions");
 		this.lines["019"]	= new Line("Taxable Income");
-		this.lines["020"]	= new Line("Reserved");
-		this.lines["021"]	= new Line("Reserved");
-		this.lines["022"]	= new Line("Reserved");
-		this.lines["023"]	= new Line("Reserved");
-		this.lines["024"]	= new Line("Reserved");
-		this.lines["025"]	= new Line("Reserved");
-		this.lines["026"]	= new Line("Reserved");
-		this.lines["027"]	= new Line("Reserved");
-		this.lines["028"]	= new Line("Reserved");
-		this.lines["029"]	= new Line("Reserved");
-		this.lines["030"]	= new Line("Reserved");
 
 		// Tax
 		this.lines["031"]	= new Line("Tax");
@@ -55,43 +44,19 @@ export class F540 extends TaxForm {
 		this.lines["033"]	= new Line("Tax - Exemptions");
 		this.lines["034"]	= new Line("Tax from Schedule G1, Form 5870A");
 		this.lines["035"]	= new Line("Total Tax");
-		this.lines["036"]	= new Line("Reserved");
-		this.lines["037"]	= new Line("Reserved");
-		this.lines["038"]	= new Line("Reserved");
-		this.lines["039"]	= new Line("Reserved");
 		this.lines["040"]	= new Line("Child and Dependent Care Credit");
-		this.lines["041"]	= new Line("Reserved");
-		this.lines["042"]	= new Line("Reserved");
 		this.lines["043"]	= new Line("Other Credit");
 		this.lines["044"]	= new Line("Other Credit");
 		this.lines["045"]	= new Line("Other Credit");
 		this.lines["046"]	= new Line("Renter's Credit");
 		this.lines["047"]	= new Line("Total Special Credits");
 		this.lines["048"]	= new Line("Updated Tax");
-		this.lines["049"]	= new Line("Reserved");
-		this.lines["050"]	= new Line("Reserved");
-		this.lines["051"]	= new Line("Reserved");
-		this.lines["052"]	= new Line("Reserved");
-		this.lines["053"]	= new Line("Reserved");
-		this.lines["054"]	= new Line("Reserved");
-		this.lines["055"]	= new Line("Reserved");
-		this.lines["056"]	= new Line("Reserved");
-		this.lines["057"]	= new Line("Reserved");
-		this.lines["058"]	= new Line("Reserved");
-		this.lines["059"]	= new Line("Reserved");
-		this.lines["060"]	= new Line("Reserved");
 
 		// Other taxes
 		this.lines["061"]	= new Line("AMT");
 		this.lines["062"]	= new Line("Mental Health Tax");
 		this.lines["063"]	= new Line("Tax and Credit Recapture");
 		this.lines["064"]	= new Line("Total Tax");
-		this.lines["065"]	= new Line("Reserved");
-		this.lines["066"]	= new Line("Reserved");
-		this.lines["067"]	= new Line("Reserved");
-		this.lines["068"]	= new Line("Reserved");
-		this.lines["069"]	= new Line("Reserved");
-		this.lines["070"]	= new Line("Reserved");
 
 		// Payments
 		this.lines["071"]	= new Line("Withholding");
@@ -102,18 +67,6 @@ export class F540 extends TaxForm {
 		this.lines["076"]	= new Line("Young Child Tax Credit");
 		this.lines["077"]	= new Line("Foster Youth Tax Credit");
 		this.lines["078"]	= new Line("Total Payments");
-		this.lines["079"]	= new Line("Reserved");
-		this.lines["080"]	= new Line("Reserved");
-		this.lines["081"]	= new Line("Reserved");
-		this.lines["082"]	= new Line("Reserved");
-		this.lines["083"]	= new Line("Reserved");
-		this.lines["084"]	= new Line("Reserved");
-		this.lines["085"]	= new Line("Reserved");
-		this.lines["086"]	= new Line("Reserved");
-		this.lines["087"]	= new Line("Reserved");
-		this.lines["088"]	= new Line("Reserved");
-		this.lines["089"]	= new Line("Reserved");
-		this.lines["090"]	= new Line("Reserved");
 
 		// Use Tax
 		this.lines["091"]	= new Line("Use tax");
@@ -130,15 +83,6 @@ export class F540 extends TaxForm {
 		this.lines["098"]	= new Line("Amount to Apply to Next Year");
 		this.lines["099"]	= new Line("Overpaid");
 		this.lines["100"]	= new Line("Tax Due");
-		this.lines["101"]	= new Line("Reserved");
-		this.lines["102"]	= new Line("Reserved");
-		this.lines["103"]	= new Line("Reserved");
-		this.lines["104"]	= new Line("Reserved");
-		this.lines["105"]	= new Line("Reserved");
-		this.lines["106"]	= new Line("Reserved");
-		this.lines["107"]	= new Line("Reserved");
-		this.lines["108"]	= new Line("Reserved");
-		this.lines["109"]	= new Line("Reserved");
 
 		// Contributions
 		this.lines["110"]	= new Line("Total Contributions");
@@ -229,17 +173,6 @@ export class F540 extends TaxForm {
 		this.lines["017"].value	= this.add("015", "016");				// AGI + Additions
 		this.lines["018"].value	= TaxFormObj.getValue("F540CA", "D-30");// Deductions
 		this.lines["019"].value	= this.subtract("017", "018");			// Taxable Income
-		this.lines["020"].value	= 0;									// Reserved
-		this.lines["021"].value	= 0;									// Reserved
-		this.lines["022"].value	= 0;									// Reserved
-		this.lines["023"].value	= 0;									// Reserved
-		this.lines["024"].value	= 0;									// Reserved
-		this.lines["025"].value	= 0;									// Reserved
-		this.lines["026"].value	= 0;									// Reserved
-		this.lines["027"].value	= 0;									// Reserved
-		this.lines["028"].value	= 0;									// Reserved
-		this.lines["029"].value	= 0;									// Reserved
-		this.lines["030"].value	= 0;									// Reserved
 
 		// Tax
 		this.lines["031"].value	= tt.get_CA_IncomeTax(tp.filing_status, this.line("019"));
@@ -253,13 +186,7 @@ export class F540 extends TaxForm {
 		this.lines["033"].value	= Math.max(0, this.subtract("031", "032"));// Tax - Exempts
 		this.lines["034"].value	= 0;									// From Form 5870A
 		this.lines["035"].value	= this.add("033", "034");				// Total Tax
-		this.lines["036"].value	= 0;									// Reserved
-		this.lines["037"].value	= 0;									// Reserved
-		this.lines["038"].value	= 0;									// Reserved
-		this.lines["039"].value	= 0;									// Reserved
 		this.lines["040"].value	= 0;									// Child Care Credit
-		this.lines["041"].value	= 0;									// Reserved
-		this.lines["042"].value	= 0;									// Reserved
 		this.lines["043"].value	= 0;									// Other Credit
 		this.lines["044"].value	= 0;									// Other Credit
 		this.lines["045"].value	= 0;									// Other Credit
@@ -270,33 +197,15 @@ export class F540 extends TaxForm {
 		this.lines["047"].value	= this.add("040","041","042","043",
 										   "044","045","046");	// Total Special Credits
 		this.lines["048"].value	= Math.max(0, this.subtract("035", "047"));	// Updated Tax
-		this.lines["049"].value	= 0;									// Reserved
-		this.lines["050"].value	= 0;									// Reserved
-		this.lines["051"].value	= 0;									// Reserved
-		this.lines["052"].value	= 0;									// Reserved
-		this.lines["053"].value	= 0;									// Reserved
-		this.lines["054"].value	= 0;									// Reserved
-		this.lines["055"].value	= 0;									// Reserved
-		this.lines["056"].value	= 0;									// Reserved
-		this.lines["057"].value	= 0;									// Reserved
-		this.lines["058"].value	= 0;									// Reserved
-		this.lines["059"].value	= 0;									// Reserved
-		this.lines["060"].value	= 0;									// Reserved
 
 		// Other taxes
 		this.lines["061"].value	= 0;									// AMT
 		this.lines["062"].value	= 0;									// Mental Health Tax
 		this.lines["063"].value	= 0;									// Recapture
 		this.lines["064"].value	= this.add("048","061","062","063");	// Total Tax
-		this.lines["065"].value	= 0;									// Reserved
-		this.lines["066"].value	= 0;									// Reserved
-		this.lines["067"].value	= 0;									// Reserved
-		this.lines["068"].value	= 0;									// Reserved
-		this.lines["069"].value	= 0;									// Reserved
-		this.lines["070"].value	= 0;									// Reserved
 
 		// Payments
-		this.lines["071"].value	= TaxFormObj.getValue("W2", "19") +		// Withholding
+		this.lines["071"].value	= TaxFormObj.getValue("W2", "17") +		// Withholding
 									TaxFormObj.getValue("F1099INT", "17") +
 									TaxFormObj.getValue("F1099DIV", "16") +
 									TaxFormObj.getValue("F1099R", "14");
@@ -308,18 +217,6 @@ export class F540 extends TaxForm {
 		this.lines["077"].value	= 0;									// Foster Youth Tax
 		this.lines["078"].value	= this.add("071","072","073","074",
 										   "075","076","077");			// Total Payments
-		this.lines["079"].value	= 0;									// Reserved
-		this.lines["080"].value	= 0;									// Reserved
-		this.lines["081"].value	= 0;									// Reserved
-		this.lines["082"].value	= 0;									// Reserved
-		this.lines["083"].value	= 0;									// Reserved
-		this.lines["084"].value	= 0;									// Reserved
-		this.lines["085"].value	= 0;									// Reserved
-		this.lines["086"].value	= 0;									// Reserved
-		this.lines["087"].value	= 0;									// Reserved
-		this.lines["088"].value	= 0;									// Reserved
-		this.lines["089"].value	= 0;									// Reserved
-		this.lines["090"].value	= 0;									// Reserved
 
 		// Use Tax
 		this.lines["091"].value	= 0;									// Use tax
@@ -354,15 +251,6 @@ export class F540 extends TaxForm {
 		if (this.line("095") < this.line("064")) {
 			this.lines["100"].value = this.subtract("064", "095");		// Tax Due
 		}
-		this.lines["101"].value	= 0;									// Reserved
-		this.lines["102"].value	= 0;									// Reserved
-		this.lines["103"].value	= 0;									// Reserved
-		this.lines["104"].value	= 0;									// Reserved
-		this.lines["105"].value	= 0;									// Reserved
-		this.lines["106"].value	= 0;									// Reserved
-		this.lines["107"].value	= 0;									// Reserved
-		this.lines["108"].value	= 0;									// Reserved
-		this.lines["109"].value	= 0;									// Reserved
 
 		// Contributions
 		this.lines["110"].value	= 0;									// Total Contributions
