@@ -37,8 +37,7 @@ const HTML_FORM = `
 								address, city or town, state or province, country,
 									ZIP or foreign postal code, and telephone no.</span>
 							<textarea id="f1099misc-XX-payer"
-								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
-							</textarea>
+								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number"></textarea>
 						</div>
 
 						<div class="f1099-flex-row">
@@ -48,18 +47,17 @@ const HTML_FORM = `
 									placeholder="12-3456789" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label">TAXPAYER&apos;S TIN</span>
+								<span class="f1099-box-label">RECIPIENT&apos;S TIN</span>
 								<input type="text" id="f1099misc-XX-ssn"
 									placeholder="123-45-6789" />
 							</div>
 						</div>
 
 						<div class="f1099-box f1099-box-large">
-							<span class="f1099-box-label">TAXPAYER&apos;S name, street
+							<span class="f1099-box-label">RECIPIENT&apos;S name, street
 								address, city or town, state, and ZIP code</span>
 							<textarea id="f1099misc-XX-taxpayer"
-								placeholder="Taxpayer&apos;s Name&#10;Street Address&#10;City, State, ZIP">
-							</textarea>
+								placeholder="Taxpayer&apos;s Name&#10;Street Address&#10;City, State, ZIP"></textarea>
 						</div>
 
 						<div class="f1099-box" style="border-bottom: none;">

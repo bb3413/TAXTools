@@ -102,8 +102,7 @@ const HTML_FORM = `
 								<!--input type="text" id="ssa1099-XX-07"
 									placeholder="Beneficiary&apos;s address"/ -->
 								<textarea id="ssa1099-XX-07"
-									placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
-								</textarea>
+									placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number"></textarea>
 							</div>
 						</div>
 

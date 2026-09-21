@@ -38,8 +38,7 @@ const HTML_FORM = `
 								address, city or town, state or province, country,
 								ZIP or foreign postal code, and telephone no.</span>
 							<textarea id="f1099k-XX-payer"
-								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number">
-							</textarea>
+								placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number"></textarea>
 						</div>
 
 						<div class="f1099-flex-row">
@@ -59,8 +58,7 @@ const HTML_FORM = `
 							<span class="f1099-box-label">TAXPAYER&apos;S name, street
 								address, city or town, state, and ZIP code</span>
 							<textarea id="f1099k-XX-taxpayer"
-								placeholder="Taxpayer&apos;s Name&#10;Street Address&#10;City, State, ZIP">
-							</textarea>
+								placeholder="Taxpayer&apos;s Name&#10;Street Address&#10;City, State, ZIP"></textarea>
 						</div>
 
 						<div class="f1099-box" style="border-bottom: none;">
