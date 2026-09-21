@@ -253,7 +253,7 @@ export class Taxpayer {
 			size++;		// Spouse
 		}
 
-		size += this._dependents.length();
+		size += this._dependents.length;
 
 		return size;
 	}
