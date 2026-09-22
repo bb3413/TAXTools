@@ -142,13 +142,14 @@ const HTML_FORM = `
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
-								<span class="f1099-box-label">12 Section 1202 gain</span>
+								<span class="f1099-box-label">12 Exempt-interest
+									dividends</span>
 								<input type="text" id="f1099div-XX-12"
 									placeholder="0" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label">13 Exempt-interest
-									dividends</span>
+								<span class="f1099-box-label">13 Specified private activity
+									bond interest dividends</span>
 								<input type="text" id="f1099div-XX-13"
 									placeholder="0" />
 							</div>
@@ -265,8 +266,8 @@ export class F1099DIV extends TaxForm {
 		this.lines["06"]		= new Line("Investment expenses");
 		this.lines["07"]		= new Line("Foreign tax paid");
 		this.lines["08"]		= new Line("Foreign country or U.S. possession");
-		this.lines["12"]		= new Line("Section 1202 gain");
-		this.lines["13"]		= new Line("Exempt-interest dividends");
+		this.lines["12"]		= new Line("Exempt-interest dividends");
+		this.lines["13"]		= new Line("Specified private activity bond dividends");
 		this.lines["14"]		= new Line("State/State no.");
 		this.lines["16"]		= new Line("State tax withheld");
 

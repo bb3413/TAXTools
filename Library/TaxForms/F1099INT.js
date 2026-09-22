@@ -113,6 +113,20 @@ const HTML_FORM = `
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
+								<span class="f1099-box-label">6 Foreign tax paid</span>
+								<input type="text" id="f1099int-XX-06"
+									placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">7 Foreign country or U.S.
+									territory</span>
+								<input type="text" id="f1099int-XX-07"
+									placeholder="" />
+							</div>
+						</div>
+
+						<div class="f1099-flex-row">
+							<div class="f1099-box input-color">
 								<span class="f1099-box-label">8 Tax-exempt interest</span>
 								<input type="text" id="f1099int-XX-08"
 									placeholder="0" />
@@ -216,6 +230,8 @@ export class F1099INT extends TaxForm {
 		inputs["03"	]		= HTML.getUserInput(`f1099int-${uid}-03`);
 		inputs["04"	]		= HTML.getUserInput(`f1099int-${uid}-04`);
 		inputs["05"	]		= HTML.getUserInput(`f1099int-${uid}-05`);
+		inputs["06"	]		= HTML.getUserInput(`f1099int-${uid}-06`);
+		inputs["07"	]		= HTML.getUserInput(`f1099int-${uid}-07`, "text");
 		inputs["08"	]		= HTML.getUserInput(`f1099int-${uid}-08`);
 		inputs["09"	]		= HTML.getUserInput(`f1099int-${uid}-09`);
 		inputs["10"	]		= HTML.getUserInput(`f1099int-${uid}-10`);
@@ -241,6 +257,8 @@ export class F1099INT extends TaxForm {
 		this.lines["03"]		= new Line("Interest on U.S. Savings Bonds");
 		this.lines["04"]		= new Line("Federal income tax withheld");
 		this.lines["05"]		= new Line("Investment expenses");
+		this.lines["06"]		= new Line("Foreign tax paid");
+		this.lines["07"]		= new Line("Foreign country or U.S. territory");
 		this.lines["08"]		= new Line("Tax-exempt interest");
 		this.lines["09"]		= new Line("Specified private activity bond interest");
 		this.lines["10"]		= new Line("Market discount");

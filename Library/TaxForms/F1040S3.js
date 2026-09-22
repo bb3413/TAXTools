@@ -69,7 +69,9 @@ export class F1040S3 extends TaxForm {
 			1040S3[1] f1116[35]
 */
 		// Non-refundable Credits
-		this.lines["01"].value	= TaxFormObj.getValue("F1116", "xx");	// Foreign Credit"
+		this.lines["01"].value	=					// Foreign Credit
+			TaxFormObj.getValue("F1099INT", "06") +
+			TaxFormObj.getValue("F1099DIV", "07");
 		this.lines["02"].value	= TaxFormObj.getValue("F2441", "11");	// Child Care Credit
 		this.lines["03"].value	= TaxFormObj.getValue("F8863", "19");	// Education Credit
 		// this.lines["04"].value = 0;  // DELAY INITIALIZATION UNTIL LATER
