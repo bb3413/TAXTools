@@ -56,7 +56,7 @@ export class IncTax extends TaxForm {
 
 		this.lines["01"].value	= TaxFormObj.getValue("F1040",	"15");	// Taxable Income
 		this.lines["02"].value	= TaxFormObj.getValue("F1040",	"03a");	// Qual Dividends
-		this.lines["03"].value	= TaxFormObj.getValue("F1040",	"07");	// Capital Gains
+		this.lines["03"].value	= TaxFormObj.getValue("F1040",	"07a");	// Capital Gains
 		this.lines["04"].value	= this.add("02", "03");					// Tot Capital Gains
 		this.lines["05"].value	= Math.max(0, this.subtract("01", "04"));// Total Ord Income
 		this.lines["06"].value	= tt.get_CapGains_15_Start(tp.filing_status);
