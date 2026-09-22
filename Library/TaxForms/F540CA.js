@@ -1083,7 +1083,9 @@ export class F540CA extends TaxForm {
 		// Job Expenses and Miscellaneous Deductions
 		this.lines["D-19"].value	= 0;								// Employee Exp
 		this.lines["D-20"].value	= 0;								// Tax prep fee
-		this.lines["D-21"].value	= 0;								// Invest Expense
+		this.lines["D-21"].value	=				// Invest Expenses
+			TaxFormObj.getValue("F1099INT", "05") +
+			TaxFormObj.getValue("F1099DIV", "06");
 		this.lines["D-22"].value	= this.add("D-19","D-20","D-21");	// Misc Deduction
 		this.lines["D-23"].value	= TaxFormObj.getValue("F1040", "11b");	// Federal AGI
 		this.lines["D-24"].value	= Math.max(0, Math.round(this.line("D-23") * 0.02));
