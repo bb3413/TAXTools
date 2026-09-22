@@ -58,6 +58,10 @@ input::placeholder {
 	opacity:				0.5;
 }
 
+input[type="radio"] {
+	accent-color: var(--input-color);
+}
+
 body {
 	/* PDF files cannot print Calibri font so switch to helvetica when making a PDF file.
 	 * When using Helvetica use font-size 14px.

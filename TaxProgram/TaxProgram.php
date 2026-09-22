@@ -101,9 +101,9 @@
 		<div class="taxpayer-info-long-line">
 			<p>Has SSN</p>
 			<div>
-				<input type="radio" id="taxpayer-has-ssn" name="taxpayer-has-ssn" checked />
+				<input type="radio" name="taxpayer-has-ssn" id="taxpayer-has-ssn" checked />
 				<label for="taxpayer-has-ssn">SSN</label>
-				<input type="radio" id="taxpayer-has-itin" name="taxpayer-has-itin" />
+				<input type="radio" name="taxpayer-has-ssn" id="taxpayer-has-itin" />
 				<label for="taxpayer-has-itin">ITIN</label>
 			</div>
 		</div>
@@ -130,9 +130,9 @@
 			<div class="taxpayer-info-long-line">
 				<p>Has SSN</p>
 				<div>
-					<input type="radio" id="spouse-has-ssn" name="spouse-has-ssn" checked />
+					<input type="radio" name="spouse-has-ssn" id="spouse-has-ssn" checked />
 					<label for="spouse-has-ssn">SSN</label>
-					<input type="radio" id="spouse-has-itin" name="spouse-has-itin" />
+					<input type="radio" name="spouse-has-ssn" id="spouse-has-itin" />
 					<label for="spouse-has-itin">ITIN</label>
 				</div>
 			</div>

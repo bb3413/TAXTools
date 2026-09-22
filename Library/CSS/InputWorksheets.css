@@ -14,10 +14,6 @@
 	width:					100px;
 }
 
-input[type="radio"] {
-	accent-color: var(--input-color);
-}
-
 .assetsales-container {
 	display:				grid;
 	grid-template-columns:	100px 200px 100px 100px 100px;

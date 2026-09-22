@@ -5,13 +5,14 @@
 import { Debug }		from "../Modules/Debug.js";
 import { HTML }			from "../Modules/HTML.js";
 import { HTMLBuild }	from "../Classes/HTMLBuild.js";
+import { Taxpayer }		from "../Classes/Taxpayer.js";
 
 export class TaxForm {
 	constructor(formname) {
-		this.formname		= formname;
-		this.title			= formname;
-		this.lines			= {};
-		this.calculated		= false;		// True => need to call calculate().
+		this.formname			= formname;
+		this.title				= formname;
+		this.lines				= {};
+		this.calculated			= false;		// True => need to call calculate().
 	}
 
 	add(...index_list) {
@@ -30,6 +31,16 @@ export class TaxForm {
 		let html	= this.toHTML(uid);
 		let id		= `${this.formname.toLowerCase()}-${uid}-container`;
 		return [ id, html ];
+	}
+
+	isSpouses() {
+		// Tax form belongs to the spouse.
+		return this.lines["is_spouses"] && this.lines["is_spouses"].value;
+	}
+
+	isTaxpayers() {
+		// Tax form belongs to the taxpayer.
+		return !this.isSpouses();
 	}
 
 	isUsed() {

@@ -17,12 +17,13 @@ const HTML_FORM = `
 				<div class="f1099-header-row">
 					<div class="w2-header-left input-color">
 						<div>
-							<label><input type="checkbox"
-								id="w2-XX-is-taxpayer" />Taxpayer&apos;s W-2</label>
+							<input type="radio" name="owner-of-form" id="w2-XX-is-taxpayers"
+								checked />
+							<label for="w2-XX-is-taxpayer">Taxpayer&apos;s W-2</label>
 						</div>
 						<div>
-							<label><input type="checkbox"
-								id="w2-XX-is-spouse" />Spouse&apos;s W-2</label>
+							<input type="radio" name="owner-of-form" id="w2-XX-is-spouses" />
+							<label for="w2-XX-is-spouse">Spouse&apos;s W-2</label>
 						</div>
 					</div>
 					<div class="w2-header-center">
@@ -77,6 +78,7 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-02" placeholder="0" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">3 Social security wages</span>
@@ -88,6 +90,7 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-04" placeholder="0" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">5 Medicare wages and
@@ -99,6 +102,7 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-06" placeholder="0" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">7 Social security tips</span>
@@ -109,6 +113,7 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-08" placeholder="0" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label"></span>
@@ -120,6 +125,7 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-10" placeholder="0" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">11 Non-qualified plans</span>
@@ -130,6 +136,7 @@ const HTML_FORM = `
 								<input type="text" placeholder="" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">13 Statutory employee</span>
@@ -146,6 +153,7 @@ const HTML_FORM = `
 								<div><input type="checkbox" id="w2-XX-13c" /></div>
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">12a Code</span>
@@ -164,6 +172,7 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-14a2" placeholder="0" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">12b Code</span>
@@ -182,6 +191,7 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-14b2" placeholder="0" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">12c Code</span>
@@ -200,6 +210,7 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-14c2" placeholder="0" />
 							</div>
 						</div>
+
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">12d Code</span>
@@ -220,6 +231,7 @@ const HTML_FORM = `
 						</div>
 					</div>
 				</div>		<!-- Main grid -->
+
 				<div class="f1099-header-row">
 					<div class="f1099-box">
 						<span class="f1099-box-label">15 State ID number</span>
@@ -299,8 +311,7 @@ export class W2 extends TaxForm {
 
 		let inputs = {};
 
-		inputs["is_taxpayer"]	= HTML.getUserInput(`w2-${uid}-is-taxpayer`);
-		inputs["is_spouse"]		= HTML.getUserInput(`w2-${uid}-is-spouse`);
+		inputs["is_spouses"]= HTML.getUserInput(`w2-${uid}-is-spouses`);
 		inputs["payer"]		= HTML.getUserInput(`w2-${uid}-payer`,		"text");
 		inputs["ein"]		= HTML.getUserInput(`w2-${uid}-ein`,		"text");
 		inputs["ssn"]		= HTML.getUserInput(`w2-${uid}-ssn`,		"text");
@@ -351,8 +362,7 @@ export class W2 extends TaxForm {
 
 		this.title = `W-2 - Wage and Tax Statement`;
 
-		this.lines["is_taxpayer"]	= new Line("Taxpayer's W-2");
-		this.lines["is_spouse"]		= new Line("Spouse's W-2");
+		this.lines["is_spouses"]		= new Line("Spouse's W-2");
 		this.lines["payer"]			= new Line("Employer");
 		this.lines["ein"]			= new Line("EmployerEIN");
 		this.lines["ssn"]			= new Line("SSN");
@@ -428,19 +438,5 @@ export class W2 extends TaxForm {
 		}
 
 		return contributions;
-	}
-
-	isTaxpayersW2() {
-		const tp = Taxpayer.getTaxpayer();
-
-		if (tp.filing_status !== "MFJ") {
-			return true;
-		} else if (!this.line("is_taxpayer") && !this.line("is_spouse")) {
-			return true;
-		} else if (this.line("is_taxpayer") && this.line("is_spouse")) {
-			return false;
-		}
-
-		return this.line("is_taxpayer");
 	}
 }

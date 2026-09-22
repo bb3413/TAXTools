@@ -81,14 +81,14 @@ function get1099RValue(lineno, ira) {
 
 function getRetirementContributions(taxpayer) {
 	//
-	// Get contributions for taxpayer (taxpayer===true) or spouse (taxpayer===false).
+	// Get contributions for taxpayer or the spouse. The taxpayer parameter is true or false.
 	//
 	let contributions = 0;
 	let form_list = instances["W2"];
 
 	if (form_list) {
 		for (const form of form_list) {
-			if ((taxpayer && form.isTaxpayersW2()) || (!taxpayer && !form.isTaxpayersW2())){
+			if ((taxpayer && form.isTaxpayers()) || (!taxpayer && !form.isTaxpayers())) {
 				contributions += form.getRetirementContributions();
 			}
 		}
