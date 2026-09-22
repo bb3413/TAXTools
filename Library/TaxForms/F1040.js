@@ -741,7 +741,8 @@ export class F1040 extends TaxForm {
 			this.add("01a","01b","01c","01d","01e","01f","01g","01h");
 		this.lines["02a"].value =
 			TaxFormObj.getValue("F1099INT",	"08") +		// Tax-exempt interest
-			TaxFormObj.getValue("F1099OID",	"11");		// Tax-exempt OID
+			TaxFormObj.getValue("F1099OID",	"11") +		// Tax-exempt OID
+			TaxFormObj.getValue("F1099DIV",	"12");		// Tax-exempt interest dividends
 		this.lines["02b"].value =						// Taxable Interest
 			TaxFormObj.getValue("F1099INT",	"01") +		// Interest income
 			TaxFormObj.getValue("F1099INT",	"03") +		// Interest on US treasuries
@@ -768,8 +769,9 @@ export class F1040 extends TaxForm {
 
 		// Capital gains
 		this.lines["07a"].value =
-			Math.max(0, TaxFormObj.getValue("F1040SD", "16")) +
-						TaxFormObj.getValue("F1040SD",	"21");
+			TaxFormObj.getValue("F1099DIV",	"02a") +
+			Math.max(0, TaxFormObj.getValue("F1040SD", "16")) + // One of these is 0
+			TaxFormObj.getValue("F1040SD",	"21");				// One of these is 0
 		this.lines["08"].value =						// Other Income
 			TaxFormObj.getValue("F1040S1",	"10");
 
