@@ -25,7 +25,7 @@
 
 		<h1 class="title" id="title">Tax Return Calculator</h1>
 		<h2 class="subtitle">for the Tax Year
-			<select id="tax-year" class="trigger" tooltipid="#tax-year-tt">
+			<select id="tax-year" class="trigger tax-year" tooltipid="#tax-year-tt">
 				<option value="2026">2026</option>
 				<option value="2025">2025</option>
 				<option value="2024">2024</option>
