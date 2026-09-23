@@ -421,22 +421,30 @@ export class W2 extends TaxForm {
 		Debug.exit("W2.calculate()");
 	}
 
-	getRetirementContributions() {
-		let contributions = 0;
-		
-		if (String(this.line("12a1")).toUpperCase() === "D") {
-			contributions += this.line("12a2");
+	getBox12(code) {
+		let value = 0;
+
+		if (String(this.line("12a1")).toUpperCase() === code) {
+			value += this.line("12a2");
 		}
-		if (String(this.line("12b1")).toUpperCase() === "D") {
-			contributions += this.line("12b2");
+		if (String(this.line("12b1")).toUpperCase() === code) {
+			value += this.line("12b2");
 		}
-		if (String(this.line("12c1")).toUpperCase() === "D") {
-			contributions += this.line("12c2");
+		if (String(this.line("12c1")).toUpperCase() === code) {
+			value += this.line("12c2");
 		}
-		if (String(this.line("12d1")).toUpperCase() === "D") {
-			contributions += this.line("12d2");
+		if (String(this.line("12d1")).toUpperCase() === code) {
+			value += this.line("12d2");
 		}
 
-		return contributions;
+		return value;
+	}
+	
+	getTipIncome() {
+		return this.getBox12("TP");
+	}
+
+	getRetirementContributions() {
+		return this.getBox12("D");
 	}
 }

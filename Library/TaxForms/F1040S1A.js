@@ -110,11 +110,13 @@ export class F1040S1A extends TaxForm {
 		this.lines["03"].value	= this.add("01","02e");					// AGI + Foreign Inc
 
 		// No Tax on Tips
-		this.lines["04a"].value	= TaxFormObj.getValue("W2", "07") +		// Qualified Tips
-									TaxFormObj.getValue("W2", "08");
-		this.lines["04b"].value	= TaxFormObj.getValue("F4137", "01");	// Qualified Tips
-		this.lines["04c"].value	= 0;									// Qualified Tips
-		this.lines["05"].value	= 0;									// Qualified Tips
+		this.lines["04a"].value	= TaxFormObj.getW2TipIncome();			// Tips from W-2
+		this.lines["04b"].value	= TaxFormObj.getValue("F4137", "01");	// Tips from 4137
+		this.lines["04c"].value	= Math.max(this.line("04a"), this.line("04b"))
+		this.lines["05"].value	=										// Tips from business
+			TaxFormObj.getValue("F1099NEC", "01b") +
+			TaxFormObj.getValue("F1099MISC", "13a") +
+			TaxFormObj.getValue("F1099K", "01c");
 		this.lines["06"].value	= this.add("04c","05");					// Total Tips
 		if ((this.line("06") > 0) && this._isQualified()) { 
 			this.lines["07"].value	= Math.min(this.line("06"), max_deduction);	// Limit
@@ -136,8 +138,11 @@ export class F1040S1A extends TaxForm {
 		start_of_phase_out =
 			tt.getTaxValue("OvertimeDeductionPhaseOut",	tp.filing_status);
 
-		this.lines["14a"].value	= 0;									// Overtime Pay
-		this.lines["14b"].value	= 0;									// Overtime Pay
+		this.lines["14a"].value	=  			// Overtime Pay from wages
+			TaxFormObj.getW2OvertimePay();
+		this.lines["14b"].value	=			// Overtime pay from business
+			TaxFormObj.getValue("F1099NEC", "01d") +
+			TaxFormObj.getValue("F1099MISC", "14");
 		this.lines["14c"].value	= this.add("14a","14b");				// Total Overtime
 		if ((this.line("14c") > 0) && this._isQualified()) {
 			this.lines["15"].value	= Math.min(this.line("14c"), max_deduction);// Limit

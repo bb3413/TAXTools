@@ -314,6 +314,38 @@ const TaxFormObj = {
 		return isNaN(sum) ? 0 : sum;
 	},
 
+	getW2OvertimePay() {
+		let overtime_pay = 0;
+		let form_list = instances["W2"];
+
+		if (form_list) {
+			for (const form of form_list) {
+				overtime_pay += form.getBox12("TT");
+			}
+		}
+
+		return overtime_pay;
+	},
+
+	getW2TipIncome() {
+		let tip_income = 0;
+		let form_list = instances["W2"];
+
+		if (form_list) {
+			for (const form of form_list) {
+				let tips = form.getTipIncome();
+				if (tips !== 0) {
+					tip_income += tips;
+				} else {
+					tip_income += form.lines["07"].value;
+					tip_income += form.lines["08"].value;
+				}
+			}
+		}
+
+		return tip_income;
+	},
+
 	reset() {
 		instances = {};
 	},
@@ -352,6 +384,8 @@ const {
 	getIRAValue,
 	getTextValue,
 	getValue,
+	getW2OvertimePay,
+	getW2TipIncome,
 	reset,
 	toConsole,
 	unearnedIncome
@@ -371,6 +405,8 @@ export {
 	getIRAValue,
 	getTextValue,
 	getValue,
+	getW2OvertimePay,
+	getW2TipIncome,
 	reset,
 	toConsole,
 	unearnedIncome
