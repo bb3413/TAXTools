@@ -289,13 +289,6 @@
 						type="text" id="expenses-extra-sales-tax"
 						size="10" placeholder="0" />
 				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Foreign Tax (not entered
-						elsewhere)</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="expenses-foreign-tax"
-						size="10" placeholder="0" />
-				</div>
 
 				<h3>Charitable Donations</h3>
 				<div class="input-worksheet-row">
