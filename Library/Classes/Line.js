@@ -60,6 +60,11 @@ export class Line {
 			return;
 		}
 
+		if (typeof new_value === "string") {
+			this._value = new_value;
+			return;
+		}
+
 		if (!Num.isNum(new_value)) {
 			new_value = 0;
 		}
