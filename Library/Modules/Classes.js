@@ -34,6 +34,9 @@ import { F1099R }		from "../TaxForms/F1099R.js";
 import { F1099S }		from "../TaxForms/F1099S.js";
 //import { F1120S }		from "../TaxForms/F1120S.js";
 //import { F2441 }		from "../TaxForms/F2441.js";
+
+import { F1098VLI }		from "../TaxForms/F1098VLI.js";
+
 import { F540 }			from "../TaxForms/F540.js";			// California Income Tax
 import { F540CA }		from "../TaxForms/F540CA.js";		// California Adjustments
 import { F6251 }		from "../TaxForms/F6251.js";		// AMT worksheet
@@ -115,6 +118,8 @@ const class_map = {
 	"Simple":				[ SalesTax,		false,	true,	false,	true	],
 	"SSTax":				[ SSTax,		false,	true,	false,	true	],
 
+	"F1098VLI":				[ F1098VLI,		true,	false,	false,	false	],
+
 	// California Worksheets
 	"CA_HiIncDeductions":	[ CA_HiIncDeductions,	false,	true,	true,	true	],
 	"CA_HiIncExemptions":	[ CA_HiIncExemptions,	false,	true,	true,	true	],
@@ -148,6 +153,8 @@ const Classes = {
 			case "F1099S":		return F1099S.createForm(uid);
 			case "SSA1099":		return SSA1099.createForm(uid);
 			case "W2":			return W2.createForm(uid);
+
+			case "F1098VLI":	return F1098VLI.createForm(uid);
 			default:
 				throw new Error(`Classes.createForm(): unimplemented form: ${classname}`);
 		}
@@ -214,6 +221,8 @@ const Classes = {
 			case "SSA1099":		return SSA1099.getInputHTML(uid);
 			case "W2":			return W2.getInputHTML(uid);
 
+			case "F1098VLI":	return F1098VLI.getInputHTML(uid);
+
 			case "Assetitem":	return Assetitem.getInputHTML(uid);
 			case "Business":	return Business.getInputHTML(uid);
 			case "Dependent":	return Dependent.getInputHTML(uid);
@@ -246,6 +255,8 @@ const Classes = {
 			case "F1099S":		return F1099S.getUserInput(uid);
 			case "SSA1099":		return SSA1099.getUserInput(uid);
 			case "W2":			return W2.getUserInput(uid);
+
+			case "F1098VLI":	return F1098VLI.getUserInput(uid);
 
 			case "Assetitem":	return Assetitem.getUserInput(uid);
 			case "Business":	return Business.getUserInput(uid);

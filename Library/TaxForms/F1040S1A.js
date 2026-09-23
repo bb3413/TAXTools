@@ -164,7 +164,8 @@ export class F1040S1A extends TaxForm {
 		start_of_phase_out =
 			tt.getTaxValue("CarLoanInterestPhaseOut", tp.filing_status);
 
-		this.lines["22a"].value	= 0;								// Car Loan #1 Interest
+		this.lines["22a"].value	=									// Car Loan #1 Interest
+			TaxFormObj.getValue("F1098VLI", "01");
 		this.lines["22b"].value	= 0;								// Car Loan #2 Interest
 		this.lines["23"].value	= this.add("22a","22b");			// Total Interest
 		if ((this.line("23") > 0) && (tp.filing_status !== "MFS")) {
