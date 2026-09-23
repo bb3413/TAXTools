@@ -327,7 +327,7 @@ export class Dependent {
 		return inputs;
 	}
 
-	static putUserInput(inputs, uid) {
+	static putUserOutput(inputs, uid) {
 		//
 		// Copy the value of the fields from the inputs object to the web.
 		//
@@ -335,7 +335,7 @@ export class Dependent {
 			const element_name	= key_name.replace(/_/g, "-");
 			const element_id	= `dependent-${uid}-${element_name}`;
 			if (document.getElementById(element_id)) {
-				HTML.putUserInput(element_id, inputs[key_name]);
+				HTML.putUserOutput(element_id, inputs[key_name]);
 			}
 		}
 	}

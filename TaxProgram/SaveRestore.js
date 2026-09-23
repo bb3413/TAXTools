@@ -43,7 +43,7 @@ function restoreAssetsaleItems(data) {
 		const uid = Container.getUID("assetitem");
 		const [ html_id, html ] = Assetitem.getInputHTML(uid);
 		assetsale_items_container.addEntry(html_id, html);
-		Assetitem.putUserInputs(assetitem_data, uid);
+		Assetitem.putUserOutputs(assetitem_data, uid);
 	}
 }
 
@@ -56,7 +56,7 @@ function restoreDependents(data) {
 		const uid = Container.getUID("dependent");
 		const [ html_id, html ] = Dependent.getInputHTML(uid);
 		dependents_container.addEntry(html_id, html);
-		Dependent.putUserInputs(dependent_data, uid);
+		Dependent.putUserOutputs(dependent_data, uid);
 	}
 }
 
@@ -99,8 +99,8 @@ function restoreUserData(data) {
 		HTML.putUserOutput("tax-year", data.tax_year, "text");
 		Taxpayer.restoreUserInput(data.taxpayer);
 		restoreDependents(data.dependents);
-		Expenses.putUserInput(data.expenses);
-		Income.putUserInput(data.income);
+		Expenses.putUserOutput(data.expenses);
+		Income.putUserOutput(data.income);
 		restoreAssetsaleItems(data.assetsale_items);
 		restoreInputForms(data.input_forms);
 		changeHandler();
