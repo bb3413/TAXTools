@@ -159,17 +159,6 @@ const HTML = {
 			return;
 		}
 
-		// This was intended to not write 0's when that was the placeholder value. It doesn't
-		// produce the desired output on the form 1040 in the Tax Program.
-		// if (String(element.placeholder) === String(value)) {
-		//	value = "";
-		// }
-		if ((typeof value === "string") && (value === "")) {
-			// Assigning "" to a field will cause the placeholder value to be displayed. This
-			// is not desirable for dates.
-			value = " ";
-		}
-
 		if ("value" in element) {
 			// Restore input, textarea, and selects elements.
 			element.value = value;
