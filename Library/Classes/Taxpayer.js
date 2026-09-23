@@ -21,7 +21,7 @@ const ELEMENTS = {
 
 	// Spouse
 	"spouses-birthday":		["text"],
-	"months-lived-together":["text"],
+	"months-lived-together":[],
 	"is-spouse-blind":		[],
 	"spouse-has-ssn":		[],
 	"spouse-has-itin":		[],		// Ignored
@@ -288,13 +288,13 @@ export class Taxpayer {
 			HTML.putUserOutput("f1040-1-taxpayers-birthday",
 				`${this._taxpayers_birthday} (Age ${this._taxpayers_age})`, "text");
 		} else {
-			HTML.putUserOutput("f1040-1-taxpayers-birthday", "", "text");
+			HTML.putUserOutput("f1040-1-taxpayers-birthday", " ", "text");
 		}
 		if (!Str.empty(this._spouses_birthday)) {
 			HTML.putUserOutput("f1040-1-spouses-birthday",
 				`${this._spouses_birthday} (Age ${this._spouses_age})`, "text");
 		} else {
-			HTML.putUserOutput("f1040-1-spouses-birthday", "", "text");
+			HTML.putUserOutput("f1040-1-spouses-birthday", " ", "text");
 		}
 		HTML.putUserOutput("f1040-1-taxpayer-is-blind",
 			this._is_taxpayer_blind ? "X" : "", "text");
