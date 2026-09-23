@@ -2,38 +2,37 @@
 import { HTML } from "../Modules/HTML.js";
 
 const ELEMENTS = {
-	// Element ID				Value Type
-	"expenses-healthcare":			[],
-	"expenses-dental":				[],
-	"expenses-medicare":			[],
-	"expenses-taxpayer-ltc":		[],
-	"expenses-spouse-ltc":			[],
+	// Element ID		Value Type
+	"healthcare":			[],
+	"dental":				[],
+	"medicare":				[],
+	"taxpayer-ltc":			[],
+	"spouse-ltc":			[],
 
-	"expenses-doctor":				[],
-	"expenses-prescriptions":		[],
-	"expenses-medical-aids":		[],
-	"expenses-medical-facilities":	[],
-	"expenses-nursing-services":	[],
-	"expenses-medical-miles":		[],
-	"expenses-other-medical":		[],
+	"doctor":				[],
+	"prescriptions":		[],
+	"medical-aids":			[],
+	"medical-facilities":	[],
+	"nursing-services":		[],
+	"medical-miles":		[],
+	"other-medical":		[],
 
-	"expenses-est-payments-federal":[],
-	"expenses-est-payments-state":	[],
-	"expenses-property-tax":		[],
-	"expenses-personal-property-tax":[],
-	"expenses-extra-sales-tax":		[],
-	"expenses-foreign-tax":			[],
+	"est-payments-federal":	[],
+	"est-payments-state":	[],
+	"property-tax":			[],
+	"personal-property-tax":[],
+	"extra-sales-tax":		[],
 
-	"expenses-cash-donations":		[],
-	"expenses-noncash-donations":	[],
-	"expenses-charitable-miles":	[],
+	"cash-donations":		[],
+	"noncash-donations":	[],
+	"charitable-miles":		[],
 
-	"expenses-educator-taxpayer":	[],
-	"expenses-educator-spouse":		[],
-	"expenses-alimony-paid":		[],
-	"expenses-divorce-date":		[],
-	"expenses-tax-preparation":		[],
-	"expenses-investment-expenses":	[],
+	"educator-taxpayer":	[],
+	"educator-spouse":		[],
+	"alimony-paid":			[],
+	"divorce-date":			["text"],
+	"tax-preparation":		[],
+	"investment-expenses":	[],
 };
 
 export class Expenses {
@@ -42,25 +41,25 @@ export class Expenses {
 		// Read the fields from the web and return an object with the values.
 		//
 		let inputs = {};
-		for (const element_id of Object.keys(ELEMENTS)) {
-			const value_type	= ELEMENTS[element_id][0];
-			const key_name		= element_id.replace(/-/g, "_");
-			if (document.getElementById(element_id)) {
-				inputs[key_name] = HTML.getUserInput(element_id, value_type);
-			}
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= ELEMENTS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
+			const element_id	= `expenses-${field_name}`;
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 
 		return inputs;
 	}
 
-	static putUserInput(inputs) {
+	static putUserOutput(inputs) {
 		//
 		// Copy the value of the fields from the inputs object to the web.
 		//
 		for (const key_name of Object.keys(inputs)) {
-			const element_id = key_name.replace(/_/g, "-");
+			const field_name = key_name.replace(/_/g, "-");
+			const element_id = `expenses-${field_name}`;
 			if (document.getElementById(element_id)) {
-				HTML.putUserInput(element_id, inputs[key_name]);
+				HTML.putUserOutput(element_id, inputs[key_name]);
 			}
 		}
 	}
