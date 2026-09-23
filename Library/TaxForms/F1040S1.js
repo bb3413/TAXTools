@@ -1,4 +1,5 @@
 
+import { Dates }		from "../Modules/Dates.js";
 import { Debug }		from "../Modules/Debug.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
@@ -9,16 +10,18 @@ export class F1040S1 extends TaxForm {
 		Debug.enter("F1040S1.Constructor()");
 		super(formname);
 		this.title = `Schedule 1 - Additional Income and Adjustments to Income`;
+		this.alimony_received	= 0;
+		this.alimony_paid		= 0;
 
 		// Additions to Income
 		this.lines["01"]	= new Line("Taxable Refund");
 		this.lines["02a"]	= new Line("Alimony Received");
-		this.lines["02b"]	= new Line("Business Income");
-		this.lines["03"]	= new Line("Other Gains");
-		this.lines["04"]	= new Line("Schedule E Income");
-		this.lines["05"]	= new Line("Farm Income");
-		this.lines["06"]	= new Line("Unemployment Compensation");
-		this.lines["07"]	= new Line("Other Income");
+		this.lines["02b"]	= new Line("Received Divorce Date");
+		this.lines["03"]	= new Line("Business Income");
+		this.lines["04"]	= new Line("Other Gains");
+		this.lines["05"]	= new Line("Schedule E Income");
+		this.lines["06"]	= new Line("Farm Income");
+		this.lines["07"]	= new Line("Unemployment Compensation");
 		this.lines["08a"]	= new Line("Net Operating Loss");	// Subtract
 		this.lines["08b"]	= new Line("Gambling");
 		this.lines["08c"]	= new Line("Cancellation of Debt");
@@ -56,7 +59,7 @@ export class F1040S1 extends TaxForm {
 		this.lines["18"]	= new Line("Early Withdrawal Penalty");
 		this.lines["19a"]	= new Line("Alimony Paid");
 		this.lines["19b"]	= new Line("Recipient SSN");
-		this.lines["19c"]	= new Line("Date of Divorce");
+		this.lines["19c"]	= new Line("Paid Divorce Date");
 		this.lines["20"]	= new Line("IRA Deduction");
 		this.lines["21"]	= new Line("Student Loan Interest Deduction");
 		this.lines["22"]	= new Line("Reserved for Future Use");
@@ -90,12 +93,15 @@ export class F1040S1 extends TaxForm {
 		// Additions to Income
 		this.lines["01"].value	= 0;									// Taxable Refund
 		this.lines["02a"].value	= 0;									// Alimony Received
-		this.lines["02b"].value	= 0;									// Business Income
-		this.lines["03"].value	= TaxFormObj.getValue("F1040SC", "31");	// Other Gains
-		this.lines["04"].value	= 0;									// Schedule E Income
-		this.lines["05"].value	= 0;									// Farm Income
-		this.lines["06"].value	= TaxFormObj.getValue("F1099G", "01");	// Unemploy Comp
-		this.lines["07"].value	= 0;									// Other Income
+		this.lines["02b"].value	= "";									// Divorce Date
+		if (Dates.isBefore(this.lines["02b"].value, "01/01/2019")) {
+			this.lines["02a"].value	= this.alimony_received;
+		}
+		this.lines["03"].value	= TaxFormObj.getValue("F1040SC", "31");	// Business Income
+		this.lines["04"].value	= 0;									// Other Gains
+		this.lines["05"].value	= 0;									// Schedule E Income
+		this.lines["06"].value	= 0;									// Farm Income
+		this.lines["07"].value	= TaxFormObj.getValue("F1099G", "01");	// Unemploy Comp
 		this.lines["08a"].value	= 0;  // Subtract						// Net Operating Loss
 		this.lines["08b"].value	= 0;									// Gambling
 		this.lines["08c"].value	= 0;									// Cancelled Debt
@@ -144,7 +150,10 @@ export class F1040S1 extends TaxForm {
 			TaxFormObj.getValue("F1099INT", "02");	// Early Withdrawal Penalty
 		this.lines["19a"].value	= 0;									// Alimony Paid
 		this.lines["19b"].value	= 0;									// Recipient SSN
-		this.lines["19c"].value	= 0;									// Date of Divorce
+		this.lines["19c"].value	= "";									// Date of Divorce
+		if (Dates.isBefore(this.lines["19c"].value, "01/01/2019")) {
+			this.lines["19a"].value	= this.alimony_paid;
+		}
 		this.lines["20"].value	= 0;									// IRA Deduction
 		this.lines["21"].value	= 0;									// Student Loan
 		this.lines["22"].value	= 0;									// Reserved

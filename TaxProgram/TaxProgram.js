@@ -272,8 +272,9 @@ function getExpenses() {
 	f1040.estimated_payments = inputs["est_payments_federal"];
 
 	// Form 1040, Schedule 1
+	f1040s1.alimony_paid = inputs["alimony_paid"];
+	
 	f1040s1.lines["11"].user_value = inputs["educator_taxpayer"] + inputs["educator_spouse"];
-	f1040s1.lines["19a"].user_value	= inputs["alimony_paid"];
 	f1040s1.lines["19c"].user_value	= inputs["divorce_date"];
 
 	// Form 1040, Schedule A
@@ -306,7 +307,6 @@ function getExpenses() {
 	//
 	// Expense fields that are not implemented yet
 	//
-	// fxxxx.lines["xx"].user_value	= inputs["foreign_tax"];
 	// fxxxx.lines["xx"].user_value	= inputs["tax_preparation"];
 	// fxxxx.lines["xx"].user_value	= inputs["investment_expenses"];
 }
@@ -319,8 +319,9 @@ function getIncome() {
 
 	const f1040s1 = TaxFormObj.getOrCreateForm("F1040S1");
 
+	f1040s1.alimony_received = inputs["alimony_received"];
+
 	f1040s1.lines["24a"].user_value = inputs["jury_duty"];
-	f1040s1.lines["02a"].user_value = inputs["alimony_received"];
 	f1040s1.lines["02b"].user_value = inputs["divorce_date"];
 	f1040s1.lines["08b"].user_value = inputs["gambling"];
 	f1040s1.lines["08z"].user_value = inputs["other"];
