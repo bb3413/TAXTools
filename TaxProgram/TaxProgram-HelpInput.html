@@ -1,7 +1,6 @@
 
 	<!--
-	This file may be included in other files. It contains information that is used
-	for both tooltips and help page information.
+	This file  contains information that is used for both tooltips and help page information.
 
 	The entire block of HTML code is enclosed in a DIV section with a style named
 	"help-fields". This can be used to define sub-styles that only affect the
@@ -9,15 +8,356 @@
 	-->
 
 	<div class="help-fields">
-		<div class="tooltip" tooltipid="tax-year-tt">
+		<div class="tooltip" id="tax-year-tt">
 			<h4>Tax Year</h4>
-			<p>Selecting a year from this drop-down list will change the estimated tax
-			calculator to use the tax tables for that year. It will continue to use the data
-			that has already been entered.</p>
+			<p>Selecting a year from this drop-down list will change the tool to use the
+			tax tables for that year. The data that has already been entered will not be
+			affected.</p>
+		</div>
+		<div class="tooltip" id="save-button-tt">
+			<h4>Save Button</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="restore-button-tt">
+			<h4>Restore Button</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="filing-status-tt">
+			<h4>Filing Status</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="taxpayers-name-tt">
+			<h4>Taxpayer's Name</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="street-address-tt">
+			<h4>Street Address</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="city-tt">
+			<h4>City</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="state-tt">
+			<h4>State</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="zip-code-tt">
+			<h4>Zip Code</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="taxpayers-birthday-tt">
+			<h4>Taxpayer's Birthday</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="is-taxpayer-blind-tt">
+			<h4>Is Taxpayer Blind</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="taxpayer-has-ssn-tt">
+			<h4>Taxpayer Has SSN</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="taxpayer-has-itin-tt">
+			<h4>Taxpayer Has ITIN</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="spouses-birthday-tt">
+			<h4>Spouse's Birthday</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="lived-with-spouse-tt">
+			<h4>Lived With Spouse</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="is-spouse-blind-tt">
+			<h4>Is Spouse Blind</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="spouse-has-ssn-tt">
+			<h4>Spouse Has SSN</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="spouse-has-itin-tt">
+			<h4>Spouse Has ITIN</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="add-dependent-button-tt">
+			<h4>Add Dependent Button</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="calculate-button-tt">
+			<h4>Calculate Button</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="add-form-button-tt">
+			<h4>Add Form Button</h4>
+			<p>Blah blah blah ...</p>
 		</div>
 
-		<div class="tooltip" tooltipid="WagesTT">
-			<h4>Wages</h4>
+		<!--  Expenses  -->
+		<div class="tooltip" id="expenses-healthcare-tt">
+			<h4>Healthcare</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-dental-tt">
+			<h4>Dental</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-medicare-tt">
+			<h4>Medicare</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-taxpayer-ltc-tt">
+			<h4>Taxpayer LTC</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-spouse-ltc-tt">
+			<h4>Spouse LTC</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-doctor-tt">
+			<h4>Doctor</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-prescriptions-tt">
+			<h4>Prescriptions</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-medical-aids-tt">
+			<h4>Medical Aids</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-medical-facilities-tt">
+			<h4>Medical Facilities</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-nursing-services-tt">
+			<h4>Nursing Services</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-medical-miles-tt">
+			<h4>Medical Miles</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-other-medical-tt">
+			<h4>Other Medical</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-est-payments-federal-tt">
+			<h4>Federal Estimated Payments</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-est-payments-state-tt">
+			<h4>State Estimated Payments</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-property-tax-tt">
+			<h4>Property Tax</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-personal-property-tax-tt">
+			<h4>Personal Property Tax</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-extra-sales-tax-tt">
+			<h4>Extra Sales Tax</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-cash-donations-tt">
+			<h4>Cash Donations</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-noncash-donations-tt">
+			<h4>Noncash Donations</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-charitable-miles-tt">
+			<h4>Charitable Miles</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-educator-taxpayer-tt">
+			<h4>Taxpayer's Educator Expenses</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-educator-spouse-tt">
+			<h4>Spouse's Educator Expenses</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-alimony-paid-tt">
+			<h4>Alimony Paid</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-divorce-date-tt">
+			<h4>Divorce Date</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-tax-preparation-tt">
+			<h4>Tax Preparation</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="expenses-investment-expenses-tt">
+			<h4>Investment Expenses</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+
+		<!--  Income  -->
+		<div class="tooltip" id="income-jury-duty-tt">
+			<h4>Jury Duty</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="income-alimony-received-tt">
+			<h4>Alimony Received</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="income-divorce-date-tt">
+			<h4>Divorce Date</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="income-gambling-tt">
+			<h4>Gambling</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="income-other-tt">
+			<h4>Other</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+
+		<!--  Asset  -->
+		<div class="tooltip" id="add-asset-sale-button-tt">
+			<h4>Add Asset Sale Item</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="assetitem-long-term-tt">
+			<h4>Long Term</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="assetitem-name-tt">
+			<h4>Name</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="assetitem-proceeds-tt">
+			<h4>Proceeds</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="assetitem-basis-tt">
+			<h4>Basis</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="assetitem-wash-sale-tt">
+			<h4>Wash Sale</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+
+		<!--  Business  -->
+		<div class="tooltip" id="business-name-tt">
+			<h4>Name</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-cash-income-tt">
+			<h4>Cash Income</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-advertising-tt">
+			<h4>Advertising</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-commissions-tt">
+			<h4>Commissions</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-insurance-tt">
+			<h4>Insurance</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-interest-tt">
+			<h4>Interest</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-office-supplies-tt">
+			<h4>Office Supplies</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-utilities-tt">
+			<h4>Utilities</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-licenses-tt">
+			<h4>Licenses</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-training-tt">
+			<h4>Training</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-tools-tt">
+			<h4>Tools</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-travel-tt">
+			<h4>Travel</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-meals-tt">
+			<h4>Meals</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-rent-tt">
+			<h4>Rent</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-business-miles-tt">
+			<h4>Business Miles</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-tolls-tt">
+			<h4>Tolls</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="business-other-expenses-tt">
+			<h4>Other Expenses</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+
+		<!--  Dependent  -->
+		<div class="tooltip" id="dependent-name-tt">
+			<h4>Dependent's Name</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-relationship-tt">
+			<h4>Relationship</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-birthday-tt">
+			<h4>Birthday</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-months-lived-at-home-tt">
+			<h4>Months Lived at Home</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-gross-income-tt">
+			<h4>Gross Income</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-fulltime-student-tt">
+			<h4>Fulltime Student</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-mfj-tt">
+			<h4>MFJ</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-taxpayer-supported-tt">
+			<h4>Taxpayer Supported</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-dependent-supported-tt">
+			<h4>Dependent Supported</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-disabled-tt">
+			<h4>Disabled</h4>
 			<p>Blah blah blah ...</p>
 		</div>
 	</div>

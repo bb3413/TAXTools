@@ -32,107 +32,108 @@ const HTML_WORKSHEET = `
 					<p>Business Name</p>
 					<input class="trigger input-field left" type="text" autofocus
 						spellcheck="false" size="45"
-						id="business-XX-name" tooltipid="#business-XX-name-tt" />
+						id="business-XX-name" tooltipid="#business-name-tt" />
 				</div>
 
 				<h3>Income</h3>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Cash Income</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-cash-income"
+					<input class="trigger input-worksheet-row-value input-field" type="text" 
+						id="business-XX-cash-income" tooltipid="#business-cash-income-tt"
 						size="10" placeholder="0" />
 				</div>
 
 				<h3>Expenses</h3>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Advertising</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-advertising"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-advertising" tooltipid="#business-advertising-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Commissions and Fees</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-commissions"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-commissions" tooltipid="#business-commissions-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Insurance (other than
 						health)</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-insurance"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-insurance" tooltipid="#business-insurance-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Interest on Business Loans</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-interest"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-interest" tooltipid="#business-interest-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Office Expenses</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-office-supplies"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-office-supplies"
+						tooltipid="#business-office-supplies-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Utilities</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-utilities"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-utilities" tooltipid="#business-utilities-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Taxes and Licenses</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-licenses"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-licenses" tooltipid="#business-licenses-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Training</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-training"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-training" tooltipid="#business-training-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Tools (under $2,500 each)</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-tools"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-tools" tooltipid="#business-tools-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Travel</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-travel"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-travel" tooltipid="#business-travel-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Business Meals</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-meals"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-meals" tooltipid="#business-meals-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Rent</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-rent"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-rent" tooltipid="#business-rent-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Business Miles Driven</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-business-miles"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-business-miles" tooltipid="#business-business-miles-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Tolls, Parking</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-tolls"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-tolls" tooltipid="#business-tolls-tt"
 						size="10" placeholder="0" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Other Expenses</div>
-					<input class="input-worksheet-row-value input-field"
-						type="text" id="business-XX-other-expenses"
+					<input class="trigger input-worksheet-row-value input-field" type="text"
+						id="business-XX-other-expenses" tooltipid="#business-other-expenses-tt"
 						size="10" placeholder="0" />
 				</div>
 				<p>&nbsp;</p>

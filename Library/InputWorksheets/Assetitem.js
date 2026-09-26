@@ -14,16 +14,21 @@ const ELEMENTS = {
 
 const HTML_WORKSHEET = `
 						<div class="assetsales-container" id="assetitem-XX-container">
-							<input class="input-field" type="checkbox"
-								id="assetitem-XX-long-term" size="10" />
-							<input class="input-field left" type="text"
-								id="assetitem-XX-name" size="10" placeholder="" />
-							<input class="input-field" type="text"
-								id="assetitem-XX-proceeds" size="10" placeholder="0" />
-							<input class="input-field" type="text"
-								id="assetitem-XX-basis" size="10" placeholder="0" />
-							<input class="input-field" type="text"
-								id="assetitem-XX-wash-sale" size="10" placeholder="0" />
+							<input class="trigger input-field" type="checkbox"
+								id="assetitem-XX-long-term" size="10"
+								tooltipid="#assetitem-long-term-tt" />
+							<input class="trigger input-field left" type="text"
+								id="assetitem-XX-name" size="10" placeholder=""
+								tooltipid="#assetitem-name-tt" />
+							<input class="trigger input-field" type="text"
+								id="assetitem-XX-proceeds" size="10" placeholder="0"
+								tooltipid="#assetitem-proceeds-tt" />
+							<input class="trigger input-field" type="text"
+								id="assetitem-XX-basis" size="10" placeholder="0"
+								tooltipid="#assetitem-basis-tt" />
+							<input class="trigger input-field" type="text"
+								id="assetitem-XX-wash-sale" size="10" placeholder="0"
+								tooltipid="#assetitem-wash-sale-tt" />
 						</div>
 `;
 
