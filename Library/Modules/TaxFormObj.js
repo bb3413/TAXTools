@@ -5,7 +5,6 @@
 import { Classes }	from "../Modules/Classes.js";
 import { Debug }	from "../Modules/Debug.js";
 
-
 let instances = {};		// This variable is indexed by form name. For each form, it
 						// returns an array with all the instances of that form.
 
@@ -167,7 +166,7 @@ const TaxFormObj = {
 				bus_name = form.lines["business_name"];
 			}
 
-			if (bus_name === business_name) {
+			if (bus_name.toUpperCase === business_name.toUpperCase) {
 				if (form.formname === "F1099NEC") {
 					if (form.lines["01a"] !== undefined) {
 						sum += form.lines["01a"].value;
@@ -198,7 +197,7 @@ const TaxFormObj = {
 		for (const form of getAllForms("F1099NEC").concat(getAllForms("F1099MISC"))) {
 			let business_name = "NO_NAME";
 			if (form.lines["business_name"]) {
-				business_name = form.lines["business_name"];
+				business_name = form.lines["business_name"].toUpperCase;
 			}
 
 			if (!names.includes(business_name) ) {
