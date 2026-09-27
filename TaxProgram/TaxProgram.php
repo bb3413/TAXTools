@@ -106,14 +106,10 @@
 		</div>
 		<div class="taxpayer-info-long-line">
 			<p>Has SSN</p>
-			<div>
-				<input type="radio" name="taxpayer-has-ssn" id="taxpayer-has-ssn" checked
-					class="trigger"
-					tooltipid="#taxpayer-has-ssn-tt" />
+			<div class="trigger" tooltipid="#taxpayer-has-ssn-tt">
+				<input type="radio" name="taxpayer-has-ssn" id="taxpayer-has-ssn" checked />
 				<label for="taxpayer-has-ssn">SSN</label>
-				<input type="radio" name="taxpayer-has-ssn" id="taxpayer-has-itin"
-					class="trigger"
-					tooltipid="#taxpayer-has-ssn-tt" />
+				<input type="radio" name="taxpayer-has-ssn" id="taxpayer-has-itin" />
 				<label for="taxpayer-has-itin">ITIN</label>
 			</div>
 		</div>
@@ -141,14 +137,10 @@
 			</div>
 			<div class="taxpayer-info-long-line">
 				<p>Has SSN</p>
-				<div>
-					<input type="radio" name="spouse-has-ssn" id="spouse-has-ssn" checked
-						class="trigger"
-						tooltipid="#taxpayer-has-ssn-tt" />
+				<div class="trigger" tooltipid="#taxpayer-has-ssn-tt">
+					<input type="radio" name="spouse-has-ssn" id="spouse-has-ssn" checked />
 					<label for="spouse-has-ssn">SSN</label>
-					<input type="radio" name="spouse-has-ssn" id="spouse-has-itin"
-						class="trigger"
-						tooltipid="#taxpayer-has-ssn-tt" />
+					<input type="radio" name="spouse-has-ssn" id="spouse-has-itin" />
 					<label for="spouse-has-itin">ITIN</label>
 				</div>
 			</div>

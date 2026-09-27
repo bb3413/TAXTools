@@ -27,7 +27,7 @@ const HTML_WORKSHEET = `
 					<p>Name</p>
 					<input class="trigger input-field left"
 						type="text" autofocus spellcheck="false" size="45"
-						id="dependent-XX-name" tooltipid="#dependent--name-tt" />
+						id="dependent-XX-name" tooltipid="#dependent-name-tt" />
 				</div>
 				<div class="taxpayer-info-long-line">
 					<p>Relationship</p>
@@ -47,48 +47,48 @@ const HTML_WORKSHEET = `
 					<p>Birthday</p>
 					<input class="trigger input-field left"
 						type="text" id="dependent-XX-birthday" size="36"
-						placeholder="mm/dd/yyyy" tooltipid="#dependent--birthday-tt" />
+						placeholder="mm/dd/yyyy" tooltipid="#dependent-birthday-tt" />
 				</div>
 				<div class="taxpayer-info-short-line">
 					<p>Months Lived at Home</p>
 					<input class="trigger input-field left"
 						type="text" id="dependent-XX-months-lived-at-home" size="10"
-						placeholder="0" tooltipid="#dependent--months-lived-at-home-tt" />
+						placeholder="0" tooltipid="#dependent-months-lived-at-home-tt" />
 				</div>
 				<div class="taxpayer-info-short-line">
 					<p>Gross Income</p>
 					<input class="trigger input-field left"
 						type="text" id="dependent-XX-gross-income" size="10"
-						placeholder="0" tooltipid="#dependent--gross-income-tt" />
+						placeholder="0" tooltipid="#dependent-gross-income-tt" />
 				</div>
 				<div class="taxpayer-info-short-line">
 					<p>Fulltime Student</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-fulltime-student"
-						tooltipid="#dependent--fulltime-student-tt" />
+						tooltipid="#dependent-fulltime-student-tt" />
 				</div>
 				<div class="taxpayer-info-short-line">
 					<p>Married and Filing Jointly</p>
 					<input class="trigger checkbox" type="checkbox"
-						id="dependent-XX-mfj" tooltipid="#dependent--mfj-tt" />
+						id="dependent-XX-mfj" tooltipid="#dependent-mfj-tt" />
 				</div>
 				<div class="taxpayer-info-short-line">
 					<p>Taxpayer Paid Over Half of Support</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-taxpayer-supported"
-						tooltipid="#dependent--taxpayer-supported-tt" />
+						tooltipid="#dependent-taxpayer-supported-tt" />
 				</div>
 				<div class="taxpayer-info-short-line">
 					<p>Dependent Paid Over Half of Support</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-dependent-supported"
-						tooltipid="#dependent--dependent-supported-tt" />
+						tooltipid="#dependent-dependent-supported-tt" />
 				</div>
 				<div class="taxpayer-info-short-line">
 					<p>Disabled</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-disabled"
-						tooltipid="#dependent--disabled-tt" />
+						tooltipid="#dependent-disabled-tt" />
 				</div>
 				<div class="taxpayer-info-long-line">
 					<p>Has SSN</p>

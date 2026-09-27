@@ -1,18 +1,20 @@
 
-import { Classes }		from "../Library/Modules/Classes.js";
+// Classes
 import { Container }	from "../Library/Classes/Container.js";
+import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
+// Modules
+import { Classes }		from "../Library/Modules/Classes.js";
 import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
-import { Dependent }	from "../Library/Classes/Dependent.js";
 import { HTML }			from "../Library/Modules/HTML.js";
 import { Objects }		from "../Library/Modules/Objects.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
-import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
+// Tax Forms and Input Worksheets
 import { F1040 }		from "../Library/TaxForms/F1040.js";
-
 import { Assetitem }	from "../Library/InputWorksheets/Assetitem.js";
 import { Business }		from "../Library/InputWorksheets/Business.js";
+import { Dependent }	from "../Library/InputWorksheets/Dependent.js";
 import { Expenses }		from "../Library/InputWorksheets/Expenses.js";
 import { Income }		from "../Library/InputWorksheets/Income.js";
 

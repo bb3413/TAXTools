@@ -1,47 +1,79 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-	const triggers = document.querySelectorAll(".trigger");
+	document.addEventListener("mouseover", (e) => {
+		// Check the element or its parent for the trigger
+		const trigger = e.target.closest(".trigger");
+		if (!trigger) return;
+		// console.log("1. Trigger found:", trigger);
 
-	triggers.forEach(trigger => {
-		trigger.addEventListener("mouseenter", () => {
-			const tipId = trigger.getAttribute("tooltipID");
-			const tip = document.querySelector(tipId);
-			if (!tip) return;
+		// Find the tooltipID.
+		let tipId = trigger.getAttribute("tooltipID");
+		if (!tipId) {
+        	console.warn("Element has class trigger but missing tooltipID attribute.");
+            return;
+        }
+		// console.log("2. tooltipID attribute value:", tipId);
 
-			// Get dimensions
-			const triggerRect = trigger.getBoundingClientRect();
-			const screenW = window.innerWidth;
-			const scrollY = window.scrollY;
+		// Ensure selector starts with '#' if an raw ID was provided
+		if (!tipId.startsWith("#") && !tipId.startsWith(".")) {
+			tipId = `#${tipId}`;
+		}
 
-			// Show it momentarily at opacity 0 to get its height/width.
-			tip.style.display = "block";
-			const tipRect = tip.getBoundingClientRect();
+		// Find the tooltip.
+		const tip = document.querySelector(tipId);
+		if (!tip) {
+            console.warn(`Could not find any element in DOM matching selector: "${tipId}"`);
+            return;
+        }
+		if (!tip) return;
+		// console.log("3. Tooltip element found in DOM:", tip);
 
-			// Vertical logic (flip if hits top).
-			let ttTop = (triggerRect.top + scrollY) - tipRect.height - 25;
-			if (ttTop < scrollY + 20) {
-				ttTop = (triggerRect.bottom + scrollY) + 25;
-			}
+		// Position calculations
+		const triggerRect = trigger.getBoundingClientRect();
+		const screenW = window.innerWidth;
+		const scrollY = window.scrollY;
 
-			// Horizontal logic (shift if hits right edge).
-			let ttLeft = triggerRect.left;
-			const tipRightEdge = ttLeft + tipRect.width;
+		// Briefly display to measure rendered size
+		tip.style.display = "block";
+		const tipRect = tip.getBoundingClientRect();
 
-			if (tipRightEdge > screenW) {
-				const overflow = tipRightEdge - screenW;
-				ttLeft = ttLeft - overflow - 20;	// 20px padding from edge.
-			}
+		// Vertical positioning (flip below if hitting top boundary)
+		let ttTop = (triggerRect.top + scrollY) - tipRect.height - 25;
+		if (ttTop < scrollY + 20) {
+			ttTop = (triggerRect.bottom + scrollY) + 25;
+		}
 
-			// Apply and activate
-			tip.style.top = `${ttTop}px`;
-			tip.style.left = `${ttLeft}px`;
-			tip.classList.add("is-active");
-		});
+		// Horizontal positioning (shift left if hitting right viewport edge)
+		let ttLeft = triggerRect.left;
+		const tipRightEdge = ttLeft + tipRect.width;
 
-		trigger.addEventListener("mouseleave", () => {
-			const tipId = trigger.getAttribute("tooltipID");
-			const tip = document.querySelector(tipId);
-			if (tip) tip.classList.remove("is-active");
-		});
+		if (tipRightEdge > screenW) {
+			const overflow = tipRightEdge - screenW;
+			ttLeft = ttLeft - overflow - 20; // 20px padding from screen edge
+		}
+
+		// Apply styles & activate
+		tip.style.top = `${ttTop}px`;
+		tip.style.left = `${ttLeft}px`;
+		tip.classList.add("is-active");
+	});
+
+	document.addEventListener("mouseout", (e) => {
+		const trigger = e.target.closest(".trigger");
+		if (!trigger) return;
+
+		// Ignore mouseout if pointer moves between child elements inside the trigger
+		if (e.relatedTarget && trigger.contains(e.relatedTarget)) return;
+
+		let tipId = trigger.getAttribute("tooltipID");
+		if (!tipId) return;
+
+		if (!tipId.startsWith("#") && !tipId.startsWith(".")) {
+			tipId = `#${tipId}`;
+		}
+
+		const tip = document.querySelector(tipId);
+		if (tip) {
+			tip.classList.remove("is-active");
+		}
 	});
 });
