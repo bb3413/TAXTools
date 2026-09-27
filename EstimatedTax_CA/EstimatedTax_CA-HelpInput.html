@@ -11,31 +11,23 @@
 	<div class="help-fields">
 		<div class="tooltip" id="tax-year-tt">
 			<h4>Tax Year</h4>
-			<p>Selecting a year from this drop-down list will change the estimated tax
-			calculator to use the tax tables for that year. It will continue to use the data
-			that has already been entered.</p>
+			<p>Selecting a year from this drop-down list will change the tool to use the
+			tax tables for that year. The data that has already been entered will not be
+			affected.</p>
 		</div>
 
 		<div class="tooltip" id="SaveButtonTT">
 			<h4>Save Button</h4>
-			<p>Pressing the "Save" button will save the data in the estimated tax calculator
-			to a text file named "EstimatedTax_CA.txt" in your Downloads folder. This data
-			can be reloaded by pressing the "Restore" button.</p>
+			<<p>Pressing the "Save" button will save the data that has been entered to a
+			text file named "EstimatedTax_CA.txt" in your Downloads folder. This data can be
+			reloaded by pressing the "Restore" button.</p>
 		</div>
 
 		<div class="tooltip" id="RestoreButtonTT">
 			<h4>Restore Button</h4>
-			<p>Pressing the "Restore" button will reload the estimated tax calculator with
-			information that was previously saved.</p>
-		</div>
-
-		<div class="tooltip" id="DebugCheckboxTT">
-			<h4>Debugging Checkbox</h4>
-			<p>This is a button that causes additional internal (debugging) data values to be
-			displayed. When the information is displayed, it is located at the bottom of the
-			page. The symbol on the button is a ladybug. When the ladybug is black and white,
-			the debugging information is hidden; when the ladybug is red, the debugging
-			information is displayed.</p>
+			<p>Pressing the "Restore" button will reload the data from a file into the
+			tool, which will replace any data that is already there. The file must have been
+			previously saved by this tool.</p>
 		</div>
 
 		<!-----  Taxpayer Information  ----------------------------------------------------->
@@ -57,13 +49,15 @@
 		<div class="tooltip" id="TaxpayersBirthdayTT">
 			<h4>Taxpayer's Birthday</h4>
 			<p>This is used to determine if the taxpayer will be 65 or older at the end of
-			the tax year.</p>
+			the tax year, which is necessary to qualify for some tax benefits for seniors,
+			such as an increased standard deduction.</p>
 		</div>
 
 		<div class="tooltip" id="SpousesBirthdayTT">
 			<h4>Spouse's Birthday</h4>
-			<p>This is used to determine if the spouse will be 65 or older at the end of the
-			tax year.</p>
+			<p>This is used to determine if the spouse will be 65 or older at the end of
+			the tax year, which is necessary to qualify for some tax benefits for seniors,
+			such as an increased standard deduction.</p>
 		</div>
 
 		<div class="tooltip" id="tax-tools-version-tt">
@@ -281,12 +275,10 @@
 
 		<div class="tooltip" id="AlimonyPaidTT">
 			<h4>Alimony Paid</h4>
-			<p>Enter the amount of alimony you paid this year if you were divorced after
-			2018. If you were divorced after 2018 and paid alimony, the alimony is not
-			deductible on the federal tax return, but it is deductible on the California tax
-			return. For a divorce that was settled in 2018 or earlier, alimony paid can be
-			deducted on both the federal and California tax returns, so no adjustment is
-			needed.</p>
+			<p>If you were divorced before 12/31/2018 and required to pay alimony, the amount
+			of alimony you paid can be deducted on your federal and California tax returns.
+			If you were divorced after 12/31/2018, the amount of alimony you paid can only be
+			deducted on your California tax return.</p>
 		</div>
 
 		<div class="tooltip" id="OtherSubtractionsTT">
@@ -307,12 +299,10 @@
 
 		<div class="tooltip" id="AlimonyReceivedTT">
 			<h4>Alimony Received</h4>
-			<p>Enter the amount of alimony you received this year if you were divorced after
-			2018. If you were divorced after 2018 and received alimony, the alimony is not
-			taxable on the federal tax return, but it is taxable on the California tax
-			return. For a divorce that was settled in 2018 or earlier, alimony received can
-			be taxed on both the federal and California tax returns, so no adjustment is
-			needed.</p>
+			<p>If you were divorced before 12/31/2018 and received alimony payments, the
+			amount you received is taxable on your federal and California tax returns.
+			If you were divorced after 12/31/2018, the amount of alimony you received is only
+			taxable on your California tax return.</p>
 		</div>
 
 		<div class="tooltip" id="HomeLoanDebtCancellationTT">

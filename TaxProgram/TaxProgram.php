@@ -20,8 +20,8 @@
 
 <body>
 	<div class="tool-container" id="tool-container">
-		<p class="version-number">Version: <a href="../Version/Version.html">
-			<span id="tax-tools-version"></span></a></p>
+		<p class="trigger version-number" tooltipid="#tax-tools-version-tt">Version:
+			<a href="../Version/Version.html"><span id="tax-tools-version"></span></a></p>
 
 		<h1 class="title" id="title">Tax Return Calculator</h1>
 		<h2 class="subtitle">for the Tax Year
@@ -79,18 +79,18 @@
 		<div class="taxpayer-info-long-line">
 			<p>City</p>
 			<input class="trigger input-field left" type="text" id="city"
-				tooltipid="#city-tt" />
+				tooltipid="#street-address-tt" />
 		</div>
 		<div class="taxpayer-info-long-line">
 			<p>State</p>
 			<input class="trigger input-field left" type="text" id="state"
 				placeholder="California" readonly
-				tooltipid="#state-tt" />
+				tooltipid="#street-address-tt" />
 		</div>
 		<div class="taxpayer-info-short-line">
 			<p>Zip Code</p>
 			<input class="trigger input-field left" type="text" id="zip-code"
-				tooltipid="#zip-code-tt"  />
+				tooltipid="#street-address-tt"  />
 		</div>
 		<div class="taxpayer-info-short-line">
 			<p>Taxpayer's Birthday</p>
@@ -113,7 +113,7 @@
 				<label for="taxpayer-has-ssn">SSN</label>
 				<input type="radio" name="taxpayer-has-ssn" id="taxpayer-has-itin"
 					class="trigger"
-					tooltipid="#taxpayer-has-itin-tt" />
+					tooltipid="#taxpayer-has-ssn-tt" />
 				<label for="taxpayer-has-itin">ITIN</label>
 			</div>
 		</div>
@@ -126,7 +126,7 @@
 				<input class="trigger input-field left" type="text"
 					id="spouses-birthday" size="36"
 					placeholder="mm/dd/yyyy"
-					tooltipid="#spouses-birthday-tt" />
+					tooltipid="#taxpayers-birthday-tt" />
 			</div>
 			<div class="taxpayer-info-short-line">
 				<p>Months Lived Together</p>
@@ -137,18 +137,18 @@
 			<div class="taxpayer-info-short-line">
 				<p>Spouse Is Blind</p>
 				<input class="trigger checkbox" type="checkbox" id="is-spouse-blind"
-					tooltipid="#is-spouse-blind-tt" />
+					tooltipid="#is-taxpayer-blind-tt" />
 			</div>
 			<div class="taxpayer-info-long-line">
 				<p>Has SSN</p>
 				<div>
 					<input type="radio" name="spouse-has-ssn" id="spouse-has-ssn" checked
 						class="trigger"
-						tooltipid="#spouse-has-ssn-tt" />
+						tooltipid="#taxpayer-has-ssn-tt" />
 					<label for="spouse-has-ssn">SSN</label>
 					<input type="radio" name="spouse-has-ssn" id="spouse-has-itin"
 						class="trigger"
-						tooltipid="#spouse-has-itin-tt" />
+						tooltipid="#taxpayer-has-ssn-tt" />
 					<label for="spouse-has-itin">ITIN</label>
 				</div>
 			</div>

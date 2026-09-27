@@ -8,6 +8,11 @@
 	-->
 
 	<div class="help-fields">
+		<div class="tooltip" id="tax-tools-version-tt">
+			<h4>Version</h4>
+			<p>This is the current version of the tax tools. The version number is actually a
+			link that you can click on to see the version history log.</p>
+		</div>
 		<div class="tooltip" id="tax-year-tt">
 			<h4>Tax Year</h4>
 			<p>Selecting a year from this drop-down list will change the tool to use the
@@ -16,92 +21,143 @@
 		</div>
 		<div class="tooltip" id="save-button-tt">
 			<h4>Save Button</h4>
-			<p>Blah blah blah ...</p>
+			<p>Pressing the "Save" button will save the data that has been entered to a
+			text file named "TaxProgram.txt" in your Downloads folder. This data can be
+			reloaded by pressing the "Restore" button.</p>
 		</div>
 		<div class="tooltip" id="restore-button-tt">
 			<h4>Restore Button</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="filing-status-tt">
-			<h4>Filing Status</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="taxpayers-name-tt">
-			<h4>Taxpayer's Name</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="street-address-tt">
-			<h4>Street Address</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="city-tt">
-			<h4>City</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="state-tt">
-			<h4>State</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="zip-code-tt">
-			<h4>Zip Code</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="taxpayers-birthday-tt">
-			<h4>Taxpayer's Birthday</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="is-taxpayer-blind-tt">
-			<h4>Is Taxpayer Blind</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="taxpayer-has-ssn-tt">
-			<h4>Taxpayer Has SSN</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="taxpayer-has-itin-tt">
-			<h4>Taxpayer Has ITIN</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="spouses-birthday-tt">
-			<h4>Spouse's Birthday</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="lived-with-spouse-tt">
-			<h4>Lived With Spouse</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="is-spouse-blind-tt">
-			<h4>Is Spouse Blind</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="spouse-has-ssn-tt">
-			<h4>Spouse Has SSN</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="spouse-has-itin-tt">
-			<h4>Spouse Has ITIN</h4>
-			<p>Blah blah blah ...</p>
+			<p>Pressing the "Restore" button will reload the data from a file into the
+			tool, which will replace any data that is already there. The file must have been
+			previously saved by this tool.</p>
 		</div>
 		<div class="tooltip" id="add-dependent-button-tt">
 			<h4>Add Dependent Button</h4>
-			<p>Blah blah blah ...</p>
+			<p>Press this button to add a dependent. This will cause several additional
+			fields to appear where you can enter information about the dependent.</p>
 		</div>
 		<div class="tooltip" id="calculate-button-tt">
 			<h4>Calculate Button</h4>
-			<p>Blah blah blah ...</p>
+			<p>Press this button to calculate the tax return. The input forms will be closed
+			and the tax return will be displayed at the bottom of this web page. You can
+			press this button to see the intermediate results and then go back to entering
+			additional data.</p>
 		</div>
 		<div class="tooltip" id="add-form-button-tt">
 			<h4>Add Form Button</h4>
+			<p>Pressing this button will display a drop down list of forms that you can use
+			to enter tax information.</p>
+		</div>
+
+		<!-----  Taxpayer Information  ------------------------------------------------------->
+		<h3>Taxpayer Information</h3>
+		<div class="tooltip" id="filing-status-tt">
+			<h4>Filing Status</h4>
+			<p>Select your filing status from the drop-down list. Many calculations on the
+			tax return use different values and limits based on the filing status. The filing
+			status is also used in a few places in this tool to hide entry fields that are not
+			relavant to the currrent tax payer.</p>
+		</div>
+		<div class="tooltip" id="taxpayers-name-tt">
+			<h4>Taxpayer's Name</h4>
+			<p>This is the name of the taxpayer. It is only used to identify the taxpayer
+			that the information belongs to. This may be useful if the information is saved
+			or printed.</p>
+		</div>
+		<div class="tooltip" id="street-address-tt">
+			<h4>Street Address</h4>
+			<p>The street address of the taxpayer is only used to determine the sales tax
+			rate for the area where the taxpayer lives. This, in turn, is only used to
+			determine thestate and local tax deduction. In order to look up the sales tax
+			rate, you must enter the stree address, city and zip code. The state must be
+			California so it cannot be changed. If the address is not entered, a state-wide
+			value is used.</p>
+		</div>
+		<div class="tooltip" id="taxpayers-birthday-tt">
+			<h4>Taxpayer's Birthday</h4>
+			<p>This is used to determine if the taxpayer will be 65 or older at the end of
+			the tax year, which is necessary to qualify for some tax benefits for seniors,
+			such as an increased standard deduction.</p>
+		</div>
+		<div class="tooltip" id="is-taxpayer-blind-tt">
+			<h4>Is Taxpayer Blind</h4>
+			<p>If the taxpayer or spouse (if married) is blind, an additional amount is added
+			to the standard dedution.</p>
+		</div>
+		<div class="tooltip" id="taxpayer-has-ssn-tt">
+			<h4>Taxpayer Has SSN</h4>
+			<p>Some tax benefits require the taxpayer to have a valid Social Security
+			number. Social Security numbers are issued to U.S. citizens and resident aliens.
+			Individual Tax Identification Numbers (ITIN) are issued by te IRS to non-resident
+			aliens who are required to file a tax return. The first digit of an ITIN is always
+			a 9, and a SSN never begins with a 9.
+			</p>
+		</div>
+
+		<!-----  Spouse's Information  ------------------------------------------------------->
+		<h3>Spouse Information</h3>
+		<div class="tooltip" id="lived-with-spouse-tt">
+			<h4>Lived With Spouse</h4>
+			<p>The number of months that the taxpayer and spouse lived together is used to
+			determine elgibility for a few benefits.</p>
+		</div>
+
+		<!-----  Dependent Information ------------------------------------------------------->
+		<h3>Dependent Information</h3>
+		<div class="tooltip" id="dependent-name-tt">
+			<h4>Dependent's Name</h4>
+			<p>The dependent's name is not used by the tool, but may make it easier to
+			distinguish the entries when there is more than one dependent.</p>
+		</div>
+		<div class="tooltip" id="dependent-relationship-tt">
+			<h4>Relationship</h4>
+			<p>This is a drop-down list of the possible relationships between the taxpayer and
+			dependent. If the relationship is not in the list, select the most similar
+			relationship.</p>
+		</div>
+		<div class="tooltip" id="dependent-birthday-tt">
+			<h4>Birthday</h4>
+			<p>This is used to determine if the dependent's age at the end of the tax year.
+			This is used to determine if the dependent is qualified for several benefits.</p>
+		</div>
+		<div class="tooltip" id="dependent-months-lived-at-home-tt">
+			<h4>Months Lived at Home</h4>
+			<p>This is tyear.he number of months the dependent lived in the taxpayer's home
+			during the year.</p>
+		</div>
+		<div class="tooltip" id="dependent-gross-income-tt">
+			<h4>Gross Income</h4>
+			<p>This is the gross income of the dependent.</p>
+		</div>
+		<div class="tooltip" id="dependent-fulltime-student-tt">
+			<h4>Fulltime Student</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-mfj-tt">
+			<h4>MFJ</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-taxpayer-supported-tt">
+			<h4>Taxpayer Supported</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-dependent-supported-tt">
+			<h4>Dependent Supported</h4>
+			<p>Blah blah blah ...</p>
+		</div>
+		<div class="tooltip" id="dependent-disabled-tt">
+			<h4>Disabled</h4>
 			<p>Blah blah blah ...</p>
 		</div>
 
-		<!--  Expenses  -->
+		<!-----  Expenses  ------------------------------------------------------------------->
+		<h3>Expenses</h3>
 		<div class="tooltip" id="expenses-healthcare-tt">
-			<h4>Healthcare</h4>
-			<p>Blah blah blah ...</p>
+			<h4>Healthcare Insurance Premiums</h4>
+			<p>Enter the total premiums paid for medical insurance.</p>
 		</div>
 		<div class="tooltip" id="expenses-dental-tt">
-			<h4>Dental</h4>
+			<h4>Dental and Vision Insurance Premiums</h4>
 			<p>Blah blah blah ...</p>
 		</div>
 		<div class="tooltip" id="expenses-medicare-tt">
@@ -110,11 +166,15 @@
 		</div>
 		<div class="tooltip" id="expenses-taxpayer-ltc-tt">
 			<h4>Taxpayer LTC</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the actual premium paid for log term care insurance for the
+			taxpayer. This amount will be reduced to the allowed limit based on the
+			taxpayer's age.</p>
 		</div>
 		<div class="tooltip" id="expenses-spouse-ltc-tt">
 			<h4>Spouse LTC</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the actual premium paid for log term care insurance for the
+			spouse. This amount will be reduced to the allowed limit based on the
+			spouse's age.</p>
 		</div>
 		<div class="tooltip" id="expenses-doctor-tt">
 			<h4>Doctor</h4>
@@ -122,11 +182,12 @@
 		</div>
 		<div class="tooltip" id="expenses-prescriptions-tt">
 			<h4>Prescriptions</h4>
-			<p>Blah blah blah ...</p>
+			<p>The amount paid for prescription medications; not over-the-counter
+			medications.</p>
 		</div>
 		<div class="tooltip" id="expenses-medical-aids-tt">
 			<h4>Medical Aids</h4>
-			<p>Blah blah blah ...</p>
+			<p>Glasses, hearing aids, crutches, walker, wheelchair, etc.</p>
 		</div>
 		<div class="tooltip" id="expenses-medical-facilities-tt">
 			<h4>Medical Facilities</h4>
@@ -138,7 +199,8 @@
 		</div>
 		<div class="tooltip" id="expenses-medical-miles-tt">
 			<h4>Medical Miles</h4>
-			<p>Blah blah blah ...</p>
+			<p>The number of miles driven for medical appointments. This will be
+			multiplied by the allowance for medical mileage.</p>
 		</div>
 		<div class="tooltip" id="expenses-other-medical-tt">
 			<h4>Other Medical</h4>
@@ -154,23 +216,30 @@
 		</div>
 		<div class="tooltip" id="expenses-property-tax-tt">
 			<h4>Property Tax</h4>
-			<p>Blah blah blah ...</p>
+			<p>Real estate property tax is typically paid in two installments, one in
+			December and another one in April of the next year. The real estate property tax
+			you can deduct is the sum of any installments that were paid during the tax
+			year.</p>
 		</div>
 		<div class="tooltip" id="expenses-personal-property-tax-tt">
 			<h4>Personal Property Tax</h4>
-			<p>Blah blah blah ...</p>
+			<p>This is typically the "license fee" portion of the vehicle registration
+			fee for all of your vehicles.</p>
 		</div>
 		<div class="tooltip" id="expenses-extra-sales-tax-tt">
 			<h4>Extra Sales Tax</h4>
 			<p>Blah blah blah ...</p>
 		</div>
 		<div class="tooltip" id="expenses-cash-donations-tt">
-			<h4>Cash Donations</h4>
-			<p>Blah blah blah ...</p>
+			<h4>Cash Gifts to Charity</h4>
+			<p>This is the total of all cash gifts you gave to charity except for Qualified
+			Charitable Distributions (QCD"s), which, if made, need to be subtracted from the
+			amount of taxable income entered for the retirement account.</p>
 		</div>
 		<div class="tooltip" id="expenses-noncash-donations-tt">
-			<h4>Noncash Donations</h4>
-			<p>Blah blah blah ...</p>
+			<h4>Non-cash Gifts to Charity</h4>
+			<p>This is the fair market value of all non-cash donations you made to charity,
+			such as donations to the Goodwill.</p>
 		</div>
 		<div class="tooltip" id="expenses-charitable-miles-tt">
 			<h4>Charitable Miles</h4>
@@ -178,15 +247,24 @@
 		</div>
 		<div class="tooltip" id="expenses-educator-taxpayer-tt">
 			<h4>Taxpayer's Educator Expenses</h4>
-			<p>Blah blah blah ...</p>
+			<p>Educators can deduct up to $300 each for the taxpayer and spouse for
+			unreimbursed classroom expenses. Educators may be a teacher, counselor,
+			principal, or aide that worked at least 900 hours in a K-12 school during
+			the tax year.</p>
 		</div>
 		<div class="tooltip" id="expenses-educator-spouse-tt">
 			<h4>Spouse's Educator Expenses</h4>
-			<p>Blah blah blah ...</p>
+			<p>Educators can deduct up to $300 each for the taxpayer and spouse for
+			unreimbursed classroom expenses. Educators may be a teacher, counselor,
+			principal, or aide that worked at least 900 hours in a K-12 school during
+			the tax year.</p>
 		</div>
 		<div class="tooltip" id="expenses-alimony-paid-tt">
 			<h4>Alimony Paid</h4>
-			<p>Blah blah blah ...</p>
+			<p>If you were divorced before 12/31/2018 and required to pay alimony, the amount
+			of alimony you paid can be deducted on your federal and California tax returns.
+			If you were divorced after 12/31/2018, the amount of alimony you paid can only be
+			deducted on your California tax return.</p>
 		</div>
 		<div class="tooltip" id="expenses-divorce-date-tt">
 			<h4>Divorce Date</h4>
@@ -201,14 +279,18 @@
 			<p>Blah blah blah ...</p>
 		</div>
 
-		<!--  Income  -->
+		<!-----  Income  --------------------------------------------------------------------->
+		<h3>Income</h3>
 		<div class="tooltip" id="income-jury-duty-tt">
 			<h4>Jury Duty</h4>
 			<p>Blah blah blah ...</p>
 		</div>
 		<div class="tooltip" id="income-alimony-received-tt">
 			<h4>Alimony Received</h4>
-			<p>Blah blah blah ...</p>
+			<p>If you were divorced before 12/31/2018 and received alimony payments, the
+			amount you received is taxable on your federal and California tax returns.
+			If you were divorced after 12/31/2018, the amount of alimony you received is only
+			taxable on your California tax return.</p>
 		</div>
 		<div class="tooltip" id="income-divorce-date-tt">
 			<h4>Divorce Date</h4>
@@ -223,7 +305,8 @@
 			<p>Blah blah blah ...</p>
 		</div>
 
-		<!--  Asset  -->
+		<!-----  Asset/Stock Sale Items  ----------------------------------------------------->
+		<h3>Asset/Stock Sale Items</h3>
 		<div class="tooltip" id="add-asset-sale-button-tt">
 			<h4>Add Asset Sale Item</h4>
 			<p>Blah blah blah ...</p>
@@ -249,7 +332,8 @@
 			<p>Blah blah blah ...</p>
 		</div>
 
-		<!--  Business  -->
+		<!-----  Small Business Information  ------------------------------------------------->
+		<h3>Small Business Information</h3>
 		<div class="tooltip" id="business-name-tt">
 			<h4>Name</h4>
 			<p>Blah blah blah ...</p>
@@ -316,48 +400,6 @@
 		</div>
 		<div class="tooltip" id="business-other-expenses-tt">
 			<h4>Other Expenses</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-
-		<!--  Dependent  -->
-		<div class="tooltip" id="dependent-name-tt">
-			<h4>Dependent's Name</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-relationship-tt">
-			<h4>Relationship</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-birthday-tt">
-			<h4>Birthday</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-months-lived-at-home-tt">
-			<h4>Months Lived at Home</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-gross-income-tt">
-			<h4>Gross Income</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-fulltime-student-tt">
-			<h4>Fulltime Student</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-mfj-tt">
-			<h4>MFJ</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-taxpayer-supported-tt">
-			<h4>Taxpayer Supported</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-dependent-supported-tt">
-			<h4>Dependent Supported</h4>
-			<p>Blah blah blah ...</p>
-		</div>
-		<div class="tooltip" id="dependent-disabled-tt">
-			<h4>Disabled</h4>
 			<p>Blah blah blah ...</p>
 		</div>
 	</div>
