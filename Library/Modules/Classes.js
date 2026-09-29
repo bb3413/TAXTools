@@ -63,71 +63,69 @@ import { Dependent }	from "../InputWorksheets/Dependent.js";
 
 const CLASS_NAME	= 0;
 const INPUT			= 1;
-const OUTPUT		= 2;
-const SINGLETON		= 3;
-const ON_DEMAND		= 4;
+const SINGLETON		= 2;
+const ON_DEMAND		= 3;
 
 const class_map = {
-	//																Create
-	// Name					Class			Input	Output	Single	on Demand
-	"F1040":				[ F1040,		false,	true,	true,	true	],
-	"F1040S1":				[ F1040S1,		false,	true,	true,	true	],
-	"F1040S1A":				[ F1040S1A,		false,	true,	true,	true	],
-	"F1040S2":				[ F1040S2,		false,	true,	true,	true	],
-	"F1040S3":				[ F1040S3,		false,	true,	true,	true	],
-	"F1040SA":				[ F1040SA,		false,	true,	true,	true	],
-//	"F1040SB":				[ F1040SB,		false,	true,	true,	false	],
-	"F1040SC":				[ F1040SC,		true,	true,	false,	false	],
-	"F1040SD":				[ F1040SD,		false,	true,	true,	false	],
-//	"F1040SE":				[ F1040SE,		false,	true,	true,	false	],
-	"F1040SSE":				[ F1040SSE,		false,	true,	false,	true	],
-//	"F1041":				[ F1041,		true,	false,	false,	false	],
-//	"F1065B":				[ F1065B,		true,	false,	false,	false	],
-//	"F1098":				[ F1098,		true,	false,	false,	false	],
-//	"F1098E":				[ F1098E,		true,	false,	false,	false	],
-//	"F1098T":				[ F1098T,		true,	false,	false,	false	],
-//	"F1099B":				[ F1099B,		true,	false,	false,	false	],
-	"F1099C":				[ F1099C,		true,	false,	false,	false	],
-	"F1099DIV":				[ F1099DIV,		true,	false,	false,	false	],
-	"F1099G":				[ F1099G,		true,	false,	false,	false	],
-	"F1099INT":				[ F1099INT,		true,	false,	false,	false	],
+	// Name					Class			Input	Single	Create on Demand
+	"F1040":				[ F1040,		false,	true,	true	],
+	"F1040S1":				[ F1040S1,		false,	true,	true	],
+	"F1040S1A":				[ F1040S1A,		false,	true,	true	],
+	"F1040S2":				[ F1040S2,		false,	true,	true	],
+	"F1040S3":				[ F1040S3,		false,	true,	true	],
+	"F1040SA":				[ F1040SA,		false,	true,	true	],
+//	"F1040SB":				[ F1040SB,		false,	true,	false	],
+	"F1040SC":				[ F1040SC,		false,	false,	false	],
+	"F1040SD":				[ F1040SD,		false,	true,	false	],
+//	"F1040SE":				[ F1040SE,		false,	true,	false	],
+	"F1040SSE":				[ F1040SSE,		false,	false,	true	],
+//	"F1041":				[ F1041,		true,	false,	false	],
+//	"F1065B":				[ F1065B,		true,	false,	false	],
+//	"F1098":				[ F1098,		true,	false,	false	],
+//	"F1098E":				[ F1098E,		true,	false,	false	],
+//	"F1098T":				[ F1098T,		true,	false,	false	],
+//	"F1099B":				[ F1099B,		true,	false,	false	],
+	"F1099C":				[ F1099C,		true,	false,	false	],
+	"F1099DIV":				[ F1099DIV,		true,	false,	false	],
+	"F1099G":				[ F1099G,		true,	false,	false	],
+	"F1099INT":				[ F1099INT,		true,	false,	false	],
 
-	// Name					Class			Input	Output	Single	Create on Demand
-	"F1099K":				[ F1099K,		true,	false,	false,	false	],
-//	"F1099LTC":				[ F1099LTC,		true,	false,	false,	false	],
-	"F1099MISC":			[ F1099MISC,	true,	false,	false,	false	],
-	"F1099NEC":				[ F1099NEC,		true,	false,	false,	false	],
-	"F1099OID":				[ F1099OID,		true,	false,	false,	false	],
-	"F1099R":				[ F1099R,		true,	false,	false,	false	],
-	"F1099S":				[ F1099S,		true,	false,	false,	false	],
-//	"F1120S":				[ F1120S,		true,	false,	false,	false	],
-//	"F2441":				[ F2441,		false,	true,	true,	false	],
-	"F540":					[ F540,			false,	true,	true,	true	],
-	"F540CA":				[ F540CA,		false,	true,	true,	true	],
-	"F6251":				[ F6251,		false,	true,	true,	false	],
-	"F7206":				[ F7206,		false,	true,	true,	false	],
-	"F8880":				[ F8880,		false,	true,	true,	true	],
-	"SSA1099":				[ SSA1099,		true,	false,	false,	false	],
-	"W2":					[ W2,			true,	false,	false,	false	],
+	// Name					Class			Input	Single	Create on Demand
+	"F1099K":				[ F1099K,		true,	false,	false	],
+//	"F1099LTC":				[ F1099LTC,		true,	false,	false	],
+	"F1099MISC":			[ F1099MISC,	true,	false,	false	],
+	"F1099NEC":				[ F1099NEC,		true,	false,	false	],
+	"F1099OID":				[ F1099OID,		true,	false,	false	],
+	"F1099R":				[ F1099R,		true,	false,	false	],
+	"F1099S":				[ F1099S,		true,	false,	false	],
+//	"F1120S":				[ F1120S,		true,	false,	false	],
+//	"F2441":				[ F2441,		false,	true,	false	],
+	"F540":					[ F540,			false,	true,	true	],
+	"F540CA":				[ F540CA,		false,	true,	true	],
+	"F6251":				[ F6251,		false,	true,	false	],
+	"F7206":				[ F7206,		false,	true,	false	],
+	"F8880":				[ F8880,		false,	true,	true	],
+	"SSA1099":				[ SSA1099,		true,	false,	false	],
+	"W2":					[ W2,			true,	false,	false	],
 
 	// Worksheets
-	// Name					Class			Input	Output	Single	Create on Demand
-	"IncTax":				[ IncTax,		false,	true,	true,	true	],
-	"Refund":				[ Refund,		false,	true,	true,	true	],
-	"SalesTax":				[ SalesTax,		false,	true,	true,	true	],
-	"Simple":				[ SalesTax,		false,	true,	false,	true	],
-	"SSTax":				[ SSTax,		false,	true,	false,	true	],
+	// Name					Class			Input	Single	Create on Demand
+	"IncTax":				[ IncTax,		false,	true,	true	],
+	"Refund":				[ Refund,		false,	true,	true	],
+	"SalesTax":				[ SalesTax,		false,	true,	true	],
+	"Simple":				[ SalesTax,		false,	false,	true	],
+	"SSTax":				[ SSTax,		false,	false,	true	],
 
-	"F1098VLI":				[ F1098VLI,		true,	false,	false,	false	],
+	"F1098VLI":				[ F1098VLI,		true,	false,	false	],
 
 	// California Worksheets
-	"CA_HiIncDeductions":	[ CA_HiIncDeductions,	false,	true,	true,	true	],
-	"CA_HiIncExemptions":	[ CA_HiIncExemptions,	false,	true,	true,	true	],
+	"CA_HiIncDeductions":	[ CA_HiIncDeductions,	false,	true,	true	],
+	"CA_HiIncExemptions":	[ CA_HiIncExemptions,	false,	true,	true	],
 
 	// Input Worksheets
-	"Assetitem":			[ Assetitem,	true,	false,	false,	false	],
-	"Business":				[ Business,		true,	false,	false,	false	],
-	"Dependent":			[ Dependent,	true,	false,	false,	false	],
+	"Assetitem":			[ Assetitem,	true,	false,	false	],
+	"Business":				[ Business,		true,	false,	false	],
+	"Dependent":			[ Dependent,	true,	false,	false	],
 };
 
 const Classes = {
@@ -289,14 +287,7 @@ const Classes = {
 	},
 
 	isOutputForm(formname) {
-		if (!formname || typeof formname !== "string") {
-			throw new TypeError("formname must be a non-empty string.");
-		}
-		if (class_map[formname]) {
-			return class_map[formname][OUTPUT];
-		} else {
-			return false;
-		}
+		return !isInputForm(formname);
 	},
 
 	listAllForms() {
