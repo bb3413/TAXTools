@@ -75,7 +75,7 @@ export class F1040S1A extends TaxForm {
 		this.lines["32"]	= new Line("Start of Phase Out");
 		this.lines["33"]	= new Line("Amount Over Phase Out");
 		this.lines["34"]	= new Line("Calculate Phase Out");
-		this.lines["35"]	= new Line("Deduction If Qualified");
+		this.lines["35"]	= new Line("Possible Deduction");
 		this.lines["36a"]	= new Line("Senior Deduction for Taxpayer");
 		this.lines["36b"]	= new Line("Senior Deduction for Spouse");
 		this.lines["37"]	= new Line("Senior Deduction");

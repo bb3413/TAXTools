@@ -32,9 +32,9 @@
 			</select>
 		</h2>
 
-		<p>This is a simple income tax return calculation tool. It is a vastly incomplete
-		tool and only capable of processing the most common tax situations. It is only
-		intended for tax planning, not for filing your taxes.</p>
+		<p>This is a simple income tax calculation tool. It is a vastly incomplete tool and
+		only capable of processing the most common tax situations. It is only intended for
+		tax planning, not for filing your taxes.</p>
 
 		<p>Tax information is entered on a variety of worksheets and tax forms at the bottom
 		of this page. You can click on the heading of any worksheet or tax form to alternately
@@ -353,7 +353,7 @@
 					<input class="trigger input-worksheet-row-value input-field"
 						type="text" id="expenses-educator-spouse"
 						size="10" placeholder="0"
-						tooltipid="#expenses-educator-spouse-tt" />
+						tooltipid="#expenses-educator-taxpayer-tt" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Alimony Paid</div>

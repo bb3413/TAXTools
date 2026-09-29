@@ -16,8 +16,8 @@
 		<div class="tooltip" id="tax-year-tt">
 			<h4>Tax Year</h4>
 			<p>Selecting a year from this drop-down list will change the tool to use the
-			tax tables for that year. The data that has already been entered will not be
-			affected.</p>
+			tax tables for that year. Any tax information that you have already entered
+			will not be affected by changing the tax year.</p>
 		</div>
 		<div class="tooltip" id="save-button-tt">
 			<h4>Save Button</h4>
@@ -49,14 +49,14 @@
 			to enter tax information.</p>
 		</div>
 
-		<!-----  Taxpayer Information  ------------------------------------------------------->
+		<!-----  Taxpayer Information  ----------------------------------------------------->
 		<h3>Taxpayer Information</h3>
 		<div class="tooltip" id="filing-status-tt">
 			<h4>Filing Status</h4>
 			<p>Select your filing status from the drop-down list. Many calculations on the
 			tax return use different values and limits based on the filing status. The filing
-			status is also used in a few places in this tool to hide entry fields that are not
-			relavant to the currrent tax payer.</p>
+			status is also used in a few places in this tool to hide entry fields that are
+			not relevant to the current tax payer.</p>
 		</div>
 		<div class="tooltip" id="taxpayers-name-tt">
 			<h4>Taxpayer's Name</h4>
@@ -68,8 +68,8 @@
 			<h4>Street Address</h4>
 			<p>The street address of the taxpayer is only used to determine the sales tax
 			rate for the area where the taxpayer lives. This, in turn, is only used to
-			determine thestate and local tax deduction. In order to look up the sales tax
-			rate, you must enter the stree address, city and zip code. The state must be
+			determine the state and local tax deduction. In order to look up the sales tax
+			rate, you must enter the street address, city and zip code. The state must be
 			California so it cannot be changed. If the address is not entered, a state-wide
 			value is used.</p>
 		</div>
@@ -82,27 +82,27 @@
 		<div class="tooltip" id="is-taxpayer-blind-tt">
 			<h4>Is Blind</h4>
 			<p>If the taxpayer or spouse is blind, an additional amount is added to increase
-			the standard dedution.</p>
+			the standard deduction.</p>
 		</div>
 		<div class="tooltip" id="taxpayer-has-ssn-tt">
 			<h4>Has SSN</h4>
 			<p>Some tax benefits require the taxpayer to have a valid Social Security
 			number. Social Security numbers are issued to U.S. citizens and resident aliens.
 			Individual Tax Identification Numbers (ITIN) are issued by te IRS to non-resident
-			aliens who are required to file a tax return. The first digit of an ITIN is always
-			a 9, and a SSN never begins with a 9.
+			aliens who are required to file a tax return. The first digit of an ITIN is
+			always a 9, and a SSN never begins with a 9.
 			</p>
 		</div>
 
-		<!-----  Spouse's Information  ------------------------------------------------------->
+		<!-----  Spouse's Information  ----------------------------------------------------->
 		<h3>Spouse Information</h3>
 		<div class="tooltip" id="lived-with-spouse-tt">
 			<h4>Lived With Spouse</h4>
-			<p>The number of months that the taxpayer and spouse lived together is used to
-			determine elgibility for a few benefits.</p>
+			<p>This is the number of months that the taxpayer and spouse lived together
+			during the tax year.</p>
 		</div>
 
-		<!-----  Dependent Information ------------------------------------------------------->
+		<!-----  Dependent Information ----------------------------------------------------->
 		<h3>Dependent Information</h3>
 		<div class="tooltip" id="dependent-name-tt">
 			<h4>Dependent's Name</h4>
@@ -111,18 +111,17 @@
 		</div>
 		<div class="tooltip" id="dependent-relationship-tt">
 			<h4>Relationship</h4>
-			<p>This is a drop-down list of the possible relationships between the taxpayer and
-			dependent. If the relationship is not in the list, select the most similar
+			<p>This is a drop-down list of the possible relationships between the taxpayer
+			and dependent. If the relationship is not in the list, select the most similar
 			relationship.</p>
 		</div>
 		<div class="tooltip" id="dependent-birthday-tt">
 			<h4>Birthday</h4>
-			<p>This is used to determine if the dependent's age at the end of the tax year.
-			This is used to determine if the dependent is qualified for several benefits.</p>
+			<p>This is used to determine the dependent's age at the end of the tax year.</p>
 		</div>
 		<div class="tooltip" id="dependent-months-lived-at-home-tt">
 			<h4>Months Lived at Home</h4>
-			<p>This is tyear.he number of months the dependent lived in the taxpayer's home
+			<p>This is the number of months the dependent lived in the taxpayer's home
 			during the year.</p>
 		</div>
 		<div class="tooltip" id="dependent-gross-income-tt">
@@ -131,71 +130,83 @@
 		</div>
 		<div class="tooltip" id="dependent-fulltime-student-tt">
 			<h4>Fulltime Student</h4>
-			<p>Blah blah blah ...</p>
+			<p>This indicates whether or not the dependent is a full-time student.</p>
 		</div>
 		<div class="tooltip" id="dependent-mfj-tt">
 			<h4>MFJ</h4>
-			<p>Blah blah blah ...</p>
+			<p>This indicates whether or not the dependent is filing a his or her own tax
+			return with the filing status of Married Filling Jointly.</p>
 		</div>
 		<div class="tooltip" id="dependent-taxpayer-supported-tt">
 			<h4>Taxpayer Supported</h4>
-			<p>Blah blah blah ...</p>
+			<p>This indicates whether or not the taxpayer provided 50% or more of the
+			dependent's support.</p>
 		</div>
 		<div class="tooltip" id="dependent-dependent-supported-tt">
 			<h4>Dependent Supported</h4>
-			<p>Blah blah blah ...</p>
+			<p>This indicates whether or not the dependent provided 50% or more of his or her
+			own support.</p>
 		</div>
 		<div class="tooltip" id="dependent-disabled-tt">
 			<h4>Disabled</h4>
-			<p>Blah blah blah ...</p>
+			<p>This indicates whether or not the dependent is disabled.</p>
 		</div>
 
-		<!-----  Expenses  ------------------------------------------------------------------->
+		<!-----  Expenses  ----------------------------------------------------------------->
 		<h3>Expenses</h3>
 		<div class="tooltip" id="expenses-healthcare-tt">
 			<h4>Healthcare Insurance Premiums</h4>
-			<p>Enter the total premiums paid for medical insurance.</p>
+			<p>Enter the total premiums paid for healthcare insurance for the taxpayer,
+			spouse, and dependents.</p>
 		</div>
 		<div class="tooltip" id="expenses-dental-tt">
 			<h4>Dental and Vision Insurance Premiums</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the total premiums paid for dental and vision insurance for the
+			taxpayer, spouse, and dependents.</p>
 		</div>
 		<div class="tooltip" id="expenses-medicare-tt">
 			<h4>Medicare</h4>
-			<p>Blah blah blah ...</p>
+			<p>Normally, when a senior is receiving Social Security payments, their Medicare
+			premiums will be deducted form their Social Security benefits and shown on
+			form SSA-1099, box 3. If you entered form SSA-1099 and it shows the Medicare
+			premiums in box 3, you do not need to enter them here. If you enter them in
+			both places, this value will be used, and the Medicare premiums on all SSA-1099s
+			will be ignored.</p>
 		</div>
 		<div class="tooltip" id="expenses-taxpayer-ltc-tt">
-			<h4>Taxpayer LTC</h4>
+			<h4>Taxpayer's Long Term Care (LTC) Premiums</h4>
 			<p>Enter the actual premium paid for log term care insurance for the
-			taxpayer. This amount will be reduced to the allowed limit based on the
-			taxpayer's age.</p>
+			taxpayer. The deductible amount of the LTC premiums will be reduced to the
+			maximum amount allowed based on the taxpayer's age.</p>
 		</div>
 		<div class="tooltip" id="expenses-spouse-ltc-tt">
-			<h4>Spouse LTC</h4>
+			<h4>Spouse's Long Term Care (LTC) Premiums</h4>
 			<p>Enter the actual premium paid for log term care insurance for the
-			spouse. This amount will be reduced to the allowed limit based on the
-			spouse's age.</p>
+			spouse. The deductible amount of the LTC premiums will be reduced to the
+			maximum amount allowed based on the spouse's age.</p>
 		</div>
 		<div class="tooltip" id="expenses-doctor-tt">
 			<h4>Doctor</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the out-of-pocket costs paid for doctor visits.</p>
 		</div>
 		<div class="tooltip" id="expenses-prescriptions-tt">
 			<h4>Prescriptions</h4>
-			<p>The amount paid for prescription medications; not over-the-counter
+			<p>Enter the amount paid for prescription medications; not over-the-counter
 			medications.</p>
 		</div>
 		<div class="tooltip" id="expenses-medical-aids-tt">
 			<h4>Medical Aids</h4>
-			<p>Glasses, hearing aids, crutches, walker, wheelchair, etc.</p>
+			<p>Enter the amount paid for medical aids such as glasses, hearing aids,
+			crutches, walker, wheelchair, etc.</p>
 		</div>
 		<div class="tooltip" id="expenses-medical-facilities-tt">
 			<h4>Medical Facilities</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount you paid for medical facilities such as nursing home or
+			care facilities.</p>
 		</div>
 		<div class="tooltip" id="expenses-nursing-services-tt">
 			<h4>Nursing Services</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount you paid for additional nursing services.</p>
 		</div>
 		<div class="tooltip" id="expenses-medical-miles-tt">
 			<h4>Medical Miles</h4>
@@ -204,15 +215,23 @@
 		</div>
 		<div class="tooltip" id="expenses-other-medical-tt">
 			<h4>Other Medical</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount of any other deductible medical expenses you paid
+			during the tax year.</p>
 		</div>
+
 		<div class="tooltip" id="expenses-est-payments-federal-tt">
 			<h4>Federal Estimated Payments</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount of federal estimated income tax payments that you made
+			during the tax year. Do not include payments that were made for this tax year,
+			but not made during the tax year. You can include payments that you made this
+			year for another year.</p>
 		</div>
 		<div class="tooltip" id="expenses-est-payments-state-tt">
 			<h4>State Estimated Payments</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount of state and local estimated income tax payments that you
+			made during the tax year. Do not include payments that were made for this tax
+			year, but not made during the tax year. You can include payments that you made
+			this year for another year.</p>
 		</div>
 		<div class="tooltip" id="expenses-property-tax-tt">
 			<h4>Property Tax</h4>
@@ -223,37 +242,36 @@
 		</div>
 		<div class="tooltip" id="expenses-personal-property-tax-tt">
 			<h4>Personal Property Tax</h4>
-			<p>This is typically the "license fee" portion of the vehicle registration
-			fee for all of your vehicles.</p>
+			<p>Enter any personal property taxes that you paid. This is typically the
+			"license fee" portion of the vehicle registration fee for all of your
+			vehicles.</p>
 		</div>
 		<div class="tooltip" id="expenses-extra-sales-tax-tt">
 			<h4>Extra Sales Tax</h4>
-			<p>Blah blah blah ...</p>
+			<p>The state and local tax deduction can be a deduction for either the state
+			and local income tax or the state and local sales tax, whichever is larger. This
+			tool will automatically calculate the standard sales tax deduction for your
+			address, but if you made any large purchases during the tax year, you can
+			include the sales tax from those items by entering that amount here.</p>
 		</div>
 		<div class="tooltip" id="expenses-cash-donations-tt">
 			<h4>Cash Gifts to Charity</h4>
-			<p>This is the total of all cash gifts you gave to charity except for Qualified
+			<p>Enter the total of all cash gifts you gave to charity except for Qualified
 			Charitable Distributions (QCD"s), which, if made, need to be subtracted from the
 			amount of taxable income entered for the retirement account.</p>
 		</div>
 		<div class="tooltip" id="expenses-noncash-donations-tt">
 			<h4>Non-cash Gifts to Charity</h4>
-			<p>This is the fair market value of all non-cash donations you made to charity,
-			such as donations to the Goodwill.</p>
+			<p>Enter the fair market value of all non-cash donations you made to charity,
+			such as donations to thrift stores.</p>
 		</div>
 		<div class="tooltip" id="expenses-charitable-miles-tt">
 			<h4>Charitable Miles</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the number of miles you drove for charity. This will be
+			multiplied by the allowance for charitable mileage.</p>
 		</div>
 		<div class="tooltip" id="expenses-educator-taxpayer-tt">
-			<h4>Taxpayer's Educator Expenses</h4>
-			<p>Educators can deduct up to $300 each for the taxpayer and spouse for
-			unreimbursed classroom expenses. Educators may be a teacher, counselor,
-			principal, or aide that worked at least 900 hours in a K-12 school during
-			the tax year.</p>
-		</div>
-		<div class="tooltip" id="expenses-educator-spouse-tt">
-			<h4>Spouse's Educator Expenses</h4>
+			<h4>Educator Expenses</h4>
 			<p>Educators can deduct up to $300 each for the taxpayer and spouse for
 			unreimbursed classroom expenses. Educators may be a teacher, counselor,
 			principal, or aide that worked at least 900 hours in a K-12 school during
@@ -261,102 +279,124 @@
 		</div>
 		<div class="tooltip" id="expenses-alimony-paid-tt">
 			<h4>Alimony Paid</h4>
-			<p>If you were divorced before 12/31/2018 and required to pay alimony, the amount
-			of alimony you paid can be deducted on your federal and California tax returns.
-			If you were divorced after 12/31/2018, the amount of alimony you paid can only be
-			deducted on your California tax return.</p>
+			<p>Enter the amount of alimony you paid during the tax year. If you were
+			divorced before 12/31/2018 and required to pay alimony, the amount of alimony
+			you paid can be deducted on your federal and California tax returns. If you were
+			divorced after 12/31/2018, the amount of alimony you paid can only be deducted
+			on your California tax return.</p>
 		</div>
 		<div class="tooltip" id="expenses-divorce-date-tt">
 			<h4>Divorce Date</h4>
-			<p>Blah blah blah ...</p>
+			<p>If you entered the amount of alimony you paid in the previous entry,
+			enter the date of your divorce in this entry.</p>
 		</div>
 		<div class="tooltip" id="expenses-tax-preparation-tt">
 			<h4>Tax Preparation</h4>
-			<p>Blah blah blah ...</p>
+			<p>If you paid someone to do your taxes and made the payment during the tax
+			year, you may be able to deduct that amount on your California tax return if
+			the total amount of your "miscellaneous deductions" is greater that 2% of your
+			adjusted gross income (AGI).</p>
 		</div>
 		<div class="tooltip" id="expenses-investment-expenses-tt">
 			<h4>Investment Expenses</h4>
-			<p>Blah blah blah ...</p>
+			<p>If you incurred investment expenses, such as paying an advisor for
+			investment advice, you may be able to deduct the amount of that expense on your
+			California tax return if the total amount of your "miscellaneous deductions" is
+			greater that 2% of your adjusted gross income (AGI).</p>
 		</div>
 
-		<!-----  Income  --------------------------------------------------------------------->
+		<!-----  Income  ------------------------------------------------------------------->
 		<h3>Income</h3>
 		<div class="tooltip" id="income-jury-duty-tt">
 			<h4>Jury Duty</h4>
-			<p>Blah blah blah ...</p>
+			<p>If you received jury duty pay, you must declare it as income. Enter the
+			amount you were paid here.</p>
 		</div>
 		<div class="tooltip" id="income-alimony-received-tt">
 			<h4>Alimony Received</h4>
 			<p>If you were divorced before 12/31/2018 and received alimony payments, the
 			amount you received is taxable on your federal and California tax returns.
-			If you were divorced after 12/31/2018, the amount of alimony you received is only
-			taxable on your California tax return.</p>
+			If you were divorced after 12/31/2018, the amount of alimony you received is
+			only taxable on your California tax return.</p>
 		</div>
 		<div class="tooltip" id="income-divorce-date-tt">
 			<h4>Divorce Date</h4>
-			<p>Blah blah blah ...</p>
+			<p>If you entered the amount of alimony you received in the previous entry,
+			enter the date of your divorce in this entry.</p>
 		</div>
 		<div class="tooltip" id="income-gambling-tt">
 			<h4>Gambling</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount of any winnings you received from gambling.</p>
 		</div>
 		<div class="tooltip" id="income-other-tt">
 			<h4>Other</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount of any other income you received during the tax year that is
+			not entered elsewhere.</p>
 		</div>
 
-		<!-----  Asset/Stock Sale Items  ----------------------------------------------------->
+		<!-----  Asset/Stock Sale Items  --------------------------------------------------->
 		<h3>Asset/Stock Sale Items</h3>
 		<div class="tooltip" id="add-asset-sale-button-tt">
 			<h4>Add Asset Sale Item</h4>
-			<p>Blah blah blah ...</p>
+			<p>Press this button to add another row of information for another asset/stock
+			you sold.</p>
 		</div>
 		<div class="tooltip" id="assetitem-long-term-tt">
 			<h4>Long Term</h4>
-			<p>Blah blah blah ...</p>
+			<p>When an asset is sold, it is classified as either a long-term or short-term
+			sale based on whether or not you owned the asset for one year or more.</p>
 		</div>
 		<div class="tooltip" id="assetitem-name-tt">
 			<h4>Name</h4>
-			<p>Blah blah blah ...</p>
+			<p>This is the name of the asset. The name is not used by the tool, but it may
+			be useful to distinguish entries when you have sold more than one asset.</p>
 		</div>
 		<div class="tooltip" id="assetitem-proceeds-tt">
 			<h4>Proceeds</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the total amount you received from the sale of the asset.</p>
 		</div>
 		<div class="tooltip" id="assetitem-basis-tt">
 			<h4>Basis</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the total amount you originally paid for the asset when it was
+			purchased.</p>
 		</div>
 		<div class="tooltip" id="assetitem-wash-sale-tt">
 			<h4>Wash Sale</h4>
-			<p>Blah blah blah ...</p>
+			<p>A wash sale is when an investor sells a security at a loss and then buys the
+			same or similar security within 30 days before or after the sale. A loss from a
+			wash sale is not allowed by the IRS. If a wash sale loss occurred, it should be
+			shown on the brokerage statement and entered here as a positive number.</p>
 		</div>
 
-		<!-----  Small Business Information  ------------------------------------------------->
+		<!-----  Small Business Information  ----------------------------------------------->
 		<h3>Small Business Information</h3>
 		<div class="tooltip" id="business-name-tt">
 			<h4>Name</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter a name to identify the business. It does not need to be the actual name
+			of the business. The name is necessary if there is more than one business being
+			included on the tax return so that other forms, such as 1099-NEC or 1099-K, can
+			be connected to the correct business.</p>
 		</div>
 		<div class="tooltip" id="business-cash-income-tt">
 			<h4>Cash Income</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter any cash income for the business here. This is any income for the
+			business that is not entered on a tax form, such as 1099-NEC or 1099-K.</p>
 		</div>
 		<div class="tooltip" id="business-advertising-tt">
 			<h4>Advertising</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount spent on advertising.</p>
 		</div>
 		<div class="tooltip" id="business-commissions-tt">
 			<h4>Commissions</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount spent on commissions.</p>
 		</div>
 		<div class="tooltip" id="business-insurance-tt">
 			<h4>Insurance</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount spent on insurance.</p>
 		</div>
 		<div class="tooltip" id="business-interest-tt">
 			<h4>Interest</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for interest on loans.</p>
 		</div>
 		<div class="tooltip" id="business-office-supplies-tt">
 			<h4>Office Supplies</h4>
@@ -364,42 +404,43 @@
 		</div>
 		<div class="tooltip" id="business-utilities-tt">
 			<h4>Utilities</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for utilities.</p>
 		</div>
 		<div class="tooltip" id="business-licenses-tt">
 			<h4>Licenses</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for licenses.</p>
 		</div>
 		<div class="tooltip" id="business-training-tt">
 			<h4>Training</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for training.</p>
 		</div>
 		<div class="tooltip" id="business-tools-tt">
 			<h4>Tools</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for tools.</p>
 		</div>
 		<div class="tooltip" id="business-travel-tt">
 			<h4>Travel</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for travel.</p>
 		</div>
 		<div class="tooltip" id="business-meals-tt">
 			<h4>Meals</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for meals.</p>
 		</div>
 		<div class="tooltip" id="business-rent-tt">
 			<h4>Rent</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for rent.</p>
 		</div>
 		<div class="tooltip" id="business-business-miles-tt">
 			<h4>Business Miles</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the number of miles driven for business. This will be multiplied by
+			the allowance for business mileage.</p>
 		</div>
 		<div class="tooltip" id="business-tolls-tt">
 			<h4>Tolls</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount paid for tolls.</p>
 		</div>
 		<div class="tooltip" id="business-other-expenses-tt">
 			<h4>Other Expenses</h4>
-			<p>Blah blah blah ...</p>
+			<p>Enter the amount spent on any other business expenses.</p>
 		</div>
 	</div>

@@ -1,3 +1,10 @@
+
+//
+// This code handles tooltips in both initial and dynamically added content. Instead of
+// binding listeners to individual elements, one listener is attached to the document.
+// Mouseover and mouseout are used instead of mouseenter and mouseleave because the latter
+// do not bubble up the DOM tree.
+//
 document.addEventListener("DOMContentLoaded", () => {
 	document.addEventListener("mouseover", (e) => {
 		// Check the element or its parent for the trigger
