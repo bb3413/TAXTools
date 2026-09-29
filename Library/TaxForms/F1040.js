@@ -628,7 +628,7 @@ export class F1040 extends TaxForm {
 		this.lines["10"].value =						// Adjustments to Income
 			TaxFormObj.getValue("F1040S1", "26");
 		this.lines["06b"].value =						// Taxable SS
-			TaxFormObj.getValue("SSTax", "19");
+			TaxFormObj.getValue("SSTax", "18");
 
 		// Resume normal order
 		// Total Income
