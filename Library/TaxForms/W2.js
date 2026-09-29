@@ -237,7 +237,7 @@ const HTML_FORM = `
 						<span class="f1099-box-label">15 State ID number</span>
 						<input type="text" id="w2-XX-15" placeholder="" />
 					</div>
-					<div class="f1099-box">
+					<div class="f1099-box input-color">
 						<span class="f1099-box-label">16 State wages, tips</span>
 						<input type="text" id="w2-XX-16" placeholder="" />
 					</div>
