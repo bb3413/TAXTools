@@ -983,8 +983,7 @@ export class F540CA extends TaxForm {
 		// Taxes You Paid
 		// State and Local Income Tax
 		this.lines["D-05aA"].value	= TaxFormObj.getValue("F1040SA", "05a");
-		this.lines["D-05aB"].value	= TaxFormObj.getValue("F1040SA", "05a") -
-										TaxFormObj.getValue("SalesTax", "08");
+		this.lines["D-05aB"].value	= TaxFormObj.getValue("F1040SA", "05a");
 		this.lines["D-05aC"].value	= 0;	// DO NOT ENTER
 
 		// Real Estate Tax
