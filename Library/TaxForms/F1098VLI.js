@@ -37,7 +37,7 @@ const HTML_FORM = `
 							<span class="f1099-box-label">Recipient/Lender&apos;S name, street
 								address, city or town, state or province, country, and
 								ZIP or foreign postal code</span>
-							<textarea id="f1098vli-XX-payer"
+							<textarea id="f1098vli-XX-lender"
 								placeholder="Recipient/Lender Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number"></textarea>
 						</div>
 
@@ -102,7 +102,7 @@ const HTML_FORM = `
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">2d VIN</span>
-								<input type="text" id="f1098vli-XX-02c" placeholder="0" />
+								<input type="text" id="f1098vli-XX-02d" placeholder="" />
 							</div>
 						</div>
 
@@ -133,12 +133,12 @@ const HTML_FORM = `
 							<div class="f1099-box">
 								<span class="f1099-box-label">6 Check if original use of
 									the vehicle began with the payer of record</span>
-								<div><input type="checkbox" id="f1099r-XX-06" /></div>
+								<div><input type="checkbox" id="f1098vli-XX-06" /></div>
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">7 Check if final assembly of
 									the vehicle occurred within the United States</span>
-								<div><input type="checkbox" id="f1099r-XX-07"/></div>
+								<div><input type="checkbox" id="f1098vli-XX-07"/></div>
 							</div>
 						</div>
 					</div>
@@ -212,7 +212,7 @@ export class F1098VLI extends TaxForm {
 		inputs["04"	]		= HTML.getUserInput(`f1098vli-${uid}-04`);
 		inputs["05"	]		= HTML.getUserInput(`f1098vli-${uid}-05`);
 		inputs["06"	]		= HTML.getUserInput(`f1098vli-${uid}-06`);
-		inputs["07a"]		= HTML.getUserInput(`f1098vli-${uid}-07`);
+		inputs["07"]		= HTML.getUserInput(`f1098vli-${uid}-07`);
 
 		return inputs;
 	}
