@@ -208,22 +208,20 @@ const TaxFormObj = {
 		return names;
 	},
 
-	getForm(formname) {
+	getForm(formname, uid = 1) {
 		//
 		// Get an instance of a form. If it has not been created, undefined will be returned.
 		//
-		let instance;
 		let form_list = instances[formname];
 		if (form_list) {
-			if (form_list.length > 1) {
-				throw new Error(
-					`TaxFormObj.getForm(): More than one instance of form ${formname}.`);
+			if (form_list.length < uid) {
+				throw new Error(`TaxFormObj.getForm(): Invalid UID for form ${formname}.`);
 			} else {
-				instance = form_list[0];
+				return form_list[uid-1];
 			}
 		}
 
-		return instance;
+		return undefined;
 	},
 
 	getOrCreateForm(formname) {
