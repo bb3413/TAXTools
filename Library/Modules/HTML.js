@@ -68,9 +68,10 @@ const HTML = {
 	},
 
 	//-----  Get/put user input/output---------------------------------
-	getUserInput(element_id, default_value = 0) {
+	getUserInput(element_id, type = "") {
+		// type = "", "text", or "raw"
 		let value = HTML.getElementValue(element_id);
-		if (typeof value === "boolean") {
+		if (type === "raw") || (typeof value === "boolean")) {
 			return value;
 		}
 
@@ -80,7 +81,7 @@ const HTML = {
 			value = Debug.getKeywords(value);
 		}
 
-		if (default_value === "text") {
+		if (type === "text") {
 			return value;
 		}
 
@@ -89,19 +90,15 @@ const HTML = {
 	},
 
 	putUserOutput(element_id, value, type = "") {
-		if (type === "dollars") {
-			// Add commas and prepend with dollar sign.
-			HTML.putElementValue(element_id,
-				"$" + Num.format(typeof value === "number" ? value : 0));
-
-		} else if ((type !== "text") && (typeof value === "number")) {
+		// type = "", "text", or "raw"
+		if ((type !== "text") && (typeof value === "number")) {
 			// Add commas.
 			HTML.putElementValue(element_id, Num.format(value));
 
-		} else {	// type === "text"
+		} else {	// type is "text" or "raw"
 			// Put the value as is.
 			HTML.putElementValue(element_id,
-				value===undefined ? "" : value);
+				(value === undefined) ? "" : value);
 		}
 	},
 
