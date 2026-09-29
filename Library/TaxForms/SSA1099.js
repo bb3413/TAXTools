@@ -199,7 +199,7 @@ export class SSA1099 extends TaxForm {
 		this.lines["03b"]	= new Line("Medicare Part D");
 		this.lines["04"]	= new Line("Benefits Repaid");
 		this.lines["05"]	= new Line("Net Benefits");
-		this.lines["06"]	= new Line("Federal Income Tax	 Withheld");
+		this.lines["06"]	= new Line("Federal Income Tax Withheld");
 		this.lines["07"]	= new Line("Address");
 		this.lines["08"]	= new Line("Claim Number");
 
