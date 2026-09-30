@@ -156,10 +156,10 @@ export class SSA1099 extends TaxForm {
 		return [ `ssa1099-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid) {
+	static getUserInput(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
-		// information.
+		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
 			throw new Error(`SSA1099.getUserInput(): UID is undefined.`);
@@ -173,16 +173,16 @@ export class SSA1099 extends TaxForm {
 
 		let inputs = {};
 
-		inputs["01"]	= HTML.getUserInput(`ssa1099-${uid}-01`, "text");
-		inputs["02"]	= HTML.getUserInput(`ssa1099-${uid}-02`, "text");
-		inputs["03"]	= HTML.getUserInput(`ssa1099-${uid}-03`);
-		inputs["03a"]	= HTML.getUserInput(`ssa1099-${uid}-03a`);
-		inputs["03b"]	= HTML.getUserInput(`ssa1099-${uid}-03b`);
-		inputs["04"]	= HTML.getUserInput(`ssa1099-${uid}-04`);
-		inputs["05"]	= HTML.getUserInput(`ssa1099-${uid}-05`);
-		inputs["06"]	= HTML.getUserInput(`ssa1099-${uid}-06`);
-		inputs["07"]	= HTML.getUserInput(`ssa1099-${uid}-07`, "text");
-		inputs["08"]	= HTML.getUserInput(`ssa1099-${uid}-08`, "text");
+		inputs["01"]	= HTML.getUserInput(`ssa1099-${uid}-01`,	raw?"raw":"text");
+		inputs["02"]	= HTML.getUserInput(`ssa1099-${uid}-02`,	raw?"raw":"text");
+		inputs["03"]	= HTML.getUserInput(`ssa1099-${uid}-03`,	raw?"raw":"");
+		inputs["03a"]	= HTML.getUserInput(`ssa1099-${uid}-03a`,	raw?"raw":"");
+		inputs["03b"]	= HTML.getUserInput(`ssa1099-${uid}-03b`,	raw?"raw":"");
+		inputs["04"]	= HTML.getUserInput(`ssa1099-${uid}-04`,	raw?"raw":"");
+		inputs["05"]	= HTML.getUserInput(`ssa1099-${uid}-05`,	raw?"raw":"");
+		inputs["06"]	= HTML.getUserInput(`ssa1099-${uid}-06`,	raw?"raw":"");
+		inputs["07"]	= HTML.getUserInput(`ssa1099-${uid}-07`,	raw?"raw":"text");
+		inputs["08"]	= HTML.getUserInput(`ssa1099-${uid}-08`,	raw?"raw":"text");
 
 		return inputs;
 	}

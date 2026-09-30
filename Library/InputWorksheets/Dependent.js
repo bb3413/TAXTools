@@ -300,10 +300,10 @@ export class Dependent {
 		return [ `dependent-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid) {
+	static getUserInput(uid, raw = false) {
 		//
 		// Read the fields of the worksheet from the web and return an object with the
-		// values.
+		// values. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
 			throw new Error(`Dependent.getUserInput(): UID is undefined.`);
@@ -318,7 +318,7 @@ export class Dependent {
 
 		let inputs = {};
 		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= ELEMENTS[field_name][0];
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
 			const element_id	= `dependent-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);

@@ -206,10 +206,10 @@ export class F1099DIV extends TaxForm {
 		return [ `f1099div-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid) {
+	static getUserInput(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
-		// information.
+		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
 			throw new Error(`f1099div.getUserInput(): UID is undefined.`);
@@ -223,25 +223,25 @@ export class F1099DIV extends TaxForm {
 
 		let inputs = {};
 
-		inputs["payer"]		= HTML.getUserInput(`f1099div-${uid}-payer`,	"text");
-		inputs["ein"]		= HTML.getUserInput(`f1099div-${uid}-ein`,		"text");
-		inputs["ssn"]		= HTML.getUserInput(`f1099div-${uid}-ssn`,		"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`f1099div-${uid}-taxpayer`,	"text");
-		inputs["account"]	= HTML.getUserInput(`f1099div-${uid}-account`,	"text");
-		inputs["01a"]		= HTML.getUserInput(`f1099div-${uid}-01a`);
-		inputs["01b"]		= HTML.getUserInput(`f1099div-${uid}-01b`);
-		inputs["02a"]		= HTML.getUserInput(`f1099div-${uid}-02a`);
-		inputs["02b"]		= HTML.getUserInput(`f1099div-${uid}-02b`);
-		inputs["03"	]		= HTML.getUserInput(`f1099div-${uid}-03`);
-		inputs["04"	]		= HTML.getUserInput(`f1099div-${uid}-04`);
-		inputs["05"	]		= HTML.getUserInput(`f1099div-${uid}-05`);
-		inputs["06"	]		= HTML.getUserInput(`f1099div-${uid}-06`);
-		inputs["07"	]		= HTML.getUserInput(`f1099div-${uid}-07`);
-		inputs["08"	]		= HTML.getUserInput(`f1099div-${uid}-08`,		"text");
-		inputs["12"	]		= HTML.getUserInput(`f1099div-${uid}-12`);
-		inputs["13"	]		= HTML.getUserInput(`f1099div-${uid}-13`);
-		inputs["14"	]		= HTML.getUserInput(`f1099div-${uid}-14`,		"text");
-		inputs["16"	]		= HTML.getUserInput(`f1099div-${uid}-16`);
+		inputs["payer"]		= HTML.getUserInput(`f1099div-${uid}-payer`,raw?"raw":"text");
+		inputs["ein"]		= HTML.getUserInput(`f1099div-${uid}-ein`,	raw?"raw":"text");
+		inputs["ssn"]		= HTML.getUserInput(`f1099div-${uid}-ssn`,	raw?"raw":"text");
+		inputs["taxpayer"]	= HTML.getUserInput(`f1099div-${uid}-taxpayer`,raw?"raw":"text");
+		inputs["account"]	= HTML.getUserInput(`f1099div-${uid}-account`, raw?"raw":"text");
+		inputs["01a"]		= HTML.getUserInput(`f1099div-${uid}-01a`,	raw?"raw":"");
+		inputs["01b"]		= HTML.getUserInput(`f1099div-${uid}-01b`,	raw?"raw":"");
+		inputs["02a"]		= HTML.getUserInput(`f1099div-${uid}-02a`,	raw?"raw":"");
+		inputs["02b"]		= HTML.getUserInput(`f1099div-${uid}-02b`,	raw?"raw":"");
+		inputs["03"	]		= HTML.getUserInput(`f1099div-${uid}-03`,	raw?"raw":"");
+		inputs["04"	]		= HTML.getUserInput(`f1099div-${uid}-04`,	raw?"raw":"");
+		inputs["05"	]		= HTML.getUserInput(`f1099div-${uid}-05`,	raw?"raw":"");
+		inputs["06"	]		= HTML.getUserInput(`f1099div-${uid}-06`,	raw?"raw":"");
+		inputs["07"	]		= HTML.getUserInput(`f1099div-${uid}-07`,	raw?"raw":"");
+		inputs["08"	]		= HTML.getUserInput(`f1099div-${uid}-08`,	raw?"raw":"text");
+		inputs["12"	]		= HTML.getUserInput(`f1099div-${uid}-12`,	raw?"raw":"");
+		inputs["13"	]		= HTML.getUserInput(`f1099div-${uid}-13`,	raw?"raw":"");
+		inputs["14"	]		= HTML.getUserInput(`f1099div-${uid}-14`,	raw?"raw":"text");
+		inputs["16"	]		= HTML.getUserInput(`f1099div-${uid}-16`,	raw?"raw":"");
 
 		return inputs;
 	}

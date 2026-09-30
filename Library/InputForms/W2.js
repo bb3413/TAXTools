@@ -295,10 +295,10 @@ export class W2 extends TaxForm {
 		return [ `w2-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid) {
+	static getUserInput(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
-		// information.
+		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
 			throw new Error(`W2.getUserInput(): UID is undefined.`);
@@ -311,47 +311,47 @@ export class W2 extends TaxForm {
 
 		let inputs = {};
 
-		inputs["is_spouses"]= HTML.getUserInput(`w2-${uid}-is-spouses`);
-		inputs["payer"]		= HTML.getUserInput(`w2-${uid}-payer`,		"text");
-		inputs["ein"]		= HTML.getUserInput(`w2-${uid}-ein`,		"text");
-		inputs["ssn"]		= HTML.getUserInput(`w2-${uid}-ssn`,		"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`w2-${uid}-taxpayer`,	"text");
-		inputs["01"]		= HTML.getUserInput(`w2-${uid}-01`);
-		inputs["02"]		= HTML.getUserInput(`w2-${uid}-02`);
-		inputs["03"]		= HTML.getUserInput(`w2-${uid}-03`);
-		inputs["04"]		= HTML.getUserInput(`w2-${uid}-04`);
-		inputs["05"]		= HTML.getUserInput(`w2-${uid}-05`);
-		inputs["06"]		= HTML.getUserInput(`w2-${uid}-06`);
-		inputs["07"]		= HTML.getUserInput(`w2-${uid}-07`);
-		inputs["08"]		= HTML.getUserInput(`w2-${uid}-08`);
-		inputs["09"]		= HTML.getUserInput(`w2-${uid}-09`);
-		inputs["10"]		= HTML.getUserInput(`w2-${uid}-10`);
-		inputs["11"]		= HTML.getUserInput(`w2-${uid}-11`);
-		inputs["12a1"]		= HTML.getUserInput(`w2-${uid}-12a1`, "text");
-		inputs["12a2"]		= HTML.getUserInput(`w2-${uid}-12a2`);
-		inputs["12b1"]		= HTML.getUserInput(`w2-${uid}-12b1`, "text");
-		inputs["12b2"]		= HTML.getUserInput(`w2-${uid}-12b2`);
-		inputs["12c1"]		= HTML.getUserInput(`w2-${uid}-12c1`, "text");
-		inputs["12c2"]		= HTML.getUserInput(`w2-${uid}-12c2`);
-		inputs["12d1"]		= HTML.getUserInput(`w2-${uid}-12d1`, "text");
-		inputs["12d2"]		= HTML.getUserInput(`w2-${uid}-12d2`);
-		inputs["13a"]		= HTML.getUserInput(`w2-${uid}-13a`);
-		inputs["13b"]		= HTML.getUserInput(`w2-${uid}-13b`);
-		inputs["13c"]		= HTML.getUserInput(`w2-${uid}-13c`);
-		inputs["14a1"]		= HTML.getUserInput(`w2-${uid}-14a1`, "text");
-		inputs["14a2"]		= HTML.getUserInput(`w2-${uid}-14a2`);
-		inputs["14b1"]		= HTML.getUserInput(`w2-${uid}-14b1`, "text");
-		inputs["14b2"]		= HTML.getUserInput(`w2-${uid}-14b2`);
-		inputs["14c1"]		= HTML.getUserInput(`w2-${uid}-14c1`, "text");
-		inputs["14c2"]		= HTML.getUserInput(`w2-${uid}-14c2`);
-		inputs["14d1"]		= HTML.getUserInput(`w2-${uid}-14d1`, "text");
-		inputs["14d2"]		= HTML.getUserInput(`w2-${uid}-14d2`);
-		inputs["15"]		= HTML.getUserInput(`w2-${uid}-15`, "text");
-		inputs["16"]		= HTML.getUserInput(`w2-${uid}-16`);
-		inputs["17"]		= HTML.getUserInput(`w2-${uid}-17`);
-		inputs["18"]		= HTML.getUserInput(`w2-${uid}-18`);
-		inputs["19"]		= HTML.getUserInput(`w2-${uid}-19`);
-		inputs["20"]		= HTML.getUserInput(`w2-${uid}-20`, "text");
+		inputs["is_spouses"]= HTML.getUserInput(`w2-${uid}-is-spouses`,	raw?"raw":"");
+		inputs["payer"]		= HTML.getUserInput(`w2-${uid}-payer`,		raw?"raw":"text");
+		inputs["ein"]		= HTML.getUserInput(`w2-${uid}-ein`,		raw?"raw":"text");
+		inputs["ssn"]		= HTML.getUserInput(`w2-${uid}-ssn`,		raw?"raw":"text");
+		inputs["taxpayer"]	= HTML.getUserInput(`w2-${uid}-taxpayer`,	raw?"raw":"text");
+		inputs["01"]		= HTML.getUserInput(`w2-${uid}-01`,		raw?"raw":"");
+		inputs["02"]		= HTML.getUserInput(`w2-${uid}-02`,		raw?"raw":"");
+		inputs["03"]		= HTML.getUserInput(`w2-${uid}-03`,		raw?"raw":"");
+		inputs["04"]		= HTML.getUserInput(`w2-${uid}-04`,		raw?"raw":"");
+		inputs["05"]		= HTML.getUserInput(`w2-${uid}-05`,		raw?"raw":"");
+		inputs["06"]		= HTML.getUserInput(`w2-${uid}-06`,		raw?"raw":"");
+		inputs["07"]		= HTML.getUserInput(`w2-${uid}-07`,		raw?"raw":"");
+		inputs["08"]		= HTML.getUserInput(`w2-${uid}-08`,		raw?"raw":"");
+		inputs["09"]		= HTML.getUserInput(`w2-${uid}-09`,		raw?"raw":"");
+		inputs["10"]		= HTML.getUserInput(`w2-${uid}-10`,		raw?"raw":"");
+		inputs["11"]		= HTML.getUserInput(`w2-${uid}-11`,		raw?"raw":"");
+		inputs["12a1"]		= HTML.getUserInput(`w2-${uid}-12a1`,	raw?"raw":"text");
+		inputs["12a2"]		= HTML.getUserInput(`w2-${uid}-12a2`,	raw?"raw":"");
+		inputs["12b1"]		= HTML.getUserInput(`w2-${uid}-12b1`,	raw?"raw":"text");
+		inputs["12b2"]		= HTML.getUserInput(`w2-${uid}-12b2`,	raw?"raw":"");
+		inputs["12c1"]		= HTML.getUserInput(`w2-${uid}-12c1`,	raw?"raw":"text");
+		inputs["12c2"]		= HTML.getUserInput(`w2-${uid}-12c2`,	raw?"raw":"");
+		inputs["12d1"]		= HTML.getUserInput(`w2-${uid}-12d1`,	raw?"raw":"text");
+		inputs["12d2"]		= HTML.getUserInput(`w2-${uid}-12d2`,	raw?"raw":"");
+		inputs["13a"]		= HTML.getUserInput(`w2-${uid}-13a`,	raw?"raw":"");
+		inputs["13b"]		= HTML.getUserInput(`w2-${uid}-13b`,	raw?"raw":"");
+		inputs["13c"]		= HTML.getUserInput(`w2-${uid}-13c`,	raw?"raw":"");
+		inputs["14a1"]		= HTML.getUserInput(`w2-${uid}-14a1`,	raw?"raw":"text");
+		inputs["14a2"]		= HTML.getUserInput(`w2-${uid}-14a2`,	raw?"raw":"");
+		inputs["14b1"]		= HTML.getUserInput(`w2-${uid}-14b1`,	raw?"raw":"text");
+		inputs["14b2"]		= HTML.getUserInput(`w2-${uid}-14b2`,	raw?"raw":"");
+		inputs["14c1"]		= HTML.getUserInput(`w2-${uid}-14c1`,	raw?"raw":"text");
+		inputs["14c2"]		= HTML.getUserInput(`w2-${uid}-14c2`,	raw?"raw":"");
+		inputs["14d1"]		= HTML.getUserInput(`w2-${uid}-14d1`,	raw?"raw":"text");
+		inputs["14d2"]		= HTML.getUserInput(`w2-${uid}-14d2`,	raw?"raw":"");
+		inputs["15"]		= HTML.getUserInput(`w2-${uid}-15`,		raw?"raw":"text");
+		inputs["16"]		= HTML.getUserInput(`w2-${uid}-16`,		raw?"raw":"");
+		inputs["17"]		= HTML.getUserInput(`w2-${uid}-17`,		raw?"raw":"");
+		inputs["18"]		= HTML.getUserInput(`w2-${uid}-18`,		raw?"raw":"");
+		inputs["19"]		= HTML.getUserInput(`w2-${uid}-19`,		raw?"raw":"");
+		inputs["20"]		= HTML.getUserInput(`w2-${uid}-20`,		raw?"raw":"text");
 
 		return inputs;
 	}

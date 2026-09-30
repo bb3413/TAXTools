@@ -141,11 +141,12 @@ function saveAssetsaleItems() {
 }
 
 function saveDependents() {
+	const RAW = true;	// Copy user input without changing.
 	let user_values = [];
 
 	for (let entry_id of dependents_container.getEntries()) {
 		let [ entry_name, entry_uid ] = Container.parseElementID(entry_id);
-		let inputs = Objects.removeUnused(Dependent.getUserInput(entry_uid));
+		let inputs = Objects.removeUnused(Dependent.getUserInput(entry_uid, RAW));
 		if (Objects.isUsed(inputs)) {
 			user_values.push(inputs);
 		}
@@ -158,13 +159,14 @@ function saveInputForms() {
 	// Return array of: formName: [ formIndex, lineNumber, value ]
 	// This method is used to save the current state to a file. It only saves the
 	// values on the input form web pages.
+	const RAW = true;	// Copy user input without changing.
 	let user_values = [];
 
 	// For each form.
 	for (let taxform_id of input_taxforms_container.getEntries()) {
 		let [ formname, uid ] = Container.parseElementID(taxform_id);
 		formname = formname.toUpperCase();
-		let inputs = Objects.removeUnused(Classes.getUserInput(formname, uid));
+		let inputs = Objects.removeUnused(Classes.getUserInput(formname, uid, RAW));
 		if (Objects.isUsed(inputs)) {
 			user_values.push( [ formname, inputs ] );
 		}
@@ -205,15 +207,16 @@ function saveUserDataHandler(event) {
 	// to a file.
 	//
 	try {
+		const RAW = true;	// Copy user input without changing.
 		const data = {
 			"tool_name":		HTML.getUserInput("title", "text"),
 			"version":			HTML.getUserInput("tax-tools-version", "text"),
 			"todays_date":		new Date().toLocaleDateString(),
 			"tax_year":			HTML.getUserInput("tax-year", "text"),
-			"taxpayer":			Objects.removeUnused(Taxpayer.getUserInput()),
+			"taxpayer":			Objects.removeUnused(Taxpayer.getUserInput(RAW)),
 			"dependents":		saveDependents(),
-			"expenses":			Objects.removeUnused(Expenses.getUserInput()),
-			"income":			Objects.removeUnused(Income.getUserInput()),
+			"expenses":			Objects.removeUnused(Expenses.getUserInput(RAW)),
+			"income":			Objects.removeUnused(Income.getUserInput(RAW)),
 			"assetsale_items":	saveAssetsaleItems(),
 			"input_forms":		saveInputForms(),
 			"output_forms":		saveOutputForms(),

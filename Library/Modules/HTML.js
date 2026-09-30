@@ -71,7 +71,7 @@ const HTML = {
 	getUserInput(element_id, type = "") {
 		// type = "", "text", or "raw"
 		let value = HTML.getElementValue(element_id);
-		if (type === "raw") || (typeof value === "boolean")) {
+		if ((type === "raw") || (typeof value === "boolean")) {
 			return value;
 		}
 

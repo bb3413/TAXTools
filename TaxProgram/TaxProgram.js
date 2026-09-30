@@ -11,7 +11,7 @@ import { Objects }		from "../Library/Modules/Objects.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 // Tax Forms and Input Worksheets
-import { F1040 }		from "../Library/TaxForms/F1040.js";
+import { F1040 }		from "../Library/OutputForms/F1040.js";
 import { Assetitem }	from "../Library/InputWorksheets/Assetitem.js";
 import { Business }		from "../Library/InputWorksheets/Business.js";
 import { Dependent }	from "../Library/InputWorksheets/Dependent.js";

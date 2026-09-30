@@ -36,13 +36,14 @@ const ELEMENTS = {
 };
 
 export class Expenses {
-	static getUserInput() {
+	static getUserInput(raw = false) {
 		//
-		// Read the fields from the web and return an object with the values.
+		// Read the fields from the web and return an object with the values. Raw user input
+		// is only used to save and restore user input.
 		//
 		let inputs = {};
 		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= ELEMENTS[field_name][0];
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
 			const element_id	= `expenses-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
@@ -66,7 +67,8 @@ export class Expenses {
 
 	static reset() {
 		// Clear the fields on the web page.
-		for (const element_id of Object.keys(ELEMENTS)) {
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const element_id = `expenses-${field_name}`;
 			if (document.getElementById(element_id)) {
 				HTML.putElementValue(element_id, "");
 			}

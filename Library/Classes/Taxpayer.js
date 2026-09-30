@@ -29,15 +29,7 @@ const ELEMENTS = {
 
 let taxpayer = undefined;		// Global variable.
 
-// These two functions ignore an error when an element does not exist.
-function getUserInput(element_id, default_value = 0) {
-	if (document.getElementById(element_id)) {
-		return HTML.getUserInput(element_id, default_value);
-	} else {
-		return default_value;
-	}
-}
-
+// This functions ignore an error when an element does not exist.
 function putUserOutput(element_id, value, type = "number") {
 	if (document.getElementById(element_id)) {
 		HTML.putUserOutput(element_id, value, type);
@@ -49,11 +41,14 @@ function initializeTaxpayer() {
 	// Create a new taxpayer and initialize it with information from the Web page.
 	//
 	const taxpayer = new Taxpayer();
-
+		
 	// Initialize the fields from the web page.
-	for (const element_id of Object.keys(ELEMENTS)) {
-		const key_name = Str.kebabToSnakeCase(element_id);
-		taxpayer[key_name] = getUserInput(element_id, ELEMENTS[element_id][0]);
+	for (const field_name of Object.keys(ELEMENTS)) {
+		const value_type	= ELEMENTS[field_name][0];
+		const key_name		= field_name.replace(/-/g, "_");
+		if (document.getElementById(field_name)) {
+			taxpayer[key_name] = HTML.getUserInput(field_name, value_type);
+		}
 	}
 
 	if (taxpayer.filing_status === "MFJ") {
@@ -85,15 +80,19 @@ export class Taxpayer {
 	//
 	// ---------------- Static Methods ----------------
 	//
-	static getUserInput() {
+	static getUserInput(raw = false) {
+		//
+		// Read the fields from the web and return an object with the values. Raw user input
+		// is only used to save and restore user input.
+		//
 		let inputs = {};
 
 		// Copy the fields from the web page.
 		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= ELEMENTS[field_name][0];
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
 			if (document.getElementById(field_name)) {
-				inputs[key_name]= HTML.getUserInput(field_name, value_type);
+				inputs[key_name] = HTML.getUserInput(field_name, value_type);
 			}
 		}
 

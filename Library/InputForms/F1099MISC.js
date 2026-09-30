@@ -242,10 +242,10 @@ export class F1099MISC extends TaxForm {
 		return [ `f1099misc-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid) {
+	static getUserInput(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
-		// information.
+		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
 			throw new Error(`F1099MISC.getUserInput(): UID is undefined.`);
@@ -259,19 +259,22 @@ export class F1099MISC extends TaxForm {
 
 		let inputs = {};
 
-		inputs["payer"]		= HTML.getUserInput(`f1099misc-${uid}-payer`,	"text");
-		inputs["ein"]		= HTML.getUserInput(`f1099misc-${uid}-ein`,		"text");
-		inputs["ssn"]		= HTML.getUserInput(`f1099misc-${uid}-ssn`,		"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`f1099misc-${uid}-taxpayer`,"text");
-		inputs["account"]	= HTML.getUserInput(`f1099misc-${uid}-account`,	"text");
-		inputs["business_name"]	= HTML.getUserInput(`f1099nec-${uid}-business-name`, "text");
-		inputs["01"]		= HTML.getUserInput(`f1099misc-${uid}-01`);
-		inputs["02"]		= HTML.getUserInput(`f1099misc-${uid}-02`);
-		inputs["03"]		= HTML.getUserInput(`f1099misc-${uid}-03`);
-		inputs["04"]		= HTML.getUserInput(`f1099misc-${uid}-04`);
-		inputs["05"]		= HTML.getUserInput(`f1099misc-${uid}-05`);
-		inputs["06"]		= HTML.getUserInput(`f1099misc-${uid}-06`,		"text");
-		inputs["07"]		= HTML.getUserInput(`f1099misc-${uid}-07`);
+		inputs["payer"]		= HTML.getUserInput(`f1099misc-${uid}-payer`,raw?"raw":"text");
+		inputs["ein"]		= HTML.getUserInput(`f1099misc-${uid}-ein`,	raw?"raw":"text");
+		inputs["ssn"]		= HTML.getUserInput(`f1099misc-${uid}-ssn`,	raw?"raw":"text");
+		inputs["taxpayer"]	=
+			HTML.getUserInput(`f1099misc-${uid}-taxpayer`,		raw?"raw":"text");
+		inputs["account"]	=
+			HTML.getUserInput(`f1099misc-${uid}-account`,		raw?"raw":"text");
+		inputs["business_name"]	=
+			HTML.getUserInput(`f1099nec-${uid}-business-name`,	raw?"raw":"text");
+		inputs["01"]		= HTML.getUserInput(`f1099misc-${uid}-01`,	raw?"raw":"");
+		inputs["02"]		= HTML.getUserInput(`f1099misc-${uid}-02`,	raw?"raw":"");
+		inputs["03"]		= HTML.getUserInput(`f1099misc-${uid}-03`,	raw?"raw":"");
+		inputs["04"]		= HTML.getUserInput(`f1099misc-${uid}-04`,	raw?"raw":"");
+		inputs["05"]		= HTML.getUserInput(`f1099misc-${uid}-05`,	raw?"raw":"");
+		inputs["06"]		= HTML.getUserInput(`f1099misc-${uid}-06`,	raw?"raw":"text");
+		inputs["07"]		= HTML.getUserInput(`f1099misc-${uid}-07`,	raw?"raw":"");
 
 		return inputs;
 	}

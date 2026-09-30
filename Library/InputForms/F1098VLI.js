@@ -180,10 +180,10 @@ export class F1098VLI extends TaxForm {
 		return [ `f1098vli-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid) {
+	static getUserInput(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
-		// information.
+		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
 			throw new Error(`F1098VLI.getUserInput(): UID is undefined.`);
@@ -197,22 +197,22 @@ export class F1098VLI extends TaxForm {
 
 		let inputs = {};
 
-		inputs["lender"]	= HTML.getUserInput(`f1098vli-${uid}-lender`,	"text");
-		inputs["ein"]		= HTML.getUserInput(`f1098vli-${uid}-ein`,		"text");
-		inputs["ssn"]		= HTML.getUserInput(`f1098vli-${uid}-ssn`,		"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`f1098vli-${uid}-taxpayer`,	"text");
-		inputs["account"]	= HTML.getUserInput(`f1098vli-${uid}-account`,	"text");
-		inputs["01"	]		= HTML.getUserInput(`f1098vli-${uid}-01`);
-		inputs["02a"]		= HTML.getUserInput(`f1098vli-${uid}-02a`,		"text");
-		inputs["02b"]		= HTML.getUserInput(`f1098vli-${uid}-02b`,		"text");
-		inputs["02c"]		= HTML.getUserInput(`f1098vli-${uid}-02c`,		"text");
-		inputs["02d"]		= HTML.getUserInput(`f1098vli-${uid}-02d`,		"text");
-		inputs["03a"]		= HTML.getUserInput(`f1098vli-${uid}-03a`,		"text");
-		inputs["03b"]		= HTML.getUserInput(`f1098vli-${uid}-03b`,		"text");
-		inputs["04"	]		= HTML.getUserInput(`f1098vli-${uid}-04`);
-		inputs["05"	]		= HTML.getUserInput(`f1098vli-${uid}-05`);
-		inputs["06"	]		= HTML.getUserInput(`f1098vli-${uid}-06`);
-		inputs["07"]		= HTML.getUserInput(`f1098vli-${uid}-07`);
+		inputs["lender"]	= HTML.getUserInput(`f1098vli-${uid}-lender`,raw?"raw":"text");
+		inputs["ein"]		= HTML.getUserInput(`f1098vli-${uid}-ein`,	raw?"raw":"text");
+		inputs["ssn"]		= HTML.getUserInput(`f1098vli-${uid}-ssn`,	raw?"raw":"text");
+		inputs["taxpayer"]	= HTML.getUserInput(`f1098vli-${uid}-taxpayer`,raw?"raw":"text");
+		inputs["account"]	= HTML.getUserInput(`f1098vli-${uid}-account`, raw?"raw":"text");
+		inputs["01"	]		= HTML.getUserInput(`f1098vli-${uid}-01`,	raw?"raw":"");
+		inputs["02a"]		= HTML.getUserInput(`f1098vli-${uid}-02a`,	raw?"raw":"text");
+		inputs["02b"]		= HTML.getUserInput(`f1098vli-${uid}-02b`,	raw?"raw":"text");
+		inputs["02c"]		= HTML.getUserInput(`f1098vli-${uid}-02c`,	raw?"raw":"text");
+		inputs["02d"]		= HTML.getUserInput(`f1098vli-${uid}-02d`,	raw?"raw":"text");
+		inputs["03a"]		= HTML.getUserInput(`f1098vli-${uid}-03a`,	raw?"raw":"text");
+		inputs["03b"]		= HTML.getUserInput(`f1098vli-${uid}-03b`,	raw?"raw":"text");
+		inputs["04"	]		= HTML.getUserInput(`f1098vli-${uid}-04`,	raw?"raw":"");
+		inputs["05"	]		= HTML.getUserInput(`f1098vli-${uid}-05`,	raw?"raw":"");
+		inputs["06"	]		= HTML.getUserInput(`f1098vli-${uid}-06`,	raw?"raw":"");
+		inputs["07"]		= HTML.getUserInput(`f1098vli-${uid}-07`,	raw?"raw":"");
 
 		return inputs;
 	}
