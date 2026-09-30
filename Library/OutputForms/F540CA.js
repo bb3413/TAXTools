@@ -13,6 +13,10 @@ export class F540CA extends TaxForm {
 		super(formname);
 		this.title = `CA (540) - California Adjustments � Residents`;
 
+		// This field can be used to enter information that does not come from another
+		// tax form.
+		this.investment_expenses = 0;
+
 		// Part I Income Adjustment Schedule - Section A
 		// Income
 		this.lines["A-01aA"]	= new Line("Wages");
@@ -1098,9 +1102,10 @@ export class F540CA extends TaxForm {
 										this.line("D-17C");
 
 		// Job Expenses and Miscellaneous Deductions
-		this.lines["D-19"].value	= 0;								// Employee Exp
-		this.lines["D-20"].value	= 0;								// Tax prep fee
-		this.lines["D-21"].value	=				// Invest Expenses
+		this.lines["D-19"].value	= 0;							// Employee Exp
+		this.lines["D-20"].value	= 0;							// Tax prep fee
+		this.lines["D-21"].value	=								// Invest Expenses
+			this.investment_expenses +
 			TaxFormObj.getValue("F1099INT", "05") +
 			TaxFormObj.getValue("F1099DIV", "06");
 		this.lines["D-22"].value	= this.add("D-19","D-20","D-21");	// Misc Deduction

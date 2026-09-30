@@ -2,37 +2,38 @@
 import { HTML } from "../Modules/HTML.js";
 
 const ELEMENTS = {
-	// Element ID		Value Type
-	"healthcare":			[],
-	"dental":				[],
-	"medicare":				[],
-	"taxpayer-ltc":			[],
-	"spouse-ltc":			[],
+	// Element ID			Value Type
+	"healthcare":				[],
+	"dental":					[],
+	"medicare":					[],
+	"taxpayer-ltc":				[],
+	"spouse-ltc":				[],
 
-	"doctor":				[],
-	"prescriptions":		[],
-	"medical-aids":			[],
-	"medical-facilities":	[],
-	"nursing-services":		[],
-	"medical-miles":		[],
-	"other-medical":		[],
+	"doctor":					[],
+	"prescriptions":			[],
+	"medical-aids":				[],
+	"medical-facilities":		[],
+	"nursing-services":			[],
+	"medical-miles":			[],
+	"other-medical":			[],
 
-	"est-payments-federal":	[],
-	"est-payments-state":	[],
-	"property-tax":			[],
-	"personal-property-tax":[],
-	"extra-sales-tax":		[],
+	"est-payments-federal":		[],
+	"est-payments-state":		[],
+	"state-inctax-due":			[],
+	"property-tax":				[],
+	"personal-property-tax":	[],
+	"extra-sales-tax":			[],
 
-	"cash-donations":		[],
-	"noncash-donations":	[],
-	"charitable-miles":		[],
+	"cash-donations":			[],
+	"noncash-donations":		[],
+	"charitable-miles":			[],
 
-	"educator-taxpayer":	[],
-	"educator-spouse":		[],
-	"alimony-paid":			[],
-	"divorce-date":			["text"],
-	"tax-preparation":		[],
-	"investment-expenses":	[],
+	"educator-taxpayer":		[],
+	"educator-spouse":			[],
+	"alimony-paid":				[],
+	"divorce-date":				["text"],
+	"tax-preparation":			[],
+	"investment-expenses":		[],
 };
 
 export class Expenses {

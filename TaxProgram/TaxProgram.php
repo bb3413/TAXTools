@@ -37,9 +37,9 @@
 		tax planning, not for filing your taxes.</p>
 
 		<p>Tax information is entered on a variety of worksheets and tax forms at the bottom
-		of this page. You can click on the heading of any worksheet or tax form to alternately
-		expand or collapse that form. After your tax information has been entered, press the
-		Calculate button to create a simulated tax return. Click
+		of this page. You can click on the heading of any worksheet or tax form to
+		alternately expand or collapse that form. After your tax information has been
+		entered, press the Calculate button to create a simulated tax return. Click
 		<a href="TaxProgram-Help.html">this link</a> for more help with this tool.</p>
 
 		<div class="button-container flex-right">
@@ -114,7 +114,7 @@
 			</div>
 		</div>
 
-		<!----------  Spouse  ---------------------------------------------------------------->
+		<!----------  Spouse  -------------------------------------------------------------->
 		<div>&nbsp;</div>
 		<div id="spouse-container">
 			<div class="taxpayer-info-short-line">
@@ -146,7 +146,7 @@
 			</div>
 		</div>
 
-		<!----------  Dependents  ------------------------------------------------------------>
+		<!----------  Dependents  ---------------------------------------------------------->
 		<input type="button" class="trigger button add-dependent-button"
 			id="add-dependent-button" value="Add Dependent"
 			tooltipid="#add-dependent-button-tt" />
@@ -184,7 +184,7 @@
 			</select>
 		</div>
 
-		<!----------  Expenses  -------------------------------------------------------------->
+		<!----------  Expenses  ------------------------------------------------------------>
 		<details class="taxform-details" id="expenses-container">
 			<summary class="taxform-summary">Expenses</summary>
 			<div class="input-worksheet-container">
@@ -286,13 +286,20 @@
 						size="10" placeholder="0"
 						tooltipid="#expenses-est-payments-federal-tt" />
 				</div>
-
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Estimated Payments - State</div>
 					<input class="trigger input-worksheet-row-value input-field"
 						type="text" id="expenses-est-payments-state"
 						size="10" placeholder="0"
 						tooltipid="#expenses-est-payments-state-tt" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Last Year's Tax Paid This Year
+						(e.g., tax due)</div>
+					<input class="trigger input-worksheet-row-value input-field"
+						type="text" id="expenses-state-inctax-due"
+						size="10" placeholder="0"
+						tooltipid="#expenses-state-inctax-due-tt" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Property Tax</div>
@@ -387,7 +394,7 @@
 			</div>
 		</details>
 
-		<!----------  Income  ---------------------------------------------------------------->
+		<!----------  Income  -------------------------------------------------------------->
 		<details class="taxform-details" id="income-container">
 			<summary class="taxform-summary">Income Not on a Tax Form</summary>
 			<div class="input-worksheet-container">
@@ -430,7 +437,7 @@
 			<div>&nbsp;</div>
 		</details>
 
-		<!----------  Asset/Stock Sales  ----------------------------------------------------->
+		<!----------  Asset/Stock Sales  --------------------------------------------------->
 		<details class="taxform-details" id="assetsales-container">
 			<summary class="taxform-summary">Asset/Stock Sales</summary>
 			<div>

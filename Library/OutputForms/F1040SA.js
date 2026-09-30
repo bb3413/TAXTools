@@ -18,6 +18,7 @@ export class F1040SA extends TaxForm {
 		this.medicare				= 0;
 		this.medical_expenses		= 0;
 		this.est_payments_state		= 0;
+		this.est_state_inctax_due	= 0;
 		this.sales_tax_rate			= 0;
 		this.extra_sales_tax		= 0;
 		this.property_tax			= 0;
@@ -64,13 +65,13 @@ export class F1040SA extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		this.lines["01"].value	= this.calculateMedicalExpenses();
+		this.lines["01"].value	= this.getMedicalExpenses();
 		this.lines["02"].value	= TaxFormObj.getValue("F1040", "11b");	// AGI
 		this.lines["03"].value	= Math.round(this.line("02") * 0.075);	// 7.5% or AGI
 		this.lines["04"].value	= Math.max(0, this.subtract("01", "03"));// Medical Deduction
 		this.lines["05a"].value	= Math.max(							// State tax
-									this.calculateStateIncomeTax(),	// Inc tax, or
-									this.calculateSalesTax());		// Sales tax
+									this.getStateIncTaxPaid(),		// Inc tax, or
+									this.getSalesTax());		// Sales tax
 		this.lines["05b"].value	= this.property_tax;				// Real Estate Tax
 		this.lines["05c"].value	= this.personal_property_tax;		// Personal Property Tax
 		this.lines["05d"].value	= this.add("05a","05b","05c");		// SALT
@@ -100,7 +101,7 @@ export class F1040SA extends TaxForm {
 	//
 	// Utility functions
 	//
-	calculateMedicalExpenses() {
+	getMedicalExpenses() {
 		const medicare =	// Choose Medicare entered as expense or from SSA-1099
 			Math.max(this.medicare,
 				TaxFormObj.getValue("SSA1099", "03a") +		// Part B
@@ -111,7 +112,7 @@ export class F1040SA extends TaxForm {
 				this.medical_expenses;
 	}
 
-	calculateSalesTax() {
+	getSalesTax() {
 		// Calculate sales tax deduction.
 		return (	// return cannot be on a line by itself
 			TaxFormObj.createForm("SalesTax").calculate(this.sales_tax_rate) +
@@ -119,19 +120,12 @@ export class F1040SA extends TaxForm {
 		);
 	}
 
-	calculateStateIncomeTax() {
+	getStateIncTaxPaid() {
 		// Estimated payments + withholding
 		return (	// return cannot be on a line by itself
 			this.est_payments_state +
-			TaxFormObj.getValue("W2", "17") +
-			TaxFormObj.getValue("F1099INT", "17") +
-			TaxFormObj.getValue("F1099DIV", "16") +
-			TaxFormObj.getValue("F1099G", "12") +
-			TaxFormObj.getValue("F1099K", "06") +
-			TaxFormObj.getValue("F1099MISC", "16") +
-			TaxFormObj.getValue("F1099MISC", "05") +
-			TaxFormObj.getValue("F1099OID", "14") +
-			TaxFormObj.getValue("F1099R", "14")
+			this.est_state_inctax_due +
+			TaxFormObj.getStateWithholding()
 		);
 	}
 }

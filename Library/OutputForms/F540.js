@@ -205,11 +205,8 @@ export class F540 extends TaxForm {
 		this.lines["064"].value	= this.add("048","061","062","063");	// Total Tax
 
 		// Payments
-		this.lines["071"].value	= TaxFormObj.getValue("W2", "17") +		// Withholding
-									TaxFormObj.getValue("F1099INT", "17") +
-									TaxFormObj.getValue("F1099DIV", "16") +
-									TaxFormObj.getValue("F1099R", "14");
-		this.lines["072"].value	= 0;									// Estimated Payments
+		this.lines["071"].value	= TaxFormObj.getStateWithholding();		// Withholding
+		this.lines["072"].value	= 0;	// Estimated Payments - set by TaxProgram
 		this.lines["073"].value	= 0;									// Withholding
 		this.lines["074"].value	= 0;									// Excess SDI or VPDI
 		this.lines["075"].value	= 0;									// EITC

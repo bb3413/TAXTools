@@ -245,6 +245,20 @@ const TaxFormObj = {
 		return getRetirementContributions(false);
 	},
 
+	getStateWithholding() {
+		return (	// return cannot be on a line by itself
+			TaxFormObj.getValue("W2", "17") +
+			TaxFormObj.getValue("F1099INT", "17") +
+			TaxFormObj.getValue("F1099DIV", "16") +
+			TaxFormObj.getValue("F1099G", "12") +
+			TaxFormObj.getValue("F1099K", "06") +
+			TaxFormObj.getValue("F1099MISC", "16") +
+			TaxFormObj.getValue("F1099MISC", "05") +
+			TaxFormObj.getValue("F1099OID", "14") +
+			TaxFormObj.getValue("F1099R", "14")
+		);
+	},
+
 	getTextValue(formname, ...lineno) {
 		// This method will get a text value from a tax form. If the form does not exist,
 		// it will try to create it. If it has not been calculated, it will be calculated.
@@ -379,6 +393,7 @@ const {
 	getOrCreateForm,
 	getPensionValue,
 	getIRAValue,
+	getStateWithholding,
 	getTextValue,
 	getValue,
 	getW2OvertimePay,
@@ -400,6 +415,7 @@ export {
 	getOrCreateForm,
 	getPensionValue,
 	getIRAValue,
+	getStateWithholding,
 	getTextValue,
 	getValue,
 	getW2OvertimePay,

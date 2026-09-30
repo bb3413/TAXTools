@@ -269,6 +269,8 @@ function getExpenses() {
 	const f1040		= TaxFormObj.getOrCreateForm("F1040");
 	const f1040s1	= TaxFormObj.getOrCreateForm("F1040S1");
 	const f1040sa	= TaxFormObj.getOrCreateForm("F1040SA");
+	const f540		= TaxFormObj.getOrCreateForm("F540");
+	const f540ca	= TaxFormObj.getOrCreateForm("F540CA");
 
 	// Form 1040
 	f1040.estimated_payments = inputs["est_payments_federal"];
@@ -296,21 +298,23 @@ function getExpenses() {
 		tt.getMedicalMileageDeduction(inputs["medical_miles"]) +
 		inputs["other_medical"];
 
-	f1040sa.sales_tax_rate		= sales_tax;
-	f1040sa.extra_sales_tax		= inputs["extra_sales_tax"];
-	f1040sa.est_payments_state	= inputs["est_payments_state"];
-	f1040sa.property_tax		= inputs["property_tax"];
-	f1040sa.personal_property_tax = inputs["personal_property_tax"];
-	f1040sa.cash_donations		= inputs["cash_donations"];
-	f1040sa.noncash_donations	=
+	f1040sa.sales_tax_rate			= sales_tax;
+	f1040sa.extra_sales_tax			= inputs["extra_sales_tax"];
+	f1040sa.est_payments_state		= inputs["est_payments_state"];
+	f1040sa.est_state_inctax_due	= inputs["est_state_inctax_due"];
+	f1040sa.property_tax			= inputs["property_tax"];
+	f1040sa.personal_property_tax	= inputs["personal_property_tax"];
+	f1040sa.cash_donations			= inputs["cash_donations"];
+	f1040sa.noncash_donations =
 		inputs["noncash_donations"]+
 		tt.getCharitableMileageDeduction(inputs["charitable_miles"]);
 
-	//
-	// Expense fields that are not implemented yet
-	//
-	// fxxxx.lines["xx"].user_value	= inputs["tax_preparation"];
-	// fxxxx.lines["xx"].user_value	= inputs["investment_expenses"];
+	// Form 540
+	f540.lines["072"].user_value = inputs["est_payments_state"];
+
+	// Form 540-CA
+	f540ca.lines["D-20"].user_value	= inputs["tax_preparation"];
+	f540ca.investment_expenses		= inputs["investment_expenses"];
 }
 
 function getIncome() {
