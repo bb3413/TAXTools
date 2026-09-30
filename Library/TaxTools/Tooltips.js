@@ -44,9 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		const tipRect = tip.getBoundingClientRect();
 
 		// Vertical positioning (flip below if hitting top boundary)
-		let ttTop = (triggerRect.top + scrollY) - tipRect.height - 25;
+		let ttTop = (triggerRect.top + scrollY) - tipRect.height - 50;
 		if (ttTop < scrollY + 20) {
-			ttTop = (triggerRect.bottom + scrollY) + 25;
+			ttTop = (triggerRect.bottom + scrollY) + 50;
 		}
 
 		// Horizontal positioning (shift left if hitting right viewport edge)
