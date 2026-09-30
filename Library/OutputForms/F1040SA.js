@@ -12,13 +12,13 @@ export class F1040SA extends TaxForm {
 		super(formname);
 		this.title = `Schdeule A - Itemized Deductions`;
 
-		// These fields can be used to enter information that does not come from another
-		// tax form.
+		// Variables for external input. These variables are used to enter information
+		// that does not come from another tax form.
 		this.medical_insurance		= 0;
 		this.medicare				= 0;
 		this.medical_expenses		= 0;
 		this.est_payments_state		= 0;
-		this.est_state_inctax_due	= 0;
+		this.state_tax_due			= 0;
 		this.sales_tax_rate			= 0;
 		this.extra_sales_tax		= 0;
 		this.property_tax			= 0;
@@ -124,7 +124,7 @@ export class F1040SA extends TaxForm {
 		// Estimated payments + withholding
 		return (	// return cannot be on a line by itself
 			this.est_payments_state +
-			this.est_state_inctax_due +
+			this.state_tax_due +
 			TaxFormObj.getStateWithholding()
 		);
 	}

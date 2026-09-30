@@ -13,8 +13,8 @@ export class F540CA extends TaxForm {
 		super(formname);
 		this.title = `CA (540) - California Adjustments � Residents`;
 
-		// This field can be used to enter information that does not come from another
-		// tax form.
+		// Variables for external input. This variable is be used to enter information
+		// that does not come from another tax form.
 		this.investment_expenses = 0;
 
 		// Part I Income Adjustment Schedule - Section A

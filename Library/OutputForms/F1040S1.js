@@ -10,6 +10,9 @@ export class F1040S1 extends TaxForm {
 		Debug.enter("F1040S1.Constructor()");
 		super(formname);
 		this.title = `Schedule 1 - Additional Income and Adjustments to Income`;
+
+		// Variables for external input. These variables can be used to enter information
+		// that does not come from another tax form.
 		this.alimony_received	= 0;
 		this.alimony_paid		= 0;
 

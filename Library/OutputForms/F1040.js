@@ -496,8 +496,8 @@ export class F1040 extends TaxForm {
 		super(formname);
 		this.title = `1040 - Individual Income Tax Return`;
 
-		// This field can be used to enter information that does not come from another
-		// tax form.
+		// Variables for external input. This variable is be used to enter information
+		// that does not come from another tax form.
 		this.estimated_payments	= 0;
 
 		this.lines["01a"]	= new Line("Wages");

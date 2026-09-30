@@ -16,8 +16,8 @@ export class SalesTax extends TaxForm {
 		Debug.enter("SalesTax.Constructor()");
 		super(formname);
 
-		// This field can be used to enter information that does not come from another
-		// tax form.
+		// Variables for external input. This variable is be used to enter information
+		// that does not come from another tax form.
 		this.family_size	= 0;
 
 		this.lines["01"]	= new Line("Sales Tax from Table");

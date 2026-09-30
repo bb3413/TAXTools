@@ -18,13 +18,14 @@ export class Refund extends TaxForm {
 		Debug.enter("Refund.Constructor()");
 		super(formname);
 
-		// Inputs
+		// Variables for external input. These variables can be used to enter information
+		// that does not come from another tax form.
 		this.sched_a_5d				= 0;
 		this.sched_a_5e				= 0;
 		this.itemized_deductions	= 0;
 		this.refund					= 0;
 
-		// Outputs
+		// Variables for external output.
 		this.taxable_amount			= 0;
 		this.explanation			= "";
 

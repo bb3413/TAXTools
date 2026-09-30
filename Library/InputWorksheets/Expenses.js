@@ -19,7 +19,7 @@ const ELEMENTS = {
 
 	"est-payments-federal":		[],
 	"est-payments-state":		[],
-	"state-inctax-due":			[],
+	"state-tax-due":			[],
 	"property-tax":				[],
 	"personal-property-tax":	[],
 	"extra-sales-tax":			[],

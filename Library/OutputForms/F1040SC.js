@@ -295,6 +295,8 @@ export class F1040SC extends TaxForm {
 		super(formname);
 		this.title = `Schedule C - Profit or Loss From Business`;
 
+		// Variables for external input. This variable is be used to enter information
+		// that does not come from another tax form.
 		this.cash_inccome	= 0;
 
 		this.lines["name"]	= new Line("Business Name");

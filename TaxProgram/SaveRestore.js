@@ -15,8 +15,6 @@ import { Dependent }	from "../Library/InputWorksheets/Dependent.js";
 import { Expenses }		from "../Library/InputWorksheets/Expenses.js";
 import { Income }		from "../Library/InputWorksheets/Income.js";
 
-import { TAX_PROGRAM_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
-
 import {
 	// Global variables
 	dependents_container,
@@ -34,6 +32,12 @@ export {
 	restoreUserDataHandler,
 	saveUserDataHandler,
 };
+
+import { TAX_PROGRAM_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+
+// If RAW is true, user input will be copied without changing (debug keywords, expression
+// evaluation, etc. Set it to false to use normal processing of input.
+const RAW = true;
 
 function restoreAssetsaleItems(data) {
 	if (!data || data.length === 0) {
@@ -141,7 +145,6 @@ function saveAssetsaleItems() {
 }
 
 function saveDependents() {
-	const RAW = true;	// Copy user input without changing.
 	let user_values = [];
 
 	for (let entry_id of dependents_container.getEntries()) {
@@ -159,7 +162,6 @@ function saveInputForms() {
 	// Return array of: formName: [ formIndex, lineNumber, value ]
 	// This method is used to save the current state to a file. It only saves the
 	// values on the input form web pages.
-	const RAW = true;	// Copy user input without changing.
 	let user_values = [];
 
 	// For each form.
@@ -207,7 +209,6 @@ function saveUserDataHandler(event) {
 	// to a file.
 	//
 	try {
-		const RAW = true;	// Copy user input without changing.
 		const data = {
 			"tool_name":		HTML.getUserInput("title", "text"),
 			"version":			HTML.getUserInput("tax-tools-version", "text"),

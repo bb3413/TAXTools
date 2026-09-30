@@ -301,7 +301,7 @@ function getExpenses() {
 	f1040sa.sales_tax_rate			= sales_tax;
 	f1040sa.extra_sales_tax			= inputs["extra_sales_tax"];
 	f1040sa.est_payments_state		= inputs["est_payments_state"];
-	f1040sa.est_state_inctax_due	= inputs["est_state_inctax_due"];
+	f1040sa.state_tax_due			= inputs["state_tax_due"];
 	f1040sa.property_tax			= inputs["property_tax"];
 	f1040sa.personal_property_tax	= inputs["personal_property_tax"];
 	f1040sa.cash_donations			= inputs["cash_donations"];

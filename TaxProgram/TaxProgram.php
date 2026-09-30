@@ -155,13 +155,6 @@
 		<div id="dependents-container">
 		</div>
 
-		<div class="button-container">
-			<!-- Calculate Button -->
-			<input type="button" class="trigger button calculate-button"
-				id="calculate-button" value="Calculate Tax Return"
-				tooltipid="#calculate-button-tt" />
-		</div>
-
 		<div class="input-form-header">
 			<h2>Enter Tax Information Here</h2>
 			<select class="trigger selection-button" id="add-form-button"
@@ -186,9 +179,9 @@
 
 		<!----------  Expenses  ------------------------------------------------------------>
 		<details class="taxform-details" id="expenses-container">
-			<summary class="taxform-summary">Expenses</summary>
+			<summary class="trigger taxform-summary" tooltipid="#expenses-summary-tt">
+				Expenses</summary>
 			<div class="input-worksheet-container">
-				<h3>Medical Insurance Premiums</h3>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Healthcare</div>
 					<input class="trigger input-worksheet-row-value input-field"
@@ -294,12 +287,12 @@
 						tooltipid="#expenses-est-payments-state-tt" />
 				</div>
 				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Last Year's Tax Paid This Year
-						(e.g., tax due)</div>
+					<div class="input-worksheet-row-label">State Tax Due (from last
+						year's taxes)</div>
 					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-state-inctax-due"
+						type="text" id="expenses-state-tax-due"
 						size="10" placeholder="0"
-						tooltipid="#expenses-state-inctax-due-tt" />
+						tooltipid="#expenses-state-tax-due-tt" />
 				</div>
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Property Tax</div>
@@ -396,7 +389,8 @@
 
 		<!----------  Income  -------------------------------------------------------------->
 		<details class="taxform-details" id="income-container">
-			<summary class="taxform-summary">Income Not on a Tax Form</summary>
+			<summary class="trigger taxform-summary" tooltipid="#income-summary-tt">
+				Income Not on a Tax Form</summary>
 			<div class="input-worksheet-container">
 				<div class="input-worksheet-row">
 					<div class="input-worksheet-row-label">Jury Duty</div>
@@ -437,12 +431,13 @@
 			<div>&nbsp;</div>
 		</details>
 
-		<!----------  Asset/Stock Sales  --------------------------------------------------->
+		<!----------  Stock/Asset Sales  --------------------------------------------------->
 		<details class="taxform-details" id="assetsales-container">
-			<summary class="taxform-summary">Asset/Stock Sales</summary>
+			<summary class="trigger taxform-summary" tooltipid="#asset-sale-summary-tt">
+				Sale of Stocks/Assets</summary>
 			<div>
 				<input class="trigger add-asset-sale-button center-text" type="button"
-					id="add-asset-sale-button" value="Add More Entries"
+					id="add-asset-sale-button" value="Add Entry"
 						tooltipid="#add-asset-sale-button-tt" />
 			</div>
 			<div class="assetsales-container assetsales-header">
@@ -468,7 +463,14 @@
 		<div id="input-taxforms-container">
 		</div>
 
+		<!----------  Calculate Button  ---------------------------------------------------->
 		<p>&nbsp;</p>
+		<div class="button-container">
+			<input type="button" class="trigger button calculate-button"
+				id="calculate-button" value="Calculate Tax Return"
+				tooltipid="#calculate-button-tt" />
+		</div>
+
 		<!-- Display area for output tax forms. -->
 		<div id="output-taxforms-container">
 			<h2>Tax Return</h2>
