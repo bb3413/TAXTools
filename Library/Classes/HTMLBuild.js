@@ -60,10 +60,11 @@ export class HTMLBuild {
 			attributes += `class="${css_class}"`
 		}
 
-		if (str || !attributes.match(/placeholder/i)) {
-			attributes += attributes ? " " : "";
-			attributes += `value="${str}"`
-		}
+		// if (str || !attributes.match(/placeholder/i)) {
+		// 	attributes += attributes ? " " : "";
+		// 	attributes += `value="${str}"`
+		// }
+		attributes += `value="${str}"`
 
 		const line = `${this.indent}<${element} ${attributes} />`;
 		this.htmldoc.push(line);

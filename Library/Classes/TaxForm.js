@@ -124,13 +124,17 @@ export class TaxForm {
 					let attributes;
 					let id;
 					let line = this.lines[lineno];
+					let placeholder = 0;
+					if (line.value === "") {
+						placeholder = "";
+					}
 
 					doc.startElement("div", "taxform-lno-desc-value");	// Start of line
 						doc.addElement("p", "lineno", lineno);
 						doc.addElement("p", "description", line.label);
 						id=`${formname}-${uid}-${lineno}`;
 						attributes = `readonly type="text" id="${id}" ` +
-							'size="10" placeholder="0"';
+							`size="10" placeholder="${placeholder}"`;
 						doc.addVoidElement("input", "output-field",	line.value, attributes);
 					doc.stopElement("div");					// End of line
 				}
