@@ -1,4 +1,5 @@
 
+import { Dates }				from "../Modules/Dates.js";
 import { Debug }				from "../Modules/Debug.js";
 import { Line }					from "../Classes/Line.js";
 import { TaxForm }				from "../Classes/TaxForm.js";
@@ -11,7 +12,7 @@ export class F540CA extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F540CA.Constructor()");
 		super(formname);
-		this.title = `CA (540) - California Adjustments � Residents`;
+		this.title = `CA (540) - California Adjustments - Residents`;
 
 		// Variables for external input. This variable is be used to enter information
 		// that does not come from another tax form.
@@ -94,7 +95,7 @@ export class F540CA extends TaxForm {
 		this.lines["B-01B"]		= new Line("Subtract from Taxable Refund");
 		this.lines["B-01C"]		= new Line("Add to Taxable Refund");
 
-		this.lines["B-02a"]		= new Line("Divorce Date");
+		this.lines["B-02b"]		= new Line("Divorce Date");
 		this.lines["B-02aA"]	= new Line("Alimony Received");
 		this.lines["B-02aB"]	= new Line("Subtract from Alimony Received");
 		this.lines["B-02aC"]	= new Line("Add to Alimony Received");
@@ -268,7 +269,6 @@ export class F540CA extends TaxForm {
 		this.lines["C-19aA"]	= new Line("Alimony Paid");
 		this.lines["C-19aB"]	= new Line("Subtract from Alimony Paid");
 		this.lines["C-19aC"]	= new Line("Add to Alimony Paid");
-		this.lines["C-19c"]		= new Line("Divorce Date");
 
 		this.lines["C-20A"]		= new Line("IRA Deduction");
 		this.lines["C-20B"]		= new Line("Subtract from IRA Deduction");
@@ -479,7 +479,7 @@ export class F540CA extends TaxForm {
 		this.calculated = true;
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
-		let f1040s1;
+		const f1040s1 = TaxFormObj.getForm("F1040S1");
 
 		// Part I Income Adjustment Schedule - Section A
 		// Income
@@ -598,11 +598,12 @@ export class F540CA extends TaxForm {
 		this.lines["B-02aA"].value	= TaxFormObj.getValue("F1040S1", "02a");
 		this.lines["B-02aB"].value	= 0;	// DO NOT ENTER
 		this.lines["B-02aC"].value	= 0;	// Alimony received if divorce after 12/31/2018
-		f1040s1 = TaxFormObj.getForm("F1040S1");
+		this.lines["B-02b"].value	= "";	// Divorce Date
 		if (f1040s1) {
-			this.lines["B-02a"].value = f1040s1.lines["02b"].value;	// Divorce Date
-			if (!Dates.isBefore(this.lines["B-02a"].value, "01/01/2019")) {
-				this.lines["B-02aC"].value = f1040s1.alimony_received;
+			this.lines["B-02b"].value = f1040s1.lines["02b"].value;	// Divorce Date
+			if (Dates.isValid(this.lines["B-02b"].value) &&
+				!Dates.isBefore(this.lines["B-02b"].value, "01/01/2019")) {
+					this.lines["B-02aC"].value = f1040s1.alimony_received;
 			}
 		}
 
@@ -843,14 +844,15 @@ export class F540CA extends TaxForm {
 		this.lines["C-19aA"].value	= TaxFormObj.getValue("F1040S1", "19a");
 		this.lines["C-19aB"].value	= 0;	// DO NOT ENTER
 		this.lines["C-19aC"].value	= 0;	// Alimony received if divorce after 12/31/2018
-		f1040s1 = TaxFormObj.getForm("F1040S1");
+		this.lines["C-19c"].value	= "";	// Divorce date
 		if (f1040s1) {
 			this.lines["C-19c"].value = f1040s1.lines["19c"].value;	// Divorce Date
-			if (!Dates.isBefore(this.lines["C-19c"].value, "01/01/2019")) {
-				this.lines["C-19aC"].value = f1040s1.alimony_paid;
+			if (Dates.isValid(this.lines["C-19c"].value) &&
+				!Dates.isBefore(this.lines["C-19c"].value, "01/01/2019")) {
+					this.lines["C-19aC"].value = f1040s1.alimony_paid;
 			}
 		}
-
+		
 		// IRA Deduction
 		this.lines["C-20A"].value	= TaxFormObj.getValue("F1040S1", "20");
 		this.lines["C-20B"].value	= 0;
