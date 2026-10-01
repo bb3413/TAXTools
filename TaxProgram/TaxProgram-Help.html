@@ -5,31 +5,40 @@
 	<link rel="stylesheet" href="../Library/CSS/TAXTools.css" />
 	<link rel="stylesheet" href="../Library/CSS/HelpFields.css" />
 	<script type="module" src="../Library/Modules/IncludeFile.js"></script>
-	<title>Federal Estimated Tax Calculator Help</title>
+	<title>Tax Return Calculator Help</title>
 </head>
 
 <body>
 	<div class="tool-container">
-		<h1 class="title">Tax Program Help</h1>
+		<h1 class="title">Tax Return Calculator Help</h1>
 
-		<p>This tool provides a simplified income tax calculation.</p>
+		<p>This is a simple income tax calculation tool. As you know, the tax code is
+		incredibly complex and includes hundreds of tax forms and countless rules. This tool
+		(as well as every other tool) makes no attempt to cover everything. It only attempts
+		to include the most common reqirements of low-income tax filers. This is a tools for
+		planning and analysing tax various tax situations; not for filing your taxes.</p>
 
-		<p>There tax forms shown in the "Input Forms" section is where you normally enter the
-		information for your tax return. There are other forms in the "Additional Tax Forms"
-		section where you can also enter information, but these are not normal input forms.
-		When you enter information on one of these forms, it will override the value that
-		would normally be calculated for that field. For example, if you enter a value in
-		form 1040, line 1a for wages, the tool will no longer calculate that value from the
-		values it finds on W-2 forms.</p>
+		<p>As with other tools in the TAXTools toolset, the places where you enter
+		information are green. This is particularly noteworthy on the input tax forms (for
+		example, W-2, 1099-R). Each tax input form, has many fields (they are usually
+		numbered boxes on input tax forms); however, only some of the fields are green.
+		The reason for this is that the green fields are used by the tool to calculate
+		the tax and the other fields are not used. It is not they they are not needed
+		to accurately determine the tax, but they are not implemented by this tool.</p>
+
+		<p>Becuase there may be a lot of information entered into this tool, you can click
+		the Save button at anytime to save the data that has been entered so far. This will
+		save the data to a text file named TaxProgram.txt in your Downloads folder (at least
+		that is where is saved on Windows). Restoring the file will completely reset the
+		tool and reenter the data from the file.</p>
 
 		<!-- Generic tax tools help information. -->
 		<div include-file="../Library/TAXTools/TAXTools-Help.html"></div>
 
 		<h2>Description of Input Fields</h2>
-		<p>The remainder of this document describes the fields that are computed (blue) and
-		the fields where you can enter data (green). The fields are listed in the same order
-		as they appear in the tool. This is also the same information that is displayed in
-		the tool tips.</p>
+		<p>The remainder of this document describes the fields were you can input
+		information. This is also the same information that is displayed in the
+		tooltips.</p>
 
 		<div include-file="TaxProgram-HelpInput.html"></div>
 		<p>&nbsp;</p>
