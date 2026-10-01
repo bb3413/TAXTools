@@ -171,8 +171,8 @@ export class F540 extends TaxForm {
 		this.lines["015"].value	= this.subtract("013", "014");			// AGI - Subtractions
 		this.lines["016"].value	= TaxFormObj.getValue("F540CA", "C-27C");	// Additions
 		this.lines["017"].value	= this.add("015", "016");				// AGI + Additions
-		this.lines["018"].value	= TaxFormObj.getValue("F540CA", "D-30");// Deductions
-		this.lines["019"].value	= this.subtract("017", "018");			// Taxable Income
+		this.lines["018"].value	= TaxFormObj.getValue("F540CA", "D-30");	// Deductions
+		this.lines["019"].value	= Math.max(0, this.subtract("017", "018"));	// Taxable Income
 
 		// Tax
 		this.lines["031"].value	= tt.get_CA_IncomeTax(tp.filing_status, this.line("019"));

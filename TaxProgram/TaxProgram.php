@@ -172,8 +172,8 @@
 				<option value="F1099OID">	1099-OID</option>
 				<option value="F1099R">		1099-R</option>
 				<option value="F1099S">		1099-S</option>
+				<option value="F1098VLI">	1098-VLI</option>
 				<option value="Business">	Small Business</option>
-				<option value="F1098VLI">	1099-VLI</option>
 			</select>
 		</div>
 
