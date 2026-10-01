@@ -97,8 +97,10 @@ export class F1040S1 extends TaxForm {
 		this.lines["01"].value	= 0;									// Taxable Refund
 		this.lines["02a"].value	= 0;									// Alimony Received
 		this.lines["02b"].value	= "";									// Divorce Date
-		if (Dates.isBefore(this.lines["02b"].value, "01/01/2019")) {
-			this.lines["02a"].value	= this.alimony_received;
+		if (Dates.isValid(this.lines["02b"].value)) {
+			if (Dates.isBefore(this.lines["02b"].value, "01/01/2019")) {
+				this.lines["02a"].value	= this.alimony_received;
+			}
 		}
 		this.lines["03"].value	= TaxFormObj.getValue("F1040SC", "31");	// Business Income
 		this.lines["04"].value	= 0;									// Other Gains
@@ -154,8 +156,10 @@ export class F1040S1 extends TaxForm {
 		this.lines["19a"].value	= 0;									// Alimony Paid
 		this.lines["19b"].value	= 0;									// Recipient SSN
 		this.lines["19c"].value	= "";									// Date of Divorce
-		if (Dates.isBefore(this.lines["19c"].value, "01/01/2019")) {
-			this.lines["19a"].value	= this.alimony_paid;
+		if (Dates.isValid(this.lines["19c"].value)) {
+			if (Dates.isBefore(this.lines["19c"].value, "01/01/2019")) {
+				this.lines["19a"].value	= this.alimony_paid;
+			}
 		}
 		this.lines["20"].value	= 0;									// IRA Deduction
 		this.lines["21"].value	= 0;									// Student Loan
