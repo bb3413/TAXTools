@@ -125,7 +125,7 @@ export class TaxForm {
 					let id;
 					let line = this.lines[lineno];
 					let placeholder = 0;
-					if (line.value === "") {
+					if (typeof line.value === "string") {
 						placeholder = "";
 					}
 
