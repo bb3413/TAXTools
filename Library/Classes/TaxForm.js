@@ -44,6 +44,9 @@ export class TaxForm {
 	}
 
 	isUsed() {
+		//
+		// The form contains at least one non-empty line.
+		//
 		for (const lineno of Object.keys(this.lines)) {
 			if (this.lines[lineno].value) {
 				return true;
@@ -58,6 +61,10 @@ export class TaxForm {
 	}
 
 	min(...index_list) {
+		//
+		// Given a list of line numbers, return the value of the line with the
+		// smallest value.
+		//
 		const values = [];
 
 		for (const index of index_list) {
@@ -70,6 +77,10 @@ export class TaxForm {
 	}
 
 	max(...index_list) {
+		//
+		// Given a list of line numbers, return the value of the line with the
+		// largest value.
+		//
 		const values = [];
 
 		for (const index of index_list) {
