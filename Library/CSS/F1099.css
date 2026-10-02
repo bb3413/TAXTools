@@ -152,12 +152,22 @@
 /*
  * Used for entering fields below the form.
  */
-.supplemental-input-line {
+.supplemental-line-150-400 {
 	display:				grid;
 	grid-template-columns:	150px 400px;
 }
 
-.supplemental-input-line p {
+.supplemental-line-150-400 p {
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+.supplemental-line-400-40 {
+	display:				grid;
+	grid-template-columns:	400px 40px;
+}
+
+.supplemental-line-400-40 p {
 	margin-top:				0;
 	margin-bottom:			0;
 }

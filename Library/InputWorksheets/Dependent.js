@@ -19,17 +19,17 @@ const ELEMENTS = {
 	"has-atin":				[],
 };
 
-const HTML_WORKSHEET = `
+const HTML_FORM = `
 		<details class="taxform-details" id="dependent-XX-container">
 			<summary class="taxform-summary">Dependent #-UID-</summary>
 			<div class="input-worksheet-container">
-				<div class="taxpayer-info-long-line">
+				<div class="taxpayer-info-150-400">
 					<p>Name</p>
 					<input class="trigger input-field left"
 						type="text" autofocus spellcheck="false" size="45"
 						id="dependent-XX-name" tooltipid="#dependent-name-tt" />
 				</div>
-				<div class="taxpayer-info-long-line">
+				<div class="taxpayer-info-150-400">
 					<p>Relationship</p>
 					<select class="trigger input-field left" id="dependent-XX-relationship"
 							tooltipid="#dependent-relationship-tt">
@@ -43,54 +43,54 @@ const HTML_WORKSHEET = `
 						<option value="NOT_RELATED">Not related</option>
 					</select>
 				</div>
-				<div class="taxpayer-info-short-line">
+				<div class="taxpayer-info-150-100">
 					<p>Birthday</p>
 					<input class="trigger input-field left"
 						type="text" id="dependent-XX-birthday" size="36"
 						placeholder="mm/dd/yyyy" tooltipid="#dependent-birthday-tt" />
 				</div>
-				<div class="taxpayer-info-short-line">
+				<div class="taxpayer-info-150-100">
 					<p>Months Lived at Home</p>
 					<input class="trigger input-field left"
 						type="text" id="dependent-XX-months-lived-at-home" size="10"
 						placeholder="0" tooltipid="#dependent-months-lived-at-home-tt" />
 				</div>
-				<div class="taxpayer-info-short-line">
+				<div class="taxpayer-info-150-100">
 					<p>Gross Income</p>
 					<input class="trigger input-field left"
 						type="text" id="dependent-XX-gross-income" size="10"
 						placeholder="0" tooltipid="#dependent-gross-income-tt" />
 				</div>
-				<div class="taxpayer-info-short-line">
+				<div class="taxpayer-info-150-100">
 					<p>Fulltime Student</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-fulltime-student"
 						tooltipid="#dependent-fulltime-student-tt" />
 				</div>
-				<div class="taxpayer-info-short-line">
+				<div class="taxpayer-info-150-100">
 					<p>Married and Filing Jointly</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-mfj" tooltipid="#dependent-mfj-tt" />
 				</div>
-				<div class="taxpayer-info-short-line">
+				<div class="taxpayer-info-150-100">
 					<p>Taxpayer Paid Over Half of Support</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-taxpayer-supported"
 						tooltipid="#dependent-taxpayer-supported-tt" />
 				</div>
-				<div class="taxpayer-info-short-line">
+				<div class="taxpayer-info-150-100">
 					<p>Dependent Paid Over Half of Support</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-dependent-supported"
 						tooltipid="#dependent-dependent-supported-tt" />
 				</div>
-				<div class="taxpayer-info-short-line">
+				<div class="taxpayer-info-150-100">
 					<p>Disabled</p>
 					<input class="trigger checkbox" type="checkbox"
 						id="dependent-XX-disabled"
 						tooltipid="#dependent-disabled-tt" />
 				</div>
-				<div class="taxpayer-info-long-line">
+				<div class="taxpayer-info-150-400">
 					<p>Has SSN</p>
 					<div>
 						<input type="radio" id="dependent-XX-has-ssn"
@@ -294,7 +294,7 @@ export class Dependent {
 			throw new Error(`Dependent.getInputHTML(): UID is undefined.`);
 		}
 
-		const html = HTML_WORKSHEET.replace(/XX/g, uid)
+		const html = HTML_FORM.replace(/XX/g, uid)
 									.replace(/-UID-/g, uid);
 
 		return [ `dependent-${uid}-container`, html ];

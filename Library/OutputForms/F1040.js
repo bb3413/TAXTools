@@ -5,8 +5,8 @@ import { HTML }			from "../Modules/HTML.js";
 import { Str }			from "../Modules/Str.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
-import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 import { IncTax }		from "../Worksheets/IncTax.js";
 import { SSTax }		from "../Worksheets/SSTax.js";
 

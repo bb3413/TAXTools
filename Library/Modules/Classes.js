@@ -4,7 +4,8 @@
 //
 
 // Input Tax Forms
-import { F1098VLI }		from "../InputForms/F1098VLI.js";
+import { F1098E }		from "../InputForms/F1098E.js";		// Student loan interest
+import { F1098VLI }		from "../InputForms/F1098VLI.js";	// Vehicle loan interest
 import { F1099C }		from "../InputForms/F1099C.js";
 import { F1099DIV }		from "../InputForms/F1099DIV.js";
 import { F1099G }		from "../InputForms/F1099G.js";
@@ -28,8 +29,8 @@ import { F1040SA }		from "../OutputForms/F1040SA.js";
 import { F1040SC }		from "../OutputForms/F1040SC.js";
 import { F1040SD }		from "../OutputForms/F1040SD.js";
 import { F1040SSE }		from "../OutputForms/F1040SSE.js";	// Self-employment Tax
-import { F540 }			from "../OutputForms/F540.js";			// California Income Tax
-import { F540CA }		from "../OutputForms/F540CA.js";		// California Adjustments
+import { F540 }			from "../OutputForms/F540.js";		// California Income Tax
+import { F540CA }		from "../OutputForms/F540CA.js";	// California Adjustments
 import { F6251 }		from "../OutputForms/F6251.js";		// AMT worksheet
 import { F7206 }		from "../OutputForms/F7206.js";		// Self-employment Health Ins
 import { F8880 }		from "../OutputForms/F8880.js";		// Retirement Credit
@@ -54,8 +55,9 @@ const SINGLETON		= 2;
 const ON_DEMAND		= 3;
 
 const class_map = {
-	// Input Tax Forms
-	// Name					Class			Input	Single	Create on Demand
+	// Input Tax Forms										Create on
+	// Name					Class			Input	Single	Demand
+	"F1098E":				[ F1098E,		true,	false,	false	],
 	"F1098VLI":				[ F1098VLI,		true,	false,	false	],
 	"F1099C":				[ F1099C,		true,	false,	false	],
 	"F1099DIV":				[ F1099DIV,		true,	false,	false	],
@@ -70,8 +72,8 @@ const class_map = {
 	"SSA1099":				[ SSA1099,		true,	false,	false	],
 	"W2":					[ W2,			true,	false,	false	],
 
-	// Output Tax Forms
-	// Name					Class			Input	Single	Create on Demand
+	// Output Tax Forms										Create on
+	// Name					Class			Input	Single	Demand
 	"F1040":				[ F1040,		false,	true,	true	],
 	"F1040S1":				[ F1040S1,		false,	true,	true	],
 	"F1040S1A":				[ F1040S1A,		false,	true,	true	],
@@ -87,8 +89,8 @@ const class_map = {
 	"F7206":				[ F7206,		false,	true,	false	],
 	"F8880":				[ F8880,		false,	true,	true	],
 
-	// Worksheets
-	// Name					Class			Input	Single	Create on Demand
+	// Worksheets											Create on
+	// Name					Class			Input	Single	Demand
 	"IncTax":				[ IncTax,		false,	true,	true	],
 	"Refund":				[ Refund,		false,	true,	true	],
 	"SalesTax":				[ SalesTax,		false,	true,	true	],
@@ -111,6 +113,7 @@ const Classes = {
 
 		// This method allows you to call the static method createForm() by classname.
 		switch (classname) {
+			case "F1098E":		return F1098E.createForm(...rest);
 			case "F1098VLI":	return F1098VLI.createForm(...rest);
 			case "F1099C":		return F1099C.createForm(...rest);
 			case "F1099DIV":	return F1099DIV.createForm(...rest);
@@ -172,8 +175,7 @@ const Classes = {
 
 		// This method allows you to call the static method getInputHTML() by classname.
 		switch (classname) {
-			// case "F1040SC":		return F1040SC.getInputHTML(...rest);
-			// case "F1040SD":		return F1040SD.getInputHTML(...rest);
+			case "F1098E":		return F1098E.getInputHTML(...rest);
 			case "F1098VLI":	return F1098VLI.getInputHTML(...rest);
 			case "F1099C":		return F1099C.getInputHTML(...rest);
 			case "F1099DIV":	return F1099DIV.getInputHTML(...rest);
@@ -203,8 +205,7 @@ const Classes = {
 
 		// This method allows you to call the static method getUserInput() by classname.
 		switch (classname) {
-			// case "F1040SC":		return F1040SC.getUserInput(...rest);
-			// case "F1040SD":		return F1040SD.getUserInput(...rest);
+			case "F1098E":		return F1098E.getUserInput(...rest);
 			case "F1098VLI":	return F1098VLI.getUserInput(...rest);
 			case "F1099C":		return F1099C.getUserInput(...rest);
 			case "F1099DIV":	return F1099DIV.getUserInput(...rest);

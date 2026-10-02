@@ -5,7 +5,7 @@ import { Str }			from "../Modules/Str.js";
 
 const ELEMENTS = {
 	// Element ID			Value Type
-	"name":					[],
+	"name":					["text"],
 	"cash-income":			[],
 	"advertising":			[],
 	"commissions":			[],
@@ -24,11 +24,11 @@ const ELEMENTS = {
 	"other-expenses":		[],
 };
 
-const HTML_WORKSHEET = `
+const HTML_FORM = `
 		<details class="taxform-details" id="business-XX-container">
 			<summary class="taxform-summary">Small Business #-UID-</summary>
 			<div class="input-worksheet-container">
-				<div class="taxpayer-info-long-line">
+				<div class="taxpayer-info-150-400">
 					<p>Business Name</p>
 					<input class="trigger input-field left" type="text" autofocus
 						spellcheck="false" size="45"
@@ -147,7 +147,7 @@ export class Business {
 			throw new Error(`Business.getInputHTML(): UID is undefined.`);
 		}
 
-		const html = HTML_WORKSHEET.replace(/XX/g, uid)
+		const html = HTML_FORM.replace(/XX/g, uid)
 									.replace(/-UID-/g, uid);
 
 		return [ `business-${uid}-container`, html ];

@@ -202,7 +202,7 @@ const HTML_FORM = `
 			<div class="f1099-footer-note">Form <strong>1099-MISC</strong></div>
 			<div>&nbsp;</div>
 
-			<div class="supplemental-input-line">
+			<div class="supplemental-line-150-400">
 				<p>Name of Business (if applicable)</p>
 				<input class="input-field left" type="text" spellcheck="false"
 					size="45" id="f1099misc-XX-business-name" />

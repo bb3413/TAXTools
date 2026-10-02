@@ -101,8 +101,7 @@ const HTML_FORM = `
 								<span class="f1099-box-label">2 Payer made direct sales
 									totaling $5,000 or more of consumer products</span>
 								<div class="f1099-checkbox-center">
-									<label><input type="checkbox" id="f1099nec-XX-02" />
-										Check if applicable</label>
+									<input type="checkbox" id="f1099nec-XX-02" />
 								</div>
 							</div>
 						</div>
@@ -156,7 +155,7 @@ const HTML_FORM = `
 			<div class="f1099-footer-note">Form <strong>1099-NEC</strong></div>
 			<div>&nbsp;</div>
 
-			<div class="supplemental-input-line">
+			<div class="supplemental-line-150-400">
 				<p>Name of Business</p>
 				<input class="input-field left" type="text" spellcheck="false"
 					size="45" id="f1099nec-XX-business-name" />

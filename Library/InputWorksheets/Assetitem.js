@@ -12,7 +12,7 @@ const ELEMENTS = {
 	"wash-sale":			[],
 };
 
-const HTML_WORKSHEET = `
+const HTML_FORM = `
 						<div class="assetsales-container" id="assetitem-XX-container">
 							<input class="trigger input-field" type="checkbox"
 								id="assetitem-XX-long-term" size="10"
@@ -38,7 +38,7 @@ export class Assetitem {
 			throw new Error(`Assetitem.getInputHTML(): UID is undefined.`);
 		}
 
-		const html = HTML_WORKSHEET.replace(/XX/g, uid);
+		const html = HTML_FORM.replace(/XX/g, uid);
 
 		return [ `assetitem-${uid}-container`, html ];
 	}
