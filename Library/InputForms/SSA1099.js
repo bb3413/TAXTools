@@ -70,12 +70,16 @@ const HTML_FORM = `
 						<div class="f1099-box f1099-box-large" style="border-bottom: none;">
 							<h2 class="ssa-subheading">Description of Amount in Box 3</h2>
 							<div class="ssa-label-group input-color">
-								<label for="ssa-XX-03a">Medicare Part B:</label>
+								<span class="f1099-box-label">
+									<label for="ssa-XX-03a">Medicare Part B:</label>
+								</span>
 								<input type="text" id="ssa1099-XX-03a" name="ssa-XX-03a"
 									placeholder="0" />
 							</div>
 							<div class="ssa-label-group input-color">
-								<label for="ssa-XX-03b">Medicare Part D:</label>
+								<span class="f1099-box-label">
+									<label for="ssa-XX-03b">Medicare Part D:</label>
+								</span>
 								<input type="text" id="ssa1099-XX-03b" name="ssa-XX-03b"
 									placeholder="0" />
 							</div>
