@@ -1,0 +1,106 @@
+
+	<!--
+	This file may be included in other files. It contains information that is used
+	for both tooltips and help page information.
+
+	The entire block of HTML code is enclosed in a DIV section with a style named
+	"help-fields". This can be used to define sub-styles that only affect the
+	elements in this section.
+	-->
+
+	<div class="help-fields">
+		<div class="tooltip" id="CurrentTaxYearTT">
+			<h4>Current Tax Year</h4>
+			<p>This is the current tax year.</p>
+		</div>
+		<div class="tooltip" id="FilingStatusTT">
+			<h4>Filing Status</h4>
+			<p>This is the filing status that was used on the previous year's federal tax
+			return.</p>
+		</div>
+		<div class="tooltip" id="TaxpayersBirthdayTT">
+			<h4>Taxpayer's Birthday</h4>
+			<p>This is the taxpayer's birthday. This is used to determine the taxpayer's age
+			at the end of the previous tax year, which in turn, is used to determine the
+			standard deduction for the previous tax year.</p>
+		</div>
+		<div class="tooltip" id="SpousesBirthdayTT">
+			<h4>Spouse's Birthday</h4>
+			<p>This is the spouse's birthday. If the taxpayer is not married, this field
+			should be left blank. This is used to determine the spouse's age at the end of
+			the previous tax year, which in turn, is used to determine the standard deduction
+			for the previous tax year.</p>
+		</div>
+		<div class="tooltip" id="TaxpayerIsBlindTT">
+			<h4>Taxpayer Is Blind</h4>
+			<p>Check this checkbox if the taxpayer is blind. This is used to determine the
+			standard deduction for the previous tax year.</p>
+		</div>
+		<div class="tooltip" id="SpouseIsBlindTT">
+			<h4>Spouse Is Blind</h4>
+			<p>Check this box if the spouse is blind. If the taxpayer is not married, this
+			checkbox should be left unchecked. This is used to determine the standard
+			deduction for the previous tax year.</p>
+		</div>
+		<div class="tooltip" id="StateTaxRefundTT">
+			<h4>State Tax Refund</h4>
+			<p>This is the amount of the tax refund. It usually comes on a form 1099-G. The
+			amount of the state refund is on form 1099-G in box 2.</p>
+		</div>
+
+		<!-----  Information from Previous Year  ------------------------------------------->
+		<h3>Information from Previous Year's Schedule A</h3>
+		<div class="tooltip" id="StateIncomeTaxTT">
+			<h4>State Income Tax</h4>
+			<p>This is the amount of state income tax that was deducted on the previous
+			year's federal tax return. If the checkbox on Schedule A, line 5a is not
+			checked, this can be found on Schedule A, line 5a. If the checkbox on
+			Schedule A, line 5a is checked, the sales tax was used instead of the state
+			income tax and the tax refund in not taxable.</p>
+		</div>
+		<div class="tooltip" id="SalesTaxTT">
+			<h4>Sales Tax</h4>
+			<p>This is the estimated amount of sales income tax that you paid during the
+			previous tax year. This amount could have been deducted on the previous year's
+			federal tax return instead of the state income tax. This may have been a better
+			option even if the sales tax is less than the state income tax. You can lookup
+			the estimated sales tax using the IRS sales tax calculator at
+			<a href="https://apps.irs.gov/app/stdc/">apps.irs.gov/app/stdc</a>.</p>
+		</div>
+		<div class="tooltip" id="SalesTaxUsedTT">
+			<h4>Sales Tax Was Used</h4>
+			<p>If the checkbox on Schedule A, line 5a is checked, check this box. It
+			indicates that a value for the state sales tax was used instead of the state
+			and local income taxes</p>
+		</div>
+		<div class="tooltip" id="RealEstateTaxesTT">
+			<h4>Real Estate Taxes</h4>
+			<p>This is the amount of real estate tax that was deducted on the previous year's
+			federal tax return. This can be found on Schedule A, line 5b.</p>
+		</div>
+		<div class="tooltip" id="PersonalPropertyTaxesTT">
+			<h4>Personal Property Taxes</h4>
+			<p>This is the amount of personal property tax that was deducted on the previous
+			year's federal tax return. The most common example of this tax is the license fee
+			portion of your car registration. This can be found on Schedule A, line 5c.</p>
+		</div>
+		<div class="tooltip" id="ItemizedDeductionsTT">
+			<h4>Total Itemized Deductions</h4>
+			<p>This is the total amount of itemized deductions declared in the previous tax
+			year. This can be found on Schedule A, line 17.</p>
+		</div>
+
+		<!-----  Taxable Amount of the Refund  --------------------------------------------->
+		<h3>Taxable Amount of the Refund</h3>
+		<div class="tooltip" id="TaxableAmountTT">
+			<h4>Taxable Amount</h4>
+			<p>This is the amount of the state tax refund that is taxable on this year's
+			federal tax return.</p>
+		</div>
+		<div class="tooltip" id="ExplanationTT">
+			<h4>Explanation</h4>
+			<p>There are many tests that are used to determine if or how much of the tax
+			return is taxable. This is a brief explanation for how the result was
+			determined.</p>
+		</div>
+	</div>

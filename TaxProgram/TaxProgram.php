@@ -53,7 +53,7 @@
 				tooltipid="#restore-button-tt">Restore</label>
 		</div>
 
-		<div class="taxpayer-info-short-line">
+		<div class="taxpayer-info-150-100">
 			<p>Filing Status</p>
 			<select class="trigger input-field left" id="filing-status"
 					tooltipid="#filing-status-tt">
@@ -64,47 +64,47 @@
 				<option value="MFS">MFS</option>
 			</select>
 		</div>
-		<div class="taxpayer-info-long-line">
+		<div class="taxpayer-info-150-400">
 			<p>Taxpayer's Name</p>
 			<input class="trigger input-field left" type="text" autofocus
 				spellcheck="false" size="45"
 				id="taxpayers-name"
 				tooltipid="#taxpayers-name-tt" />
 		</div>
-		<div class="taxpayer-info-long-line">
+		<div class="taxpayer-info-150-400">
 			<p>Street Address</p>
 			<input class="trigger input-field left" type="text" id="street-address"
 				tooltipid="#street-address-tt" />
 		</div>
-		<div class="taxpayer-info-long-line">
+		<div class="taxpayer-info-150-400">
 			<p>City</p>
 			<input class="trigger input-field left" type="text" id="city"
 				tooltipid="#street-address-tt" />
 		</div>
-		<div class="taxpayer-info-long-line">
+		<div class="taxpayer-info-150-400">
 			<p>State</p>
 			<input class="trigger input-field left" type="text" id="state"
 				placeholder="California" readonly
 				tooltipid="#street-address-tt" />
 		</div>
-		<div class="taxpayer-info-short-line">
+		<div class="taxpayer-info-150-100">
 			<p>Zip Code</p>
 			<input class="trigger input-field left" type="text" id="zip-code"
 				tooltipid="#street-address-tt"  />
 		</div>
-		<div class="taxpayer-info-short-line">
+		<div class="taxpayer-info-150-100">
 			<p>Taxpayer's Birthday</p>
 			<input class="trigger input-field left" type="text"
 				id="taxpayers-birthday" size="36"
 				placeholder="mm/dd/yyyy"
 				tooltipid="#taxpayers-birthday-tt" />
 		</div>
-		<div class="taxpayer-info-short-line">
+		<div class="taxpayer-info-150-100">
 			<p>Taxpayer Is Blind</p>
 			<input class="trigger checkbox" type="checkbox" id="is-taxpayer-blind"
 				tooltipid="#is-taxpayer-blind-tt" />
 		</div>
-		<div class="taxpayer-info-long-line">
+		<div class="taxpayer-info-150-400">
 			<p>Has SSN</p>
 			<div class="trigger" tooltipid="#taxpayer-has-ssn-tt">
 				<input type="radio" name="taxpayer-has-ssn" id="taxpayer-has-ssn" checked />
@@ -117,25 +117,25 @@
 		<!----------  Spouse  -------------------------------------------------------------->
 		<div>&nbsp;</div>
 		<div id="spouse-container">
-			<div class="taxpayer-info-short-line">
+			<div class="taxpayer-info-150-100">
 				<p>Spouse's Birthday</p>
 				<input class="trigger input-field left" type="text"
 					id="spouses-birthday" size="36"
 					placeholder="mm/dd/yyyy"
 					tooltipid="#taxpayers-birthday-tt" />
 			</div>
-			<div class="taxpayer-info-short-line">
+			<div class="taxpayer-info-150-100">
 				<p>Months Lived Together</p>
 				<input class="trigger input-field left" type="text" id="lived-with-spouse"
 					placeholder="12"
 					tooltipid="#lived-with-spouse-tt" />
 			</div>
-			<div class="taxpayer-info-short-line">
+			<div class="taxpayer-info-150-100">
 				<p>Spouse Is Blind</p>
 				<input class="trigger checkbox" type="checkbox" id="is-spouse-blind"
 					tooltipid="#is-taxpayer-blind-tt" />
 			</div>
-			<div class="taxpayer-info-long-line">
+			<div class="taxpayer-info-150-400">
 				<p>Has SSN</p>
 				<div class="trigger" tooltipid="#taxpayer-has-ssn-tt">
 					<input type="radio" name="spouse-has-ssn" id="spouse-has-ssn" checked />
@@ -172,6 +172,7 @@
 				<option value="F1099OID">	1099-OID</option>
 				<option value="F1099R">		1099-R</option>
 				<option value="F1099S">		1099-S</option>
+				<option value="F1098E">		1098-E</option>
 				<option value="F1098VLI">	1098-VLI</option>
 				<option value="Business">	Small Business</option>
 			</select>
@@ -182,15 +183,16 @@
 			<summary class="trigger taxform-summary" tooltipid="#expenses-summary-tt">
 				Expenses</summary>
 			<div class="input-worksheet-container">
+				<h3>Medical Insurance Premiums</h3>
 				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Healthcare</div>
+					<div class="input-worksheet-row-label">Healthcare Insurance</div>
 					<input class="trigger input-worksheet-row-value input-field"
 						type="text" id="expenses-healthcare"
 						size="10" placeholder="0"
 						tooltipid="#expenses-healthcare-tt" />
 				</div>
 				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Dental, Vision</div>
+					<div class="input-worksheet-row-label">Dental and Vision Insurance</div>
 					<input class="trigger input-worksheet-row-value input-field"
 						type="text" id="expenses-dental"
 						size="10" placeholder="0"
@@ -204,14 +206,16 @@
 						tooltipid="#expenses-medicare-tt" />
 				</div>
 				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">LTC Taxpayer</div>
+					<div class="input-worksheet-row-label">Long Term Care (LTC) Insurance
+						for the Taxpayer</div>
 					<input class="trigger input-worksheet-row-value input-field"
 						type="text" id="expenses-taxpayer-ltc"
 						size="10" placeholder="0"
 						tooltipid="#expenses-taxpayer-ltc-tt" />
 				</div>
 				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">LTC Spouse</div>
+					<div class="input-worksheet-row-label">Long Term Care (LTC) Insurance
+						for the Spouse</div>
 					<input class="trigger input-worksheet-row-value input-field"
 						type="text" id="expenses-spouse-ltc"
 						size="10" placeholder="0"
@@ -383,6 +387,20 @@
 						size="10" placeholder="0"
 						tooltipid="#expenses-investment-expenses-tt" />
 				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">IRA Contribution - Taxpayer</div>
+					<input class="trigger input-worksheet-row-value input-field"
+						type="text" id="expenses-ira-contribution-taxpayer"
+						size="10" placeholder="0"
+						tooltipid="#expenses-ira-contribution-tt" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">IRA Contribution - Spouse</div>
+					<input class="trigger input-worksheet-row-value input-field"
+						type="text" id="expenses-ira-contribution-spouse"
+						size="10" placeholder="0"
+						tooltipid="#expenses-ira-contribution-tt" />
+				</div>
 				<p>&nbsp;</p>
 			</div>
 		</details>
@@ -460,6 +478,7 @@
 			<div>&nbsp;</div>
 		</details>
 
+		<!----------  Input Tax Forms  ----------------------------------------------------->
 		<div id="input-taxforms-container">
 		</div>
 
@@ -471,7 +490,7 @@
 				tooltipid="#calculate-button-tt" />
 		</div>
 
-		<!-- Display area for output tax forms. -->
+		<!----------  Tax Return  ---------------------------------------------------------->
 		<div id="output-taxforms-container">
 			<h2>Tax Return</h2>
 		</div>

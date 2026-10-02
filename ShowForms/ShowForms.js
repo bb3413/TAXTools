@@ -31,7 +31,7 @@ function showHandler(event) {
 		asset_sales_container		= new Container("assetsales-container");
 
 		for (const formname of Classes.listAllForms()) {
-			console.log(`Showing ${formname}`);
+			// console.log(`Showing ${formname}`);
 			if (Classes.isInputForm(formname)) {
 				addInputForm(formname);
 			}

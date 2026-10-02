@@ -32,11 +32,8 @@ function calculateTaxableAmount(inputs) {
 										"tax could have used instead of state income tax " +
 										"for the same or better result.";
 	} else {
-		// The refund worksheet expect the current year's tax tables.
-		const tax_year = TaxTable.getTaxYear();
-		TaxTable.getTaxTable(tax_year+1);
-		outputs.taxable_amount	= TaxFormObj.getValue("F1099G",	"taxable_refund");
-		outputs.explanation		= TaxFormObj.getTextValue("F1099G",	"explanation");
+		outputs.taxable_amount	= TaxFormObj.getValue("Refund",	"taxable_amount");
+		outputs.explanation		= TaxFormObj.getTextValue("Refund",	"explanation");
 	}
 
 	return outputs;
@@ -55,7 +52,7 @@ function changeHandler(event) {
 		Taxpayer.reset();
 
 		const inputs = getInputs();							// Get inputs from  web page
-		TaxTable.getTaxTable(inputs.previous_tax_year);		// Initialize tax tables
+		TaxTable.getTaxTable(inputs.current_tax_year);		// Initialize tax tables
 		const taxpayer = createTaxpayer(inputs);			// Initialize taxpayer
 		mapInputValues(inputs);								// Map input values to forms
 		const outputs = calculateTaxableAmount(inputs);
@@ -90,8 +87,7 @@ function getInputs() {
 	const inputs = {};
 
 	// Input fields
-	inputs.previous_tax_year =
-		HTML.getUserInput("PreviousTaxYear");
+	inputs.current_tax_year					= HTML.getUserInput("CurrentTaxYear");
 	inputs.filing_status =
 		HTML.getUserInput("FilingStatus", "text").toUpperCase();
 	inputs.taxpayers_birthday				= HTML.getUserInput("TaxpayersBirthday", "text");
@@ -116,14 +112,14 @@ function mapInputValues(inputs) {
 	const max_salt	= tt.getTaxValue("MaxSALT");
 	const line_5d	= inputs.prev_state_income_tax +
 						inputs.prev_real_estate_taxes +
-						inputs.prev_personal_property_taxes;
+						inputs.pev_personal_property_taxes;
 	const line_5e	= Math.min(line_5d, max_salt);
+	const refund	= TaxFormObj.createForm("Refund");
 
-	const f1099g = TaxFormObj.createForm("F1099G");
-	f1099g.lines["02"].user_value = inputs.state_tax_refund;
-	f1099g["prev_5d"]		= line_5d;
-	f1099g["prev_5e"]		= line_5e;
-	f1099g["prev_itemized"]	= inputs.prev_itemized_deductions;
+	refund["refund"]				= inputs.state_tax_refund;
+	refund["sched_a_5d"]			= line_5d;
+	refund["sched_a_5e"]			= line_5e;
+	refund["itemized_deductions"]	= inputs.prev_itemized_deductions;
 }
 
 function putOutputs(outputs) {
@@ -143,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
-	HTML.addListener("PreviousTaxYear",			"change", changeHandler);
+	HTML.addListener("CurrentTaxYear",			"change", changeHandler);
 	HTML.addListener("FilingStatus",			"change", changeHandler);
 	HTML.addListener("TaxpayersBirthday",		"change", changeHandler);
 	HTML.addListener("SpousesBirthday",			"change", changeHandler);
@@ -159,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.addListener("PersonalPropertyTaxes",	"change", changeHandler);
 	HTML.addListener("ItemizedDeductions",		"change", changeHandler);
 
-	HTML.putUserOutput("PreviousTaxYear", Dates.getTaxYear() - 1, "text");
+	HTML.putUserOutput("CurrentTaxYear", Dates.getTaxYear(), "text");
 	HTML.hideElement("SpouseContainer");
 	HTML.hideElement("debug-container");
 });

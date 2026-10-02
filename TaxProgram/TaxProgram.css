@@ -68,31 +68,6 @@ h2 {
 	padding-bottom:			1px;
 }
 
-.taxpayer-info-short-line {
-	display:				grid;
-	grid-template-columns:	150px 100px;
-}
-
-.taxpayer-info-short-line p {
-	margin-top:				0;
-	margin-bottom:			0;
-}
-
-.taxpayer-info-short-line input {
-	margin-top:				0;
-	margin-bottom:			0;
-}
-
-.taxpayer-info-long-line {
-	display:				grid;
-	grid-template-columns:	150px 400px;
-}
-
-.taxpayer-info-long-line p {
-	margin-top:				0;
-	margin-bottom:			0;
-}
-
 .tax-return-output {
 	border:					1px solid var(--border-color);
 }

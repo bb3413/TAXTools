@@ -276,10 +276,12 @@ function getExpenses() {
 	f1040.estimated_payments = inputs["est_payments_federal"];
 
 	// Form 1040, Schedule 1
-	f1040s1.alimony_paid = inputs["alimony_paid"];
-	
-	f1040s1.lines["11"].user_value = inputs["educator_taxpayer"] + inputs["educator_spouse"];
-	f1040s1.lines["19c"].user_value	= inputs["divorce_date"];
+	f1040s1.alimony_paid				= inputs["alimony_paid"];
+	f1040s1.educator_expense_taxpayer	= inputs["educator_expense_taxpayer"];
+	f1040s1.educator_expense_spouse		= inputs["educator_expense_spouse"];
+	f1040s1.ira_contribution_taxpayer	= inputs["ira_contribution_taxpayer"];
+	f1040s1.ira_contribution_spouse		= inputs["ira_contribution_spouse"];
+	f1040s1.lines["19c"].user_value		= inputs["divorce_date"];
 
 	// Form 1040, Schedule A
 	f1040sa.medicare = inputs["medicare"];
@@ -373,6 +375,7 @@ function initialize() {
 	addAssetItemHandler();
 	addAssetItemHandler();
 
+	HTML.closeAllDetails();
 	HTML.hideElement("output-taxforms-container");
 	HTML.hideElement("debug-container");
 	HTML.putElementValue("error-message-output", "");

@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="../Library/CSS/HTML.css" />
 	<link rel="stylesheet" href="../Library/CSS/TaxForms.css" />
 	<link rel="stylesheet" href="../Library/CSS/F1099.css" />
+	<link rel="stylesheet" href="../Library/CSS/InputWorksheets.css" />
 
 	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
 	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>

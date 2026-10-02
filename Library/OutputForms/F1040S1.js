@@ -4,6 +4,24 @@ import { Debug }		from "../Modules/Debug.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { Taxpayer }		from "../Classes/Taxpayer.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
+
+function getDeductibleIRAContribution(contribution, taxpayer) {
+	// - Contribution is not deductible on a California return.
+	// - If taxpayer has retirement plan at work (W-2, box 13), the deductible amount is
+	//   limited by AGI.
+	// - If taxpayer does not have retirement plan at work, deductible amount is not limited
+	//   by AGI.
+	// - Maximum contribution to all IRAs (sum of all traditional and Roth) is:	
+	//		The amount of earned income (both spouses), or
+	//		$7,000 per spouse if under 50
+	//		$8,000 per spouse if over 50
+	// - Update tooltip
+
+	console.warn("Unimplemented function: getDeductibleIRAContribution()");
+	return contribution;
+}
 
 export class F1040S1 extends TaxForm {
 	constructor(formname) {
@@ -13,8 +31,12 @@ export class F1040S1 extends TaxForm {
 
 		// Variables for external input. These variables can be used to enter information
 		// that does not come from another tax form.
-		this.alimony_received	= 0;
-		this.alimony_paid		= 0;
+		this.alimony_received			= 0;
+		this.alimony_paid				= 0;
+		this.educator_expense_taxpayer	= 0;
+		this.educator_expense_spouse	= 0;
+		this.ira_contribution_taxpayer	= 0;
+		this.ira_contribution_spouse	= 0;
 
 		// Additions to Income
 		this.lines["01"]	= new Line("Taxable Refund");
@@ -92,9 +114,14 @@ export class F1040S1 extends TaxForm {
 
 		Debug.enter("F1040S1.calculate()");
 		this.calculated = true;
+		const tt = TaxTable.getTaxTable();
+		const tp = Taxpayer.getTaxpayer();
+
+		const max_educator_expense = tt.getTaxValue("MaxEducatorExpenses", "SINGLE");
 
 		// Additions to Income
-		this.lines["01"].value	= 0;									// Taxable Refund
+		this.lines["01"].value	=				// Taxable Refund
+			TaxFormObj.getValue("F1099G", "taxable_refund");						
 		this.lines["02a"].value	= 0;									// Alimony Received
 		this.lines["02b"].value	= "";									// Divorce Date
 		if (Dates.isValid(this.lines["02b"].value)) {
@@ -143,8 +170,10 @@ export class F1040S1 extends TaxForm {
 		this.lines["10"].value	= this.add("01","02a","03","04",
 										   "05","06","07","09");	// Additional Income
 
-		// Adjustments to Income
-		this.lines["11"].value	= 0;									// Educator Expense
+		// Adjustments to Income				
+		this.lines["11"].value =									// Educator Expense
+			Math.min(max_educator_expense, this.educator_expense_taxpayer) +
+			Math.min(max_educator_expense, this.educator_expense_spouse);
 		this.lines["12"].value	= 0;									// Business Expense
 		this.lines["13"].value	= TaxFormObj.getValue("F8889", "13");	// HSA Deduction
 		this.lines["14"].value	= 0;									// Moving Expenses
@@ -154,14 +183,16 @@ export class F1040S1 extends TaxForm {
 		this.lines["18"].value	=
 			TaxFormObj.getValue("F1099INT", "02");	// Early Withdrawal Penalty
 		this.lines["19a"].value	= 0;									// Alimony Paid
-		this.lines["19b"].value	= 0;									// Recipient SSN
+		this.lines["19b"].value	= "";									// Recipient SSN
 		this.lines["19c"].value	= "";									// Date of Divorce
 		if (Dates.isValid(this.lines["19c"].value)) {
 			if (Dates.isBefore(this.lines["19c"].value, "01/01/2019")) {
 				this.lines["19a"].value	= this.alimony_paid;
 			}
 		}
-		this.lines["20"].value	= 0;									// IRA Deduction
+		this.lines["20"].value	=									// IRA Deduction
+			getDeductibleIRAContribution(this.ira_contribution_taxpayer, true) +
+			getDeductibleIRAContribution(this.ira_contribution_spouse, false);
 		this.lines["21"].value	= 0;									// Student Loan
 		this.lines["22"].value	= 0;									// Reserved
 		this.lines["23"].value	= 0;									// Archer MSA

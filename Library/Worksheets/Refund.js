@@ -50,8 +50,8 @@ export class Refund extends TaxForm {
 
 		Debug.enter("Refund.calculate()");
 		this.calculated = true;
-		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
+		const tax_year = TaxTable.getTaxYear();
 
 		// Inputs
 		this.refund = Math.min(	// State Tax Refund
@@ -64,8 +64,8 @@ export class Refund extends TaxForm {
 		// the taxpayer is required to itemize.
 		let spouse_itemized = true;
 
-		this.lines["01"].value = this.line("refund");				// Refund from 1099-G
-		if (this.sched_a_5d > this.sched_a_5e) {					// Taxes > SALT cap
+		this.lines["01"].value = this.refund;				// Refund from 1099-G
+		if (this.sched_a_5d > this.sched_a_5e) {			// Taxes > SALT cap
 			// Amount of taxes limited by SALT cap
 			this.lines["02"].value = this.subtract("sched_a_5d", "sched_a_5e");
 
@@ -94,9 +94,11 @@ export class Refund extends TaxForm {
 		} else {
 			this.lines["05"].value	= 0;	// Get base standard deduction
 			this.lines["06"].value	= 0;	// Get extra standard deduction
+			const tt = TaxTable.getTaxTable(tax_year-1);	// Use last year's tables
 			this.lines["07"].value	= tt.getStandardDeduction(tp.filing_status,
-											tp.taxpayers_age, tp.spouses_age,
+											tp.taxpayers_age-1, tp.spouses_age-1,
 											tp.is_taxpayer_blind, tp.is_spouse_blind);
+			TaxTable.getTaxTable(tax_year);					// Restore current tables.
 			if (this.line("07") < this.line("04")) {
 				// Itemized deductions - standard deduction
 				this.lines["08"].value	= this.subtract("04", "07");
