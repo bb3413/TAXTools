@@ -1,6 +1,5 @@
 
 .taxform-details {
-	font-size:				12px;
 	padding-left:			3px;
 	padding-right:			3px;
 }
@@ -190,4 +189,9 @@
 	height:					30px;
 	margin-bottom:			3px;
 	border:					none;
+}
+
+.f1099g-supplimental-line {
+	display:				grid;
+	grid-template-columns:	150px 100px;
 }
