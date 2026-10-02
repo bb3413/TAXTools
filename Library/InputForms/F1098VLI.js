@@ -79,8 +79,6 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label"></span>
-								<input type="text" placeholder="" />
 							</div>
 						</div>
 
@@ -220,8 +218,7 @@ export class F1098VLI extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F1098VLI.Constructor()");
 		super(formname);
-		this.title =
-			`1098-VLI - Distributions from Pensions, Annuities, Retirement Plans, etc.`;
+		this.title = `1098-VLI - Vehicle Loan Interest Statement`;
 
 		this.lines["lender"]	= new Line("Lender");
 		this.lines["ein"]		= new Line("EIN");
