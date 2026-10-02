@@ -289,9 +289,9 @@ export class Dependent {
 	//
 	// ---------------- Static Methods ----------------
 	//
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		if (!uid) {
-			throw new Error(`Dependent.getInputHTML(): UID is undefined.`);
+			throw new Error(`Dependent.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)

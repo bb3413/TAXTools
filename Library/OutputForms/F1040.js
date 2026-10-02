@@ -730,9 +730,9 @@ export class F1040 extends TaxForm {
 		Debug.exit("F1040.calculate()");
 	}
 
-	getOutputHTML(uid) {
+	getHTML(uid) {
 		if (!uid) {
-			throw new Error(`${this.formname}.getOutputHTML(): UID is undefined.`);
+			throw new Error(`${this.formname}.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)

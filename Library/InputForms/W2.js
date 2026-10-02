@@ -8,6 +8,52 @@ import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
+const ELEMENTS = {
+	// Element ID		Value Type
+	"is-taxpayers":		[],
+	"is-spouses":		[],
+	"ssn":				["text"],
+	"ein":				["text"],
+	"payer":			["text"],
+	"taxpayer":			["text"],
+	"01":				[],
+	"02":				[],
+	"03":				[],
+	"04":				[],
+	"05":				[],
+	"06":				[],
+	"07":				[],
+	"08":				[],
+	"09":				[],
+	"10":				[],
+	"11":				[],
+	"12a1":				["text"],
+	"12a2":				[],
+	"12b1":				["text"],
+	"12b2":				[],
+	"12c1":				["text"],
+	"12c2":				[],
+	"12d1":				["text"],
+	"12d2":				[],
+	"13a":				[],
+	"13b":				[],
+	"13c":				[],
+	"14a1":				["text"],
+	"14a2":				[],
+	"14b1":				["text"],
+	"14b2":				[],
+	"14c1":				["text"],
+	"14c2":				[],
+	"14d1":				["text"],
+	"14d2":				[],
+	"15":				["text"],
+	"16":				[],
+	"17":				[],
+	"18":				[],
+	"19":				[],
+	"20":				["text"],
+};
+
 const HTML_FORM = `
 		<details class="taxform-details" id="w2-XX-container">
 			<summary class="taxform-summary">W-2 - Wage and Tax Statement</summary>
@@ -116,8 +162,7 @@ const HTML_FORM = `
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
-								<span class="f1099-box-label"></span>
-								<input type="text" id="w2-XX-09" placeholder="" />
+								<span class="f1099-box-label">9</span>
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">10 Dependent care
@@ -132,21 +177,17 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-11" placeholder="0" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label"></span>
-								<input type="text" placeholder="" />
 							</div>
 						</div>
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">13 Statutory employee</span>
-								<div><input type="checkbox"
-									id="w2-XX-13a" /></div>
+								<div><input type="checkbox" id="w2-XX-13a" /></div>
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">Retirement plan</span>
-								<div><input type="checkbox"
-									id="w2-XX-13b" /></div>
+								<div><input type="checkbox" id="w2-XX-13b" /></div>
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">Third party sick pay</span>
@@ -164,31 +205,12 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-12a2" placeholder="0" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label">14a Code</span>
-								<input type="text" id="w2-XX-14a1" placeholder="" />
-							</div>
-							<div class="f1099-box">
-								<span class="f1099-box-label">Value</span>
-								<input type="text" id="w2-XX-14a2" placeholder="0" />
-							</div>
-						</div>
-
-						<div class="f1099-flex-row">
-							<div class="f1099-box">
 								<span class="f1099-box-label">12b Code</span>
 								<input type="text" id="w2-XX-12b1" placeholder="" />
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">Value</span>
 								<input type="text" id="w2-XX-12b2" placeholder="0" />
-							</div>
-							<div class="f1099-box">
-								<span class="f1099-box-label">14b Code</span>
-								<input type="text" id="w2-XX-14b1" placeholder="" />
-							</div>
-							<div class="f1099-box">
-								<span class="f1099-box-label">Value</span>
-								<input type="text" id="w2-XX-14b2" placeholder="0" />
 							</div>
 						</div>
 
@@ -202,23 +224,42 @@ const HTML_FORM = `
 								<input type="text" id="w2-XX-12c2" placeholder="0" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label">14c Code</span>
-								<input type="text" id="w2-XX-14c1" placeholder="" />
-							</div>
-							<div class="f1099-box">
-								<span class="f1099-box-label">Value</span>
-								<input type="text" id="w2-XX-14c2" placeholder="0" />
-							</div>
-						</div>
-
-						<div class="f1099-flex-row">
-							<div class="f1099-box">
 								<span class="f1099-box-label">12d Code</span>
 								<input type="text" id="w2-XX-12d1" placeholder="" />
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">Value</span>
 								<input type="text" id="w2-XX-12d2" placeholder="0" />
+							</div>
+						</div>
+
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">14a Code</span>
+								<input type="text" id="w2-XX-14a1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-14a2" placeholder="0" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">14b Code</span>
+								<input type="text" id="w2-XX-14b1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-14b2" placeholder="0" />
+							</div>
+						</div>
+
+						<div class="f1099-flex-row">
+							<div class="f1099-box">
+								<span class="f1099-box-label">14c Code</span>
+								<input type="text" id="w2-XX-14c1" placeholder="" />
+							</div>
+							<div class="f1099-box">
+								<span class="f1099-box-label">Value</span>
+								<input type="text" id="w2-XX-14c2" placeholder="0" />
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">14d Code</span>
@@ -265,28 +306,9 @@ const HTML_FORM = `
 `;
 
 export class W2 extends TaxForm {
-	static createForm(uid) {
-		//
-		// Create a new form and initialize it with information from the Web page.
-		// If the user hasn't entered any information, don't bother creating the form.
-		//
-		const inputs = W2.getUserInput(uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-
-		const newform = TaxFormObj.createForm("W2");
-
-		for (const key of Object.keys(inputs)) {
-			newform.lines[key].user_value = inputs[key];
-		}
-
-		return newform;
-	}
-
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		if (!uid) {
-			throw new Error(`W2.getInputHTML(): UID is undefined.`);
+			throw new Error(`W2.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
@@ -295,63 +317,28 @@ export class W2 extends TaxForm {
 		return [ `w2-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
 		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
-			throw new Error(`W2.getUserInput(): UID is undefined.`);
+			throw new Error(`W2.getInputFromWeb(): UID is undefined.`);
 		}
 
 		const element = document.getElementById(`w2-${uid}-container`);
 		if (!element) {
-			throw new Error(`W2.getUserInput(): Element not found: w2-${uid}-container`);
+			throw new Error(`W2.getInputFromWeb(): Element not found: w2-${uid}-container`);
 		}
 
 		let inputs = {};
 
-		inputs["is_spouses"]= HTML.getUserInput(`w2-${uid}-is-spouses`,	raw?"raw":"");
-		inputs["payer"]		= HTML.getUserInput(`w2-${uid}-payer`,		raw?"raw":"text");
-		inputs["ein"]		= HTML.getUserInput(`w2-${uid}-ein`,		raw?"raw":"text");
-		inputs["ssn"]		= HTML.getUserInput(`w2-${uid}-ssn`,		raw?"raw":"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`w2-${uid}-taxpayer`,	raw?"raw":"text");
-		inputs["01"]		= HTML.getUserInput(`w2-${uid}-01`,		raw?"raw":"");
-		inputs["02"]		= HTML.getUserInput(`w2-${uid}-02`,		raw?"raw":"");
-		inputs["03"]		= HTML.getUserInput(`w2-${uid}-03`,		raw?"raw":"");
-		inputs["04"]		= HTML.getUserInput(`w2-${uid}-04`,		raw?"raw":"");
-		inputs["05"]		= HTML.getUserInput(`w2-${uid}-05`,		raw?"raw":"");
-		inputs["06"]		= HTML.getUserInput(`w2-${uid}-06`,		raw?"raw":"");
-		inputs["07"]		= HTML.getUserInput(`w2-${uid}-07`,		raw?"raw":"");
-		inputs["08"]		= HTML.getUserInput(`w2-${uid}-08`,		raw?"raw":"");
-		inputs["09"]		= HTML.getUserInput(`w2-${uid}-09`,		raw?"raw":"");
-		inputs["10"]		= HTML.getUserInput(`w2-${uid}-10`,		raw?"raw":"");
-		inputs["11"]		= HTML.getUserInput(`w2-${uid}-11`,		raw?"raw":"");
-		inputs["12a1"]		= HTML.getUserInput(`w2-${uid}-12a1`,	raw?"raw":"text");
-		inputs["12a2"]		= HTML.getUserInput(`w2-${uid}-12a2`,	raw?"raw":"");
-		inputs["12b1"]		= HTML.getUserInput(`w2-${uid}-12b1`,	raw?"raw":"text");
-		inputs["12b2"]		= HTML.getUserInput(`w2-${uid}-12b2`,	raw?"raw":"");
-		inputs["12c1"]		= HTML.getUserInput(`w2-${uid}-12c1`,	raw?"raw":"text");
-		inputs["12c2"]		= HTML.getUserInput(`w2-${uid}-12c2`,	raw?"raw":"");
-		inputs["12d1"]		= HTML.getUserInput(`w2-${uid}-12d1`,	raw?"raw":"text");
-		inputs["12d2"]		= HTML.getUserInput(`w2-${uid}-12d2`,	raw?"raw":"");
-		inputs["13a"]		= HTML.getUserInput(`w2-${uid}-13a`,	raw?"raw":"");
-		inputs["13b"]		= HTML.getUserInput(`w2-${uid}-13b`,	raw?"raw":"");
-		inputs["13c"]		= HTML.getUserInput(`w2-${uid}-13c`,	raw?"raw":"");
-		inputs["14a1"]		= HTML.getUserInput(`w2-${uid}-14a1`,	raw?"raw":"text");
-		inputs["14a2"]		= HTML.getUserInput(`w2-${uid}-14a2`,	raw?"raw":"");
-		inputs["14b1"]		= HTML.getUserInput(`w2-${uid}-14b1`,	raw?"raw":"text");
-		inputs["14b2"]		= HTML.getUserInput(`w2-${uid}-14b2`,	raw?"raw":"");
-		inputs["14c1"]		= HTML.getUserInput(`w2-${uid}-14c1`,	raw?"raw":"text");
-		inputs["14c2"]		= HTML.getUserInput(`w2-${uid}-14c2`,	raw?"raw":"");
-		inputs["14d1"]		= HTML.getUserInput(`w2-${uid}-14d1`,	raw?"raw":"text");
-		inputs["14d2"]		= HTML.getUserInput(`w2-${uid}-14d2`,	raw?"raw":"");
-		inputs["15"]		= HTML.getUserInput(`w2-${uid}-15`,		raw?"raw":"text");
-		inputs["16"]		= HTML.getUserInput(`w2-${uid}-16`,		raw?"raw":"");
-		inputs["17"]		= HTML.getUserInput(`w2-${uid}-17`,		raw?"raw":"");
-		inputs["18"]		= HTML.getUserInput(`w2-${uid}-18`,		raw?"raw":"");
-		inputs["19"]		= HTML.getUserInput(`w2-${uid}-19`,		raw?"raw":"");
-		inputs["20"]		= HTML.getUserInput(`w2-${uid}-20`,		raw?"raw":"text");
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
+			const element_id	= `f1099g-${uid}-${field_name}`;
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
+		}
 
 		return inputs;
 	}

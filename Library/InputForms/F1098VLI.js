@@ -7,6 +7,26 @@ import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
+const ELEMENTS = {
+	// Element ID		Value Type
+	"lender":			["text"],
+	"ein":				["text"],
+	"ssn":				["text"],
+	"taxpayer":			["text"],
+	"account":			["text"],
+	"01":				[],
+	"02a":				["text"],
+	"02b":				["text"],
+	"02c":				["text"],
+	"02d":				["text"],
+	"03a":				["text"],
+	"03b":				["text"],
+	"04":				[],
+	"05":				[],
+	"06":				[],
+	"07":				[],
+};
+
 const HTML_FORM = `
 		<details class="taxform-details" id="f1098vli-XX-container">
 			<summary class="taxform-summary">1098-VLI - Vehicle Loan Interest
@@ -85,7 +105,7 @@ const HTML_FORM = `
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">2a Year</span>
-								<input type="text" id="f1098vli-XX-02a" placeholder="0" />
+								<input type="text" id="f1098vli-XX-02a" placeholder="" />
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">2b Make</span>
@@ -107,23 +127,25 @@ const HTML_FORM = `
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">3a Loan origination date</span>
-								<input type="text" id="f1098vli-XX-03a" placeholder="0" />
+								<input type="text" id="f1098vli-XX-03a"
+									placeholder="mm/dd/yyyy" />
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">3b Loan acquisition date</span>
-								<input type="text" id="f1098vli-XX-03b" placeholder="0" />
+								<input type="text" id="f1098vli-XX-03b"
+									placeholder="mm/dd/yyyy" />
 							</div>
 						</div>
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">4 Outstanding principal</span>
-								<input type="text" id="f1098vli-XX-04" />
+								<input type="text" id="f1098vli-XX-04" placeholder="0" />
 							</div>
 							<div class="f1099-box">
 								<span class="f1099-box-label">5 Refund of overpaid
 									interest</span>
-								<input type="text" id="f1098vli-XX-05" />
+								<input type="text" id="f1098vli-XX-05" placeholder="0" />
 							</div>
 						</div>
 
@@ -148,28 +170,9 @@ const HTML_FORM = `
 `;
 
 export class F1098VLI extends TaxForm {
-	static createForm(uid) {
-		//
-		// Create a new form and initialize it with information from the Web page.
-		// If the user hasn't entered any information, don't bother creating the form.
-		//
-		const inputs = F1098VLI.getUserInput(uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-
-		const newform = TaxFormObj.createForm("F1098VLI");
-
-		for (const key of Object.keys(inputs)) {
-			newform.lines[key].user_value = inputs[key];
-		}
-
-		return newform;
-	}
-
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		if (!uid) {
-			throw new Error(`F1098VLI.getInputHTML(): UID is undefined.`);
+			throw new Error(`F1098VLI.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
@@ -178,39 +181,29 @@ export class F1098VLI extends TaxForm {
 		return [ `f1098vli-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
 		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
-			throw new Error(`F1098VLI.getUserInput(): UID is undefined.`);
+			throw new Error(`F1098VLI.getInputFromWeb(): UID is undefined.`);
 		}
 
 		const element = document.getElementById(`f1098vli-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1098VLI.getUserInput(): Element not found: f1098vli-${uid}-container`);
+				`F1098VLI.getInputFromWeb(): Element not found: f1098vli-${uid}-container`);
 		}
 
 		let inputs = {};
 
-		inputs["lender"]	= HTML.getUserInput(`f1098vli-${uid}-lender`,raw?"raw":"text");
-		inputs["ein"]		= HTML.getUserInput(`f1098vli-${uid}-ein`,	raw?"raw":"text");
-		inputs["ssn"]		= HTML.getUserInput(`f1098vli-${uid}-ssn`,	raw?"raw":"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`f1098vli-${uid}-taxpayer`,raw?"raw":"text");
-		inputs["account"]	= HTML.getUserInput(`f1098vli-${uid}-account`, raw?"raw":"text");
-		inputs["01"	]		= HTML.getUserInput(`f1098vli-${uid}-01`,	raw?"raw":"");
-		inputs["02a"]		= HTML.getUserInput(`f1098vli-${uid}-02a`,	raw?"raw":"text");
-		inputs["02b"]		= HTML.getUserInput(`f1098vli-${uid}-02b`,	raw?"raw":"text");
-		inputs["02c"]		= HTML.getUserInput(`f1098vli-${uid}-02c`,	raw?"raw":"text");
-		inputs["02d"]		= HTML.getUserInput(`f1098vli-${uid}-02d`,	raw?"raw":"text");
-		inputs["03a"]		= HTML.getUserInput(`f1098vli-${uid}-03a`,	raw?"raw":"text");
-		inputs["03b"]		= HTML.getUserInput(`f1098vli-${uid}-03b`,	raw?"raw":"text");
-		inputs["04"	]		= HTML.getUserInput(`f1098vli-${uid}-04`,	raw?"raw":"");
-		inputs["05"	]		= HTML.getUserInput(`f1098vli-${uid}-05`,	raw?"raw":"");
-		inputs["06"	]		= HTML.getUserInput(`f1098vli-${uid}-06`,	raw?"raw":"");
-		inputs["07"]		= HTML.getUserInput(`f1098vli-${uid}-07`,	raw?"raw":"");
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
+			const element_id	= `f1099g-${uid}-${field_name}`;
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
+		}
 
 		return inputs;
 	}

@@ -7,6 +7,36 @@ import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
+const ELEMENTS = {
+	// Element ID		Value Type
+	"payer":			["text"],
+	"ein":				["text"],
+	"ssn":				["text"],
+	"taxpayer":			["text"],
+	"account":			["text"],
+	"01a":				[],
+	"01b":				[],
+	"01c":				[],
+	"01d":				["text"],
+	"02":				["text"],
+	"03":				[],
+	"04":				[],
+	"05a":				[],
+	"05b":				[],
+	"05c":				[],
+	"05d":				[],
+	"05e":				[],
+	"05f":				[],
+	"05g":				[],
+	"05h":				[],
+	"05i":				[],
+	"05j":				[],
+	"05k":				[],
+	"05l":				[],
+	"06":				[],
+	"07":				["text"],
+};
+
 const HTML_FORM = `
 		<details class="taxform-details" id="f1099k-XX-container">
 			<summary class="taxform-summary">1099-K - Payment Card and Third
@@ -222,28 +252,9 @@ const HTML_FORM = `
 `;
 
 export class F1099K extends TaxForm {
-	static createForm(uid) {
-		//
-		// Create a new form and initialize it with information from the Web page.
-		// If the user hasn't entered any information, don't bother creating the form.
-		//
-		const inputs = F1099K.getUserInput(uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-
-		const newform = TaxFormObj.createForm("F1099K");
-
-		for (const key of Object.keys(inputs)) {
-			newform.lines[key].user_value = inputs[key];
-		}
-
-		return newform;
-	}
-
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		if (!uid) {
-			throw new Error(`F1099K.getInputHTML(): UID is undefined.`);
+			throw new Error(`F1099K.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
@@ -252,49 +263,29 @@ export class F1099K extends TaxForm {
 		return [ `f1099k-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
 		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
-			throw new Error(`F1099K.getUserInput(): UID is undefined.`);
+			throw new Error(`F1099K.getInputFromWeb(): UID is undefined.`);
 		}
 
 		const element = document.getElementById(`f1099k-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099K.getUserInput(): Element not found: f1099k-${uid}-container`);
+				`F1099K.getInputFromWeb(): Element not found: f1099k-${uid}-container`);
 		}
 
 		let inputs = {};
 
-		inputs["payer"]		= HTML.getUserInput(`f1099k-${uid}-payer`,	raw?"raw":"text");
-		inputs["ein"]		= HTML.getUserInput(`f1099k-${uid}-ein`,	raw?"raw":"text");
-		inputs["ssn"]		= HTML.getUserInput(`f1099k-${uid}-ssn`,	raw?"raw":"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`f1099k-${uid}-taxpayer`,raw?"raw":"text");
-		inputs["account"]	= HTML.getUserInput(`f1099k-${uid}-account`, raw?"raw":"text");
-		inputs["01a"]		= HTML.getUserInput(`f1099k-${uid}-01a`,	raw?"raw":"");
-		inputs["01b"]		= HTML.getUserInput(`f1099k-${uid}-01b`,	raw?"raw":"");
-		inputs["01c"]		= HTML.getUserInput(`f1099k-${uid}-01c`,	raw?"raw":"");
-		inputs["01d"]		= HTML.getUserInput(`f1099k-${uid}-01d`,	raw?"raw":"text");
-		inputs["02"]		= HTML.getUserInput(`f1099k-${uid}-02`,		raw?"raw":"text");
-		inputs["03"]		= HTML.getUserInput(`f1099k-${uid}-03`,		raw?"raw":"");
-		inputs["04"]		= HTML.getUserInput(`f1099k-${uid}-04`,		raw?"raw":"");
-		inputs["05a"]		= HTML.getUserInput(`f1099k-${uid}-05a`,	raw?"raw":"");
-		inputs["05b"]		= HTML.getUserInput(`f1099k-${uid}-05b`,	raw?"raw":"");
-		inputs["05c"]		= HTML.getUserInput(`f1099k-${uid}-05c`,	raw?"raw":"");
-		inputs["05d"]		= HTML.getUserInput(`f1099k-${uid}-05d`,	raw?"raw":"");
-		inputs["05e"]		= HTML.getUserInput(`f1099k-${uid}-05e`,	raw?"raw":"");
-		inputs["05f"]		= HTML.getUserInput(`f1099k-${uid}-05f`,	raw?"raw":"");
-		inputs["05g"]		= HTML.getUserInput(`f1099k-${uid}-05g`,	raw?"raw":"");
-		inputs["05h"]		= HTML.getUserInput(`f1099k-${uid}-05h`,	raw?"raw":"");
-		inputs["05i"]		= HTML.getUserInput(`f1099k-${uid}-05i`,	raw?"raw":"");
-		inputs["05j"]		= HTML.getUserInput(`f1099k-${uid}-05j`,	raw?"raw":"");
-		inputs["05k"]		= HTML.getUserInput(`f1099k-${uid}-05k`,	raw?"raw":"");
-		inputs["05l"]		= HTML.getUserInput(`f1099k-${uid}-05l`,	raw?"raw":"");
-		inputs["06"]		= HTML.getUserInput(`f1099k-${uid}-06`,		raw?"raw":"");
-		inputs["07"]		= HTML.getUserInput(`f1099k-${uid}-07`,		raw?"raw":"text");
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
+			const element_id	= `f1099g-${uid}-${field_name}`;
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
+		}
 
 		return inputs;
 	}

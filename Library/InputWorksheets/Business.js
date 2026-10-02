@@ -142,9 +142,9 @@ const HTML_FORM = `
 `;
 
 export class Business {
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		if (!uid) {
-			throw new Error(`Business.getInputHTML(): UID is undefined.`);
+			throw new Error(`Business.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)

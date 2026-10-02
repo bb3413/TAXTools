@@ -47,7 +47,7 @@ function addAssetItemHandler(event) {
 	// Asset/Stock Sale entry to the web page.
 	//
 	const uid = Container.getUID("assetitem");
-	const [ html_id, html ] = Assetitem.getInputHTML(uid);
+	const [ html_id, html ] = Assetitem.getHTML(uid);
 	assetsale_items_container.addEntry(html_id, html);
 }
 
@@ -57,7 +57,7 @@ function addDependentHandler(event) {
 	// fields for a new dependent to the web page.
 	//
 	const uid = Container.getUID("dependent");
-	const [ html_id, html ] = Dependent.getInputHTML(uid);
+	const [ html_id, html ] = Dependent.getHTML(uid);
 	dependents_container.addEntry(html_id, html);
 
 	// Open the dependent area and scroll the window to it.
@@ -86,21 +86,21 @@ function addFormHandler(event) {
 
 function addInputFormToWeb(formname) {
 	let uid = Container.getUID(formname);
-	let [ taxform_id, html ] = Classes.getInputHTML(formname, uid);
+	let [ taxform_id, html ] = Classes.getHTML(formname, uid);
 	input_taxforms_container.addEntry(taxform_id, html);
 
 	return taxform_id;
 }
 
 function addOutputFormToWeb(form) {
-	if (typeof form.getOutputHTML !== 'function') {
+	if (typeof form.getHTML !== 'function') {
 		throw new Error(
-			`${form.formname}.getOutputHTML does not exist; cannot add output form.`);
+			`${form.formname}.getHTML does not exist; cannot add output form.`);
 		return;
 	}
 
 	let uid = Container.getUID(form.formname);
-	let [ taxform_id, html ] = form.getOutputHTML(uid);
+	let [ taxform_id, html ] = form.getHTML(uid);
 	output_taxforms_container.addEntry(taxform_id, html);
 	form.putInformation(uid);
 
@@ -348,10 +348,19 @@ function getInput() {
 	getAssetsales();
 	getBusinesses();
 
-	// Get information from the input tax forms.
+	// For each for that the taxpayer added to the web page, create a form object and
+	// copy the fields from the web to the form object.
 	for (let taxform_id of input_taxforms_container.getEntries()) {
 		let [ formname, uid ] = Container.parseElementID(taxform_id);
-		Classes.createForm(formname.toUpperCase(), uid);
+		formname = formname.toUpperCase();
+		
+		const inputs = Classes.getInputFromWeb(formname, uid);
+		if (!Objects.isUsed(inputs)) {
+			return;
+		}
+		
+		const form = TaxFormObj.createForm(formname);
+		form.loadInputFromWeb(inputs);
 	}
 }
 

@@ -106,32 +106,6 @@ const class_map = {
 };
 
 const Classes = {
-	createForm(classname, ...rest) {
-		if (!classname || typeof classname !== "string") {
-			throw new TypeError("classname must be a non-empty string.");
-		}
-
-		// This method allows you to call the static method createForm() by classname.
-		switch (classname) {
-			case "F1098E":		return F1098E.createForm(...rest);
-			case "F1098VLI":	return F1098VLI.createForm(...rest);
-			case "F1099C":		return F1099C.createForm(...rest);
-			case "F1099DIV":	return F1099DIV.createForm(...rest);
-			case "F1099G":		return F1099G.createForm(...rest);
-			case "F1099INT":	return F1099INT.createForm(...rest);
-			case "F1099K":		return F1099K.createForm(...rest);
-			case "F1099MISC":	return F1099MISC.createForm(...rest);
-			case "F1099NEC":	return F1099NEC.createForm(...rest);
-			case "F1099OID":	return F1099OID.createForm(...rest);
-			case "F1099R":		return F1099R.createForm(...rest);
-			case "F1099S":		return F1099S.createForm(...rest);
-			case "SSA1099":		return SSA1099.createForm(...rest);
-			case "W2":			return W2.createForm(...rest);
-			default:
-				throw new Error(`Classes.createForm(): unimplemented form: ${classname}`);
-		}
-	},
-
 	createOnDemand(formname) {
 		// When getValue() or getTextValue() is called, the default is to return 0 or "" if
 		// the form has not been created. However, some forms get input from other forms and
@@ -168,63 +142,63 @@ const Classes = {
 		throw new Error(`Classes.findClassName(): ${name} not found.`);
 	},
 
-	getInputHTML(classname, ...rest) {
+	getHTML(classname, ...rest) {
 		if (!classname || typeof classname !== "string") {
 			throw new TypeError("classname must be a non-empty string.");
 		}
 
-		// This method allows you to call the static method getInputHTML() by classname.
+		// This method allows you to call the static method getHTML() by classname.
 		switch (classname) {
-			case "F1098E":		return F1098E.getInputHTML(...rest);
-			case "F1098VLI":	return F1098VLI.getInputHTML(...rest);
-			case "F1099C":		return F1099C.getInputHTML(...rest);
-			case "F1099DIV":	return F1099DIV.getInputHTML(...rest);
-			case "F1099G":		return F1099G.getInputHTML(...rest);
-			case "F1099INT":	return F1099INT.getInputHTML(...rest);
-			case "F1099K":		return F1099K.getInputHTML(...rest);
-			case "F1099MISC":	return F1099MISC.getInputHTML(...rest);
-			case "F1099NEC":	return F1099NEC.getInputHTML(...rest);
-			case "F1099OID":	return F1099OID.getInputHTML(...rest);
-			case "F1099R":		return F1099R.getInputHTML(...rest);
-			case "F1099S":		return F1099S.getInputHTML(...rest);
-			case "SSA1099":		return SSA1099.getInputHTML(...rest);
-			case "W2":			return W2.getInputHTML(...rest);
+			case "F1098E":		return F1098E.getHTML(...rest);
+			case "F1098VLI":	return F1098VLI.getHTML(...rest);
+			case "F1099C":		return F1099C.getHTML(...rest);
+			case "F1099DIV":	return F1099DIV.getHTML(...rest);
+			case "F1099G":		return F1099G.getHTML(...rest);
+			case "F1099INT":	return F1099INT.getHTML(...rest);
+			case "F1099K":		return F1099K.getHTML(...rest);
+			case "F1099MISC":	return F1099MISC.getHTML(...rest);
+			case "F1099NEC":	return F1099NEC.getHTML(...rest);
+			case "F1099OID":	return F1099OID.getHTML(...rest);
+			case "F1099R":		return F1099R.getHTML(...rest);
+			case "F1099S":		return F1099S.getHTML(...rest);
+			case "SSA1099":		return SSA1099.getHTML(...rest);
+			case "W2":			return W2.getHTML(...rest);
 
-			case "Assetitem":	return Assetitem.getInputHTML(...rest);
-			case "Business":	return Business.getInputHTML(...rest);
-			case "Dependent":	return Dependent.getInputHTML(...rest);
+			case "Assetitem":	return Assetitem.getHTML(...rest);
+			case "Business":	return Business.getHTML(...rest);
+			case "Dependent":	return Dependent.getHTML(...rest);
 			default:
-				throw new Error(`Classes.getInputHTML(): unimplemented form: ${classname}`);
+				throw new Error(`Classes.getHTML(): unimplemented form: ${classname}`);
 		}
 	},
 
-	getUserInput(classname, ...rest) {
+	getInputFromWeb(classname, ...rest) {
 		if (!classname || typeof classname !== "string") {
 			throw new TypeError("classname must be a non-empty string.");
 		}
 
-		// This method allows you to call the static method getUserInput() by classname.
+		// This method allows you to call the static method getInputFromWeb() by classname.
 		switch (classname) {
-			case "F1098E":		return F1098E.getUserInput(...rest);
-			case "F1098VLI":	return F1098VLI.getUserInput(...rest);
-			case "F1099C":		return F1099C.getUserInput(...rest);
-			case "F1099DIV":	return F1099DIV.getUserInput(...rest);
-			case "F1099G":		return F1099G.getUserInput(...rest);
-			case "F1099INT":	return F1099INT.getUserInput(...rest);
-			case "F1099K":		return F1099K.getUserInput(...rest);
-			case "F1099MISC":	return F1099MISC.getUserInput(...rest);
-			case "F1099NEC":	return F1099NEC.getUserInput(...rest);
-			case "F1099OID":	return F1099OID.getUserInput(...rest);
-			case "F1099R":		return F1099R.getUserInput(...rest);
-			case "F1099S":		return F1099S.getUserInput(...rest);
-			case "SSA1099":		return SSA1099.getUserInput(...rest);
-			case "W2":			return W2.getUserInput(...rest);
+			case "F1098E":		return F1098E.getInputFromWeb(...rest);
+			case "F1098VLI":	return F1098VLI.getInputFromWeb(...rest);
+			case "F1099C":		return F1099C.getInputFromWeb(...rest);
+			case "F1099DIV":	return F1099DIV.getInputFromWeb(...rest);
+			case "F1099G":		return F1099G.getInputFromWeb(...rest);
+			case "F1099INT":	return F1099INT.getInputFromWeb(...rest);
+			case "F1099K":		return F1099K.getInputFromWeb(...rest);
+			case "F1099MISC":	return F1099MISC.getInputFromWeb(...rest);
+			case "F1099NEC":	return F1099NEC.getInputFromWeb(...rest);
+			case "F1099OID":	return F1099OID.getInputFromWeb(...rest);
+			case "F1099R":		return F1099R.getInputFromWeb(...rest);
+			case "F1099S":		return F1099S.getInputFromWeb(...rest);
+			case "SSA1099":		return SSA1099.getInputFromWeb(...rest);
+			case "W2":			return W2.getInputFromWeb(...rest);
 
-			case "Assetitem":	return Assetitem.getUserInput(...rest);
-			case "Business":	return Business.getUserInput(...rest);
-			case "Dependent":	return Dependent.getUserInput(...rest);
+			case "Assetitem":	return Assetitem.getInputFromWeb(...rest);
+			case "Business":	return Business.getInputFromWeb(...rest);
+			case "Dependent":	return Dependent.getInputFromWeb(...rest);
 			default:
-				throw new Error(`Classes.getUserInput(): unimplemented form: ${classname}`);
+				throw new Error(`Classes.getInputFromWeb(): unimplemented form: ${classname}`);
 		}
 	},
 
@@ -258,34 +232,61 @@ const Classes = {
 		// Return array with the names of the supported tax forms and worksheets.
 		// The debug module uses this as a list of keywords.
 		return Object.keys(class_map);
-	}
+	},
+
+	loadInputFromWeb(classname, ...rest) {
+		if (!classname || typeof classname !== "string") {
+			throw new TypeError("classname must be a non-empty string.");
+		}
+
+		// This method allows you to call the static method loadInputFromWeb() by classname.
+		switch (classname) {
+			case "F1098E":		return F1098E.loadInputFromWeb(...rest);
+			case "F1098VLI":	return F1098VLI.loadInputFromWeb(...rest);
+			case "F1099C":		return F1099C.loadInputFromWeb(...rest);
+			case "F1099DIV":	return F1099DIV.loadInputFromWeb(...rest);
+			case "F1099G":		return F1099G.loadInputFromWeb(...rest);
+			case "F1099INT":	return F1099INT.loadInputFromWeb(...rest);
+			case "F1099K":		return F1099K.loadInputFromWeb(...rest);
+			case "F1099MISC":	return F1099MISC.loadInputFromWeb(...rest);
+			case "F1099NEC":	return F1099NEC.loadInputFromWeb(...rest);
+			case "F1099OID":	return F1099OID.loadInputFromWeb(...rest);
+			case "F1099R":		return F1099R.loadInputFromWeb(...rest);
+			case "F1099S":		return F1099S.loadInputFromWeb(...rest);
+			case "SSA1099":		return SSA1099.loadInputFromWeb(...rest);
+			case "W2":			return W2.loadInputFromWeb(...rest);
+			default:
+				throw new Error(
+					`Classes.loadInputFromWeb(): unimplemented form: ${classname}`);
+		}
+	},
 };
 
 const {
-	createForm,
 	createOnDemand,
 	findClassName,
 	getClass,
-	getInputHTML,
-	getUserInput,
+	getHTML,
+	getInputFromWeb,
 	isSingleton,
 	isInputForm,
 	isOutputForm,
-	listAllForms
+	listAllForms,
+	loadInputFromWeb,
 } = Classes;
 
 export {
 	Classes,
-	createForm,
 	createOnDemand,
 	findClassName,
 	getClass,
-	getInputHTML,
-	getUserInput,
+	getHTML,
+	getInputFromWeb,
 	isSingleton,
 	isInputForm,
 	isOutputForm,
-	listAllForms
+	listAllForms,
+	loadInputFromWeb,
 };
 
 if (typeof window !== "undefined") {

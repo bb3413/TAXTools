@@ -1,0 +1,84 @@
+./AMT/AMT.js:	const f1040		= TaxFormObj.createForm("F1040");
+./AMT/AMT.js:	const f1040S1	= TaxFormObj.createForm("F1040S1");
+./AMT/AMT.js:	const f1040SA	= TaxFormObj.createForm("F1040SA");
+./AMT/AMT.js:	const f6251		= TaxFormObj.createForm("F6251");
+./CASalesTaxDeduction/CASalesTaxDeduction.js:	const f1040		= TaxFormObj.createForm("F1040");
+./CASalesTaxDeduction/CASalesTaxDeduction.js:	const salestax	= TaxFormObj.createForm("SalesTax");
+./EstimatedTax/EstimatedTax.js:	const f1040		= TaxFormObj.createForm("F1040");
+./EstimatedTax/EstimatedTax.js:	const f1040S1	= TaxFormObj.createForm("F1040S1");
+./EstimatedTax/EstimatedTax.js:	const f1040S2	= TaxFormObj.createForm("F1040S2");
+./EstimatedTax/EstimatedTax.js:	const f1040S3	= TaxFormObj.createForm("F1040S3");
+./EstimatedTax/EstimatedTax.js:	const f1040S1A	= TaxFormObj.createForm("F1040S1A");
+./EstimatedTax/EstimatedTax.js:	const f1040SA	= TaxFormObj.createForm("F1040SA");
+./EstimatedTax_CA/EstimatedTax_CA.js:	const f540		= TaxFormObj.createForm("F540");
+./EstimatedTax_CA/EstimatedTax_CA.js:	const f540CA	= TaxFormObj.createForm("F540CA");
+./Library/InputForms/F1098E.js:	static createForm(uid) {
+./Library/InputForms/F1098E.js:		const newform = TaxFormObj.createForm("F1098E");
+./Library/InputForms/F1098VLI.js:	static createForm(uid) {
+./Library/InputForms/F1098VLI.js:		const newform = TaxFormObj.createForm("F1098VLI");
+./Library/InputForms/F1099C.js:	static createForm(uid) {
+./Library/InputForms/F1099C.js:		const newform = TaxFormObj.createForm("F1099C");
+./Library/InputForms/F1099DIV.js:	static createForm(uid) {
+./Library/InputForms/F1099DIV.js:		const newform = TaxFormObj.createForm("F1099DIV");
+./Library/InputForms/F1099G.js:	static createForm(uid) {
+./Library/InputForms/F1099G.js:		const newform = TaxFormObj.createForm("F1099G");
+./Library/InputForms/F1099G.js:			const refund = TaxFormObj.createForm("Refund");
+./Library/InputForms/F1099INT.js:	static createForm(uid) {
+./Library/InputForms/F1099INT.js:		const newform = TaxFormObj.createForm("F1099INT");
+./Library/InputForms/F1099K.js:	static createForm(uid) {
+./Library/InputForms/F1099K.js:		const newform = TaxFormObj.createForm("F1099K");
+./Library/InputForms/F1099MISC.js:	static createForm(uid) {
+./Library/InputForms/F1099MISC.js:		const newform = TaxFormObj.createForm("F1099MISC");
+./Library/InputForms/F1099NEC.js:	static createForm(uid) {
+./Library/InputForms/F1099NEC.js:		const newform = TaxFormObj.createForm("F1099NEC");
+./Library/InputForms/F1099OID.js:	static createForm(uid) {
+./Library/InputForms/F1099OID.js:		const newform = TaxFormObj.createForm("F1099OID");
+./Library/InputForms/F1099R.js:	static createForm(uid) {
+./Library/InputForms/F1099R.js:		const newform = TaxFormObj.createForm("F1099R");
+./Library/InputForms/F1099S.js:	static createForm(uid) {
+./Library/InputForms/F1099S.js:		const newform = TaxFormObj.createForm("F1099S");
+./Library/InputForms/SSA1099.js:	static createForm(uid) {
+./Library/InputForms/SSA1099.js:		const newform = TaxFormObj.createForm("SSA1099");
+./Library/InputForms/W2.js:	static createForm(uid) {
+./Library/InputForms/W2.js:		const newform = TaxFormObj.createForm("W2");
+./Library/Modules/Classes.js:	createForm(classname, ...rest) {
+./Library/Modules/Classes.js:		// This method allows you to call the static method createForm() by classname.
+./Library/Modules/Classes.js:			case "F1098E":		return F1098E.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1098VLI":	return F1098VLI.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099C":		return F1099C.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099DIV":	return F1099DIV.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099G":		return F1099G.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099INT":	return F1099INT.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099K":		return F1099K.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099MISC":	return F1099MISC.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099NEC":	return F1099NEC.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099OID":	return F1099OID.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099R":		return F1099R.createForm(...rest);
+./Library/Modules/Classes.js:			case "F1099S":		return F1099S.createForm(...rest);
+./Library/Modules/Classes.js:			case "SSA1099":		return SSA1099.createForm(...rest);
+./Library/Modules/Classes.js:			case "W2":			return W2.createForm(...rest);
+./Library/Modules/Classes.js:				throw new Error(`Classes.createForm(): unimplemented form: ${classname}`);
+./Library/Modules/Classes.js:	createForm,
+./Library/Modules/Classes.js:	createForm,
+./Library/Modules/TaxFormObj.js:	createForm(formname) {
+./Library/Modules/TaxFormObj.js:		return TaxFormObj.getForm(formname) || TaxFormObj.createForm(formname);
+./Library/Modules/TaxFormObj.js:			TaxFormObj.createForm(formname);
+./Library/Modules/TaxFormObj.js:			TaxFormObj.createForm(formname);
+./Library/Modules/TaxFormObj.js:	createForm,
+./Library/Modules/TaxFormObj.js:	createForm,
+./Library/OutputForms/F1040SA.js:			TaxFormObj.createForm("SalesTax").calculate(this.sales_tax_rate) +
+./SSLumpSum/LumpSumSS.js:	const ss_tax_0		= TaxFormObj.createForm("SSTax");
+./SSLumpSum/LumpSumSS.js:	const ss_tax_alt	= TaxFormObj.createForm("SSTax");
+./SSLumpSum/LumpSumSS.js:	const ss_tax_1		= TaxFormObj.createForm("SSTax");
+./SSLumpSum/LumpSumSS.js:	const ss_tax_2		= TaxFormObj.createForm("SSTax")
+./SSTaxable/TaxableSS.js:	const ss_tax = TaxFormObj.createForm("SSTax");
+./SeniorDeduction/SeniorDeduction.js:	const f1040S1A = TaxFormObj.createForm("F1040S1A");
+./ShowForms/ShowForms.js:	let form = TaxFormObj.createForm(formname);
+./SmallBusiness/SmallBusiness.js:	const f1040SC	= TaxFormObj.createForm("F1040SC");
+./SmallBusiness/SmallBusiness.js:	const f7206		= TaxFormObj.createForm("F7206");	// SE Health Insurance Deduction
+./StateTaxRefund.bad/StateTaxRefund.js:	const refund	= TaxFormObj.createForm("Refund");
+./StateTaxRefund/StateTaxRefund.js:	const f1099g = TaxFormObj.createForm("F1099G");
+./TaxProgram/TaxProgram.js:	const f1040sd = TaxFormObj.createForm("F1040SD");
+./TaxProgram/TaxProgram.js:		const f1040sc = TaxFormObj.createForm("F1040SC");
+./TaxProgram/TaxProgram.js:			const f1040sc = TaxFormObj.createForm("F1040SC");
+./TaxProgram/TaxProgram.js:		Classes.createForm(formname.toUpperCase(), uid);

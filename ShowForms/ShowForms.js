@@ -11,14 +11,14 @@ let asset_sales_container;
 
 function addInputForm(formname) {
 	let uid = Container.getUID(formname);
-	let [ taxform_id, html ] = Classes.getInputHTML(formname, uid);
+	let [ taxform_id, html ] = Classes.getHTML(formname, uid);
 	input_taxforms_container.addEntry(taxform_id, html);
 }
 
 function addOutputForm(formname) {
 	let form = TaxFormObj.createForm(formname);
 	let uid = Container.getUID(form.formname);
-	let [ taxform_id, html ] = form.getOutputHTML(uid);
+	let [ taxform_id, html ] = form.getHTML(uid);
 	output_taxforms_container.addEntry(taxform_id, html);
 	form.putInformation(uid);
 }

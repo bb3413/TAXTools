@@ -27,7 +27,7 @@ export class TaxForm {
 		return sum;
 	}
 
-	getOutputHTML(uid) {
+	getHTML(uid) {
 		let html	= this.toHTML(uid);
 		let id		= `${this.formname.toLowerCase()}-${uid}-container`;
 		return [ id, html ];
@@ -58,6 +58,20 @@ export class TaxForm {
 	line(lineno) {
 		const line = this.lines[lineno];
 		return line ? line.value : 0;
+	}
+
+	loadInputFromWeb(inputs) {
+		//
+		// The inputs parameter is an object that contains all the input fields from the
+		// form's web page. This method copies those fields to the corresponding locations
+		// in this instance of the form.
+		//
+		// Forms that have additional fields on the web page besides the line values, they
+		// will need to override this method (see form 1099-G for an example).
+		//
+		for (const key of Object.keys(inputs)) {
+			this.lines[key].user_value = inputs[key];
+		}
 	}
 
 	min(...index_list) {

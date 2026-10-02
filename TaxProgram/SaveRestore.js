@@ -48,7 +48,7 @@ function restoreAssetsaleItems(data) {
 
 	for (const assetitem_data of data) {
 		const uid = Container.getUID("assetitem");
-		const [ html_id, html ] = Assetitem.getInputHTML(uid);
+		const [ html_id, html ] = Assetitem.getHTML(uid);
 		assetsale_items_container.addEntry(html_id, html);
 		Assetitem.putUserOutputs(assetitem_data, uid);
 	}
@@ -61,7 +61,7 @@ function restoreDependents(data) {
 
 	for (const dependent_data of data) {
 		const uid = Container.getUID("dependent");
-		const [ html_id, html ] = Dependent.getInputHTML(uid);
+		const [ html_id, html ] = Dependent.getHTML(uid);
 		dependents_container.addEntry(html_id, html);
 		Dependent.putUserOutputs(dependent_data, uid);
 	}

@@ -31,14 +31,14 @@ const trailer = `
 `;
 
 async function saveInputForm(formname) {
-	let [ form_id, html ] = Classes.getInputHTML(formname, 1);
+	let [ form_id, html ] = Classes.getHTML(formname, 1);
 	let page = header + html.replace(/<details /g, "<details open ") + trailer;
 	await File.saveToFile(page, `${formname}.html`, false);
 }
 
 async function saveOutputForm(formname) {
 	let form = TaxFormObj.getOrCreateForm(formname);
-	let [ form_id, html ] = form.getOutputHTML(1);
+	let [ form_id, html ] = form.getHTML(1);
 	let page = header + html.replace(/<details /g, "<details open ") + trailer;
 	await File.saveToFile(page, `${formname}.html`, false);
 }

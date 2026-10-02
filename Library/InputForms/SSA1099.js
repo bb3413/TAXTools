@@ -7,6 +7,20 @@ import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
+const ELEMENTS = {
+	// Element ID		Value Type
+	"01":				["text"],
+	"02":				["text"],
+	"03":				[],
+	"03a":				[],
+	"03b":				[],
+	"04":				["text"],
+	"05":				[],
+	"06":				[],
+	"07":				["text"],
+	"08":				["text"],
+};
+
 const HTML_FORM = `
 		<details class="taxform-details" id="ssa1099-XX-container">
 			<summary class="taxform-summary">SSA-1099 - Social Security Benefit
@@ -90,6 +104,7 @@ const HTML_FORM = `
 					<div class="f1099-col-right">
 						<div class="f1099-box f1099-box-large">
 							<h2 class="ssa-subheading">Description of Amount in Box 4</h2>
+							<textarea id="ssa1099-XX-04" placeholder=""></textarea>
 						</div>
 						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
@@ -103,8 +118,6 @@ const HTML_FORM = `
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
 								<span class="f1099-box-label">Box 7. Address</span>
-								<!--input type="text" id="ssa1099-XX-07"
-									placeholder="Beneficiary&apos;s address"/ -->
 								<textarea id="ssa1099-XX-07"
 									placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number"></textarea>
 							</div>
@@ -126,32 +139,13 @@ const HTML_FORM = `
 `;
 
 export class SSA1099 extends TaxForm {
-	static createForm(uid) {
-		//
-		// Create a new form and initialize it with information from the Web page.
-		// If the user hasn't entered any information, don't bother creating the form.
-		//
-		const inputs = SSA1099.getUserInput(uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-
-		const newform = TaxFormObj.createForm("SSA1099");
-
-		for (const key of Object.keys(inputs)) {
-			newform.lines[key].user_value = inputs[key];
-		}
-
-		return newform;
-	}
-
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		//
 		// Get the HTML code to display the tax form for inputting values. Return an array
 		// with the element ID for the form's outer container and the HTML code.
 		//
 		if (!uid) {
-			throw new Error(`SSA1099.getInputHTML(): UID is undefined.`);
+			throw new Error(`SSA1099.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
@@ -160,33 +154,29 @@ export class SSA1099 extends TaxForm {
 		return [ `ssa1099-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
 		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
-			throw new Error(`SSA1099.getUserInput(): UID is undefined.`);
+			throw new Error(`SSA1099.getInputFromWeb(): UID is undefined.`);
 		}
 
 		const element = document.getElementById(`ssa1099-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`SSA1099.getUserInput(): Element not found: ssa1099-${uid}-container`);
+				`SSA1099.getInputFromWeb(): Element not found: ssa1099-${uid}-container`);
 		}
 
 		let inputs = {};
 
-		inputs["01"]	= HTML.getUserInput(`ssa1099-${uid}-01`,	raw?"raw":"text");
-		inputs["02"]	= HTML.getUserInput(`ssa1099-${uid}-02`,	raw?"raw":"text");
-		inputs["03"]	= HTML.getUserInput(`ssa1099-${uid}-03`,	raw?"raw":"");
-		inputs["03a"]	= HTML.getUserInput(`ssa1099-${uid}-03a`,	raw?"raw":"");
-		inputs["03b"]	= HTML.getUserInput(`ssa1099-${uid}-03b`,	raw?"raw":"");
-		inputs["04"]	= HTML.getUserInput(`ssa1099-${uid}-04`,	raw?"raw":"");
-		inputs["05"]	= HTML.getUserInput(`ssa1099-${uid}-05`,	raw?"raw":"");
-		inputs["06"]	= HTML.getUserInput(`ssa1099-${uid}-06`,	raw?"raw":"");
-		inputs["07"]	= HTML.getUserInput(`ssa1099-${uid}-07`,	raw?"raw":"text");
-		inputs["08"]	= HTML.getUserInput(`ssa1099-${uid}-08`,	raw?"raw":"text");
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
+			const element_id	= `f1099g-${uid}-${field_name}`;
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
+		}
 
 		return inputs;
 	}

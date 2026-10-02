@@ -7,6 +7,16 @@ import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
+const ELEMENTS = {
+	// Element ID		Value Type
+	"payer":			["text"],
+	"ein":				["text"],
+	"ssn":				["text"],
+	"taxpayer":			["text"],
+	"account":			["text"],
+	"01":				[],
+};
+
 const HTML_FORM = `
 		<details class="taxform-details" id="f1098e-XX-container">
 			<summary class="taxform-summary">1098-E - Student Loan Interest
@@ -90,28 +100,9 @@ const HTML_FORM = `
 `;
 
 export class F1098E extends TaxForm {
-	static createForm(uid) {
-		//
-		// Create a new form and initialize it with information from the Web page.
-		// If the user hasn't entered any information, don't bother creating the form.
-		//
-		const inputs = F1098E.getUserInput(uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-
-		const newform = TaxFormObj.createForm("F1098E");
-
-		for (const key of Object.keys(inputs)) {
-			newform.lines[key].user_value = inputs[key];
-		}
-
-		return newform;
-	}
-
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		if (!uid) {
-			throw new Error(`F1098E.getInputHTML(): UID is undefined.`);
+			throw new Error(`F1098E.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
@@ -120,29 +111,29 @@ export class F1098E extends TaxForm {
 		return [ `f1098e-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
 		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
-			throw new Error(`F1098E.getUserInput(): UID is undefined.`);
+			throw new Error(`F1098E.getInputFromWeb(): UID is undefined.`);
 		}
 
 		const element = document.getElementById(`f1098e-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1098E.getUserInput(): Element not found: f1098e-${uid}-container`);
+				`F1098E.getInputFromWeb(): Element not found: f1098e-${uid}-container`);
 		}
 
 		let inputs = {};
 
-		inputs["lender"]	= HTML.getUserInput(`f1098e-${uid}-lender`,raw?"raw":"text");
-		inputs["ein"]		= HTML.getUserInput(`f1098e-${uid}-ein`,	raw?"raw":"text");
-		inputs["ssn"]		= HTML.getUserInput(`f1098e-${uid}-ssn`,	raw?"raw":"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`f1098e-${uid}-taxpayer`,raw?"raw":"text");
-		inputs["account"]	= HTML.getUserInput(`f1098e-${uid}-account`, raw?"raw":"text");
-		inputs["01"	]		= HTML.getUserInput(`f1098e-${uid}-01`,	raw?"raw":"");
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
+			const element_id	= `f1099g-${uid}-${field_name}`;
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
+		}
 
 		return inputs;
 	}

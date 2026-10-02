@@ -7,6 +7,28 @@ import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
+const ELEMENTS = {
+	// Element ID		Value Type
+	"payer":			["text"],
+	"ein":				["text"],
+	"ssn":				["text"],
+	"taxpayer":			["text"],
+	"account":			["text"],
+	"01":				[],
+	"02":				[],
+	"03":				[],
+	"04":				[],
+	"05":				[],
+	"06":				[],
+	"07":				["text"],
+	"08":				[],
+	"09":				[],
+	"10":				[],
+	"11":				[],
+	"15":				["text"],
+	"17":				[],
+};
+
 const HTML_FORM = `
 		<details class="taxform-details" id="f1099int-XX-container">
 			<summary class="taxform-summary">1099-INT - Interest Income</summary>
@@ -173,28 +195,9 @@ const HTML_FORM = `
 `;
 
 export class F1099INT extends TaxForm {
-	static createForm(uid) {
-		//
-		// Create a new form and initialize it with information from the Web page.
-		// If the user hasn't entered any information, don't bother creating the form.
-		//
-		const inputs = F1099INT.getUserInput(uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-
-		const newform = TaxFormObj.createForm("F1099INT");
-
-		for (const key of Object.keys(inputs)) {
-			newform.lines[key].user_value = inputs[key];
-		}
-
-		return newform;
-	}
-
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		if (!uid) {
-			throw new Error(`f1099int.getInputHTML(): UID is undefined.`);
+			throw new Error(`f1099int.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
@@ -203,41 +206,29 @@ export class F1099INT extends TaxForm {
 		return [ `f1099int-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
 		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
-			throw new Error(`f1099int.getUserInput(): UID is undefined.`);
+			throw new Error(`f1099int.getInputFromWeb(): UID is undefined.`);
 		}
 
 		const element = document.getElementById(`f1099int-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`f1099int.getUserInput(): Element not found: f1099int-${uid}-container`);
+				`f1099int.getInputFromWeb(): Element not found: f1099int-${uid}-container`);
 		}
 
 		let inputs = {};
 
-		inputs["payer"]		= HTML.getUserInput(`f1099int-${uid}-payer`,raw?"raw":"text");
-		inputs["ein"]		= HTML.getUserInput(`f1099int-${uid}-ein`,	raw?"raw":"text");
-		inputs["ssn"]		= HTML.getUserInput(`f1099int-${uid}-ssn`,	raw?"raw":"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`f1099int-${uid}-taxpayer`,raw?"raw":"text");
-		inputs["account"]	= HTML.getUserInput(`f1099int-${uid}-account`, raw?"raw":"text");
-		inputs["01"	]		= HTML.getUserInput(`f1099int-${uid}-01`,	raw?"raw":"");
-		inputs["02"	]		= HTML.getUserInput(`f1099int-${uid}-02`,	raw?"raw":"");
-		inputs["03"	]		= HTML.getUserInput(`f1099int-${uid}-03`,	raw?"raw":"");
-		inputs["04"	]		= HTML.getUserInput(`f1099int-${uid}-04`,	raw?"raw":"");
-		inputs["05"	]		= HTML.getUserInput(`f1099int-${uid}-05`,	raw?"raw":"");
-		inputs["06"	]		= HTML.getUserInput(`f1099int-${uid}-06`,	raw?"raw":"");
-		inputs["07"	]		= HTML.getUserInput(`f1099int-${uid}-07`,	raw?"raw":"text");
-		inputs["08"	]		= HTML.getUserInput(`f1099int-${uid}-08`,	raw?"raw":"");
-		inputs["09"	]		= HTML.getUserInput(`f1099int-${uid}-09`,	raw?"raw":"");
-		inputs["10"	]		= HTML.getUserInput(`f1099int-${uid}-10`,	raw?"raw":"");
-		inputs["11"	]		= HTML.getUserInput(`f1099int-${uid}-11`,	raw?"raw":"");
-		inputs["15"	]		= HTML.getUserInput(`f1099int-${uid}-15`,	raw?"raw":"text");
-		inputs["17"	]		= HTML.getUserInput(`f1099int-${uid}-17`,	raw?"raw":"");
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
+			const element_id	= `f1099g-${uid}-${field_name}`;
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
+		}
 
 		return inputs;
 	}

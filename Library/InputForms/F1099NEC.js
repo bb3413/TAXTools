@@ -7,6 +7,26 @@ import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
+const ELEMENTS = {
+	// Element ID		Value Type
+	"payer":			["text"],
+	"ein":				["text"],
+	"ssn":				["text"],
+	"taxpayer":			["text"],
+	"account":			["text"],
+	"01a":				[],
+	"01b":				[],
+	"01c":				["text"],
+	"01d":				[],
+	"02":				[],
+	"03":				[],
+	"04":				[],
+	"05":				[],
+	"06":				["text"],
+	"07":				[],
+	"business-name":	["text"],
+};
+
 const HTML_FORM = `
 		<details class="taxform-details" id="f1099nec-XX-container">
 			<summary class="taxform-summary">1099-NEC - Non-employee Compensation</summary>
@@ -165,28 +185,9 @@ const HTML_FORM = `
 `;
 
 export class F1099NEC extends TaxForm {
-	static createForm(uid) {
-		//
-		// Create a new form and initialize it with information from the Web page.
-		// If the user hasn't entered any information, don't bother creating the form.
-		//
-		const inputs = F1099NEC.getUserInput(uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-
-		const newform = TaxFormObj.createForm("F1099NEC");
-
-		for (const key of Object.keys(inputs)) {
-			newform.lines[key].user_value = inputs[key];
-		}
-
-		return newform;
-	}
-
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		if (!uid) {
-			throw new Error(`F1099NEC.getInputHTML(): UID is undefined.`);
+			throw new Error(`F1099NEC.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
@@ -195,40 +196,29 @@ export class F1099NEC extends TaxForm {
 		return [ `f1099nec-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
 		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
-			throw new Error(`F1099NEC.getUserInput(): UID is undefined.`);
+			throw new Error(`F1099NEC.getInputFromWeb(): UID is undefined.`);
 		}
 
 		const element = document.getElementById(`f1099nec-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099NEC.getUserInput(): Element not found: f1099nec-${uid}-container`);
+				`F1099NEC.getInputFromWeb(): Element not found: f1099nec-${uid}-container`);
 		}
 
 		let inputs = {};
 
-		inputs["payer"]		= HTML.getUserInput(`f1099nec-${uid}-payer`,raw?"raw":"text");
-		inputs["ein"]		= HTML.getUserInput(`f1099nec-${uid}-ein`,	raw?"raw":"text");
-		inputs["ssn"]		= HTML.getUserInput(`f1099nec-${uid}-ssn`,	raw?"raw":"text");
-		inputs["taxpayer"]	= HTML.getUserInput(`f1099nec-${uid}-taxpayer`,raw?"raw":"text");
-		inputs["account"]	= HTML.getUserInput(`f1099nec-${uid}-account`,raw?"raw":"text");
-		inputs["business_name"]	=
-			HTML.getUserInput(`f1099nec-${uid}-business-name`, raw?"raw":"text");
-		inputs["01a"]		= HTML.getUserInput(`f1099nec-${uid}-01a`,	raw?"raw":"");
-		inputs["01b"]		= HTML.getUserInput(`f1099nec-${uid}-01b`,	raw?"raw":"");
-		inputs["01c"]		= HTML.getUserInput(`f1099nec-${uid}-01c`,	raw?"raw":"text");
-		inputs["01d"]		= HTML.getUserInput(`f1099nec-${uid}-01d`,	raw?"raw":"");
-		inputs["02"]		= HTML.getUserInput(`f1099nec-${uid}-02`,	raw?"raw":"");
-		inputs["03"]		= HTML.getUserInput(`f1099nec-${uid}-03`,	raw?"raw":"");
-		inputs["04"]		= HTML.getUserInput(`f1099nec-${uid}-04`,	raw?"raw":"");
-		inputs["05"]		= HTML.getUserInput(`f1099nec-${uid}-05`,	raw?"raw":"");
-		inputs["06"]		= HTML.getUserInput(`f1099nec-${uid}-06`,	raw?"raw":"text");
-		inputs["07"]		= HTML.getUserInput(`f1099nec-${uid}-07`,	raw?"raw":"");
+		for (const field_name of Object.keys(ELEMENTS)) {
+			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
+			const key_name		= field_name.replace(/-/g, "_");
+			const element_id	= `f1099g-${uid}-${field_name}`;
+			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
+		}
 
 		return inputs;
 	}
@@ -268,5 +258,23 @@ export class F1099NEC extends TaxForm {
 		this.calculated = true;
 
 		Debug.exit("F1099NEC.calculate()");
+	}
+
+	loadInputFromWeb(inputs) {
+		//
+		// The inputs parameter is an object that contains all the input fields from the
+		// form's web page. This method copies those fields to the corresponding locations
+		// in this instance of the form.
+		//
+		for (const key of Object.keys(inputs)) {
+			switch (key) {
+				case "business_name":
+					this[key] = inputs[key];
+					break;
+				default:
+					this.lines[key].user_value = inputs[key];
+					break;
+			}
+		}
 	}
 }

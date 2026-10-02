@@ -9,7 +9,7 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 import { Refund }		from "../Worksheets/Refund.js";
 
 const ELEMENTS = {
-	// Element ID	Value Type
+	// Element ID		Value Type
 	"payer":			["text"],
 	"ein":				["text"],
 	"ssn":				["text"],
@@ -213,42 +213,13 @@ const HTML_FORM = `
 `;
 
 export class F1099G extends TaxForm {
-	static createForm(uid) {
-		//
-		// Create a new form and initialize it with information from the Web page.
-		// If the user hasn't entered any information, don't bother creating the form.
-		//
-		const inputs = F1099G.getUserInput(uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-
-		const newform = TaxFormObj.createForm("F1099G");
-
-		// Initialize the form from the fields on the web.
-		for (const key of Object.keys(inputs)) {
-			switch (key) {
-				case "prev_itemized":
-				case "prev_5d":
-				case "prev_5e":
-					newform[key] = inputs[key];
-					break;
-				default:
-					newform.lines[key].user_value = inputs[key];
-					break;
-			}
-		}
-
-		return newform;
-	}
-
-	static getInputHTML(uid) {
+	static getHTML(uid) {
 		//
 		// Get a string that contains the form in HTML format and the element ID of an HTML
 		// block the encloses the entire form.
 		//
 		if (!uid) {
-			throw new Error(`F1099G.getInputHTML(): UID is undefined.`);
+			throw new Error(`F1099G.getHTML(): UID is undefined.`);
 		}
 
 		const html = HTML_FORM.replace(/XX/g, uid)
@@ -257,28 +228,30 @@ export class F1099G extends TaxForm {
 		return [ `f1099g-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the form from the web and return an object with the
 		// information. Raw user input is only used to save and restore user input.
 		//
 		if (!uid) {
-			throw new Error(`F1099G.getUserInput(): UID is undefined.`);
+			throw new Error(`F1099G.getInputFromWeb(): UID is undefined.`);
 		}
 
 		const element = document.getElementById(`f1099g-${uid}-container`);
 		if (!element) {
 			throw new Error(
-				`F1099G.getUserInput(): Element not found: f1099g-${uid}-container`);
+				`F1099G.getInputFromWeb(): Element not found: f1099g-${uid}-container`);
 		}
 
 		let inputs = {};
+
 		for (const field_name of Object.keys(ELEMENTS)) {
 			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
 			const element_id	= `f1099g-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
+
 		return inputs;
 	}
 
@@ -341,5 +314,25 @@ export class F1099G extends TaxForm {
 		}
 
 		Debug.exit("F1099G.calculate()");
+	}
+
+	loadInputFromWeb(inputs) {
+		//
+		// The inputs parameter is an object that contains all the input fields from the
+		// form's web page. This method copies those fields to the corresponding locations
+		// in this instance of the form.
+		//
+		for (const key of Object.keys(inputs)) {
+			switch (key) {
+				case "prev_itemized":
+				case "prev_5d":
+				case "prev_5e":
+					this[key] = inputs[key];
+					break;
+				default:
+					this.lines[key].user_value = inputs[key];
+					break;
+			}
+		}
 	}
 }
