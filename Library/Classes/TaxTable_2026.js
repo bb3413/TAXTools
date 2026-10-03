@@ -37,6 +37,7 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],	// TY25
 		"MaxSALT":						[ 40000,		40000,		40000,		40000,		20000		],	// TY25
 		"MaxStudentLoanInterest":		[ 2500,			2500,		2500,		2500,		0			],	// TY25
+		"StudentLoanPhaseOut":			[ 85000,		85000,		17000,		85000,		0			],	// TY25
 
 		// OBBA deductions				SINGLE			HOH			MFJ			QSS			MFS
 		"MaxCarLoanInterestDeduction":	[ 10000,		10000,		10000,		10000,		10000		],	// TY25

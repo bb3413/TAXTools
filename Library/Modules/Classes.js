@@ -39,6 +39,7 @@ import { F8880 }		from "../OutputForms/F8880.js";		// Retirement Credit
 import { IncTax }		from "../Worksheets/IncTax.js";
 import { SalesTax }		from "../Worksheets/SalesTax.js";
 import { SSTax }		from "../Worksheets/SSTax.js";
+import { StudentLoan }	from "../Worksheets/StudentLoan.js";
 import { Refund }		from "../Worksheets/Refund.js";
 import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
 import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
@@ -96,6 +97,7 @@ const class_map = {
 	"SalesTax":				[ SalesTax,		false,	true,	true	],
 	"Simple":				[ SalesTax,		false,	false,	true	],
 	"SSTax":				[ SSTax,		false,	false,	true	],
+	"StudentLoan":			[ StudentLoan,	false,	false,	true	],
 	"CA_HiIncDeductions":	[ CA_HiIncDeductions,	false,	true,	true	],
 	"CA_HiIncExemptions":	[ CA_HiIncExemptions,	false,	true,	true	],
 
