@@ -346,14 +346,14 @@
 
 				<h3>Other Expenses</h3>
 				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Educator Expense - Taxpayer</div>
+					<div class="input-worksheet-row-label">Educator Expenses - Taxpayer</div>
 					<input class="trigger input-worksheet-row-value input-field"
 						type="text" id="expenses-educator-taxpayer"
 						size="10" placeholder="0"
 						tooltipid="#expenses-educator-taxpayer-tt" />
 				</div>
 				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Educator Expense - Spouse</div>
+					<div class="input-worksheet-row-label">Educator Expenses - Spouse</div>
 					<input class="trigger input-worksheet-row-value input-field"
 						type="text" id="expenses-educator-spouse"
 						size="10" placeholder="0"
