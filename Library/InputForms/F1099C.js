@@ -15,12 +15,12 @@ const ELEMENTS = {
 	"taxpayer":			["text"],
 	"account":			["text"],
 	"01":				["text"],
-	"02":				[],
-	"03":				[],
+	"02":				[""],
+	"03":				[""],
 	"04":				["text"],
-	"05":				[],
+	"05":				[""],
 	"06":				["text"],
-	"07":				[],
+	"07":				[""],
 };
 
 const HTML_FORM = `
@@ -179,11 +179,12 @@ export class F1099C extends TaxForm {
 		}
 
 		let inputs = {};
+		const form_id = "f1099c";
 
 		for (const field_name of Object.keys(ELEMENTS)) {
 			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `f1099g-${uid}-${field_name}`;
+			const element_id	= `${form_id}-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 

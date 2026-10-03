@@ -10,47 +10,45 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 const ELEMENTS = {
 	// Element ID		Value Type
-	"is-taxpayers":		[],
-	"is-spouses":		[],
+	"is-spouses":		[""],
 	"ssn":				["text"],
 	"ein":				["text"],
 	"payer":			["text"],
 	"taxpayer":			["text"],
-	"01":				[],
-	"02":				[],
-	"03":				[],
-	"04":				[],
-	"05":				[],
-	"06":				[],
-	"07":				[],
-	"08":				[],
-	"09":				[],
-	"10":				[],
-	"11":				[],
+	"01":				[""],
+	"02":				[""],
+	"03":				[""],
+	"04":				[""],
+	"05":				[""],
+	"06":				[""],
+	"07":				[""],
+	"08":				[""],
+	"10":				[""],
+	"11":				[""],
 	"12a1":				["text"],
-	"12a2":				[],
+	"12a2":				[""],
 	"12b1":				["text"],
-	"12b2":				[],
+	"12b2":				[""],
 	"12c1":				["text"],
-	"12c2":				[],
+	"12c2":				[""],
 	"12d1":				["text"],
-	"12d2":				[],
-	"13a":				[],
-	"13b":				[],
-	"13c":				[],
+	"12d2":				[""],
+	"13a":				[""],
+	"13b":				[""],
+	"13c":				[""],
 	"14a1":				["text"],
-	"14a2":				[],
+	"14a2":				[""],
 	"14b1":				["text"],
-	"14b2":				[],
+	"14b2":				[""],
 	"14c1":				["text"],
-	"14c2":				[],
+	"14c2":				[""],
 	"14d1":				["text"],
-	"14d2":				[],
+	"14d2":				[""],
 	"15":				["text"],
-	"16":				[],
-	"17":				[],
-	"18":				[],
-	"19":				[],
+	"16":				[""],
+	"17":				[""],
+	"18":				[""],
+	"19":				[""],
 	"20":				["text"],
 };
 
@@ -332,11 +330,12 @@ export class W2 extends TaxForm {
 		}
 
 		let inputs = {};
+		const form_id = "w2";
 
 		for (const field_name of Object.keys(ELEMENTS)) {
 			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `f1099g-${uid}-${field_name}`;
+			const element_id	= `${form_id}-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 
@@ -349,7 +348,7 @@ export class W2 extends TaxForm {
 
 		this.title = `W-2 - Wage and Tax Statement`;
 
-		this.lines["is_spouses"]		= new Line("Spouse's W-2");
+		this.lines["is_spouses"]	= new Line("Spouse's W-2");
 		this.lines["payer"]			= new Line("Employer");
 		this.lines["ein"]			= new Line("EmployerEIN");
 		this.lines["ssn"]			= new Line("SSN");

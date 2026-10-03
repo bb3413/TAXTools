@@ -14,23 +14,20 @@ const ELEMENTS = {
 	"ssn":				["text"],
 	"taxpayer":			["text"],
 	"account":			["text"],
-	"01a":				[],
-	"01b":				[],
-	"02a":				[],
-	"02b":				[],
-	"03":				[],
-	"04":				[],
-	"05":				[],
-	"06":				[],
-	"07":				[],
+	"01a":				[""],
+	"01b":				[""],
+	"02a":				[""],
+	"02b":				[""],
+	"03":				[""],
+	"04":				[""],
+	"05":				[""],
+	"06":				[""],
+	"07":				[""],
 	"08":				["text"],
-	"09":				[],
-	"10":				[],
-	"11":				[],
-	"12":				[],
-	"13":				[],
+	"12":				[""],
+	"13":				[""],
 	"14":				["text"],
-	"16":				[],
+	"16":				[""],
 };
 
 const HTML_FORM = `
@@ -229,11 +226,12 @@ export class F1099DIV extends TaxForm {
 		}
 
 		let inputs = {};
+		const form_id = "f1099div";
 
 		for (const field_name of Object.keys(ELEMENTS)) {
 			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `f1099g-${uid}-${field_name}`;
+			const element_id	= `${form_id}-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 

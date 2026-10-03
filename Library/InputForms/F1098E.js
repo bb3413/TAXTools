@@ -9,12 +9,12 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 const ELEMENTS = {
 	// Element ID		Value Type
-	"payer":			["text"],
+	"lender":			["text"],
 	"ein":				["text"],
 	"ssn":				["text"],
 	"taxpayer":			["text"],
 	"account":			["text"],
-	"01":				[],
+	"01":				[""],
 };
 
 const HTML_FORM = `
@@ -44,7 +44,7 @@ const HTML_FORM = `
 					<!-- Left Column: Payer & Recipient Info Inputs -->
 					<div class="f1099-col-left">
 						<div class="f1099-box f1099-box-large">
-							<span class="f1099-box-label">Recipient/Lender&apos;S name, street
+							<span class="f1099-box-label">Recipient/Lender&apos;s name, street
 								address, city or town, state or province, country, and
 								ZIP or foreign postal code</span>
 							<textarea id="f1098e-XX-lender"
@@ -53,19 +53,19 @@ const HTML_FORM = `
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
-								<span class="f1099-box-label">Recipient/Lender&apos;S TIN</span>
+								<span class="f1099-box-label">Recipient/Lender&apos;s TIN</span>
 								<input type="text" id="f1098e-XX-ein"
 									placeholder="12-3456789" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label">PAYER of Record&apos;S TIN</span>
+								<span class="f1099-box-label">PAYER of Record&apos;s TIN</span>
 								<input type="text" id="f1098e-XX-ssn"
 									placeholder="123-45-6789" />
 							</div>
 						</div>
 
 						<div class="f1099-box f1099-box-large">
-							<span class="f1099-box-label">PAYER of Record&apos;S name, street
+							<span class="f1099-box-label">PAYER of Record&apos;s name, street
 								address, city or town, state, and ZIP code</span>
 							<textarea id="f1098e-XX-taxpayer"
 								placeholder="PAYER of Record&apos;s Name&#10;Street Address&#10;City, State, ZIP"></textarea>
@@ -127,11 +127,12 @@ export class F1098E extends TaxForm {
 		}
 
 		let inputs = {};
+		const form_id = "f1098e";
 
 		for (const field_name of Object.keys(ELEMENTS)) {
 			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `f1099g-${uid}-${field_name}`;
+			const element_id	= `${form_id}-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 

@@ -14,26 +14,26 @@ const ELEMENTS = {
 	"ssn":				["text"],
 	"taxpayer":			["text"],
 	"account":			["text"],
-	"01a":				[],
-	"01b":				[],
-	"01c":				[],
+	"01a":				[""],
+	"01b":				[""],
+	"01c":				[""],
 	"01d":				["text"],
 	"02":				["text"],
-	"03":				[],
-	"04":				[],
-	"05a":				[],
-	"05b":				[],
-	"05c":				[],
-	"05d":				[],
-	"05e":				[],
-	"05f":				[],
-	"05g":				[],
-	"05h":				[],
-	"05i":				[],
-	"05j":				[],
-	"05k":				[],
-	"05l":				[],
-	"06":				[],
+	"03":				[""],
+	"04":				[""],
+	"05a":				[""],
+	"05b":				[""],
+	"05c":				[""],
+	"05d":				[""],
+	"05e":				[""],
+	"05f":				[""],
+	"05g":				[""],
+	"05h":				[""],
+	"05i":				[""],
+	"05j":				[""],
+	"05k":				[""],
+	"05l":				[""],
+	"06":				[""],
 	"07":				["text"],
 };
 
@@ -279,11 +279,12 @@ export class F1099K extends TaxForm {
 		}
 
 		let inputs = {};
+		const form_id = "f1099k";
 
 		for (const field_name of Object.keys(ELEMENTS)) {
 			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
 			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `f1099g-${uid}-${field_name}`;
+			const element_id	= `${form_id}-${uid}-${field_name}`;
 			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 
