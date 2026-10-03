@@ -3,8 +3,9 @@
 //
 // This module manages tax forms that have been created as objects of the TaxForm class.
 //
-import { Classes }	from "../Modules/Classes.js";
-import { Debug }	from "../Modules/Debug.js";
+import { Classes }		from "../Modules/Classes.js";
+import { Debug }		from "../Modules/Debug.js";
+import { Ensure }		from "../Modules/Ensure.js";
 
 let instances = {};		// This variable is indexed by form name. For each form, it
 						// returns an array with all the instances of that form.

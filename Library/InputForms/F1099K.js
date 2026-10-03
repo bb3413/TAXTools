@@ -1,5 +1,6 @@
 
 import { Debug }		from "../Modules/Debug.js";
+import { Ensure }		from "../Modules/Ensure.js";
 import { HTML }			from "../Modules/HTML.js";
 import { Line }			from "../Classes/Line.js";
 import { Objects }		from "../Modules/Objects.js";

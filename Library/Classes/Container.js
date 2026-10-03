@@ -12,9 +12,10 @@
 // there is already an entry with the same name, in which case, the entry will be added
 // after the last entry with the same name.
 //
-import { HTML }		from "../Modules/HTML.js";
-import { Objects }	from "../Modules/Objects.js";
-import { Str }		from "../Modules/Str.js";
+import { Ensure }		from "../Modules/Ensure.js";
+import { HTML }			from "../Modules/HTML.js";
+import { Objects }		from "../Modules/Objects.js";
+import { Str }			from "../Modules/Str.js";
 
 // Web pages need unique IDs to include in their element IDs to avoid name collisions
 // when the same HTML code is added more than once. The next_uid variable is indexed by

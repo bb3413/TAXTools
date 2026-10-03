@@ -1,4 +1,6 @@
 
+import { Ensure } from "../Modules/Ensure.js";
+
 const _expectString = (value, name = "value") => {
 	if (typeof value !== "string") {
 		throw new TypeError(`${name} must be a string.`);

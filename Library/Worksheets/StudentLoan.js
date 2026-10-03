@@ -4,6 +4,7 @@
 // It is documented in the 1040 Instructions (TY2025) on pages 98-99.
 //
 import { Debug }		from "../Modules/Debug.js";
+import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";

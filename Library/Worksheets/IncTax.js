@@ -4,6 +4,7 @@
 // 1040 Instructions (TY2025), line 16, page 38.
 //
 import { Debug }		from "../Modules/Debug.js";
+import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";

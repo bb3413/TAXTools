@@ -4,6 +4,7 @@
 // from the Instructions for Schedule A, line 5a, page 6.
 //
 import { Debug }		from "../Modules/Debug.js";
+import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
 import { Num }			from "../Modules/Num.js";
 import { TaxForm }		from "../Classes/TaxForm.js";

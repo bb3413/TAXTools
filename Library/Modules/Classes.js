@@ -2,6 +2,7 @@
 //
 // This module provides utilities to manage the names of classes.
 //
+import { Ensure }		from "../Modules/Ensure.js";
 
 // Input Tax Forms
 import { F1098E }		from "../InputForms/F1098E.js";		// Student loan interest

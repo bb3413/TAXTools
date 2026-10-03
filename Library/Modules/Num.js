@@ -1,6 +1,7 @@
 
-import { Eval }		from "../Modules/Eval.js";
-import { Str }		from "../Modules/Str.js";
+import { Ensure }		from "../Modules/Ensure.js";
+import { Eval }			from "../Modules/Eval.js";
+import { Str }			from "../Modules/Str.js";
 
 const _expectFiniteNumber = (value, name = "value") => {
 	if (typeof value !== "number" || !Number.isFinite(value)) {

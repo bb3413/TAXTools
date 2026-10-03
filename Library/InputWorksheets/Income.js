@@ -1,5 +1,6 @@
 
-import { HTML } from "../Modules/HTML.js";
+import { Ensure }		from "../Modules/Ensure.js";
+import { HTML }			from "../Modules/HTML.js";
 
 const ELEMENTS = {
 	// Element ID			Value Type

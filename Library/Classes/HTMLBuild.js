@@ -3,6 +3,7 @@
 // This module can be used to build a chunk of HTML code and insert
 // it into the current web page (DOM).
 //
+import { Ensure }		from "../Modules/Ensure.js";
 
 export class HTMLBuild {
 	constructor() {

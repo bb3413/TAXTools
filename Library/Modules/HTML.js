@@ -1,6 +1,7 @@
 
-import { Debug }	from "../Modules/Debug.js";
-import { Num }		from "../Modules/Num.js";
+import { Debug }		from "../Modules/Debug.js";
+import { Ensure }		from "../Modules/Ensure.js";
+import { Num }			from "../Modules/Num.js";
 
 const HTML = {
 	closeDetails(element_id) {

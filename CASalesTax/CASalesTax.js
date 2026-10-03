@@ -1,5 +1,6 @@
 
 import { Alert }				from "../Library/Modules/Alert.js";
+import { Ensure }				from "../Library/Modules/Ensure.js";
 import { HTML }					from "../Library/Modules/HTML.js";
 import { fetchSalesTaxRate }	from "../Library/SalesTax/SalesTaxFromCDTFA.js";
 
