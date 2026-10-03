@@ -6,6 +6,7 @@ import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { Classes }		from "../Library/Modules/Classes.js";
 import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
+import { Ensure }		from "../Library/Modules/Ensure.js";
 import { HTML }			from "../Library/Modules/HTML.js";
 import { Objects }		from "../Library/Modules/Objects.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
@@ -277,8 +278,8 @@ function getExpenses() {
 
 	// Form 1040, Schedule 1
 	f1040s1.alimony_paid				= inputs["alimony_paid"];
-	f1040s1.educator_expense_taxpayer	= inputs["educator_expense_taxpayer"];
-	f1040s1.educator_expense_spouse		= inputs["educator_expense_spouse"];
+	f1040s1.educator_expense_taxpayer	= inputs["educator_taxpayer"];
+	f1040s1.educator_expense_spouse		= inputs["educator_spouse"];
 	f1040s1.ira_contribution_taxpayer	= inputs["ira_contribution_taxpayer"];
 	f1040s1.ira_contribution_spouse		= inputs["ira_contribution_spouse"];
 	f1040s1.lines["19c"].user_value		= inputs["divorce_date"];
