@@ -193,7 +193,8 @@ export class F1040S1 extends TaxForm {
 		this.lines["20"].value	=									// IRA Deduction
 			getDeductibleIRAContribution(this.ira_contribution_taxpayer, true) +
 			getDeductibleIRAContribution(this.ira_contribution_spouse, false);
-		this.lines["21"].value	= 0;									// Student Loan
+
+		this.lines["21"].value	= 0;	// This line is calculated further down
 		this.lines["22"].value	= 0;									// Reserved
 		this.lines["23"].value	= 0;									// Archer MSA
 		this.lines["24a"].value	= 0;									// Jury Duty Pay
@@ -211,6 +212,12 @@ export class F1040S1 extends TaxForm {
 		this.lines["25"].value	= this.add("24a","24b","24c","24d",
 										   "24e","24f","24g","24h",
 										   "24i","24j","24k","24z");	// Total Other Adjs
+		// Student Loan, Line 21
+		// Delay calculating this value because it is dependent on lines 11-20, 23, and 25.
+		const student_loan = TaxFormObj.createForm("StudentLoan");		// Create worksheet
+		student_loan.student_loan_interest = TaxFormObj.getValue("F1098E", "01");
+		this.lines["21"].value	= student_loan.calculate();
+		
 		this.lines["26"].value	= this.add("11","12","13","14","15",
 										   "16","17","18","19a","20",
 										   "21","22","23","25");		// Adj to Income
