@@ -1,6 +1,5 @@
 
 import { MAX_DOLLAR, MIN_DOLLAR }	from "../TAXTools/TAXTools.js";
-import { Debug }					from "../Modules/Debug.js";
 import { Ensure }					from "../Modules/Ensure.js";
 import { Num }						from "../Modules/Num.js";
 
@@ -71,12 +70,12 @@ export class Line {
 		}
 
 		if (new_value < this._min_value) {
-			Debug.warn(`${this._label}: Value too small (${new_value}).`)
+			console.warn(`${this._label}: Value too small (${new_value}).`)
 		}
 		new_value = Math.max(this._min_value, new_value);
 
 		if (new_value > this._max_value) {
-			Debug.warn(`${this._label}: Value too large (${new_value}).`)
+			console.warn(`${this._label}: Value too large (${new_value}).`)
 		}
 		new_value = Math.min(this._max_value, new_value);
 

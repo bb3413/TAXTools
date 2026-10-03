@@ -366,8 +366,6 @@ function getInput() {
 }
 
 function initialize() {
-	Debug.set_strict();
-
 	// Initialize header.
 	HTML.putUserOutput("tax-year", Dates.getTaxYear(), "text");
 	HTML.putUserOutput("filing-status", "SINGLE");
@@ -484,7 +482,6 @@ function resetCalculation() {
 	// Reset the tax calculation, but leave the information entered by the user as is.
 	//
 	Debug.reset();
-	Debug.set_strict();
 	TaxFormObj.reset();						// Reset the tax calculations.
 	Taxpayer.resetCalculation();			// Re-read the input fields.
 	output_taxforms_container.reset();		// Remove tax return (output) web pages

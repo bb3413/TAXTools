@@ -2,7 +2,6 @@
 //
 // This is a template for all tax forms and worksheets.
 //
-import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { HTML }			from "../Modules/HTML.js";
 import { HTMLBuild }	from "../Classes/HTMLBuild.js";
@@ -184,7 +183,7 @@ export class TaxForm {
 		const linenos = Object.keys(this.lines).sort();
 		for (const lineno of linenos) {
 			const line = this.lines[lineno];
-			if (line && (line.value !== 0 || Debug.verbose())) {	// Skip empty lines.
+			if (line && (line.value !== 0)) {	// Skip empty lines.
 				let s = `  line[${lineno}]`;
 				s = s.padEnd(18, " ") + line.label;
 				s = s.padEnd(65, ".") + line.value;

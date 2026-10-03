@@ -961,7 +961,7 @@ export class F540CA extends TaxForm {
 		this.lines["C-27B"].value	= this.subtract("B-10B","C-26B");	// Sub from AGI
 		this.lines["C-27C"].value	= this.subtract("B-10C","C-26C");	// Add to AGI
 		if (this.line("C-27A") !== TaxFormObj.getValue("F1040", "11b")) {
-			Debug.warn("F540CA: AGI does not match.");
+			console.warn("F540CA: AGI does not match.");
 		}
 
 		// Part II Adjustment to Federal Itemized Deductions

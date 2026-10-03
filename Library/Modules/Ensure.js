@@ -70,7 +70,7 @@ export class Ensure {
 	}
 
 	static isValidNumber(num, msg="") {
-		if (!Num.isNum(num)) 
+		if (!Num.isNum(num)) {
 			throw new TypeError(msg ? msg : ("Invalid number: " + num));
 		}
 

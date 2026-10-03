@@ -9,18 +9,15 @@ import { Taxpayer }		from "../Classes/Taxpayer.js";
 
 let indentation			= 0;
 let debug_all			= false;
-let strict_enabled		= false;
-let verbose_enabled		= false;
 let debug_used_keywords = [];
 let trace_log			= [];
 
 function keywordList() {
 	const debug_keywords = [
 		"Debug",
-		"Strict",
 		"Taxpayer",
 		"Trace",
-		"Verbose" ];
+	 ];
 
 	// Keywords are the debug keywords plus the names of the tax forms and worksheets.
 	return debug_keywords.concat(Classes.listAllForms(), Container.listAllContainers());
@@ -98,8 +95,6 @@ const Debug = {
 	reset() {
 		indentation			= 0;
 		debug_all			= false;
-		strict_enabled		= false;
-		verbose_enabled		= false;
 		debug_used_keywords	= [];
 		trace_log			= [];
 
@@ -129,18 +124,6 @@ const Debug = {
 		}
 
 		return input_string;
-	},
-
-	set_strict(bool = true) {
-			strict_enabled = bool;
-	},
-
-	strict() {
-			if (strict_enabled || debug_used_keywords.includes("Strict")) {
-			return true;
-		} else {
-			return false;
-		}
 	},
 
 	toString() {
@@ -206,32 +189,12 @@ const Debug = {
 		}
 	},
 
-	set_verbose(bool = true) {
-			verbose_enabled = bool;
-	},
-
-	verbose() {
-			if (verbose_enabled || debug_used_keywords.includes("Verbose")) {
-			return true;
-		} else {
-			return false;
-		}
-	},
-
-	warn(msg) {
-		if (Debug.strict()) {
-			console.log(msg);
-		}
-	},
-
 	verify(expression, message) {
 		if (expression) {
 			return true;
 		} else {
 			console.log(message);
-			if (Debug.strict()) {
-				throw new Error(message);
-			}
+			throw new Error(message);
 			return false;
 		}
 	},
@@ -281,34 +244,19 @@ const Debug = {
 const {
 	reset,
 	getKeywords,
-	set_strict,
-	strict,
 	toString,
 	turnOn,
-	set_verbose,
-	verbose,
-	warn,
-	verify,
 	enter,
 	exit,
-	log
 } = Debug;
 
 export {
 	Debug,
 	reset,
 	getKeywords,
-	set_strict,
-	strict,
 	toString,
-	turnOn,
-	set_verbose,
-	verbose,
-	warn,
-	verify,
 	enter,
 	exit,
-	log
 };
 
 if (typeof window !== "undefined") {

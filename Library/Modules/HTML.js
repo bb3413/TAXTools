@@ -31,7 +31,8 @@ const HTML = {
 	//-----  Show/hide element  ---------------------------------
 	showElement(element_id) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "showElement: Element not found: " + element_id)) {
+		if (!element) {
+			console.warn("showElement: Element not found: " + element_id);
 			return;
 		}
 
@@ -40,7 +41,8 @@ const HTML = {
 
 	hideElement(element_id) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "hideElement: Element not found: " + element_id)) {
+		if (!element) {
+			console.warn("hideElement: Element not found: " + element_id);
 			return;
 		}
 
@@ -50,8 +52,8 @@ const HTML = {
 	//---- Change background/foreground color  ----------------------------------
 	changeBackgroundColor(element_id, color) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element,
-				"changeBackgroundColor: Element not found: " + element_id)) {
+		if (!element) {
+			console.warn("changeBackgroundColor: Element not found: " + element_id);
 			return;
 		}
 
@@ -60,8 +62,8 @@ const HTML = {
 
 	changeTextColor(element_id, color) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element,
-				"changeTextColor: Element not found: " + element_id)) {
+		if (!element) {
+			console.warn("changeTextColor: Element not found: " + element_id);
 			return;
 		}
 
@@ -116,8 +118,10 @@ const HTML = {
 	//
 	getElementValue(element_id) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element,
-				"getElementValue: Element not found: " + element_id)) return;
+		if (!element) {
+			console.warn("getElementValue: Element not found: " + element_id);
+			return;
+		}
 
 		if (element.type === "checkbox" || element.type === "radio") {
 			return element.checked;
@@ -140,7 +144,8 @@ const HTML = {
 
 	putElementValue(element_id, value) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "putElementValue: Element not found: " + element_id)) {
+		if (!element) {
+			console.warn("putElementValue: Element not found: " + element_id);
 			return;
 		}
 
@@ -191,7 +196,10 @@ const HTML = {
 	//-----  Miscellaneous utility functions  ---------------------------------
 	addListener(element_id, event, handler) {
 		const element = document.getElementById(element_id);
-		if (!Debug.verify(element, "addListener: Element not found: " + element_id)) return;
+		if (!element) {
+			console.warn("addListener: Element not found: " + element_id);
+			return;
+		}
 
 		element.addEventListener(event, handler);
 	},
