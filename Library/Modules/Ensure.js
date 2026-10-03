@@ -3,50 +3,54 @@ import { Dates }		from "../Modules/Dates.js";
 import { Num }			from "../Modules/Num.js";
 
 export class Ensure {
-
 	//
 	// Variable type checks.
 	//
-	static isArray(param, msg="") {
+	static isArray(param, param_name="") {
 		if (!Array.isArray(param)) {
-			throw new TypeError(msg ? msg : "Expected an array.");
+			param_name = param_name ? param_name : "value";
+			throw new TypeError(`Expected ${param_name} to be an array.`);
 		}
 		
-		return true;
+		return param;
 	}
 
-	static isNumber(param, msg="") {
-		if (typeof param !== "number") {
-			throw new TypeError(msg ? msg : "Expected a number.");
+	static isNumber(param, param_name="") {
+		if ((typeof param !== "number") || (!Number.isFinite(param))) {
+			param_name = param_name ? param_name : "value";
+			throw new TypeError(`Expected ${param_name} to be a number.`);
 		}
 		
-		return true;
+		return param;
 	}
 
-	static isObject(param, msg="") {
+	static isObject(param, param_name="") {
 		if (Array.isArray(param) || typeof param !== "object") {
-			throw new TypeError(msg ? msg : "Expected an object.");
+			param_name = param_name ? param_name : "value";
+			throw new TypeError(`Expected ${param_name} to be an object.`);
 		}
 		
-		return true;
+		return param;
 	}
 
-	static isString(param, msg="") {
+	static isString(param, param_name="") {
 		if (typeof param !== "string") {
-			throw new TypeError(msg ? msg : "Expected a string.");
+			param_name = param_name ? param_name : "value";
+			throw new TypeError(`Expected ${param_name} to be a string.`);
 		}
 		
-		return true;
+		return param;
 	}
 
-	static isType(variable, type, msg="") {
+	static isType(param, type, param_name="") {
 		// typeof: "string", "number", "boolean", "undefined", "object", "bigint", "symbol",
 		// "function". For historical reasons, typeof null === "object".
-		if (typeof variable === type) {
-			throw new TypeError(msg ? msg : `Expected ${variable} to be a ${type}.`);
+		if (typeof param === type) {
+			param_name = param_name ? param_name : "value";
+			throw new TypeError(`Expected ${param_name} to be a ${type}.`);
 		}
 
-		return true;
+		return param;
 	}
 
 	//
@@ -57,7 +61,7 @@ export class Ensure {
 			throw new TypeError(msg ? msg : ("Invalid date: " + date));
 		}
 
-		return true;
+		return date;
 	}
 	
 	static isValidElementID(element_id, msg="") {
@@ -66,7 +70,7 @@ export class Ensure {
 			throw new TypeError(msg ? msg : ("Invalid element ID: " + element_id));
 		}
 
-		return true;
+		return element;
 	}
 
 	static isValidNumber(num, msg="") {
@@ -74,7 +78,7 @@ export class Ensure {
 			throw new TypeError(msg ? msg : ("Invalid number: " + num));
 		}
 
-		return true;
+		return num;
 	}
 
 	//

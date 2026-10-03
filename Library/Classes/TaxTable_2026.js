@@ -1,6 +1,7 @@
 
-import { MAX_DOLLAR, MIN_DOLLAR }	from "../TAXTools/TAXTools.js";
-import { TaxTableTmpl }				from "../Classes/TaxTableTmpl.js";
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+import { MAX_DOLLAR, MIN_DOLLAR }		from "../TAXTools/TAXTools.js";
+import { TaxTableTmpl }					from "../Classes/TaxTableTmpl.js";
 
 export class TaxTable_2026 extends TaxTableTmpl {
 	//
@@ -97,22 +98,22 @@ export class TaxTable_2026 extends TaxTableTmpl {
 	// Alternative Minimum Tax (AMT)
 	//
 	amt_tax = [
-		//				Start of	End of		Subtract	Rate
-		//				Bracket		Bracket					Percent
-		[ "SINGLE",		0,			239100,		0,			26	],		// TY25
-		[ "SINGLE",		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
+		//			Start of	End of		Subtract	Rate
+		//			Bracket		Bracket					Percent
+		[ SINGLE,	0,			239100,		0,			26	],		// TY25
+		[ SINGLE,	239100,		MAX_DOLLAR,	4782,		28	],		// TY25
 
-		[ "HOH",		0,			239100,		0,			26	],		// TY25
-		[ "HOH",		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
+		[ HOH,		0,			239100,		0,			26	],		// TY25
+		[ HOH,		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
 
-		[ "MFJ",		0,			239100,		0,			26	],		// TY25
-		[ "MFJ",		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
+		[ MFJ,		0,			239100,		0,			26	],		// TY25
+		[ MFJ,		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
 
-		[ "QSS",		0,			239100,		0,			26	],		// TY25
-		[ "QSS",		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
+		[ QSS,		0,			239100,		0,			26	],		// TY25
+		[ QSS,		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
 
-		[ "MFS",		0,			119550,		0,			26	],		// TY25
-		[ "MFS",		119550,		MAX_DOLLAR,	2391,		28	],		// TY25
+		[ MFS,		0,			119550,		0,			26	],		// TY25
+		[ MFS,		119550,		MAX_DOLLAR,	2391,		28	],		// TY25
 	];
 
 	//
@@ -128,47 +129,47 @@ export class TaxTable_2026 extends TaxTableTmpl {
 	// brackets.
 	//
 	income_tax_table = [
-		// Filing		Start of	End of		Rate
-		// Status		Bracket		Bracket		Percent
-		[ "SINGLE",		0,			12400,		10 ],
-		[ "SINGLE",		12400,		50400,		12 ],
-		[ "SINGLE",		50400,		105700,		22 ],
-		[ "SINGLE",		105700,		201775,		24 ],
-		[ "SINGLE",		201775,		256225,		32 ],
-		[ "SINGLE",		256225,		640600,		35 ],
-		[ "SINGLE",		640600,		MAX_DOLLAR,	37 ],
+		// Filing	Start of	End of		Rate
+		// Status	Bracket		Bracket		Percent
+		[ SINGLE,	0,			12400,		10 ],
+		[ SINGLE,	12400,		50400,		12 ],
+		[ SINGLE,	50400,		105700,		22 ],
+		[ SINGLE,	105700,		201775,		24 ],
+		[ SINGLE,	201775,		256225,		32 ],
+		[ SINGLE,	256225,		640600,		35 ],
+		[ SINGLE,	640600,		MAX_DOLLAR,	37 ],
 
-		[ "HOH",		0,			17700,		10 ],
-		[ "HOH",		17700,		67450,		12 ],
-		[ "HOH",		67450,		105700,		22 ],
-		[ "HOH",		105700,		201775,		24 ],
-		[ "HOH",		201775,		256200,		32 ],
-		[ "HOH",		256200,		640600,		35 ],
-		[ "HOH",		640600,		MAX_DOLLAR,	37 ],
+		[ HOH,		0,			17700,		10 ],
+		[ HOH,		17700,		67450,		12 ],
+		[ HOH,		67450,		105700,		22 ],
+		[ HOH,		105700,		201775,		24 ],
+		[ HOH,		201775,		256200,		32 ],
+		[ HOH,		256200,		640600,		35 ],
+		[ HOH,		640600,		MAX_DOLLAR,	37 ],
 
-		[ "MFJ",		0,			24800,		10 ],
-		[ "MFJ",		24800,		100800,		12 ],
-		[ "MFJ",		100800,		211400,		22 ],
-		[ "MFJ",		211400,		403550,		24 ],
-		[ "MFJ",		403550,		512450,		32 ],
-		[ "MFJ",		512450,		768700,		35 ],
-		[ "MFJ",		768700,		MAX_DOLLAR,	37 ],
+		[ MFJ,		0,			24800,		10 ],
+		[ MFJ,		24800,		100800,		12 ],
+		[ MFJ,		100800,		211400,		22 ],
+		[ MFJ,		211400,		403550,		24 ],
+		[ MFJ,		403550,		512450,		32 ],
+		[ MFJ,		512450,		768700,		35 ],
+		[ MFJ,		768700,		MAX_DOLLAR,	37 ],
 
-		[ "QSS",		0,			24800,		10 ],
-		[ "QSS",		24800,		100800,		12 ],
-		[ "QSS",		100800,		211400,		22 ],
-		[ "QSS",		211400,		403550,		24 ],
-		[ "QSS",		403550,		512450,		32 ],
-		[ "QSS",		512450,		768700,		35 ],
-		[ "QSS",		768700,		MAX_DOLLAR,	37 ],
+		[ QSS,		0,			24800,		10 ],
+		[ QSS,		24800,		100800,		12 ],
+		[ QSS,		100800,		211400,		22 ],
+		[ QSS,		211400,		403550,		24 ],
+		[ QSS,		403550,		512450,		32 ],
+		[ QSS,		512450,		768700,		35 ],
+		[ QSS,		768700,		MAX_DOLLAR,	37 ],
 
-		[ "MFS",		0,			12400,		10 ],
-		[ "MFS",		12400,		50400,		12 ],
-		[ "MFS",		50400,		105700,		22 ],
-		[ "MFS",		105700,		201775,		24 ],
-		[ "MFS",		201775,		256225,		32 ],
-		[ "MFS",		256225,		384350,		35 ],
-		[ "MFS",		384350,		MAX_DOLLAR,	37 ],
+		[ MFS,		0,			12400,		10 ],
+		[ MFS,		12400,		50400,		12 ],
+		[ MFS,		50400,		105700,		22 ],
+		[ MFS,		105700,		201775,		24 ],
+		[ MFS,		201775,		256225,		32 ],
+		[ MFS,		256225,		384350,		35 ],
+		[ MFS,		384350,		MAX_DOLLAR,	37 ],
 	];
 
 	//
@@ -305,36 +306,36 @@ export class TaxTable_2026 extends TaxTableTmpl {
 	// SINGLE and MFS are the same. MFJ and QSS are the same.
 	//
 	ca_income_tax_table = [
-		// Filing		Start of	End of		Rate
-		// Status		Bracket		Bracket		Percent
-		[ "SINGLE",		0,			11079,		1.0		],		// TY25
-		[ "SINGLE",		11079,		26264,		2.0		],		// TY25
-		[ "SINGLE",		26264,		41452,		4.0		],		// TY25
-		[ "SINGLE",		41452,		57542,		6.0		],		// TY25
-		[ "SINGLE",		57542,		72724,		8.0		],		// TY25
-		[ "SINGLE",		72724,		371479,		9.3		],		// TY25
-		[ "SINGLE",		371479,		445771,		10.3	],		// TY25
-		[ "SINGLE",		445771,		742953,		11.3	],		// TY25
-		[ "SINGLE",		742953,		MAX_DOLLAR,	12.3	],		// TY25
+		// Filing	Start of	End of		Rate
+		// Status	Bracket		Bracket		Percent
+		[ SINGLE,	0,			11079,		1.0		],		// TY25
+		[ SINGLE,	11079,		26264,		2.0		],		// TY25
+		[ SINGLE,	26264,		41452,		4.0		],		// TY25
+		[ SINGLE,	41452,		57542,		6.0		],		// TY25
+		[ SINGLE,	57542,		72724,		8.0		],		// TY25
+		[ SINGLE,	72724,		371479,		9.3		],		// TY25
+		[ SINGLE,	371479,		445771,		10.3	],		// TY25
+		[ SINGLE,	445771,		742953,		11.3	],		// TY25
+		[ SINGLE,	742953,		MAX_DOLLAR,	12.3	],		// TY25
 
-		[ "HOH",		0,			22173,		.0		],		// TY25
-		[ "HOH",		22173,		52530,		2.0		],		// TY25
-		[ "HOH",		52530,		67716,		4.0		],		// TY25
-		[ "HOH",		67716,		83805,		6.0		],		// TY25
-		[ "HOH",		83805,		98990,		8.0		],		// TY25
-		[ "HOH",		98990,		505208,		9.3		],		// TY25
-		[ "HOH",		505208,		606251,		10.3	],		// TY25
-		[ "HOH",		606251,		1010417,	11.3	],		// TY25
-		[ "HOH",		1010417,	MAX_DOLLAR,	12.3	],		// TY25
+		[ HOH,		0,			22173,		.0		],		// TY25
+		[ HOH,		22173,		52530,		2.0		],		// TY25
+		[ HOH,		52530,		67716,		4.0		],		// TY25
+		[ HOH,		67716,		83805,		6.0		],		// TY25
+		[ HOH,		83805,		98990,		8.0		],		// TY25
+		[ HOH,		98990,		505208,		9.3		],		// TY25
+		[ HOH,		505208,		606251,		10.3	],		// TY25
+		[ HOH,		606251,		1010417,	11.3	],		// TY25
+		[ HOH,		1010417,	MAX_DOLLAR,	12.3	],		// TY25
 
-		[ "MFJ",		0,			22158,		1.0		],		// TY25
-		[ "MFJ",		22158,		52528,		2.0		],		// TY25
-		[ "MFJ",		52528,		82904,		4.0		],		// TY25
-		[ "MFJ",		82904,		115084,		6.0		],		// TY25
-		[ "MFJ",		115084,		145448,		8.0		],		// TY25
-		[ "MFJ",		145448,		742958,		9.3		],		// TY25
-		[ "MFJ",		742958,		891542,		10.3	],		// TY25
-		[ "MFJ",		891542,		1485906,	11.3	],		// TY25
-		[ "MFJ",		1485906,	MAX_DOLLAR,	12.3	],		// TY25
+		[ MFJ,		0,			22158,		1.0		],		// TY25
+		[ MFJ,		22158,		52528,		2.0		],		// TY25
+		[ MFJ,		52528,		82904,		4.0		],		// TY25
+		[ MFJ,		82904,		115084,		6.0		],		// TY25
+		[ MFJ,		115084,		145448,		8.0		],		// TY25
+		[ MFJ,		145448,		742958,		9.3		],		// TY25
+		[ MFJ,		742958,		891542,		10.3	],		// TY25
+		[ MFJ,		891542,		1485906,	11.3	],		// TY25
+		[ MFJ,		1485906,	MAX_DOLLAR,	12.3	],		// TY25
 	];
 }

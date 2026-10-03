@@ -1,6 +1,7 @@
 
-import { MAX_DOLLAR, MIN_DOLLAR }	from "../TAXTools/TAXTools.js";
-import { TaxTableTmpl }				from "../Classes/TaxTableTmpl.js";
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+import { MAX_DOLLAR, MIN_DOLLAR }		from "../TAXTools/TAXTools.js";
+import { TaxTableTmpl }					from "../Classes/TaxTableTmpl.js";
 
 export class TaxTable_2024 extends TaxTableTmpl {
 	//
@@ -97,22 +98,22 @@ export class TaxTable_2024 extends TaxTableTmpl {
 	// Alternative Minimum Tax (AMT)
 	//
 	amt_tax = [
-		//				Start of	End of		Subtract	Rate
-		//				Bracket		Bracket					Percent
-		[ "SINGLE",		0,			232600,		0,			26	],
-		[ "SINGLE",		239100,		MAX_DOLLAR,	4782,		28	],
+		//			Start of	End of		Subtract	Rate
+		//			Bracket		Bracket					Percent
+		[ SINGLE,	0,			232600,		0,			26	],
+		[ SINGLE,	239100,		MAX_DOLLAR,	4782,		28	],
 
-		[ "HOH",		0,			232600,		0,			26	],
-		[ "HOH",		239100,		MAX_DOLLAR,	4782,		28	],
+		[ HOH,		0,			232600,		0,			26	],
+		[ HOH,		239100,		MAX_DOLLAR,	4782,		28	],
 
-		[ "MFJ",		0,			232600,		0,			26	],
-		[ "MFJ",		232600,		MAX_DOLLAR,	4782,		28	],
+		[ MFJ,		0,			232600,		0,			26	],
+		[ MFJ,		232600,		MAX_DOLLAR,	4782,		28	],
 
-		[ "QSS",		0,			232600,		0,			26	],
-		[ "QSS",		232600,		MAX_DOLLAR,	4782,		28	],
+		[ QSS,		0,			232600,		0,			26	],
+		[ QSS,		232600,		MAX_DOLLAR,	4782,		28	],
 
-		[ "MFS",		0,			116300,		0,			26	],
-		[ "MFS",		119550,		MAX_DOLLAR,	2391,		28	],
+		[ MFS,		0,			116300,		0,			26	],
+		[ MFS,		119550,		MAX_DOLLAR,	2391,		28	],
 	];
 
 	//
@@ -128,47 +129,47 @@ export class TaxTable_2024 extends TaxTableTmpl {
 	// brackets.
 	//
 	income_tax_table = [
-		// Filing		Start of	End of		Rate
-		// Status		Bracket		Bracket		Percent
-		[ "SINGLE",		0,			11600,		10 ],
-		[ "SINGLE",		11600,		47150,		12 ],
-		[ "SINGLE",		47150,		100525,		22 ],
-		[ "SINGLE",		100525,		191950,		24 ],
-		[ "SINGLE",		191950,		243725,		32 ],
-		[ "SINGLE",		243725,		609350,		35 ],
-		[ "SINGLE",		609350,		MAX_DOLLAR,	37 ],
+		// Filing	Start of	End of		Rate
+		// Status	Bracket		Bracket		Percent
+		[ SINGLE,	0,			11600,		10 ],
+		[ SINGLE,	11600,		47150,		12 ],
+		[ SINGLE,	47150,		100525,		22 ],
+		[ SINGLE,	100525,		191950,		24 ],
+		[ SINGLE,	191950,		243725,		32 ],
+		[ SINGLE,	243725,		609350,		35 ],
+		[ SINGLE,	609350,		MAX_DOLLAR,	37 ],
 
-		[ "HOH",		0,			16550,		10 ],
-		[ "HOH",		16550,		63100,		12 ],
-		[ "HOH",		63100,		100500,		22 ],
-		[ "HOH",		100500,		191950,		24 ],
-		[ "HOH",		191950,		243725,		32 ],
-		[ "HOH",		243725,		609350,		35 ],
-		[ "HOH",		609350,		MAX_DOLLAR,	37 ],
+		[ HOH,		0,			16550,		10 ],
+		[ HOH,		16550,		63100,		12 ],
+		[ HOH,		63100,		100500,		22 ],
+		[ HOH,		100500,		191950,		24 ],
+		[ HOH,		191950,		243725,		32 ],
+		[ HOH,		243725,		609350,		35 ],
+		[ HOH,		609350,		MAX_DOLLAR,	37 ],
 
-		[ "MFJ",		0,			23200,		10 ],
-		[ "MFJ",		23200,		94300,		12 ],
-		[ "MFJ",		94300,		201050,		22 ],
-		[ "MFJ",		201050,		383900,		24 ],
-		[ "MFJ",		383900,		487450,		32 ],
-		[ "MFJ",		487450,		731200,		35 ],
-		[ "MFJ",		731200,		MAX_DOLLAR,	37 ],
+		[ MFJ,		0,			23200,		10 ],
+		[ MFJ,		23200,		94300,		12 ],
+		[ MFJ,		94300,		201050,		22 ],
+		[ MFJ,		201050,		383900,		24 ],
+		[ MFJ,		383900,		487450,		32 ],
+		[ MFJ,		487450,		731200,		35 ],
+		[ MFJ,		731200,		MAX_DOLLAR,	37 ],
 
-		[ "QSS",		0,			23200,		10 ],
-		[ "QSS",		23200,		94300,		12 ],
-		[ "QSS",		94300,		201050,		22 ],
-		[ "QSS",		201050,		383900,		24 ],
-		[ "QSS",		383900,		487450,		32 ],
-		[ "QSS",		487450,		731200,		35 ],
-		[ "QSS",		731200,		MAX_DOLLAR,	37 ],
+		[ QSS,		0,			23200,		10 ],
+		[ QSS,		23200,		94300,		12 ],
+		[ QSS,		94300,		201050,		22 ],
+		[ QSS,		201050,		383900,		24 ],
+		[ QSS,		383900,		487450,		32 ],
+		[ QSS,		487450,		731200,		35 ],
+		[ QSS,		731200,		MAX_DOLLAR,	37 ],
 
-		[ "MFS",		0,			11600,		10 ],
-		[ "MFS",		11600,		47150,		12 ],
-		[ "MFS",		47150,		100525,		22 ],
-		[ "MFS",		100525,		191950,		24 ],
-		[ "MFS",		191950,		243725,		32 ],
-		[ "MFS",		243725,		365600,		35 ],
-		[ "MFS",		365600,		MAX_DOLLAR,	37 ],
+		[ MFS,		0,			11600,		10 ],
+		[ MFS,		11600,		47150,		12 ],
+		[ MFS,		47150,		100525,		22 ],
+		[ MFS,		100525,		191950,		24 ],
+		[ MFS,		191950,		243725,		32 ],
+		[ MFS,		243725,		365600,		35 ],
+		[ MFS,		365600,		MAX_DOLLAR,	37 ],
 	];
 
 	//
@@ -304,36 +305,36 @@ export class TaxTable_2024 extends TaxTableTmpl {
 	// SINGLE and MFS are the same. MFJ and QSS are the same.
 	//
 	ca_income_tax_table = [
-		// Filing		Start of	End of		Rate
-		// Status		Bracket		Bracket		Percent
-		[ "SINGLE",		0,			10756,		1		],
-		[ "SINGLE",		10756,		25499,		2		],
-		[ "SINGLE",		25499,		40245,		4		],
-		[ "SINGLE",		40245,		55866,		6		],
-		[ "SINGLE",		55866,		70606,		8		],
-		[ "SINGLE",		70606,		360659,		9.3		],
-		[ "SINGLE",		360659,		432787,		10.3	],
-		[ "SINGLE",		432787,		721314,		11.3	],
-		[ "SINGLE",		721314,		MAX_DOLLAR,	12.3	],
+		// Filing	Start of	End of		Rate
+		// Status	Bracket		Bracket		Percent
+		[ SINGLE,	0,			10756,		1		],
+		[ SINGLE,	10756,		25499,		2		],
+		[ SINGLE,	25499,		40245,		4		],
+		[ SINGLE,	40245,		55866,		6		],
+		[ SINGLE,	55866,		70606,		8		],
+		[ SINGLE,	70606,		360659,		9.3		],
+		[ SINGLE,	360659,		432787,		10.3	],
+		[ SINGLE,	432787,		721314,		11.3	],
+		[ SINGLE,	721314,		MAX_DOLLAR,	12.3	],
 
-		[ "HOH",		0,			21527,		1		],
-		[ "HOH",		21527,		51000,		2		],
-		[ "HOH",		51000,		65744,		4		],
-		[ "HOH",		65744,		81364,		6		],
-		[ "HOH",		81364,		96107,		8		],
-		[ "HOH",		96107,		490493,		9.3		],
-		[ "HOH",		490493,		588593,		10.3	],
-		[ "HOH",		588593,		980987,		11.3	],
-		[ "HOH",		980987,		MAX_DOLLAR,	12.3	],
+		[ HOH,		0,			21527,		1		],
+		[ HOH,		21527,		51000,		2		],
+		[ HOH,		51000,		65744,		4		],
+		[ HOH,		65744,		81364,		6		],
+		[ HOH,		81364,		96107,		8		],
+		[ HOH,		96107,		490493,		9.3		],
+		[ HOH,		490493,		588593,		10.3	],
+		[ HOH,		588593,		980987,		11.3	],
+		[ HOH,		980987,		MAX_DOLLAR,	12.3	],
 
-		[ "MFJ",		0,			21512,		1		],
-		[ "MFJ",		21512,		50998,		2		],
-		[ "MFJ",		50998,		80490,		4		],
-		[ "MFJ",		80490,		111732,		6		],
-		[ "MFJ",		111732,		141212,		8		],
-		[ "MFJ",		141212,		721318,		9.3		],
-		[ "MFJ",		721318,		865574,		10.3	],
-		[ "MFJ",		865574,		1442628,	11.3	],
-		[ "MFJ",		1442628,	MAX_DOLLAR,	12.3	],
+		[ MFJ,		0,			21512,		1		],
+		[ MFJ,		21512,		50998,		2		],
+		[ MFJ,		50998,		80490,		4		],
+		[ MFJ,		80490,		111732,		6		],
+		[ MFJ,		111732,		141212,		8		],
+		[ MFJ,		141212,		721318,		9.3		],
+		[ MFJ,		721318,		865574,		10.3	],
+		[ MFJ,		865574,		1442628,	11.3	],
+		[ MFJ,		1442628,	MAX_DOLLAR,	12.3	],
 	];
 }

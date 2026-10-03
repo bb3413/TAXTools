@@ -1,4 +1,8 @@
 
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
+import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
+
 // Classes
 import { Container }	from "../Library/Classes/Container.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
@@ -154,8 +158,9 @@ function changeHandler(event) {
 	resetCalculation();  // Reset the previous calculation if there was one.
 
 	// If the filing status changed, make sure the correct spouse information is displayed.
-	const filing_status = HTML.getUserInput("filing-status", "text").toUpperCase();
-	if (filing_status === "MFJ") {
+	const filing_status =
+		strToFilingStatus(HTML.getUserInput("filing-status", "text"));
+	if (filing_status === MFJ) {
 		HTML.showElement("spouse-container");
 	} else {
 		HTML.hideElement("spouse-container");

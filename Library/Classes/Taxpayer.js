@@ -1,4 +1,8 @@
 
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+import { filingStatusToStr }			from "../TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../TAXTools/TAXTools.js";
+
 import { Dates }		from "../Modules/Dates.js";
 import { Dependent }	from "../InputWorksheets/Dependent.js";
 import { Ensure }		from "../Modules/Ensure.js";
@@ -48,11 +52,19 @@ function initializeTaxpayer() {
 		const value_type	= ELEMENTS[field_name][0];
 		const key_name		= field_name.replace(/-/g, "_");
 		if (document.getElementById(field_name)) {
-			taxpayer[key_name] = HTML.getUserInput(field_name, value_type);
+			switch (key_name) {
+				case "filing_status":
+					taxpayer[key_name] = 
+						strToFilingStatus(HTML.getUserInput(field_name, value_type));
+					break;
+				default:
+					taxpayer[key_name] = HTML.getUserInput(field_name, value_type);
+					break;
+			}
 		}
 	}
 
-	if (taxpayer.filing_status === "MFJ") {
+	if (taxpayer.filing_status === MFJ) {
 		if (taxpayer.months_lived_together === "") {
 			taxpayer.months_lived_together = 12;
 		} else {
@@ -61,16 +73,6 @@ function initializeTaxpayer() {
 	}
 
 	return taxpayer;
-}
-
-function formatFilingStatus(filing_status) {
-	switch (filing_status) {
-		case "SINGLE":	return "Single";
-		case "HOH":		return "HoH";
-		case "MFJ":		return "MFJ";
-		case "QSS":		return "QSS";
-		case "MFS":		return "MFS";
-	}
 }
 
 function printLine(output, label, value) {
@@ -104,7 +106,7 @@ export class Taxpayer {
 		if (taxpayer) {
 			return taxpayer.filing_status;
 		} else {
-			return "SINGLE";
+			return SINGLE;
 		}
 	}
 
@@ -153,7 +155,7 @@ export class Taxpayer {
 	constructor() {
 		taxpayer = this;
 
-		this._filing_status					= "SINGLE";
+		this._filing_status					= SINGLE;
 		this._taxpayers_name				= "";
 		this._street_address				= "";		// Needed for sales tax
 		this._city							= "";		// Needed for sales tax
@@ -197,7 +199,7 @@ export class Taxpayer {
 	//
 	// ---------------- Setter Methods ----------------
 	//
-	set filing_status(fs) {				this._filing_status		= fs.toUpperCase() }
+	set filing_status(fs) {				this._filing_status		= fs }
 	set taxpayers_name(name) {			this._taxpayers_name	= name }
 	set street_address(str) {			this._street_address	= str }
 	set city(str) {						this._city				= str }
@@ -249,7 +251,7 @@ export class Taxpayer {
 
 	familySize() {
 		let size = 1;	// Taxpayer
-		if (this._filing_status === "MFJ") {
+		if (this._filing_status === MFJ) {
 			size++;		// Spouse
 		}
 
@@ -260,8 +262,8 @@ export class Taxpayer {
 
 	isMarried() {
 		switch (this.filing_status) {
-			case "MFJ":	return true;
-			case "MFS":	return true;
+			case MFJ:	return true;
+			case MFS:	return true;
 		}
 		return false;
 	}
@@ -271,7 +273,7 @@ export class Taxpayer {
 		// Put the taxpayer information on the output form 1040.
 		//
 		HTML.putUserOutput("f1040-1-filing-status",
-			formatFilingStatus(this._filing_status), "text");
+			filingStatusToStr(this._filing_status), "text");
 		HTML.putUserOutput("f1040-1-taxpayers-name",
 			this._taxpayers_name, "text");
 		HTML.putUserOutput("f1040-1-street-address",
@@ -316,7 +318,7 @@ export class Taxpayer {
 			`${this._taxpayers_birthday}, Age: ${this._taxpayers_age}`);
 		printLine(lines, "Taxpayer Is Blind",	this._is_taxpayer_blind);
 
-		if (this._filing_status === "MFJ") {
+		if (this._filing_status === MFJ) {
 			printLine(lines, "Spouse's Birthday",
 				`${this._spouses_birthday}, Age: ${this._spouses_age}`);
 			printLine(lines, "Spouse Is Blind",	this._is_spouse_blind);
@@ -334,7 +336,7 @@ export class Taxpayer {
 		const fields = Object.keys(this);
 		for (const field of fields) {
 			let value = this[field];
-			if ((this._filing_status !== "MFJ") && field.match(/spouse/i)) {
+			if ((this._filing_status !== MFJ) && field.match(/spouse/i)) {
 				continue;
 			}
 			if (value) {	// Skip empty lines.

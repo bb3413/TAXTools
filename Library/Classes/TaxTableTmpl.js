@@ -1,30 +1,10 @@
 
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+
 import { Ensure }		from "../Modules/Ensure.js";
 import { Num }			from "../Modules/Num.js";
 import { Str }			from "../Modules/Str.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
-
-// Values columns
-const SINGLE	= 0;
-const HOH		= 1;
-const MFJ		= 2;
-const QSS		= 3;
-const MFS		= 4;
-
-function getValuesCol(filing_status) {
-	let col = 0;
-	switch (filing_status) {
-		case "SINGLE":	col = 0; break;
-		case "HOH":		col = 1; break;
-		case "MFJ":		col = 2; break;
-		case "QSS":		col = 3; break;
-		case "MFS":		col = 4; break;
-		default:
-			throw new Error("TT.getValueCol: Invalid filing_status: " + filing_status);
-	}
-	return col;
-}
-
 
 export class TaxTableTmpl {
 	getBusinessMileageDeduction(miles) {
@@ -36,7 +16,7 @@ export class TaxTableTmpl {
 	}
 
 	getIncomeTaxFromTable(filing_status, income) {
-		// Note: there is another named getIncomeTax() in
+		// Note: there is another function named getIncomeTax() in
 		// Library/IncomeTax.js.
 		//
 		// Find the tax bracket for the filing status and income, then compute
@@ -83,9 +63,9 @@ export class TaxTableTmpl {
 		let factor	= 0.0;
 		let col;
 		
-		if (tp.filing_status === "MFJ") {
+		if (tp.filing_status === MFJ) {
 			col = 2;
-		} else if (tp.filing_status === "HOH") {
+		} else if (tp.filing_status === HOH) {
 			col = 3;
 		} else {
 			col = 4;
@@ -162,7 +142,7 @@ export class TaxTableTmpl {
 			senior_deduction = deduction;
 		}
 
-		if (filing_status === "MFJ") {
+		if (filing_status === MFJ) {
 			if (spouses_age >= 65) {
 				senior_deduction += deduction;
 			}
@@ -172,7 +152,7 @@ export class TaxTableTmpl {
 	}
 
 	getStandardDeduction(
-		filing_status		= "SINGLE",
+		filing_status		= SINGLE,
 		taxpayers_age		= 0,
 		spouses_age			= 0,
 		is_taxpayer_blind	= false,
@@ -186,7 +166,7 @@ export class TaxTableTmpl {
 		if (is_taxpayer_blind)
 			std_deduction += std_deduction_extra;
 
-		if (filing_status === "MFJ") {
+		if (filing_status === MFJ) {
 			if (spouses_age >= 65)
 				std_deduction += std_deduction_extra;
 			if (is_spouse_blind)
@@ -196,12 +176,12 @@ export class TaxTableTmpl {
 		return std_deduction;
 	}
 
-	getTaxValue(name, filing_status = "SINGLE") {
+	getTaxValue(name, filing_status = SINGLE) {
 		if (!this.values[name]) {
 			throw new Error("TT.getTaxValue(): Invalid tax value: " + name);
 		}
 
-		return this.values[name][getValuesCol(filing_status)]
+		return this.values[name][filing_status]
 	}
 
 	getTaxYear() {
@@ -240,7 +220,7 @@ export class TaxTableTmpl {
 	}
 
 	get_CA_Exemption(
-		filing_status		= "SINGLE",
+		filing_status		= SINGLE,
 		taxpayers_age		= 0,
 		spouses_age			= 0,
 		is_taxpayer_blind	= false,
@@ -256,7 +236,7 @@ export class TaxTableTmpl {
 		if (is_taxpayer_blind)
 			exemption += personal_exemption;
 
-		if (filing_status === "MFJ") {
+		if (filing_status === MFJ) {
 			exemption += personal_exemption;		// One exemption for the spouse.
 			if (spouses_age >= 65)
 				exemption += personal_exemption;
@@ -278,11 +258,11 @@ export class TaxTableTmpl {
 
 		// SINGLE and MFS are the same. MFJ and QSS are the same.
 		switch (filing_status) {
-			case "QSS":
-				filing_status	= "MFJ";
+			case QSS:
+				filing_status	= MFJ;
 				break;
-			case "MFS":
-				filing_status	= "SINGLE";
+			case MFS:
+				filing_status	= SINGLE;
 				break;
 		}
 

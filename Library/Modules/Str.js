@@ -1,27 +1,21 @@
 
 import { Ensure } from "../Modules/Ensure.js";
 
-const _expectString = (value, name = "value") => {
-	if (typeof value !== "string") {
-		throw new TypeError(`${name} must be a string.`);
-	}
-	return value;
-};
-
 const caseEqual = (s1, s2) => {
-	s1 = _expectString(s1, "s1");
-	s2 = _expectString(s2, "s2");
+	Ensure.isString(s1, "s1");
+	Ensure.isString(s2, "s2");
+
 	return s1.toLowerCase() === s2.toLowerCase();
 };
 
 const clean = (s) => {
-	s = _expectString(s, "s");
+	Ensure.isString(s, "s");
 	// Remove leading, trailing, and consecutive whitespace characters.
 	return s.trim().replace(/\s+/g, " ");
 };
 
 const downshift = (s) => {
-	s = _expectString(s, "s");
+	Ensure.isString(s, "s");
 	return s.toLowerCase();
 };
 
@@ -41,8 +35,8 @@ const empty = (s) => {
 };
 
 const equal = (s1, s2) => {
-	s1 = _expectString(s1, "s1");
-	s2 = _expectString(s2, "s2");
+	Ensure.isString(s1, "s1");
+	Ensure.isString(s2, "s2");
 	return s1 === s2;
 };
 
@@ -51,8 +45,8 @@ const prefixLines = (prefix, str) => {
 	// Add the prefix to the front of each string inside a string that contains multiple
 	// lines (i.e., embedded newlines).
 	//
-	prefix	= _expectString(prefix, "prefix");
-	str		= _expectString(str, "str");
+	Ensure.isString(prefix, "prefix");
+	Ensure.isString(str, "str");
 
 	const lines = str.split("\n");
 	for (let i = 0; i < lines.length; i++) {
@@ -62,7 +56,7 @@ const prefixLines = (prefix, str) => {
 };
 
 const upshift = (s) => {
-	s = _expectString(s, "s");
+	Ensure.isString(s, "s");
 	return s.toUpperCase();
 };
 
@@ -70,7 +64,7 @@ const wrap = (str, maxLength = 80) => {
 	//
 	// Wrap string into multiple lines by breaking on word boundaries.
 	//
-	str = _expectString(str, "str");
+	Ensure.isString(str, "str");
 	if (str === "") {
 		return "";
 	}
@@ -123,7 +117,7 @@ const wrapLines = (str, maxLength = 80) => {
 	// Wrap string with multiple lines (i.e., embedded newlines) into multiple lines by
 	// breaking on word boundaries.
 	//
-	str = _expectString(str, "str");
+	Ensure.isString(str, "str");
 	const lines = str.split("\n");
 	for (let i = 0; i < lines.length; i++) {
 		lines[i] = wrap(lines[i], maxLength);
@@ -132,7 +126,7 @@ const wrapLines = (str, maxLength = 80) => {
 };
 
 const upshiftFirst = (str) => {
-	str = _expectString(str, "str");
+	Ensure.isString(str, "str");
 	if (str === "") {
 		return "";
 	}
@@ -140,7 +134,7 @@ const upshiftFirst = (str) => {
 };
 
 const camelCaseToEnglish = (name) => {
-	name = _expectString(name, "name");
+	Ensure.isString(name, "name");
 	if (name === "") {
 		return "";
 	}
@@ -162,7 +156,7 @@ const camelCaseToEnglish = (name) => {
 };
 
 const camelToSnakeCase = (name) => {
-	name = _expectString(name, "name");
+	Ensure.isString(name, "name");
 	if (name === "") {
 		return "";
 	}
@@ -181,17 +175,17 @@ const camelToSnakeCase = (name) => {
 };
 
 const kebabToSnakeCase = (name) => {
-	name = _expectString(name, "name");
+	Ensure.isString(name, "name");
 	return name.replace(/-/g, "_");
 };
 
 const kebabToCamelCase = (name) => {
-	name = _expectString(name, "name");
+	Ensure.isString(name, "name");
 	return snakeToCamelCase(name.replace(/-/g, "_"));
 };
 
 const snakeCaseToEnglish = (name) => {
-	name = _expectString(name, "name");
+	Ensure.isString(name, "name");
 	if (name === "") {
 		return "";
 	}
@@ -202,7 +196,7 @@ const snakeCaseToEnglish = (name) => {
 };
 
 const snakeToCamelCase = (name) => {
-	name = _expectString(name, "name");
+	Ensure.isString(name, "name");
 	if (name === "") {
 		return "";
 	}
@@ -220,7 +214,7 @@ const snakeToCamelCase = (name) => {
 };
 
 const snakeToKebabCase = (name) => {
-	name = _expectString(name, "name");
+	Ensure.isString(name, "name");
 	return name.replace(/_/g, "-");
 };
 

@@ -97,7 +97,7 @@ function mapInputValues(inputs) {
 }
 
 function putOutputs(taxpayer) {
-	if (taxpayer.filing_status === "MFJ") {
+	if (taxpayer.filing_status === MFJ) {
 		HTML.showElement("SpouseContainer");
 	} else {
 		HTML.hideElement("SpouseContainer");

@@ -20,7 +20,7 @@ function changeHandler(event) {
 		Taxpayer.reset();
 
 		const inputs = getInputs();				// Get inputs from the web page
-		if (inputs.filing_status === "MFJ") {
+		if (inputs.filing_status === MFJ) {
 			HTML.showElement("SpouseContainer");
 		} else {
 			HTML.hideElement("SpouseContainer");
@@ -144,7 +144,7 @@ function mapInputValues(inputs) {
 function putOutputs() {
 	const tp = Taxpayer.getTaxpayer();
 
-	if (tp.filing_status === "MFJ") {
+	if (tp.filing_status === MFJ) {
 		HTML.showElement("SpouseContainer");
 	} else {
 		HTML.hideElement("SpouseContainer");

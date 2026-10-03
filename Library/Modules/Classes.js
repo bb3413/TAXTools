@@ -2,6 +2,8 @@
 //
 // This module provides utilities to manage the names of classes.
 //
+import { SINGLE, HOH, MFJ, QSS, MFS } from "../TAXTools/TAXTools.js";
+
 import { Ensure }		from "../Modules/Ensure.js";
 
 // Input Tax Forms

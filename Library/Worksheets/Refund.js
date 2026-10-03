@@ -90,7 +90,7 @@ export class Refund extends TaxForm {
 		}
 
 		this.lines["04"].value = this.itemized_deductions;
-		if ((tp.filing_status === "MFS") && spouse_itemized) {
+		if ((tp.filing_status === MFS) && spouse_itemized) {
 			this.lines["08"].value = this.line("04");
 		} else {
 			this.lines["05"].value	= 0;	// Get base standard deduction

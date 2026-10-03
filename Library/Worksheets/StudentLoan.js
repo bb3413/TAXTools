@@ -43,7 +43,7 @@ export class StudentLoan extends TaxForm {
 
 		const max_interest	= tt.getTaxValue("MaxStudentLoanInterest", tp.filing_status);
 		const phase_out		= tt.getTaxValue("StudentLoanPhaseOut", tp.filing_status);
-		const factor		= tp.filing_status === "MFJ" ? 30000 : 15000;
+		const factor		= tp.filing_status === MFJ ? 30000 : 15000;
 
 		this.lines["01"].value	= Math.min(max_interest, this.student_loan_interest);
 		this.lines["02"].value	= TaxFormObj.getValue("F1040", "09");	// Total Income

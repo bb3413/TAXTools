@@ -167,7 +167,7 @@ function putOutputs(inputs, outputs) {
 	const tp = Taxpayer.getTaxpayer();
 	let taxable_percent = 0;
 
-	if (tp.filing_status === "MFS") {
+	if (tp.filing_status === MFS) {
 		HTML.showElement("LivedWithSpouseContainer");
 	} else {
 		HTML.hideElement("LivedWithSpouseContainer");

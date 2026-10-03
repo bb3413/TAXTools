@@ -1,4 +1,6 @@
 
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+
 import { Alert }				from "../Library/Modules/Alert.js";
 import { Dates }				from "../Library/Modules/Dates.js";
 import { Debug }				from "../Library/Modules/Debug.js";
@@ -55,7 +57,7 @@ function changeHandler(event) {
 function createTaxpayer(inputs) {
 	const taxpayer					= new Taxpayer();
 
-	taxpayer.filing_status			= "SINGLE";
+	taxpayer.filing_status			= SINGLE;
 	taxpayer.number_of_dependents	= Math.min(0, inputs.family_size - 1);
 
 	return taxpayer;

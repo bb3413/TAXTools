@@ -92,7 +92,7 @@ export class SSTax extends TaxForm {
 			return 0;
 		}
 		this.lines["07"].value	= Math.max(0, this.subtract("05", "06"));	// SS income
-		if ((filing_status === "MFS") && lived_with_spouse) {
+		if ((filing_status === MFS) && lived_with_spouse) {
 			this.lines["16"].value = Math.round(this.line("07") * 0.85);	// 85%
 		} else {
 			this.lines["08"].value = tt.get_SS_Start_50(filing_status);		// Start 50% range

@@ -1,4 +1,6 @@
 
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
@@ -169,7 +171,7 @@ export class F1040S1A extends TaxForm {
 			TaxFormObj.getValue("F1098VLI", "01");
 		this.lines["22b"].value	= 0;								// Car Loan #2 Interest
 		this.lines["23"].value	= this.add("22a","22b");			// Total Interest
-		if ((this.line("23") > 0) && (tp.filing_status !== "MFS")) {
+		if ((this.line("23") > 0) && (tp.filing_status !== MFS)) {
 			this.lines["24"].value	= Math.min(this.line("23"), max_deduction);	// Limit
 			this.lines["25"].value	= this.line("03");				// AGI + Foreign Income
 			this.lines["26"].value	= start_of_phase_out;
@@ -202,7 +204,7 @@ export class F1040S1A extends TaxForm {
 			this.lines["36a"].value	= this.line("35");			// Senior deduction
 		}
 		this.lines["36b"].value	= 0;
-		if ((tp.filing_status === "MFJ") && tp.taxpayer_has_ssn && tp.spouses_age >= 65) {
+		if ((tp.filing_status === MFJ) && tp.taxpayer_has_ssn && tp.spouses_age >= 65) {
 			this.lines["36b"].value	= this.line("35");			// Senior deduction
 		}
 		this.lines["37"].value	= this.add("36a","36b");		// Senior Deduction
@@ -214,13 +216,13 @@ export class F1040S1A extends TaxForm {
 	_isQualified() {
 		// Check qualification for tips, overtime.
 		const tp = Taxpayer.getTaxpayer();
-		if (tp.filing_status === "MFS"){
+		if (tp.filing_status === MFS){
 			return false;
 		}
-		if ((tp.filing_status !== "MFJ") && tp.taxpayer_has_ssn) {
+		if ((tp.filing_status !== MFJ) && tp.taxpayer_has_ssn) {
 			return true;
 		}
-		if ((tp.filing_status === "MFJ") && tp.taxpayer_has_ssn && tp.spouse_has_ssn) {
+		if ((tp.filing_status === MFJ) && tp.taxpayer_has_ssn && tp.spouse_has_ssn) {
 			// FIX THIS; only the spouse that earned the overtime or tips needs an SSN.
 			return true;
 		}

@@ -1,4 +1,6 @@
 
+import { SINGLE, HOH, MFJ, QSS, MFS } from "../TAXTools/TAXTools.js";
+
 import { Debug }				from "../Modules/Debug.js";
 import { Ensure }				from "../Modules/Ensure.js";
 import { Line }					from "../Classes/Line.js";
@@ -122,15 +124,15 @@ export class F540 extends TaxForm {
 		this.lines["003"].value	= false;	// MFS
 		this.lines["004"].value	= false;	// HOH
 		this.lines["005"].value	= false;	// QSS
-		if (tp.filing_status === "SINGLE") {
+		if (tp.filing_status === SINGLE) {
 			this.lines["001"].value	= true;
-		} else if (tp.filing_status === "MFJ") {
+		} else if (tp.filing_status === MFJ) {
 			this.lines["002"].value	= true;
-		} else if (tp.filing_status === "MFS") {
+		} else if (tp.filing_status === MFS) {
 			this.lines["003"].value	= true;
-		} else if (tp.filing_status === "HOH") {
+		} else if (tp.filing_status === HOH) {
 			this.lines["004"].value	= true;
-		} else if (tp.filing_status === "QSS") {
+		} else if (tp.filing_status === QSS) {
 			this.lines["005"].value	= true;
 		}
 
@@ -139,7 +141,7 @@ export class F540 extends TaxForm {
 
 		// Personal Exemption
 		this.lines["007"].value	= personal_exemption;
-		if ((tp.filing_status === "MFJ") || (tp.filing_status === "QSS")) {
+		if ((tp.filing_status === MFJ) || (tp.filing_status === QSS)) {
 			this.lines["007"].value += personal_exemption;
 		}
 
@@ -148,7 +150,7 @@ export class F540 extends TaxForm {
 		if (tp.is_taxpayer_blind) {
 			this.lines["008"].value += personal_exemption;
 		}
-		if ((tp.filing_status === "MFJ") && tp.is_spouse_blind) {
+		if ((tp.filing_status === MFJ) && tp.is_spouse_blind) {
 			this.lines["008"].value += personal_exemption;
 		}
 
@@ -157,7 +159,7 @@ export class F540 extends TaxForm {
 		if (tp.taxpayers_age >= 65) {
 			this.lines["009"].value += personal_exemption;
 		}
-		if ((tp.filing_status === "MFJ") && tp.spouses_age >= 65) {
+		if ((tp.filing_status === MFJ) && tp.spouses_age >= 65) {
 			this.lines["009"].value += personal_exemption;
 		}
 

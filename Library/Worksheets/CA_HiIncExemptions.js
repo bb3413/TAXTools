@@ -52,7 +52,7 @@ export class CA_HiIncExemptions extends TaxForm {
 		this.lines["0a"].value	= TaxFormObj.getValue("F540", "13");	// Federal AGI
 		this.lines["0b"].value	= tt.getTaxValue("CA_HiIncPhaseout", tp.filing_status);
 		this.lines["0c"].value	= this.subtract("0a", "0b");
-		if (tp.filing_status === "MFJ") {
+		if (tp.filing_status === MFJ) {
 			this.lines["0d"].value	= this.line("0c") / 2500;
 		} else {
 			this.lines["0d"].value	= this.line("0c") / 1250;

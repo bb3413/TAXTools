@@ -112,13 +112,16 @@ const TaxFormObj = {
 	},
 
 	earnedIncome() {
-		return TaxFormObj.getValue("F1040", "01z") +
-			TaxFormObj.getValue("F1040S1", "03") +
-			TaxFormObj.getValue("F1040S1", "06") +
-			TaxFormObj.getValue("F1040S1", "08r") +
-			TaxFormObj.getValue("F1040S1", "08t") +
-			TaxFormObj.getValue("F1040S1", "08u") -
-			TaxFormObj.getValue("F1040S1", "015");
+		return (
+			TaxFormObj.getValue("F1040",	"01z") +	// Earned income
+			TaxFormObj.getValue("F1040",	"01i") +	// Non-taxable combat pay
+			TaxFormObj.getValue("F1040S1",	"02a")  +	// Alimont received
+			TaxFormObj.getValue("F1040S1",	"03")  +	// Business income
+			TaxFormObj.getValue("F1040S1",	"06")  +	// Farm income
+			TaxFormObj.getValue("F1040S1",	"08r") +	// Scholarships not on W-2
+			TaxFormObj.getValue("F1040S1",	"08t") +	// Pension from 457 plan
+			TaxFormObj.getValue("F1040S1",	"08u")		// Prison pay
+		);
 	},
 
 	formsInPrintOrder() {
@@ -249,15 +252,15 @@ const TaxFormObj = {
 
 	getStateWithholding() {
 		return (	// return cannot be on a line by itself
-			TaxFormObj.getValue("W2", "17") +
-			TaxFormObj.getValue("F1099INT", "17") +
-			TaxFormObj.getValue("F1099DIV", "16") +
-			TaxFormObj.getValue("F1099G", "12") +
-			TaxFormObj.getValue("F1099K", "06") +
-			TaxFormObj.getValue("F1099MISC", "16") +
-			TaxFormObj.getValue("F1099MISC", "05") +
-			TaxFormObj.getValue("F1099OID", "14") +
-			TaxFormObj.getValue("F1099R", "14")
+			TaxFormObj.getValue("W2",			"17") +
+			TaxFormObj.getValue("F1099INT",		"17") +
+			TaxFormObj.getValue("F1099DIV",		"16") +
+			TaxFormObj.getValue("F1099G",		"12") +
+			TaxFormObj.getValue("F1099K",		"06") +
+			TaxFormObj.getValue("F1099MISC",	"16") +
+			TaxFormObj.getValue("F1099MISC",	"05") +
+			TaxFormObj.getValue("F1099OID",		"14") +
+			TaxFormObj.getValue("F1099R",		"14")
 		);
 	},
 
@@ -369,19 +372,6 @@ const TaxFormObj = {
 			form.toConsole();
 		}
 	},
-
-	unearnedIncome() {
-		return Math.max(0,
-			TaxFormObj.getValue("F1040", "09") +
-			TaxFormObj.getValue("F1040S1", "24j") -
-			TaxFormObj.getValue("F1040", "01z") -
-			TaxFormObj.getValue("F1040S1", "03") -
-			TaxFormObj.getValue("F1040S1", "06") -
-			TaxFormObj.getValue("F1040S1", "08a") -
-			TaxFormObj.getValue("F1040S1", "08d") -
-			TaxFormObj.getValue("F1040S1", "08u") -
-			TaxFormObj.getValue("F1040S1", "18"));
-	}
 };
 
 const {
@@ -402,7 +392,6 @@ const {
 	getW2TipIncome,
 	reset,
 	toConsole,
-	unearnedIncome
 } = TaxFormObj;
 
 export {
@@ -424,7 +413,6 @@ export {
 	getW2TipIncome,
 	reset,
 	toConsole,
-	unearnedIncome
 };
 
 if (typeof window !== "undefined") {

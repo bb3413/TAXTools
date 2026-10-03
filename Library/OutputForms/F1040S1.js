@@ -1,4 +1,6 @@
 
+import { SINGLE, HOH, MFJ, QSS, MFS } from "../TAXTools/TAXTools.js";
+
 import { Dates }		from "../Modules/Dates.js";
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
@@ -118,7 +120,7 @@ export class F1040S1 extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		const max_educator_expense = tt.getTaxValue("MaxEducatorExpenses", "SINGLE");
+		const max_educator_expense = tt.getTaxValue("MaxEducatorExpenses", SINGLE);
 
 		// Additions to Income
 		this.lines["01"].value	=				// Taxable Refund

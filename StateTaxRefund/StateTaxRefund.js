@@ -130,7 +130,7 @@ function mapInputValues(inputs) {
 function putOutputs(outputs) {
 	const tp = Taxpayer.getTaxpayer();
 
-	if (tp.filing_status === "MFJ") {
+	if (tp.filing_status === MFJ) {
 		HTML.showElement("SpouseContainer");
 	} else {
 		HTML.hideElement("SpouseContainer");
