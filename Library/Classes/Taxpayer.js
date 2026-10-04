@@ -83,7 +83,7 @@ export class Taxpayer {
 	//
 	// ---------------- Static Methods ----------------
 	//
-	static getUserInput(raw = false) {
+	static getInputFromWeb(raw = false) {
 		//
 		// Read the fields from the web and return an object with the values. Raw user input
 		// is only used to save and restore user input.
@@ -335,10 +335,14 @@ export class Taxpayer {
 
 		const fields = Object.keys(this);
 		for (const field of fields) {
-			let value = this[field];
 			if ((this._filing_status !== MFJ) && field.match(/spouse/i)) {
 				continue;
 			}
+			if (field === "_dependents") {
+				continue;
+			}
+
+			let value = this[field];
 			if (value) {	// Skip empty lines.
 				let s = "  " + Str.snakeCaseToEnglish(field);
 				s = s.padEnd(65, " ") + value;

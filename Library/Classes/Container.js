@@ -114,7 +114,7 @@ export class Container {
 			const classname = Classes.findClassName(name);
 			if (Classes.isInputForm(classname)) {
 				str.push("  Entry: " + name);
-				let inputs = Classes.getUserInput(classname, uid);
+				let inputs = Classes.getInputFromWeb(classname, uid);
 				if (Objects.isUsed(inputs)) {
 					inputs = Objects.removeUnused(inputs);
 					str.push(

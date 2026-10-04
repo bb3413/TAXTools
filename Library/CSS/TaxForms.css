@@ -161,6 +161,10 @@
 	text-align:				center;
 }
 
+.taxform-owner {
+	margin-bottom:			6px;
+}
+
 /*
  * For specific tax forms.
  */

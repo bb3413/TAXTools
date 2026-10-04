@@ -135,7 +135,7 @@ function saveAssetsaleItems() {
 
 	for (let entry_id of assetsale_items_container.getEntries()) {
 		let [ entry_name, entry_uid ] = Container.parseElementID(entry_id);
-		let inputs = Objects.removeUnused(Assetitem.getUserInput(entry_uid));
+		let inputs = Objects.removeUnused(Assetitem.getInputFromWeb(entry_uid));
 		if (Objects.isUsed(inputs)) {
 			user_values.push(inputs);
 		}
@@ -149,7 +149,7 @@ function saveDependents() {
 
 	for (let entry_id of dependents_container.getEntries()) {
 		let [ entry_name, entry_uid ] = Container.parseElementID(entry_id);
-		let inputs = Objects.removeUnused(Dependent.getUserInput(entry_uid, RAW));
+		let inputs = Objects.removeUnused(Dependent.getInputFromWeb(entry_uid, RAW));
 		if (Objects.isUsed(inputs)) {
 			user_values.push(inputs);
 		}
@@ -168,7 +168,7 @@ function saveInputForms() {
 	for (let taxform_id of input_taxforms_container.getEntries()) {
 		let [ formname, uid ] = Container.parseElementID(taxform_id);
 		formname = formname.toUpperCase();
-		let inputs = Objects.removeUnused(Classes.getUserInput(formname, uid, RAW));
+		let inputs = Objects.removeUnused(Classes.getInputFromWeb(formname, uid, RAW));
 		if (Objects.isUsed(inputs)) {
 			user_values.push( [ formname, inputs ] );
 		}
@@ -214,10 +214,10 @@ function saveUserDataHandler(event) {
 			"version":			HTML.getUserInput("tax-tools-version", "text"),
 			"todays_date":		new Date().toLocaleDateString(),
 			"tax_year":			HTML.getUserInput("tax-year", "text"),
-			"taxpayer":			Objects.removeUnused(Taxpayer.getUserInput(RAW)),
+			"taxpayer":			Objects.removeUnused(Taxpayer.getInputFromWeb(RAW)),
 			"dependents":		saveDependents(),
-			"expenses":			Objects.removeUnused(Expenses.getUserInput(RAW)),
-			"income":			Objects.removeUnused(Income.getUserInput(RAW)),
+			"expenses":			Objects.removeUnused(Expenses.getInputFromWeb(RAW)),
+			"income":			Objects.removeUnused(Income.getInputFromWeb(RAW)),
 			"assetsale_items":	saveAssetsaleItems(),
 			"input_forms":		saveInputForms(),
 			"output_forms":		saveOutputForms(),

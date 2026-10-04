@@ -10,6 +10,7 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 const ELEMENTS = {
 	// Element ID		Value Type
+	"is-spouses":		[""],
 	"payer":			["text"],
 	"ein":				["text"],
 	"ssn":				["text"],
@@ -32,18 +33,32 @@ const HTML_FORM = `
 		<details class="taxform-details" id="f1099nec-XX-container">
 			<summary class="taxform-summary">1099-NEC - Non-employee Compensation</summary>
 			<div>&nbsp;</div>
+
+			<div class="taxform-owner">
+				<input type="radio" name="f1099nec-XX-owner"
+					id="f1099nec-XX-is-taxpayers" checked />
+				<label for="f1099nec-XX-is-taxpayers">
+					Taxpayer&apos;s Tax Form</label>
+
+				<input type="radio" name="f1099nec-XX-owner"
+					id="f1099nec-XX-is-spouses" />
+				<label for="f1099nec-XX-is-spouses">
+					Spouse&apos;s Tax Form</label>
+				</div>
+			</div>
+
 			<div class="f1099-taxform-container">
 				<!-- Header Section -->
 				<div class="f1099-header-row">
 					<div class="f1099-header-left">
-						<label><input type="checkbox" disabled
-							id="corrected" /> CORRECTED</label>
 					</div>
+
 					<div class="f1099-header-center">
 						<div>OMB No. 1545-0116</div>
 						<h1><span id="tax-year">202X</span></h1>
 						<h2>Form 1099-NEC</h2>
 					</div>
+
 					<div class="f1099-header-right">
 						<strong>Nonemployee Compensation</strong>
 					</div>
@@ -54,7 +69,7 @@ const HTML_FORM = `
 					<!-- Left Column: Payer & Recipient Info Inputs -->
 					<div class="f1099-col-left">
 						<div class="f1099-box f1099-box-large">
-							<span class="f1099-box-label">PAYER&apos;S name, street
+							<span class="f1099-box-label">Payer&apos;S name, street
 								address, city or town, state or province, country,
 								ZIP or foreign postal code, and telephone no.</span>
 							<textarea id="f1099nec-XX-payer"
@@ -63,7 +78,7 @@ const HTML_FORM = `
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
-								<span class="f1099-box-label">PAYER&apos;S TIN</span>
+								<span class="f1099-box-label">Payer&apos;S TIN</span>
 								<input type="text" id="f1099nec-XX-ein"
 									placeholder="12-3456789" />
 							</div>
@@ -230,6 +245,7 @@ export class F1099NEC extends TaxForm {
 		super(formname);
 		this.title = `1099-NEC - Non-employee Compensation`;
 
+		this.lines["is_spouses"]= new Line("Spouse's Tax Form");
 		this.lines["payer"]		= new Line("Payer");
 		this.lines["ein"]		= new Line("EIN");
 		this.lines["ssn"]		= new Line("SSN");
@@ -270,6 +286,7 @@ export class F1099NEC extends TaxForm {
 		//
 		for (const key of Object.keys(inputs)) {
 			switch (key) {
+				case "is_spouses":
 				case "business_name":
 					this[key] = inputs[key];
 					break;

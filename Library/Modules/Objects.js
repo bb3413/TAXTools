@@ -11,7 +11,7 @@ function isUsed(obj) {
 	}
 
 	for (const value of Object.values(obj)) {
-		if (value) {
+		if ((value !== 0) && (value !== "") && (value !== false)) {
 			return true;
 		}
 	}
@@ -27,7 +27,7 @@ function removeUnused(obj) {
 	const newobj = {};
 	for (const key of Object.keys(obj)) {
 		const value = obj[key];
-		if (value) {
+		if ((value !== 0) && (value !== "") && (value !== false)) {
 			newobj[key] = value;
 		}
 	}

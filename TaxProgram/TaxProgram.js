@@ -177,7 +177,7 @@ function getAssetsales() {
 
 	for (const entry_id of assetsale_items_container.getEntries("Assetitem")) {
 		const [ name, uid ] = Container.parseElementID(entry_id);
-		const item = Assetitem.getUserInput(uid);
+		const item = Assetitem.getInputFromWeb(uid);
 
 		if (Objects.isEmpty(item)) {
 			continue;
@@ -207,7 +207,7 @@ function getBusinesses() {
 
 	for (const entry_id of input_taxforms_container.getEntries("Business")) {
 		const [ name, uid ] = Container.parseElementID(entry_id);
-		const inputs = Business.getUserInput(uid);
+		const inputs = Business.getInputFromWeb(uid);
 
 		if (Objects.isEmpty(inputs)) {
 			continue;
@@ -256,7 +256,7 @@ function getDependents() {
 
 	for (const dependent of dependents_container.getEntries("Dependent")) {
 		const [ entry_name, uid ] = Container.parseElementID(entry_id);
-		const inputs = Dependent.getUserInput(uid);
+		const inputs = Dependent.getInputFromWeb(uid);
 		if (Objects.isUsed(inputs)) {
 			tp.addDependent(inputs);
 		}
@@ -266,7 +266,7 @@ function getDependents() {
 function getExpenses() {
 	const tt		= TaxTable.getTaxTable();
 	const tp		= Taxpayer.getTaxpayer();
-	const inputs	= Expenses.getUserInput();
+	const inputs	= Expenses.getInputFromWeb();
 
 	if (Objects.isEmpty(inputs)) {
 		return;
@@ -326,7 +326,7 @@ function getExpenses() {
 }
 
 function getIncome() {
-	const inputs = Income.getUserInput();
+	const inputs = Income.getInputFromWeb();
 	if (Objects.isEmpty(inputs)) {
 			return;
 	}

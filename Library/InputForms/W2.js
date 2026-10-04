@@ -57,25 +57,32 @@ const HTML_FORM = `
 		<details class="taxform-details" id="w2-XX-container">
 			<summary class="taxform-summary">W-2 - Wage and Tax Statement</summary>
 			<div>&nbsp;</div>
+
+			<div class="taxform-owner">
+				<input type="radio" name="w2-XX-owner"
+					id="w2-XX-is-taxpayers" checked />
+				<label for="w2-XX-is-taxpayers">
+					Taxpayer&apos;s Tax Form</label>
+
+				<input type="radio" name="w2-XX-owner"
+					id="w2-XX-is-spouses" />
+				<label for="w2-XX-is-spouses">
+					Spouse&apos;s Tax Form</label>
+				</div>
+			</div>
+
 			<div class="f1099-taxform-container">
 				<!-- Header Section -->
 				<div class="f1099-header-row">
-					<div class="w2-header-left input-color">
-						<div>
-							<input type="radio" name="owner-of-form" id="w2-XX-is-taxpayers"
-								checked />
-							<label for="w2-XX-is-taxpayer">Taxpayer&apos;s W-2</label>
-						</div>
-						<div>
-							<input type="radio" name="owner-of-form" id="w2-XX-is-spouses" />
-							<label for="w2-XX-is-spouse">Spouse&apos;s W-2</label>
-						</div>
+					<div class="w2-header-left">
 					</div>
+
 					<div class="w2-header-center">
 						<span class="f1099-box-label">Employee&apos;s social
 							security number</span>
 						<input type="text" id="w2-XX-ssn" placeholder="123-45-6789" />
 					</div>
+
 					<div class="w2-header-right">
 						<div>OMB No. 1545-0029</div>
 					</div>
@@ -349,47 +356,46 @@ export class W2 extends TaxForm {
 
 		this.title = `W-2 - Wage and Tax Statement`;
 
-		this.lines["is_spouses"]	= new Line("Spouse's W-2");
-		this.lines["payer"]			= new Line("Employer");
-		this.lines["ein"]			= new Line("EmployerEIN");
-		this.lines["ssn"]			= new Line("SSN");
-		this.lines["taxpayer"]		= new Line("Taxpayer");
-		this.lines["01"]	= new Line("Wages");
-		this.lines["02"]	= new Line("Federal Tax Withheld");
-		this.lines["03"]	= new Line("Social Security Wages");
-		this.lines["04"]	= new Line("Social Security Tax Withheld");
-		this.lines["05"]	= new Line("Medicare Wages");
-		this.lines["06"]	= new Line("Medicare Tax Withheld");
-		this.lines["07"]	= new Line("Social Security Tips");
-		this.lines["08"]	= new Line("Allocated Tips");
-		this.lines["09"]	= new Line("Not Used");
-		this.lines["10"]	= new Line("Dependent Care Benefits");
-		this.lines["11"]	= new Line("Nonqualified Plans");
-		this.lines["12a1"]	= new Line("Option A");
-		this.lines["12a2"]	= new Line("Option A");
-		this.lines["12b1"]	= new Line("Option B");
-		this.lines["12b2"]	= new Line("Option B");
-		this.lines["12c1"]	= new Line("Option C");
-		this.lines["12c2"]	= new Line("Option C");
-		this.lines["12d1"]	= new Line("Option D");
-		this.lines["12d2"]	= new Line("Option D");
-		this.lines["13a"]	= new Line("Statutory Employee");
-		this.lines["13b"]	= new Line("Retirement Plan");
-		this.lines["13c"]	= new Line("Third-Party Sick Plan");
-		this.lines["14a1"]	= new Line("Other A");
-		this.lines["14a2"]	= new Line("Other A");
-		this.lines["14b1"]	= new Line("Other B");
-		this.lines["14b2"]	= new Line("Other B");
-		this.lines["14c1"]	= new Line("Other C");
-		this.lines["14c2"]	= new Line("Other C");
-		this.lines["14d1"]	= new Line("Other D");
-		this.lines["14d2"]	= new Line("Other D");
-		this.lines["15"]	= new Line("State Identification");
-		this.lines["16"]	= new Line("State Wages");
-		this.lines["17"]	= new Line("State Tax Withheld");
-		this.lines["18"]	= new Line("Local Wages");
-		this.lines["19"]	= new Line("Local Tax Withheld");
-		this.lines["20"]	= new Line("Locality Name");
+		this.lines["payer"]		= new Line("Employer");
+		this.lines["ein"]		= new Line("EmployerEIN");
+		this.lines["ssn"]		= new Line("SSN");
+		this.lines["taxpayer"]	= new Line("Taxpayer");
+		this.lines["01"]		= new Line("Wages");
+		this.lines["02"]		= new Line("Federal Tax Withheld");
+		this.lines["03"]		= new Line("Social Security Wages");
+		this.lines["04"]		= new Line("Social Security Tax Withheld");
+		this.lines["05"]		= new Line("Medicare Wages");
+		this.lines["06"]		= new Line("Medicare Tax Withheld");
+		this.lines["07"]		= new Line("Social Security Tips");
+		this.lines["08"]		= new Line("Allocated Tips");
+		this.lines["09"]		= new Line("Not Used");
+		this.lines["10"]		= new Line("Dependent Care Benefits");
+		this.lines["11"]		= new Line("Nonqualified Plans");
+		this.lines["12a1"]		= new Line("Option A");
+		this.lines["12a2"]		= new Line("Option A");
+		this.lines["12b1"]		= new Line("Option B");
+		this.lines["12b2"]		= new Line("Option B");
+		this.lines["12c1"]		= new Line("Option C");
+		this.lines["12c2"]		= new Line("Option C");
+		this.lines["12d1"]		= new Line("Option D");
+		this.lines["12d2"]		= new Line("Option D");
+		this.lines["13a"]		= new Line("Statutory Employee");
+		this.lines["13b"]		= new Line("Retirement Plan");
+		this.lines["13c"]		= new Line("Third-Party Sick Plan");
+		this.lines["14a1"]		= new Line("Other A");
+		this.lines["14a2"]		= new Line("Other A");
+		this.lines["14b1"]		= new Line("Other B");
+		this.lines["14b2"]		= new Line("Other B");
+		this.lines["14c1"]		= new Line("Other C");
+		this.lines["14c2"]		= new Line("Other C");
+		this.lines["14d1"]		= new Line("Other D");
+		this.lines["14d2"]		= new Line("Other D");
+		this.lines["15"]		= new Line("State Identification");
+		this.lines["16"]		= new Line("State Wages");
+		this.lines["17"]		= new Line("State Tax Withheld");
+		this.lines["18"]		= new Line("Local Wages");
+		this.lines["19"]		= new Line("Local Tax Withheld");
+		this.lines["20"]		= new Line("Locality Name");
 
 		Debug.exit("W2.Constructor()");
 	}
@@ -433,5 +439,23 @@ export class W2 extends TaxForm {
 
 	getRetirementContributions() {
 		return this.getBox12("D");
+	}
+
+	loadInputFromWeb(inputs) {
+		//
+		// The inputs parameter is an object that contains all the input fields from the
+		// form's web page. This method copies those fields to the corresponding locations
+		// in this instance of the form.
+		//
+		for (const key of Object.keys(inputs)) {
+			switch (key) {
+				case "is_spouses":
+					this[key] = inputs[key];
+					break;
+				default:
+					this.lines[key].user_value = inputs[key];
+					break;
+			}
+		}
 	}
 }

@@ -10,6 +10,7 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 const ELEMENTS = {
 	// Element ID		Value Type
+	"is-spouses":		[""],
 	"01":				["text"],
 	"02":				["text"],
 	"03":				[""],
@@ -29,6 +30,20 @@ const HTML_FORM = `
 			<div>&nbsp;</div>
 			<div class="ssa-outside-header">Form SSA-1099 - Social Security
 				Benefit Statement</div>
+
+			<div class="taxform-owner">
+				<input type="radio" name="ssa1099-XX-owner"
+					id="ssa1099-XX-is-taxpayers" checked />
+				<label for="ssa1099-XX-is-taxpayers">
+					Taxpayer&apos;s Tax Form</label>
+
+				<input type="radio" name="ssa1099-XX-owner"
+					id="ssa1099-XX-is-spouses" />
+				<label for="ssa1099-XX-is-spouses">
+					Spouse&apos;s Tax Form</label>
+				</div>
+			</div>
+
 			<div class="f1099-taxform-container">
 				<!-- Header Section -->
 				<div class="f1099-header-row">
@@ -188,16 +203,17 @@ export class SSA1099 extends TaxForm {
 		super(formname);
 		this.title = `SSA-1099 - Social Security Benefit Statement`;
 
-		this.lines["01"]	= new Line("Name");
-		this.lines["02"]	= new Line("Social Security Number");
-		this.lines["03"]	= new Line("Benefits Paid");
-		this.lines["03a"]	= new Line("Medicare Part B");
-		this.lines["03b"]	= new Line("Medicare Part D");
-		this.lines["04"]	= new Line("Benefits Repaid");
-		this.lines["05"]	= new Line("Net Benefits");
-		this.lines["06"]	= new Line("Federal Income Tax Withheld");
-		this.lines["07"]	= new Line("Address");
-		this.lines["08"]	= new Line("Claim Number");
+		this.lines["is_spouses"]= new Line("Spouse's Tax Form");
+		this.lines["01"]		= new Line("Name");
+		this.lines["02"]		= new Line("Social Security Number");
+		this.lines["03"]		= new Line("Benefits Paid");
+		this.lines["03a"]		= new Line("Medicare Part B");
+		this.lines["03b"]		= new Line("Medicare Part D");
+		this.lines["04"]		= new Line("Benefits Repaid");
+		this.lines["05"]		= new Line("Net Benefits");
+		this.lines["06"]		= new Line("Federal Income Tax Withheld");
+		this.lines["07"]		= new Line("Address");
+		this.lines["08"]		= new Line("Claim Number");
 
 		Debug.exit("SSA1099.Constructor()");
 	}
@@ -212,5 +228,23 @@ export class SSA1099 extends TaxForm {
 		this.calculated = true;
 
 		Debug.exit("SSA1099.calculate()");
+	}
+
+	loadInputFromWeb(inputs) {
+		//
+		// The inputs parameter is an object that contains all the input fields from the
+		// form's web page. This method copies those fields to the corresponding locations
+		// in this instance of the form.
+		//
+		for (const key of Object.keys(inputs)) {
+			switch (key) {
+				case "is_spouses":
+					this[key] = inputs[key];
+					break;
+				default:
+					this.lines[key].user_value = inputs[key];
+					break;
+			}
+		}
 	}
 }

@@ -301,7 +301,7 @@ export class Dependent {
 		return [ `dependent-${uid}-container`, html ];
 	}
 
-	static getUserInput(uid, raw = false) {
+	static getInputFromWeb(uid, raw = false) {
 		//
 		// Read the fields of the worksheet from the web and return an object with the
 		// values. Raw user input is only used to save and restore user input.

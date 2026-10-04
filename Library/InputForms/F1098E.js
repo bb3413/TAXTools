@@ -10,6 +10,7 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 const ELEMENTS = {
 	// Element ID		Value Type
+	"is-spouses":		[""],
 	"lender":			["text"],
 	"ein":				["text"],
 	"ssn":				["text"],
@@ -23,18 +24,32 @@ const HTML_FORM = `
 			<summary class="taxform-summary">1098-E - Student Loan Interest
 				Statement</summary>
 			<div>&nbsp;</div>
+
+			<div class="taxform-owner">
+				<input type="radio" name="f1098e-XX-owner"
+					id="f1098e-XX-is-taxpayers" checked />
+				<label for="f1098e-XX-is-taxpayers">
+					Taxpayer&apos;s Tax Form</label>
+
+				<input type="radio" name="f1098e-XX-owner"
+					id="f1098e-XX-is-spouses" />
+				<label for="f1098e-XX-is-spouses">
+					Spouse&apos;s Tax Form</label>
+				</div>
+			</div>
+
 			<div class="f1099-taxform-container">
 				<!-- Header Section -->
 				<div class="f1099-header-row">
 					<div class="f1099-header-left">
-						<label><input type="checkbox" disabled
-							id="corrected" /> CORRECTED</label>
 					</div>
+
 					<div class="f1099-header-center">
 						<div>OMB No. 1545-1576</div>
 						<h1><span id="tax-year">202X</span></h1>
 						<h2>Form 1098-E</h2>
 					</div>
+
 					<div class="f1099-header-right">
 						<strong>Vehicle Loan Interest Statement</strong>
 					</div>
@@ -59,17 +74,17 @@ const HTML_FORM = `
 									placeholder="12-3456789" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label">PAYER of Record&apos;s TIN</span>
+								<span class="f1099-box-label">Payer of Record&apos;s TIN</span>
 								<input type="text" id="f1098e-XX-ssn"
 									placeholder="123-45-6789" />
 							</div>
 						</div>
 
 						<div class="f1099-box f1099-box-large">
-							<span class="f1099-box-label">PAYER of Record&apos;s name, street
+							<span class="f1099-box-label">Payer of Record&apos;s name, street
 								address, city or town, state, and ZIP code</span>
 							<textarea id="f1098e-XX-taxpayer"
-								placeholder="PAYER of Record&apos;s Name&#10;Street Address&#10;City, State, ZIP"></textarea>
+								placeholder="Payer of Record&apos;s Name&#10;Street Address&#10;City, State, ZIP"></textarea>
 						</div>
 
 						<div class="f1099-box" style="border-bottom: none;">
@@ -145,6 +160,7 @@ export class F1098E extends TaxForm {
 		super(formname);
 		this.title = `1098-E - Student Loan Interest Statement`;
 
+		this.lines["is_spouses"]= new Line("Spouse's Tax Form");
 		this.lines["lender"]	= new Line("Lender");
 		this.lines["ein"]		= new Line("EIN");
 		this.lines["ssn"]		= new Line("SSN");
@@ -165,5 +181,23 @@ export class F1098E extends TaxForm {
 		this.calculated = true;
 
 		Debug.exit("F1098E.calculate()");
+	}
+
+	loadInputFromWeb(inputs) {
+		//
+		// The inputs parameter is an object that contains all the input fields from the
+		// form's web page. This method copies those fields to the corresponding locations
+		// in this instance of the form.
+		//
+		for (const key of Object.keys(inputs)) {
+			switch (key) {
+				case "is_spouses":
+					this[key] = inputs[key];
+					break;
+				default:
+					this.lines[key].user_value = inputs[key];
+					break;
+			}
+		}
 	}
 }

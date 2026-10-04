@@ -10,6 +10,7 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 const ELEMENTS = {
 	// Element ID		Value Type
+	"is-spouses":		[""],
 	"payer":			["text"],
 	"ein":				["text"],
 	"ssn":				["text"],
@@ -28,18 +29,32 @@ const HTML_FORM = `
 		<details class="taxform-details" id="f1099c-XX-container">
 			<summary class="taxform-summary">1099-C - Cancellation of Debt</summary>
 			<div>&nbsp;</div>
+
+			<div class="taxform-owner">
+				<input type="radio" name="f1099c-XX-owner"
+					id="f1099c-XX-is-taxpayers" checked />
+				<label for="f1099c-XX-is-taxpayers">
+					Taxpayer&apos;s Tax Form</label>
+
+				<input type="radio" name="f1099c-XX-owner"
+					id="f1099c-XX-is-spouses" />
+				<label for="f1099c-XX-is-spouses">
+					Spouse&apos;s Tax Form</label>
+				</div>
+			</div>
+
 			<div class="f1099-taxform-container">
 				<!-- Header Section -->
 				<div class="f1099-header-row">
 					<div class="f1099-header-left">
-						<label><input type="checkbox" disabled
-							id="corrected" /> CORRECTED</label>
 					</div>
+
 					<div class="f1099-header-center">
 						<div>OMB No. 1545-1424</div>
 						<h1><span id="tax-year">202X</span></h1>
 						<h2>Form 1099-C</h2>
 					</div>
+
 					<div class="f1099-header-right">
 						<strong>Cancellation of Debt</strong>
 					</div>
@@ -50,7 +65,7 @@ const HTML_FORM = `
 					<!-- Left Column: Payer & Recipient Info Inputs -->
 					<div class="f1099-col-left">
 						<div class="f1099-box f1099-box-large">
-							<span class="f1099-box-label">CREDITOR&apos;S name, street
+							<span class="f1099-box-label">Creditor&apos;S name, street
 								address, city or town, state or province, country,
 								ZIP or foreign postal code, and telephone no.</span>
 							<textarea id="f1099c-XX-payer"
@@ -59,19 +74,19 @@ const HTML_FORM = `
 
 						<div class="f1099-flex-row">
 							<div class="f1099-box">
-								<span class="f1099-box-label">CREDITOR&apos;S TIN</span>
+								<span class="f1099-box-label">Creditor&apos;S TIN</span>
 								<input type="text" id="f1099c-XX-ein"
 									placeholder="12-3456789" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label">DEBTOR&apos;S TIN</span>
+								<span class="f1099-box-label">Debtor&apos;S TIN</span>
 								<input type="text" id="f1099c-XX-ssn"
 									placeholder="123-45-6789" />
 							</div>
 						</div>
 
 						<div class="f1099-box f1099-box-large">
-							<span class="f1099-box-label">DEBTOR&apos;S name, street
+							<span class="f1099-box-label">Debtor&apos;S name, street
 								address, city or town, state, and ZIP code</span>
 							<textarea id="f1099c-XX-taxpayer"
 								placeholder="Taxpayer&apos;s Name&#10;Street Address&#10;City, State, ZIP"></textarea>
@@ -197,6 +212,7 @@ export class F1099C extends TaxForm {
 		super(formname);
 		this.title = `1099-C - Cancellation of Debt`;
 
+		this.lines["is_spouses"]= new Line("Spouse's Tax Form");
 		this.lines["payer"]		= new Line("Payer");
 		this.lines["ein"]		= new Line("EIN");
 		this.lines["ssn"]		= new Line("SSN");
@@ -223,5 +239,23 @@ export class F1099C extends TaxForm {
 		this.calculated = true;
 
 		Debug.exit("F1099C.calculate()");
+	}
+	
+	loadInputFromWeb(inputs) {
+		//
+		// The inputs parameter is an object that contains all the input fields from the
+		// form's web page. This method copies those fields to the corresponding locations
+		// in this instance of the form.
+		//
+		for (const key of Object.keys(inputs)) {
+			switch (key) {
+				case "is_spouses":
+					this[key] = inputs[key];
+					break;
+				default:
+					this.lines[key].user_value = inputs[key];
+					break;
+			}
+		}
 	}
 }

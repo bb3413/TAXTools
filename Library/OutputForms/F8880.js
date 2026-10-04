@@ -1,4 +1,6 @@
 
+import { TAXPAYER, SPOUSE }	from "../TAXTools/TAXTools.js";
+
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
@@ -50,8 +52,8 @@ export class F8880 extends TaxForm {
 
 		this.lines["01a"].value		= 0;
 		this.lines["01b"].value		= 0;
-		this.lines["02a"].value		= TaxFormObj.getTaxpayerRetirementContributions();
-		this.lines["02b"].value		= TaxFormObj.getSpouseRetirementContributions();
+		this.lines["02a"].value		= TaxFormObj.getW2RetirementContributions(TAXPAYER);
+		this.lines["02b"].value		= TaxFormObj.getW2RetirementContributions(SPOUSE);
 		this.lines["03a"].value		= this.add("01a","02a");
 		this.lines["03b"].value		= this.add("01b","02b");
 		this.lines["04a"].value		= 0;

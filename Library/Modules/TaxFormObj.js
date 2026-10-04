@@ -1,5 +1,4 @@
 
-
 //
 // This module manages tax forms that have been created as objects of the TaxForm class.
 //
@@ -56,8 +55,12 @@ function addForm(formname, form) {
 
 function get1099RValue(lineno, ira) {
 	//
-	// Form 1099-R can be used for IRAs or pensions; see box 7b. The ira paraameter says
-	// which you want the value of.
+	// Form 1099-R is used to report distributions from both IRAs and pensions. Box 7B
+	// is used to indicate if a 1099-R is for an IRA or pansion.
+	//
+	// This function will scan all 1099-Rs that are either IRAs or pensions and sum the
+	// values from the indicated line. The ira pparameter indicates which type of 1099-R
+	// to collect information from.
 	//
 	let sum = 0;
 	let form_list = instances["F1099R"];
@@ -70,32 +73,14 @@ function get1099RValue(lineno, ira) {
 				form.calculate();
 			}
 
-			let isIRA = form.lines["07b"].value;
-			if ((ira && isIRA) || (!ira && !isIRA) ) {
+			let is_ira = form.lines["07b"].value;
+			if ((ira && is_ira) || (!ira && !is_ira) ) {
 				sum += form.lines[lineno].value;
 			}
 		}
 	}
 
 	return sum;
-}
-
-function getRetirementContributions(taxpayer) {
-	//
-	// Get contributions for taxpayer or the spouse. The taxpayer parameter is true or false.
-	//
-	let contributions = 0;
-	let form_list = instances["W2"];
-
-	if (form_list) {
-		for (const form of form_list) {
-			if ((taxpayer && form.isTaxpayers()) || (!taxpayer && !form.isTaxpayers())) {
-				contributions += form.getRetirementContributions();
-			}
-		}
-	}
-
-	return contributions;
 }
 
 const TaxFormObj = {
@@ -229,6 +214,10 @@ const TaxFormObj = {
 		return undefined;
 	},
 
+	getIRAValue(lineno) {
+		return get1099RValue(lineno, true);
+	},
+
 	getOrCreateForm(formname) {
 		return TaxFormObj.getForm(formname) || TaxFormObj.createForm(formname);
 	},
@@ -237,17 +226,23 @@ const TaxFormObj = {
 		return get1099RValue(lineno, false);
 	},
 
-	getIRAValue(lineno) {
-		return get1099RValue(lineno, true);
-	},
+	getW2RetirementContributions(who) {
+		//
+		// Get the retirement contributions withheld from the taxpayer wages for either
+		// the taxpayer or the spouse.
+		//
+		let contributions = 0;
+		let form_list = instances["W2"];
 
+		if (form_list) {
+			for (const form of form_list) {
+				if (form.isTaxpayers(who)) {
+					contributions += form.getRetirementContributions();
+				}
+			}
+		}
 
-	getTaxpayerRetirementContributions() {
-		return getRetirementContributions(true);
-	},
-
-	getSpouseRetirementContributions() {
-		return getRetirementContributions(false);
+		return contributions;
 	},
 
 	getStateWithholding() {
@@ -343,6 +338,26 @@ const TaxFormObj = {
 		return overtime_pay;
 	},
 
+	getW2RetirementContributions(who) {
+		//
+		// Get the retirement contributions withheld from the taxpayer wages for either
+		// the taxpayer or the spouse.
+		//
+		let contributions = 0;
+		let form_list = instances["W2"];
+
+		if (form_list) {
+			for (const form of form_list) {
+				if (form.isTaxpayers(who)) {
+					// This method is only implemed by the W-2 form.
+					contributions += form.getRetirementContributions();
+				}
+			}
+		}
+
+		return contributions;
+	},
+
 	getW2TipIncome() {
 		let tip_income = 0;
 		let form_list = instances["W2"];
@@ -360,6 +375,19 @@ const TaxFormObj = {
 		}
 
 		return tip_income;
+	},
+
+	hasRetirementPlan(who) {
+		let form_list = instances["W2"];
+		if (form_list) {
+			for (const form of form_list) {
+				if (form.isTaxpayers(who) && form.line("13b")) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	},
 
 	reset() {
@@ -382,14 +410,16 @@ const {
 	getBusinessIncome,
 	getBusinessNames,
 	getForm,
+	getIRAValue,
 	getOrCreateForm,
 	getPensionValue,
-	getIRAValue,
 	getStateWithholding,
 	getTextValue,
 	getValue,
 	getW2OvertimePay,
+	getW2RetirementContributions,
 	getW2TipIncome,
+	hasRetirementPlan,
 	reset,
 	toConsole,
 } = TaxFormObj;
@@ -410,7 +440,9 @@ export {
 	getTextValue,
 	getValue,
 	getW2OvertimePay,
+	getW2RetirementContributions,
 	getW2TipIncome,
+	hasRetirementPlan,
 	reset,
 	toConsole,
 };

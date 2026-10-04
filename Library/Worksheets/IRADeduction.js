@@ -39,7 +39,7 @@ export class IRADeduction extends TaxForm {
 		Debug.exit("IRADeduction.Constructor()");
 	}
 
-	calculate() {
+	calculate(who) {
 		if (this.calculated) {
 			throw new Error(`${this.formname} already calculated.`);
 		}
@@ -62,7 +62,7 @@ export class IRADeduction extends TaxForm {
 		if (tp.filing_status === MFJ) {
 			this.lines["05b"].value	= this.line("05a");
 		} else {
-				this.lines["05b"].value	= 0;
+			this.lines["05b"].value	= 0;
 		}
 		this.lines["06a"].value	= this.subtract("02a", "05a");
 		this.lines["06b"].value	= this.subtract("02b", "05b");

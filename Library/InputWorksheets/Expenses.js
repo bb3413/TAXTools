@@ -40,7 +40,7 @@ const ELEMENTS = {
 };
 
 export class Expenses {
-	static getUserInput(raw = false) {
+	static getInputFromWeb(raw = false) {
 		//
 		// Read the fields from the web and return an object with the values. Raw user input
 		// is only used to save and restore user input.
