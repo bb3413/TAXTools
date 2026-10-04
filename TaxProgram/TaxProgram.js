@@ -14,6 +14,7 @@ import { Ensure }		from "../Library/Modules/Ensure.js";
 import { HTML }			from "../Library/Modules/HTML.js";
 import { Objects }		from "../Library/Modules/Objects.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
+import { TaxInfo }		from "../Library/Modules/TaxInfo.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 // Tax Forms and Input Worksheets
 import { F1040 }		from "../Library/OutputForms/F1040.js";
@@ -243,7 +244,7 @@ function getBusinesses() {
 
 	// Make sure that Schedule Cs were created for all the businesses that have 1099-NECs
 	// and 1099-MISCs.
-	for (const name of TaxFormObj.getBusinessNames()) {
+	for (const name of TaxInfo.getBusinessNames()) {
 		if (!business_names.includes(name)) {
 			const f1040sc = TaxFormObj.createForm("F1040SC");
 			f1040sc.lines["name"].user_value = name;
@@ -283,11 +284,12 @@ function getExpenses() {
 
 	// Form 1040, Schedule 1
 	f1040s1.alimony_paid				= inputs["alimony_paid"];
+	f1040s1.lines["19c"].user_value		= inputs["divorce_date"];
 	f1040s1.educator_expense_taxpayer	= inputs["educator_taxpayer"];
 	f1040s1.educator_expense_spouse		= inputs["educator_spouse"];
+	// Also enter on form 8880.
 	f1040s1.ira_contribution_taxpayer	= inputs["ira_contribution_taxpayer"];
 	f1040s1.ira_contribution_spouse		= inputs["ira_contribution_spouse"];
-	f1040s1.lines["19c"].user_value		= inputs["divorce_date"];
 
 	// Form 1040, Schedule A
 	f1040sa.medicare = inputs["medicare"];
@@ -317,6 +319,14 @@ function getExpenses() {
 		inputs["noncash_donations"]+
 		tt.getCharitableMileageDeduction(inputs["charitable_miles"]);
 
+	// Form 8880
+	if (inputs["ira_contribution_taxpayer"] || inputs["ira_contribution_spouse"]) {
+		const f8880	= TaxFormObj.getOrCreateForm("F8880");
+		// Also enter in form 1040-S1
+		f8880.ira_contribution_taxpayer	= inputs["ira_contribution_taxpayer"];
+		f8880.ira_contribution_spouse	= inputs["ira_contribution_spouse"];
+	}
+		
 	// Form 540
 	f540.lines["072"].user_value = inputs["est_payments_state"];
 
@@ -451,7 +461,7 @@ function putOutputs() {
 	HTML.closeAllDetails();
 
 	// Create the tax return web pages.
-	for(const form of TaxFormObj.formsInPrintOrder()) {
+	for(const form of TaxInfo.formsInPrintOrder()) {
 		if (form.isUsed() || (form.formname === "F1040")) {
 			addOutputFormToWeb(form);
 		}

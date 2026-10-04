@@ -6,6 +6,7 @@ import { Line }			from "../Classes/Line.js";
 import { Objects }		from "../Modules/Objects.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
 const HTML_FORM = `
@@ -358,7 +359,7 @@ export class F1040SC extends TaxForm {
 
 		// Income
 		this.lines["01"].value	= this.cash_inccome +	// Gross Receipts or Sales
-									TaxFormObj.getBusinessIncome(this.line("name"));
+									TaxInfo.getBusinessIncome(this.line("name"));
 		this.lines["02"].value	= 0;				// Returns and Allowances
 		this.lines["03"].value	= this.subtract("01", "02");
 		this.lines["04"].value	= 0;				// Cost of Goods Sold

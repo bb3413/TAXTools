@@ -6,6 +6,7 @@ import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
@@ -14,6 +15,11 @@ export class F8880 extends TaxForm {
 		Debug.enter("F8880.Constructor()");
 		super(formname);
 		this.title = `Form 8880 - Credit for Qualified Retirement Savings Contributions`;
+
+		// Variables for external input. These variables can be used to enter information
+		// that does not come from another tax form.
+		this.ira_contribution_taxpayer	= 0;
+		this.ira_contribution_spouse	= 0;
 
 		this.lines["01a"]	= new Line("Traditional and Roth IRA contributions");
 		this.lines["01b"]	= new Line("Traditional and Roth IRA contributions");
@@ -50,10 +56,10 @@ export class F8880 extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		this.lines["01a"].value		= 0;
-		this.lines["01b"].value		= 0;
-		this.lines["02a"].value		= TaxFormObj.getW2RetirementContributions(TAXPAYER);
-		this.lines["02b"].value		= TaxFormObj.getW2RetirementContributions(SPOUSE);
+		this.lines["01a"].value		= this.ira_contribution_taxpayer;
+		this.lines["01b"].value		= this.ira_contribution_spouse;
+		this.lines["02a"].value		= TaxInfo.getW2RetirementContributions(TAXPAYER);
+		this.lines["02b"].value		= TaxInfo.getW2RetirementContributions(SPOUSE);
 		this.lines["03a"].value		= this.add("01a","02a");
 		this.lines["03b"].value		= this.add("01b","02b");
 		this.lines["04a"].value		= 0;

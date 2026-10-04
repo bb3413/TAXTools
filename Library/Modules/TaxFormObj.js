@@ -1,6 +1,6 @@
 
 //
-// This module manages tax forms that have been created as objects of the TaxForm class.
+// This module manages tax forms that have been created as objects.
 //
 import { Classes }		from "../Modules/Classes.js";
 import { Debug }		from "../Modules/Debug.js";
@@ -8,29 +8,6 @@ import { Ensure }		from "../Modules/Ensure.js";
 
 let instances = {};		// This variable is indexed by form name. For each form, it
 						// returns an array with all the instances of that form.
-
-const print_order = [
-	"F1040",
-	"F1040S1",
-	"F1040S1A",
-	"F1040S2",
-	"F1040S3",
-	"F1040SA",
-	"F1040SB",
-	"F1040SC",
-	"F1040SD",
-	"F1040SE",
-	"F1040SSE",
-	"F1041",
-	"F1065B",
-	"F1120S",
-	"F2441",
-	"F6251",
-	"F7206",
-	"F8880",
-	"F540",
-	"F540CA",
-];
 
 function addForm(formname, form) {
 	if (!formname) {
@@ -53,36 +30,6 @@ function addForm(formname, form) {
 	form_list.push(form);
 }
 
-function get1099RValue(lineno, ira) {
-	//
-	// Form 1099-R is used to report distributions from both IRAs and pensions. Box 7B
-	// is used to indicate if a 1099-R is for an IRA or pansion.
-	//
-	// This function will scan all 1099-Rs that are either IRAs or pensions and sum the
-	// values from the indicated line. The ira pparameter indicates which type of 1099-R
-	// to collect information from.
-	//
-	let sum = 0;
-	let form_list = instances["F1099R"];
-
-	if (form_list) {
-		for (const form of form_list) {
-			if (!form.calculated) {
-				// When simplified methood is supported, 1099-Rs will need to be calculated
-				// before they are accessed.
-				form.calculate();
-			}
-
-			let is_ira = form.lines["07b"].value;
-			if ((ira && is_ira) || (!ira && !is_ira) ) {
-				sum += form.lines[lineno].value;
-			}
-		}
-	}
-
-	return sum;
-}
-
 const TaxFormObj = {
 	createForm(formname) {
 		const form_class = Classes.getClass(formname);
@@ -96,106 +43,18 @@ const TaxFormObj = {
 		return undefined;
 	},
 
-	earnedIncome() {
-		return (
-			TaxFormObj.getValue("F1040",	"01z") +	// Earned income
-			TaxFormObj.getValue("F1040",	"01i") +	// Non-taxable combat pay
-			TaxFormObj.getValue("F1040S1",	"02a")  +	// Alimont received
-			TaxFormObj.getValue("F1040S1",	"03")  +	// Business income
-			TaxFormObj.getValue("F1040S1",	"06")  +	// Farm income
-			TaxFormObj.getValue("F1040S1",	"08r") +	// Scholarships not on W-2
-			TaxFormObj.getValue("F1040S1",	"08t") +	// Pension from 457 plan
-			TaxFormObj.getValue("F1040S1",	"08u")		// Prison pay
-		);
-	},
-
-	formsInPrintOrder() {
-		let forms = [];
-
-		for (let formname of print_order) {
-			let more_forms = TaxFormObj.getAllForms(formname);
-			for (let next_form of more_forms) {
-				forms.push(next_form);
-			}
-		}
-
-		return forms;
-	},
-
 	getAllForms(formname = "") {
 		// Get all the form objects that have been created, or all the forms of a
 		// particular type.
-		let all_forms = [];
-		let formnames = [];
-
-		if (formname) {
-			formnames = [formname];
+		if (formname !== "") {
+			return (instances[formname] ? instances[formname] : []);
 		} else {
-			formnames = Object.keys(instances);
+			let all_forms = [];
+			for (const formname of Object.keys(instances)) {
+				all_forms = all_forms.concat(instances[formname]);
+			}
+			return all_forms;
 		}
-
-		for (const formname of formnames) {
-			let form_list = instances[formname];
-			if (form_list) {
-				for (const form of form_list) {
-					all_forms.push(form);
-				}
-			}
-		}
-		return all_forms;
-	},
-
-	getBusinessIncome(business_name) {
-		let sum = 0;
-		const all_1099s = TaxFormObj.getAllForms("F1099NEC")
-							.concat(TaxFormObj.getAllForms("F1099MISC"))
-		
-		for (const form of all_1099s) {
-			let bus_name = "NO_NAME";
-			if (form.lines["business_name"]) {
-				bus_name = form.lines["business_name"];
-			}
-
-			if (bus_name.toUpperCase === business_name.toUpperCase) {
-				if (form.formname === "F1099NEC") {
-					if (form.lines["01a"] !== undefined) {
-						sum += form.lines["01a"].value;
-					}
-				} else {
-					if (form.lines["01"] !== undefined) {
-						sum += form.lines["01"].value;	// Rents
-					}
-					if (form.lines["02"] !== undefined) {
-						sum += form.lines["02"].value;	// Royalties
-					}
-					if (form.lines["03"] !== undefined) {
-						sum += form.lines["03"].value;	// Other income
-					}
-					if (form.lines["05"] !== undefined) {
-						sum += form.lines["05"].value;	// Fishing boat proceeds
-					}
-				}
-			}
-		}
-
-		return sum;
-	},
-
-	getBusinessNames() {
-		let names = [];
-
-		for (const form of getAllForms("F1099NEC").concat(getAllForms("F1099MISC"))) {
-			let business_name = "NO_NAME";
-			if (form.lines["business_name"]) {
-				business_name = form.lines["business_name"].toUpperCase;
-			}
-
-			if (!names.includes(business_name) ) {
-				name.push(business_name);
-			}
-		}
-
-		return names;
 	},
 
 	getForm(formname, uid = 1) {
@@ -214,49 +73,8 @@ const TaxFormObj = {
 		return undefined;
 	},
 
-	getIRAValue(lineno) {
-		return get1099RValue(lineno, true);
-	},
-
 	getOrCreateForm(formname) {
 		return TaxFormObj.getForm(formname) || TaxFormObj.createForm(formname);
-	},
-
-	getPensionValue(lineno) {
-		return get1099RValue(lineno, false);
-	},
-
-	getW2RetirementContributions(who) {
-		//
-		// Get the retirement contributions withheld from the taxpayer wages for either
-		// the taxpayer or the spouse.
-		//
-		let contributions = 0;
-		let form_list = instances["W2"];
-
-		if (form_list) {
-			for (const form of form_list) {
-				if (form.isTaxpayers(who)) {
-					contributions += form.getRetirementContributions();
-				}
-			}
-		}
-
-		return contributions;
-	},
-
-	getStateWithholding() {
-		return (	// return cannot be on a line by itself
-			TaxFormObj.getValue("W2",			"17") +
-			TaxFormObj.getValue("F1099INT",		"17") +
-			TaxFormObj.getValue("F1099DIV",		"16") +
-			TaxFormObj.getValue("F1099G",		"12") +
-			TaxFormObj.getValue("F1099K",		"06") +
-			TaxFormObj.getValue("F1099MISC",	"16") +
-			TaxFormObj.getValue("F1099MISC",	"05") +
-			TaxFormObj.getValue("F1099OID",		"14") +
-			TaxFormObj.getValue("F1099R",		"14")
-		);
 	},
 
 	getTextValue(formname, ...lineno) {
@@ -325,71 +143,6 @@ const TaxFormObj = {
 		return isNaN(sum) ? 0 : sum;
 	},
 
-	getW2OvertimePay() {
-		let overtime_pay = 0;
-		let form_list = instances["W2"];
-
-		if (form_list) {
-			for (const form of form_list) {
-				overtime_pay += form.getBox12("TT");
-			}
-		}
-
-		return overtime_pay;
-	},
-
-	getW2RetirementContributions(who) {
-		//
-		// Get the retirement contributions withheld from the taxpayer wages for either
-		// the taxpayer or the spouse.
-		//
-		let contributions = 0;
-		let form_list = instances["W2"];
-
-		if (form_list) {
-			for (const form of form_list) {
-				if (form.isTaxpayers(who)) {
-					// This method is only implemed by the W-2 form.
-					contributions += form.getRetirementContributions();
-				}
-			}
-		}
-
-		return contributions;
-	},
-
-	getW2TipIncome() {
-		let tip_income = 0;
-		let form_list = instances["W2"];
-
-		if (form_list) {
-			for (const form of form_list) {
-				let tips = form.getTipIncome();
-				if (tips !== 0) {
-					tip_income += tips;
-				} else {
-					tip_income += form.lines["07"].value;
-					tip_income += form.lines["08"].value;
-				}
-			}
-		}
-
-		return tip_income;
-	},
-
-	hasRetirementPlan(who) {
-		let form_list = instances["W2"];
-		if (form_list) {
-			for (const form of form_list) {
-				if (form.isTaxpayers(who) && form.line("13b")) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	},
-
 	reset() {
 		instances = {};
 	},
@@ -404,22 +157,11 @@ const TaxFormObj = {
 
 const {
 	createForm,
-	earnedIncome,
-	formsInPrintOrder,
 	getAllForms,
-	getBusinessIncome,
-	getBusinessNames,
 	getForm,
-	getIRAValue,
 	getOrCreateForm,
-	getPensionValue,
-	getStateWithholding,
 	getTextValue,
 	getValue,
-	getW2OvertimePay,
-	getW2RetirementContributions,
-	getW2TipIncome,
-	hasRetirementPlan,
 	reset,
 	toConsole,
 } = TaxFormObj;
@@ -427,22 +169,11 @@ const {
 export {
 	TaxFormObj,
 	createForm,
-	earnedIncome,
-	formsInPrintOrder,
 	getAllForms,
-	getBusinessIncome,
-	getBusinessNames,
 	getForm,
 	getOrCreateForm,
-	getPensionValue,
-	getIRAValue,
-	getStateWithholding,
 	getTextValue,
 	getValue,
-	getW2OvertimePay,
-	getW2RetirementContributions,
-	getW2TipIncome,
-	hasRetirementPlan,
 	reset,
 	toConsole,
 };

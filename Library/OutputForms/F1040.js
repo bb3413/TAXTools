@@ -6,6 +6,7 @@ import { HTML }			from "../Modules/HTML.js";
 import { Str }			from "../Modules/Str.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { IncTax }		from "../Worksheets/IncTax.js";
@@ -600,16 +601,16 @@ export class F1040 extends TaxForm {
 		this.lines["03b"].value =
 			TaxFormObj.getValue("F1099DIV",	"01a");		// Ordinary Dividends
 		this.lines["04a"].value =
-			TaxFormObj.getIRAValue("01");				// Total IRA Distributions
+			TaxInfo.getIRAValue("01");				// Total IRA Distributions
 		this.lines["04b"].value =
-			TaxFormObj.getIRAValue("02a") +				// Taxable IRA Distributions
+			TaxInfo.getIRAValue("02a") +				// Taxable IRA Distributions
 			TaxFormObj.getValue("F8606",	"15c") +
 			TaxFormObj.getValue("F8606",	"18") +
 			TaxFormObj.getValue("F8606",	"25c");
 		this.lines["05a"].value =
- 			TaxFormObj.getPensionValue("01");			// Total Pension Distributions
+ 			TaxInfo.getPensionValue("01");			// Total Pension Distributions
 		this.lines["05b"].value =
-			TaxFormObj.getPensionValue("02a");			// Taxable Pension Distributions
+			TaxInfo.getPensionValue("02a");			// Taxable Pension Distributions
 		this.lines["06a"].value =
 			TaxFormObj.getValue("SSA1099",	"05");		// Total SS Benefits
 

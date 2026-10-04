@@ -289,7 +289,7 @@ export class TaxTable_2025 extends TaxTableTmpl {
 	//
 	// Credit for Qualified Retirement Savings Contributions
 	//
-	// T%his is the table found on form 8880 to calculate the amount of the credit to allow
+	// This is the table found on form 8880 to calculate the amount of the credit to allow
 	// based on income.
 	//
 	savings_credit_phase_out = [

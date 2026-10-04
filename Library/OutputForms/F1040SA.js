@@ -4,6 +4,7 @@ import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
@@ -126,7 +127,7 @@ export class F1040SA extends TaxForm {
 		return (	// return cannot be on a line by itself
 			this.est_payments_state +
 			this.state_tax_due +
-			TaxFormObj.getStateWithholding()
+			TaxInfo.getStateWithholding()
 		);
 	}
 }

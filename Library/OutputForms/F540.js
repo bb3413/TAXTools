@@ -6,6 +6,7 @@ import { Ensure }				from "../Modules/Ensure.js";
 import { Line }					from "../Classes/Line.js";
 import { TaxForm }				from "../Classes/TaxForm.js";
 import { TaxFormObj }			from "../Modules/TaxFormObj.js";
+import { TaxInfo }				from "../Modules/TaxInfo.js";
 import { TaxTable }				from "../Modules/TaxTable.js";
 import { Taxpayer }				from "../Classes/Taxpayer.js";
 import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
@@ -208,7 +209,7 @@ export class F540 extends TaxForm {
 		this.lines["064"].value	= this.add("048","061","062","063");	// Total Tax
 
 		// Payments
-		this.lines["071"].value	= TaxFormObj.getStateWithholding();		// Withholding
+		this.lines["071"].value	= TaxInfo.getStateWithholding();		// Withholding
 		this.lines["072"].value	= 0;	// Estimated Payments - set by TaxProgram
 		this.lines["073"].value	= 0;									// Withholding
 		this.lines["074"].value	= 0;									// Excess SDI or VPDI

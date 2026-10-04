@@ -1,5 +1,6 @@
 
-import { SINGLE, HOH, MFJ, QSS, MFS } from "../TAXTools/TAXTools.js";
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+import { TAXPAYER, SPOUSE }				from "../TAXTools/TAXTools.js";
 
 import { Dates }		from "../Modules/Dates.js";
 import { Debug }		from "../Modules/Debug.js";
@@ -10,7 +11,7 @@ import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
-function getDeductibleIRAContribution(contribution, taxpayer) {
+function getDeductibleIRAContribution(contribution, who) {
 	// - Contribution is not deductible on a California return.
 	// - If taxpayer has retirement plan at work (W-2, box 13), the deductible amount is
 	//   limited by AGI.
@@ -194,8 +195,8 @@ export class F1040S1 extends TaxForm {
 			}
 		}
 		this.lines["20"].value	=									// IRA Deduction
-			getDeductibleIRAContribution(this.ira_contribution_taxpayer, true) +
-			getDeductibleIRAContribution(this.ira_contribution_spouse, false);
+			getDeductibleIRAContribution(this.ira_contribution_taxpayer, TAXPAYER) +
+			getDeductibleIRAContribution(this.ira_contribution_spouse, SPOUSE);
 
 		this.lines["21"].value	= 0;	// This line is calculated further down
 		this.lines["22"].value	= 0;									// Reserved

@@ -6,6 +6,7 @@ import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
@@ -113,7 +114,7 @@ export class F1040S1A extends TaxForm {
 		this.lines["03"].value	= this.add("01","02e");					// AGI + Foreign Inc
 
 		// No Tax on Tips
-		this.lines["04a"].value	= TaxFormObj.getW2TipIncome();			// Tips from W-2
+		this.lines["04a"].value	= TaxInfo.getW2TipIncome();			// Tips from W-2
 		this.lines["04b"].value	= TaxFormObj.getValue("F4137", "01");	// Tips from 4137
 		this.lines["04c"].value	= Math.max(this.line("04a"), this.line("04b"))
 		this.lines["05"].value	=										// Tips from business
@@ -142,7 +143,7 @@ export class F1040S1A extends TaxForm {
 			tt.getTaxValue("OvertimeDeductionPhaseOut",	tp.filing_status);
 
 		this.lines["14a"].value	=  			// Overtime Pay from wages
-			TaxFormObj.getW2OvertimePay();
+			TaxInfo.getW2OvertimePay();
 		this.lines["14b"].value	=			// Overtime pay from business
 			TaxFormObj.getValue("F1099NEC", "01d") +
 			TaxFormObj.getValue("F1099MISC", "14");
