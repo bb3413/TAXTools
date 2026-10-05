@@ -1,4 +1,16 @@
 
+export const Dates = {
+	getAge,
+	getEndOfYearAge,
+	getLastYear,
+	getTaxYear,
+	getThisYear,
+	getToday,
+	getDateObject,
+	isBefore,
+	isValid,
+};
+
 import { Ensure } from "../Modules/Ensure.js";
 
 function getAge(start_date, end_date) {
@@ -66,32 +78,4 @@ function isBefore(date1, date2) {
 
 function isValid(date) {
 	return getDateObject(date) !== null;
-}
-
-export const Dates = {
-	getAge,
-	getEndOfYearAge,
-	getLastYear,
-	getTaxYear,
-	getThisYear,
-	getToday,
-	getDateObject,
-	isBefore,
-	isValid
-};
-
-export {
-	getAge,
-	getEndOfYearAge,
-	getLastYear,
-	getTaxYear,
-	getThisYear,
-	getToday,
-	getDateObject,
-	isBefore,
-	isValid
-};
-
-if (typeof window !== "undefined") {
-	window.Dates ??= Dates;
 }

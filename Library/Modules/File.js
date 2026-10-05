@@ -1,4 +1,7 @@
 
+export const File = { saveToFile, restoreFromFile };
+export { saveToFile, restoreFromFile };
+
 import { Ensure } from "../Modules/Ensure.js";
 
 async function saveToFile(data, filename, json = true) {
@@ -61,11 +64,4 @@ function restoreFromFile(filename, restoreDataHandler) {
 		};
 		// Start reading the file.
 		reader.readAsText(filename);
-}
-
-export const File = { saveToFile, restoreFromFile };
-export { saveToFile, restoreFromFile };
-
-if (typeof window !== "undefined") {
-	window.File ??= File;
 }

@@ -1,25 +1,44 @@
 
+export const Str = {
+	caseEqual,
+	clean,
+	downshift,
+	empty,
+	equal,
+	prefixLines,
+	upshift,
+	wrap,
+	wrapLines,
+	upshiftFirst,
+	camelCaseToEnglish,
+	camelToSnakeCase,
+	kebabToSnakeCase,
+	snakeCaseToEnglish,
+	snakeToCamelCase,
+	snakeToKebabCase,
+};
+
 import { Ensure } from "../Modules/Ensure.js";
 
-const caseEqual = (s1, s2) => {
+function caseEqual(s1, s2) {
 	Ensure.isString(s1, "s1");
 	Ensure.isString(s2, "s2");
 
 	return s1.toLowerCase() === s2.toLowerCase();
-};
+}
 
-const clean = (s) => {
+function clean(s)  {
 	Ensure.isString(s, "s");
 	// Remove leading, trailing, and consecutive whitespace characters.
 	return s.trim().replace(/\s+/g, " ");
-};
+}
 
-const downshift = (s) => {
+function downshift(s) {
 	Ensure.isString(s, "s");
 	return s.toLowerCase();
-};
+}
 
-const empty = (s) => {
+function empty(s) {
 	// Return true if:
 	//		Null
 	//		Undefined
@@ -32,15 +51,15 @@ const empty = (s) => {
 		return true;
 	}
 	return !String(s).trim();
-};
+}
 
-const equal = (s1, s2) => {
+function equal(s1, s2) {
 	Ensure.isString(s1, "s1");
 	Ensure.isString(s2, "s2");
 	return s1 === s2;
-};
+}
 
-const prefixLines = (prefix, str) => {
+function prefixLines(prefix, str) {
 	//
 	// Add the prefix to the front of each string inside a string that contains multiple
 	// lines (i.e., embedded newlines).
@@ -53,14 +72,14 @@ const prefixLines = (prefix, str) => {
 		lines[i] = prefix + lines[i];
 	}
 	return lines.join("\n");
-};
+}
 
-const upshift = (s) => {
+function upshift(s) {
 	Ensure.isString(s, "s");
 	return s.toUpperCase();
-};
+}
 
-const wrap = (str, maxLength = 80) => {
+function wrap(str, maxLength = 80) {
 	//
 	// Wrap string into multiple lines by breaking on word boundaries.
 	//
@@ -110,9 +129,9 @@ const wrap = (str, maxLength = 80) => {
 	}
 
 	return leadingWhitespace + chunks.join("\n");
-};
+}
 
-const wrapLines = (str, maxLength = 80) => {
+function wrapLines(str, maxLength = 80) {
 	//
 	// Wrap string with multiple lines (i.e., embedded newlines) into multiple lines by
 	// breaking on word boundaries.
@@ -123,17 +142,17 @@ const wrapLines = (str, maxLength = 80) => {
 		lines[i] = wrap(lines[i], maxLength);
 	}
 	return lines.join("\n");
-};
+}
 
-const upshiftFirst = (str) => {
+function upshiftFirst(str) {
 	Ensure.isString(str, "str");
 	if (str === "") {
 		return "";
 	}
 	return str[0].toUpperCase() + str.slice(1);
-};
+}
 
-const camelCaseToEnglish = (name) => {
+function camelCaseToEnglish(name) {
 	Ensure.isString(name, "name");
 	if (name === "") {
 		return "";
@@ -153,9 +172,9 @@ const camelCaseToEnglish = (name) => {
 
 	name = upshiftFirst(name);
 	return name;
-};
+}
 
-const camelToSnakeCase = (name) => {
+function camelToSnakeCase(name) {
 	Ensure.isString(name, "name");
 	if (name === "") {
 		return "";
@@ -172,19 +191,19 @@ const camelToSnakeCase = (name) => {
 			// Insert underbar between number followed by letter
 			.replace(/([0-9]+)([A-Za-z])/g, '$1_$2')
 			.toLowerCase();
-};
+}
 
-const kebabToSnakeCase = (name) => {
+function kebabToSnakeCase(name) {
 	Ensure.isString(name, "name");
 	return name.replace(/-/g, "_");
-};
+}
 
-const kebabToCamelCase = (name) => {
+function kebabToCamelCase(name) {
 	Ensure.isString(name, "name");
 	return snakeToCamelCase(name.replace(/-/g, "_"));
-};
+}
 
-const snakeCaseToEnglish = (name) => {
+function snakeCaseToEnglish(name) {
 	Ensure.isString(name, "name");
 	if (name === "") {
 		return "";
@@ -193,9 +212,9 @@ const snakeCaseToEnglish = (name) => {
 	name = name.replace(/_/g, " ").trim();
 	name = upshiftFirst(name);
 	return name;
-};
+}
 
-const snakeToCamelCase = (name) => {
+function snakeToCamelCase(name) {
 	Ensure.isString(name, "name");
 	if (name === "") {
 		return "";
@@ -211,47 +230,9 @@ const snakeToCamelCase = (name) => {
 		}
 	}
 	return newname;
-};
+}
 
-const snakeToKebabCase = (name) => {
+function snakeToKebabCase(name) {
 	Ensure.isString(name, "name");
 	return name.replace(/_/g, "-");
-};
-
-export const Str = {
-	caseEqual,
-	clean,
-	downshift,
-	empty,
-	equal,
-	prefixLines,
-	upshift,
-	wrap,
-	wrapLines,
-	upshiftFirst,
-	camelCaseToEnglish,
-	camelToSnakeCase,
-	kebabToSnakeCase,
-	snakeCaseToEnglish,
-	snakeToCamelCase,
-	snakeToKebabCase,
-};
-
-export {
-	caseEqual,
-	clean,
-	downshift,
-	empty,
-	equal,
-	prefixLines,
-	upshift,
-	wrap,
-	wrapLines,
-	upshiftFirst,
-	camelCaseToEnglish,
-	camelToSnakeCase,
-	kebabToSnakeCase,
-	snakeCaseToEnglish,
-	snakeToCamelCase,
-	snakeToKebabCase,
-};
+}

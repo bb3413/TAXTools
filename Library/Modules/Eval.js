@@ -1,4 +1,7 @@
 
+export const Eval = { expression };
+export { expression };
+
 import { Ensure } from "../Modules/Ensure.js";
 
 function expression(input) {
@@ -90,10 +93,3 @@ function expression(input) {
 
 		return evalStack[0];
 	}
-
-export const Eval = { expression };
-export { expression };
-
-if (typeof window !== "undefined") {
-	window.Eval ??= Eval;
-}

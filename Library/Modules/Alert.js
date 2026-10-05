@@ -1,4 +1,7 @@
 
+export const Alert = { slowAlert };
+export { slowAlert };
+
 import { Ensure } from "../Modules/Ensure.js";
 
 function slowAlert(message) {
@@ -8,9 +11,3 @@ function slowAlert(message) {
 	setTimeout(() => { alert(text); }, 10);
 }
 
-export const Alert = { slowAlert };
-export { slowAlert };
-
-if (typeof window !== "undefined") {
-	window.Alert ??= Alert;
-}

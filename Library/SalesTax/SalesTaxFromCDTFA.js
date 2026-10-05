@@ -1,4 +1,6 @@
 
+export { fetchSalesTaxRate };
+
 import { TAXTOOLS_URL, SALES_TAX_PROXY } from "../TAXTools/TAXTools.js";
 import { Ensure } from "../Modules/Ensure.js";
 
@@ -33,5 +35,3 @@ async function fetchSalesTaxRate(address, city, zip) {
 
 	return salesTaxRate;
 }
-
-export { fetchSalesTaxRate };

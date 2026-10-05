@@ -1,4 +1,13 @@
 
+export const Debug = {
+	reset,
+	getKeywords,
+	toString,
+	turnOn,
+	enter,
+	exit,
+};
+
 import { Classes }		from "../Modules/Classes.js";
 import { Container }	from "../Classes/Container.js";
 import { Ensure }		from "../Modules/Ensure.js";
@@ -12,6 +21,7 @@ let debug_all			= false;
 let debug_used_keywords = [];
 let trace_log			= [];
 
+//----------  Local Functions ---------------------------------------------------------------
 function keywordList() {
 	const debug_keywords = [
 		"Debug",
@@ -91,174 +101,133 @@ function showField(name) {
 	}
 }
 
-const Debug = {
-	reset() {
-		indentation			= 0;
-		debug_all			= false;
-		debug_used_keywords	= [];
-		trace_log			= [];
+//----------  Exported Functions ------------------------------------------------------------
+function reset() {
+	indentation			= 0;
+	debug_all			= false;
+	debug_used_keywords	= [];
+	trace_log			= [];
 
-		HTML.putElementValue("debug-output", "");
-		hideField("debug-container");
-	},
+	HTML.putElementValue("debug-output", "");
+	hideField("debug-container");
+}
 
-	getKeywords(input_string) {
-		//
-		// This function parses the input string to extract debugging keywords and return
-		// whatever is left. The keywords are not case-sensitive and they may appear in any
-		// order within the input string. You can use commas or whitespace to separate the
-		// keywords and the value.
-		//
-		if (input_string) {
-			for (const keyword of keywordList()) {
-				let wasRemoved = false;
-				[input_string, wasRemoved] = removeKeyword(input_string, keyword);
-				if (wasRemoved) {
-					debug_used_keywords.push(keyword);
-				}
-			}
-
-			if (debug_used_keywords.includes("Debug")) {
-				debug_all = true;
-			}
-		}
-
-		return input_string;
-	},
-
-	toString() {
-		let str = [];
-		let s = "";
-
-		s = "Debug Options: " + debug_used_keywords;
-		s = s.replace(/,/, ", "); // Add a space after the comma
-		str.push(s);
-
-		if (trace_log.length > 0) {
-			str.push("");
-			str.push("Debug Trace Log");
-			for (const line of trace_log) {
-				str.push(line);
-			}
-		}
-
-		return str.join("\n");
-	},
-
-	turnOn() {
-		// Turn on debugging after input has been processed and the debug keywords have
-		// been collected.
-		if (debug_used_keywords.length === 0) {
-			return;
-		}
-
-		let output = "";
-
-		if (debug_all) {
-			output += Debug.toString();
-			output += "\n\n";
-		}
-
-		if (debug_all || debug_used_keywords.includes("Taxpayer")) {
-			let tp = Taxpayer.getTaxpayer();
-			if (tp) {
-				output += tp.toString();
-			}
-		}
-
-		for (const container of Container.getContainers()) {
-			if (debug_all || debug_used_keywords.includes(container.name)) {
-				output += container.toString();
-			}
-		}
-
-		for (const form of TaxFormObj.getAllForms()) {
-			if (debug_all || debug_used_keywords.includes(form.formname)) {
-				output += form.toString();
-			}
-		}
-
-		output = Str.wrapLines(output);
-
-		const element = document.getElementById("debug-output");
-		if (!element) {
-			throw new Error("Debug.turnOn: The \"debug-output\" HTML element is missing.");
-		} else {
-			HTML.putElementValue("debug-output", output);
-			showField("debug-container");
-		}
-	},
-
-	verify(expression, message) {
-		if (expression) {
-			return true;
-		} else {
-			console.log(message);
-			throw new Error(message);
-			return false;
-		}
-	},
-
+function getKeywords(input_string) {
 	//
-	// Debug tracing functions.
+	// This function parses the input string to extract debugging keywords and return
+	// whatever is left. The keywords are not case-sensitive and they may appear in any
+	// order within the input string. You can use commas or whitespace to separate the
+	// keywords and the value.
 	//
-	// For files that want to use these functions, but may not alway have this file included,
-	// put the following lines at the top of the file. It check whether the functions are
-	// defined and, if not, defines them to be a dummy function that does nothing.
-	//
-	//		globalThis.dbgEnter ??= () => {};
-	//		globalThis.dbgExit  ??= () => {};
-	//		globalThis.dbgLog   ??= () => {};
-	//
-	enter(name) {
-		if (debug_used_keywords.includes("Trace")) {
-			const spaces = " ".repeat(indentation * 2);
-			indentation += 1;
-
-			const str = `${spaces}> ${name}`;
-			trace_log.push(str);
-			// console.log(str);
+	if (input_string) {
+		for (const keyword of keywordList()) {
+			let wasRemoved = false;
+			[input_string, wasRemoved] = removeKeyword(input_string, keyword);
+			if (wasRemoved) {
+				debug_used_keywords.push(keyword);
+			}
 		}
-	},
 
-	exit(name) {
-		if (debug_used_keywords.includes("Trace")) {
-			indentation = Math.max(0, indentation - 1);
-			const spaces = " ".repeat(indentation * 2);
-
-			const str = `${spaces}< ${name}`;
-			trace_log.push(str);
-			// console.log(str);
+		if (debug_used_keywords.includes("Debug")) {
+			debug_all = true;
 		}
-	},
+	}
 
-	log(message) {
+	return input_string;
+}
+
+function toString() {
+	let str = [];
+	let s = "";
+
+	s = "Debug Options: " + debug_used_keywords;
+	s = s.replace(/,/, ", "); // Add a space after the comma
+	str.push(s);
+
+	if (trace_log.length > 0) {
+		str.push("");
+		str.push("Debug Trace Log");
+		for (const line of trace_log) {
+			str.push(line);
+		}
+	}
+
+	return str.join("\n");
+}
+
+function turnOn() {
+	// Turn on debugging after input has been processed and the debug keywords have
+	// been collected.
+	if (debug_used_keywords.length === 0) {
+		return;
+	}
+
+	let output = "";
+
+	if (debug_all) {
+		output += Debug.toString();
+		output += "\n\n";
+	}
+
+	if (debug_all || debug_used_keywords.includes("Taxpayer")) {
+		let tp = Taxpayer.getTaxpayer();
+		if (tp) {
+			output += tp.toString();
+		}
+	}
+
+	for (const container of Container.getContainers()) {
+		if (debug_all || debug_used_keywords.includes(container.name)) {
+			output += container.toString();
+		}
+	}
+
+	for (const form of TaxFormObj.getAllForms()) {
+		if (debug_all || debug_used_keywords.includes(form.formname)) {
+			output += form.toString();
+		}
+	}
+
+	output = Str.wrapLines(output);
+
+	const element = document.getElementById("debug-output");
+	if (!element) {
+		throw new Error("Debug.turnOn: The \"debug-output\" HTML element is missing.");
+	} else {
+		HTML.putElementValue("debug-output", output);
+		showField("debug-container");
+	}
+}
+
+//
+// Debug tracing functions.
+//
+// For files that want to use these functions, but may not alway have this file included,
+// put the following lines at the top of the file. It check whether the functions are
+// defined and, if not, defines them to be a dummy function that does nothing.
+//
+//		globalThis.dbgEnter ??= () => {};
+//		globalThis.dbgExit  ??= () => {};
+//		globalThis.dbgLog   ??= () => {};
+//
+function enter(name) {
+	if (debug_used_keywords.includes("Trace")) {
 		const spaces = " ".repeat(indentation * 2);
+		indentation += 1;
 
-		const str = `${spaces}${message}`;
+		const str = `${spaces}> ${name}`;
 		trace_log.push(str);
 		// console.log(str);
 	}
-};
+}
 
-const {
-	reset,
-	getKeywords,
-	toString,
-	turnOn,
-	enter,
-	exit,
-} = Debug;
+function exit(name) {
+	if (debug_used_keywords.includes("Trace")) {
+		indentation = Math.max(0, indentation - 1);
+		const spaces = " ".repeat(indentation * 2);
 
-export {
-	Debug,
-	reset,
-	getKeywords,
-	toString,
-	enter,
-	exit,
-};
-
-if (typeof window !== "undefined") {
-	window.Debug ??= Debug;
+		const str = `${spaces}< ${name}`;
+		trace_log.push(str);
+		// console.log(str);
+	}
 }

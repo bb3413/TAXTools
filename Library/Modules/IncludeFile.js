@@ -17,6 +17,9 @@
 //			server.
 //
 
+export const IncludeFile = { loadIncludes };
+export { loadIncludes };
+
 import { Ensure } from "../Modules/Ensure.js";
 
 async function loadIncludes(container = document, depth = 0) {
@@ -95,10 +98,6 @@ async function loadIncludes(container = document, depth = 0) {
 	}
 }
 
-const IncludeFile = {
-	loadIncludes
-};
-
 // The following statement does not work because it will invoke loadIncludes() as the
 // event handler, which, in turn, causes it to receive an event object as its first
 // parameter.
@@ -113,4 +112,3 @@ if (typeof window !== "undefined") {
 	window.IncludeFile ??= IncludeFile;
 }
 
-export { IncludeFile, loadIncludes };

@@ -1,4 +1,11 @@
 
+export const Objects = {
+	isEmpty,
+	isUsed,
+	removeUnused,
+	toString,
+};
+
 import { Ensure } from "../Modules/Ensure.js";
 
 function isEmpty(obj) {
@@ -45,17 +52,3 @@ function toString(obj, pad=65) {
 
 	return str.join("\n");
 }
-
-export const Objects = {
-	isEmpty,
-	isUsed,
-	removeUnused,
-	toString,
-};
-
-export {
-	isEmpty,
-	isUsed,
-	removeUnused,
-	toString,
-};
