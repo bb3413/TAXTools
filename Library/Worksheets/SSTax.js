@@ -3,6 +3,8 @@
 // This is the Social Security Benefits Worksheet from the
 // 1040 Instructions (TY2025), lines 6a and 6b, page 32.
 //
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";

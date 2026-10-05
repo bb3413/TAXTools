@@ -49,6 +49,9 @@ function removeKeyword(text, keyword) {
 	// 4.	Otherwise, the keyword and the delimiting characters should be replaced with
 	//		a single space.
 	//
+	Ensure.isString(text);
+	// Ensure.isString(keyword);
+
 	const pattern = new RegExp(
 		// Rule 1: Alone on line
 		`^[ \\t]*,?[ \\t]*${keyword}[ \\t]*,?[ \\t]*$(\\r?\\n)?` +
@@ -84,6 +87,9 @@ function removeKeyword(text, keyword) {
 function hideField(name) {
 	// The debug field is an HTML area that display additional information when debugging
 	// is enabled.
+	Ensure.isString(name);
+
+	// It is not an error if it does not exist.
 	const debug_field = document.getElementById(name);
 	if (debug_field) {
 		// Only hide if element exists; non-existent element is not an error.
@@ -94,6 +100,9 @@ function hideField(name) {
 function showField(name) {
 	// The debug field is an HTML area that display additional information when debugging
 	// is enabled.
+	Ensure.isString(name);
+
+	// It is not an error if it does not exist.
 	const debug_field = document.getElementById(name);
 	if (debug_field) {
 		// Only show if element exists; non-existent element is not an error.
@@ -119,18 +128,18 @@ function getKeywords(input_string) {
 	// order within the input string. You can use commas or whitespace to separate the
 	// keywords and the value.
 	//
-	if (input_string) {
-		for (const keyword of keywordList()) {
-			let wasRemoved = false;
-			[input_string, wasRemoved] = removeKeyword(input_string, keyword);
-			if (wasRemoved) {
-				debug_used_keywords.push(keyword);
-			}
-		}
+	Ensure.isString(input_string);
 
-		if (debug_used_keywords.includes("Debug")) {
-			debug_all = true;
+	for (const keyword of keywordList()) {
+		let wasRemoved = false;
+		[input_string, wasRemoved] = removeKeyword(input_string, keyword);
+		if (wasRemoved) {
+			debug_used_keywords.push(keyword);
 		}
+	}
+
+	if (debug_used_keywords.includes("Debug")) {
+		debug_all = true;
 	}
 
 	return input_string;
@@ -211,6 +220,8 @@ function turnOn() {
 //		globalThis.dbgLog   ??= () => {};
 //
 function enter(name) {
+	Ensure.isString(name);
+
 	if (debug_used_keywords.includes("Trace")) {
 		const spaces = " ".repeat(indentation * 2);
 		indentation += 1;
@@ -222,6 +233,8 @@ function enter(name) {
 }
 
 function exit(name) {
+	Ensure.isString(name);
+
 	if (debug_used_keywords.includes("Trace")) {
 		indentation = Math.max(0, indentation - 1);
 		const spaces = " ".repeat(indentation * 2);

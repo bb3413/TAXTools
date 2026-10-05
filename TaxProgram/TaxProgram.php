@@ -67,8 +67,7 @@
 		<div class="taxpayer-info-150-400">
 			<p>Taxpayer's Name</p>
 			<input class="trigger input-field left" type="text" autofocus
-				spellcheck="false" size="45"
-				id="taxpayers-name"
+				spellcheck="false" size="45" id="taxpayers-name"
 				tooltipid="#taxpayers-name-tt" />
 		</div>
 		<div class="taxpayer-info-150-400">

@@ -15,10 +15,10 @@ import { Ensure } from "../Modules/Ensure.js";
 
 function getAge(start_date, end_date) {
 	// Determine the number of years between the start date and end date.
-	const start_day = getDateObject(start_date);
-	const end_day = getDateObject(end_date);
+	const start_day	= getDateObject(start_date);
+	const end_day	= getDateObject(end_date);
 
-	if (!start_day || !end_day) {
+	if (!isValid(start_day) || !isValid(end_day)) {
 		return 0;
 	}
 
@@ -36,6 +36,9 @@ function getAge(start_date, end_date) {
 }
 
 function getEndOfYearAge(birthday, year) {
+	if (!isValid(birthday)) {
+		return 0;
+	}
 	return getAge(birthday, new Date(year, 11, 31));	// Months start at 0
 }
 
@@ -44,8 +47,8 @@ function getLastYear() {
 }
 
 function getTaxYear() {
-	const today = new Date();
-	const tax_day = new Date(getThisYear(), 3, 15);	// Months start at 0
+	const today		= new Date();
+	const tax_day	= new Date(getThisYear(), 3, 15);	// Months start at 0
 
 	if (today < tax_day) {
 		return getLastYear();
@@ -70,7 +73,8 @@ function getDateObject(date) {
 function isBefore(date1, date2) {
 	const d1 = getDateObject(date1);
 	const d2 = getDateObject(date2);
-	if (!d1 || !d2) {
+
+	if (!isValid(d1) || !isValid(d2)) {
 		return false;
 	}
 	return d1.getTime() < d2.getTime();

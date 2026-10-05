@@ -118,6 +118,8 @@ export class Taxpayer {
 	}
 
 	static restoreUserInput(data) {
+		Ensure.isObject(data);
+
 		// Clean all the fields.
 		for (const element_id of Object.keys(ELEMENTS)) {
 			if (document.getElementById(element_id)) {
@@ -246,6 +248,7 @@ export class Taxpayer {
 	// ---------------- Utility Methods ----------------
 	//
 	addDependent(inputs) {
+		Ensure.isObject(inputs);
 		this._dependents.push(new Dependent(inputs));
 	}
 

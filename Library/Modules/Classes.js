@@ -129,6 +129,8 @@ function createOnDemand(formname) {
 	// the form has not been created. However, some forms get input from other forms and
 	// need to be created and calculated before the value is returned. This array lists
 	// those forms.
+	Ensure.isNonEmptyString(formname);
+
 	if (class_map[formname]) {
 		return class_map[formname][ON_DEMAND];
 	} else {
@@ -138,6 +140,8 @@ function createOnDemand(formname) {
 
 function getClass(classname) {
 	// Get class reference from class name.
+	Ensure.isNonEmptyString(classname);
+
 	if (class_map[classname]) {
 		return class_map[classname][CLASS];
 	} else {
@@ -147,9 +151,7 @@ function getClass(classname) {
 
 function findClassName(name) {
 	// Case insensitive conversion of name to classname.
-	if (!name || typeof name !== "string") {
-		throw new TypeError("name must be a non-empty string.");
-	}
+	Ensure.isNonEmptyString(name);
 
 	name = name.toUpperCase();
 	for (const classname of Object.keys(class_map)) {
@@ -162,9 +164,7 @@ function findClassName(name) {
 }
 
 function getHTML(classname, ...rest) {
-	if (!classname || typeof classname !== "string") {
-		throw new TypeError("classname must be a non-empty string.");
-	}
+	Ensure.isNonEmptyString(classname);
 
 	// This method allows you to call the static method getHTML() by classname.
 	switch (classname) {
@@ -192,9 +192,7 @@ function getHTML(classname, ...rest) {
 }
 
 function getInputFromWeb(classname, ...rest) {
-	if (!classname || typeof classname !== "string") {
-		throw new TypeError("classname must be a non-empty string.");
-	}
+	Ensure.isNonEmptyString(classname);
 
 	// This method allows you to call the static method getInputFromWeb() by classname.
 	switch (classname) {
@@ -222,9 +220,8 @@ function getInputFromWeb(classname, ...rest) {
 }
 
 function isSingleton(classname) {
-	if (!classname || typeof classname !== "string") {
-		throw new TypeError("classname must be a non-empty string.");
-	}
+	Ensure.isNonEmptyString(classname);
+	
 	if (class_map[classname]) {
 		return class_map[classname][SINGLETON];
 	} else {
@@ -232,19 +229,19 @@ function isSingleton(classname) {
 	}
 }
 
-function isInputForm(formName) {
-	if (!formName || typeof formName !== "string") {
-		throw new TypeError("formName must be a non-empty string.");
-	}
-	if (class_map[formName]) {
-		return class_map[formName][INPUT];
+function isInputForm(formname) {
+	Ensure.isNonEmptyString(formname);
+
+	if (class_map[formname]) {
+		return class_map[formname][INPUT];
 	} else {
 		return false;
 	}
 }
 
-function isOutputForm(formName) {
-	return !isInputForm(formName);
+function isOutputForm(formname) {
+	Ensure.isNonEmptyString(formname);
+	return !isInputForm(formname);
 }
 
 function listAllForms() {
@@ -254,9 +251,7 @@ function listAllForms() {
 }
 
 function loadInputFromWeb(classname, ...rest) {
-	if (!classname || typeof classname !== "string") {
-		throw new TypeError("classname must be a non-empty string.");
-	}
+	Ensure.isNonEmptyString(classname);
 
 	// This method allows you to call the static method loadInputFromWeb() by classname.
 	switch (classname) {

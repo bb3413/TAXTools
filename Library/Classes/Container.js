@@ -12,6 +12,7 @@
 // there is already an entry with the same name, in which case, the entry will be added
 // after the last entry with the same name.
 //
+import { Classes }		from "../Modules/Classes.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { HTML }			from "../Modules/HTML.js";
 import { Objects }		from "../Modules/Objects.js";
@@ -25,6 +26,8 @@ let containers = [];
 
 export class Container {
 	constructor(container_id) {
+		Ensure.isValidElementID(container_id);
+
 		this.container_id	= container_id;
 		this.entry_ids		= [];
 		containers.push(this);
@@ -35,9 +38,8 @@ export class Container {
 		// Add an entry into the container and insert its HTML into the web page element
 		// identified by the container ID.
 		//
-		if (!html_id || !html) {
-			throw new TypeError("Container.addEntry(): Missing parameter.");
-		}
+		Ensure.isNonEmptyString(html_id);
+		Ensure.isNonEmptyString(html);
 
 		let where_id	= this.container_id;	// ID of block to inset after.
 		let where		= "beforeend";	// beforebegin, afterbegin, beforeend, afterend
@@ -73,6 +75,8 @@ export class Container {
 	}
 
 	getEntries(entry_name = "") {
+		Ensure.isString(entry_name);
+
 		if (entry_name === "") {
 			return this.entry_ids;
 		} else {
@@ -91,7 +95,12 @@ export class Container {
 	}
 
 	removeEntry(html_id) {
+		Ensure.isValidElementID(html_id);
+
+		// Remove html_id from list of entry_ids.
 		this.entry_ids = this.entry_ids.filter(id => id !== html_id);
+
+		// Remove the HTML element.
 		HTML.remove(html_id);
 	}
 
@@ -135,6 +144,8 @@ export class Container {
 
 	static getUID(classname) {
 		// Get a number that is unique to the name.
+		Ensure.isNonEmptyString(classname);
+
 		let uid = next_uid[classname];
 
 		if (uid) {
@@ -154,9 +165,8 @@ export class Container {
 
 	static parseElementID(element_id) {
 		// Returns:  [ name, uid ]
-		if (!element_id || typeof element_id !== "string") {
-			throw new TypeError("Container.parseElementID(): Logic error.");
-		}
+		Ensure.isString(element_id);
+
 		const parts = element_id.split("-");
 		const name = parts[0] || "";
 		const uid = parts.length > 1 ? parts[1] : "0";

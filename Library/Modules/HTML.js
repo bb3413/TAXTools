@@ -3,20 +3,27 @@ export const HTML = {
 	closeDetails,
 	closeAllDetails,
 	openDetails,
+
 	showElement,
 	hideElement,
+
 	changeBackgroundColor,
 	changeTextColor,
+
 	getUserInput,
 	putUserOutput,
+
 	getElementValue,
 	putElementValue,
+
 	findSummary,
 	getSummary,
 	putSummary,
+
 	addListener,
 	getCSSGlobalVariable,
-	remove
+	remove,
+	setFocus,
 };
 
 import { Debug }		from "../Modules/Debug.js";
@@ -24,69 +31,41 @@ import { Ensure }		from "../Modules/Ensure.js";
 import { Num }			from "../Modules/Num.js";
 
 function closeDetails(element_id) {
-	const element = document.getElementById(element_id);
-	if (element) {
-		element.open = false;
-		// Another option: element.removeAttribute('open');
-	}
+	const element = Ensure.isValidElementID(element_id);
+	element.open = false;
 }
 
 function closeAllDetails() {
 	const elements = document.querySelectorAll("details");
 	for (const element of elements) {
-		if (element) {
-			element.open = false;
-			// Another option: element.removeAttribute('open');
-		}
+		element.open = false;
 	}
 }
 
 function openDetails(element_id) {
-	const element = document.getElementById(element_id);
-	if (element) {
-		element.open = true;
-	}
+	const element = Ensure.isValidElementID(element_id);
+	element.open = true;
 }
 
 //-----  Show/hide element  -----------------------------------------------------------------
 function showElement(element_id) {
-	const element = document.getElementById(element_id);
-	if (!element) {
-		console.warn("showElement: Element not found: " + element_id);
-		return;
-	}
-
+	const element = Ensure.isValidElementID(element_id);
 	element.classList.remove('hidden');
 }
 
 function hideElement(element_id) {
-	const element = document.getElementById(element_id);
-	if (!element) {
-		console.warn("hideElement: Element not found: " + element_id);
-		return;
-	}
-
+	const element = Ensure.isValidElementID(element_id);
 	element.classList.add('hidden');
 }
 
 //---- Change background/foreground color  --------------------------------------------------
 function changeBackgroundColor(element_id, color) {
-	const element = document.getElementById(element_id);
-	if (!element) {
-		console.warn("changeBackgroundColor: Element not found: " + element_id);
-		return;
-	}
-
+	const element = Ensure.isValidElementID(element_id);
 	element.style.background = color;
 }
 
 function changeTextColor(element_id, color) {
-	const element = document.getElementById(element_id);
-	if (!element) {
-		console.warn("changeTextColor: Element not found: " + element_id);
-		return;
-	}
-
+	const element = Ensure.isValidElementID(element_id);
 	element.style.color = color;
 }
 
@@ -137,11 +116,7 @@ function putUserOutput(element_id, value, type = "") {
 // return the content.
 //
 function getElementValue(element_id) {
-	const element = document.getElementById(element_id);
-	if (!element) {
-		console.warn("getElementValue: Element not found: " + element_id);
-		return;
-	}
+	const element = Ensure.isValidElementID(element_id);
 
 	if (element.type === "checkbox" || element.type === "radio") {
 		return element.checked;
@@ -163,11 +138,7 @@ function getElementValue(element_id) {
 }
 
 function putElementValue(element_id, value) {
-	const element = document.getElementById(element_id);
-	if (!element) {
-		console.warn("putElementValue: Element not found: " + element_id);
-		return;
-	}
+	const element = Ensure.isValidElementID(element_id);
 
 	if (element.type === "checkbox" || element.type === "radio") {
 		element.checked = Boolean(value);
@@ -215,12 +186,7 @@ function putSummary(details_id, value) {
 
 //-----  Miscellaneous utility functions  ---------------------------------------------------
 function addListener(element_id, event, handler) {
-	const element = document.getElementById(element_id);
-	if (!element) {
-		console.warn("addListener: Element not found: " + element_id);
-		return;
-	}
-
+	const element = Ensure.isValidElementID(element_id);
 	element.addEventListener(event, handler);
 }
 
@@ -243,9 +209,11 @@ function getCSSGlobalVariable(variableName) {
 }
 
 function remove(element_id) {
-	const element = document.getElementById(element_id);
-	if (element) {
-		element.remove();
-	}
+	const element = Ensure.isValidElementID(element_id);
+	element.remove();
 }
 
+function setFocus(element_id) {
+	const element = Ensure.isValidElementID(element_id);
+	element.focus();
+}

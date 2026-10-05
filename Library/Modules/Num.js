@@ -11,27 +11,10 @@ import { Ensure }		from "../Modules/Ensure.js";
 import { Eval }			from "../Modules/Eval.js";
 import { Str }			from "../Modules/Str.js";
 
-const _expectFiniteNumber = (value, name = "value") => {
-	if (typeof value !== "number" || !Number.isFinite(value)) {
-		throw new TypeError(`${name} must be a finite number.`);
-	}
-	return value;
-};
-
-const _coerceFiniteNumber = (value, name = "value") => {
-	if (value === null || value === undefined || value === "") {
-		throw new TypeError(`${name} must be a finite number.`);
-	}
-	const num = Number(value);
-	if (!Number.isFinite(num)) {
-		throw new TypeError(`${name} must be a finite number.`);
-	}
-	return num;
-};
-
 function format(num) {
 	// Convert a number to a comma separated string, formatted for output.
-	return _expectFiniteNumber(num, "num").toLocaleString();
+	Ensure.isNumber(num);
+	return num.toLocaleString();
 }
 
 function isNum(num) {
@@ -44,14 +27,13 @@ function isNum(num) {
 }
 
 function limit(value, min_val = null, max_val = null) {
-	value = _coerceFiniteNumber(value, "value");
-
-	if (min_val !== null && min_val !== undefined && min_val !== "") {
-		value = Math.max(value, _coerceFiniteNumber(min_val, "min_val"));
+	Ensure.isNumber(value);
+	
+	if (isNum(min_val)) {
+		value = Math.max(value, min_val);
 	}
-
-	if (max_val !== null && max_val !== undefined && max_val !== "") {
-		value = Math.min(value, _coerceFiniteNumber(max_val, "max_val"));
+	if (isNum(max_val)) {
+		value = Math.max(value, max_val);
 	}
 
 	return value;
@@ -59,7 +41,8 @@ function limit(value, min_val = null, max_val = null) {
 
 function round2(num) {
 	// Round to a string with 2 decimal places, then convert back to a number.
-	return  parseFloat(num.toFixed(2));
+	Ensure.isNumber(value);
+	return parseFloat(num.toFixed(2));
 }
 
 function toInteger(str) {
@@ -68,11 +51,11 @@ function toInteger(str) {
 	// as a mathematical expression. The string will then be converted to a
 	// number or zero if it is not a number. Then, it will be rounded to the
 	// nearest whole number.
-	if (str === null || str === undefined) {
+	if (str === null || str === undefined || str === "") {
 		return 0;
 	}
 	if (typeof str !== "string") {
-		throw new TypeError("str must be a string.");
+		throw new TypeError("toInteger: parameter must be a string.");
 	}
 
 	const clean_str = str.replace(/[$,\s]/g, "");

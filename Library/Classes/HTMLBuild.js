@@ -35,6 +35,7 @@ export class HTMLBuild {
 	}
 
 	set id(str) {
+		Ensure.isString(str);
 		this._id = str;
 	}
 
@@ -44,6 +45,11 @@ export class HTMLBuild {
 	addElement(element, css_class, str, attributes="") {
 		// Add a container element. Container elements wrap their value between start
 		// and end tags.
+		Ensure.isString(element);
+		Ensure.isString(css_class);
+		Ensure.isString(str);
+		Ensure.isString(attributes);
+
 		if (css_class) {
 			attributes += attributes ? " " : "";
 			attributes += `class="${css_class}"`
@@ -56,6 +62,11 @@ export class HTMLBuild {
 	addVoidElement(element, css_class, str="", attributes="") {
 		// Void elements do not have closing tags, so they specify their value in an
 		// attribute.
+		Ensure.isString(element);
+		Ensure.isString(css_class);
+		Ensure.isString(str);
+		Ensure.isString(attributes);
+
 		if (css_class) {
 			attributes += attributes ? " " : "";
 			attributes += `class="${css_class}"`
@@ -72,6 +83,8 @@ export class HTMLBuild {
 	}
 
 	putAfter(element_id) {
+		const element = Ensure.isValidElementID(element_id);
+
 		if (this.id) {
 			throw new Error(`HTMLBuild.putAfter(): Document already put.`);
 		}
@@ -81,10 +94,6 @@ export class HTMLBuild {
 		const where	= "afterend";		// beforebegin, afterbegin, beforeend, afterend
 		const whole_doc = start + this.html_doc.join("\n") + stop;
 
-		const element = document.getElementById(element_id);
-		if (!element) {
-			throw new Error(`HTMLBuild.putAfter(): Cannot find element(${element_id}).`);
-		}
 		element.insertAdjacentHTML(where, whole_doc);
 		this.added = true;
 	}
@@ -103,6 +112,8 @@ export class HTMLBuild {
 	}
 
 	stopElement(element) {
+		Ensure.isString(element);
+
 		this._indent_level = Math.max(0, this._indent_level - 1);
 
 		const line = `${this.indent}</${element}>`;
@@ -110,6 +121,11 @@ export class HTMLBuild {
 	}
 
 	startElement(element, css_class="", str="", attributes="") {
+		Ensure.isString(element);
+		Ensure.isString(css_class);
+		Ensure.isString(str);
+		Ensure.isString(attributes);
+
 		if (css_class) {
 			attributes += attributes ? " " : "";
 			attributes += `class="${css_class}"`

@@ -1,6 +1,8 @@
 
 export const Ensure = {
 	isArray,
+	isNonEmptyString,
+	isNonZeroNumber,
 	isNumber,
 	isObject,
 	isString,
@@ -25,6 +27,24 @@ function isArray(param, param_name="") {
 		throw new TypeError(`Expected ${param_name} to be an array.`);
 	}
 		
+	return param;
+}
+
+function isNonEmptyString(param, param_name="") {
+	if ((typeof param !== "string") || (param === "")) {
+		param_name = param_name ? param_name : "value";
+		throw new TypeError(`Expected ${param_name} to be a non-empty string.`);
+	}
+		
+	return param;
+}
+
+function isNonZeroNumber(param, param_name="") {
+	if ((typeof param !== "number") || (!Number.isFinite(param)) || (param === 0)) {
+		param_name = param_name ? param_name : "value";
+		throw new TypeError(`Expected ${param_name} to be a non-zero number.`);
+	}
+	
 	return param;
 }
 

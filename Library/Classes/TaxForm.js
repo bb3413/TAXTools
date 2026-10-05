@@ -10,7 +10,17 @@ import { HTMLBuild }	from "../Classes/HTMLBuild.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
 export class TaxForm {
+	_ensureValidLine(lineno) {
+		if ((typeof lineno !== "string") || (this.lines[lineno] === undefined)) {
+			throw new Error(`Reference to undefined line: ${lineno}`);
+		}
+
+		return true;
+	}
+
 	constructor(formname) {
+		Ensure.isString(formname);
+
 		this.formname			= formname;
 		this.title				= formname;
 		this.calculated			= false;		// True => need to call calculate().
@@ -18,22 +28,23 @@ export class TaxForm {
 		this.lines				= {};
 	}
 
-	add(...index_list) {
+	add(...line_list) {
 		let sum = 0;
 
-		for (const index of index_list) {
-			if (this.lines[index] !== undefined) {
-				sum += this.lines[index].value;
-			}
+		for (const lineno of line_list) {
+			this._ensureValidLine(lineno);
+			sum += this.lines[lineno].value;
 		}
 
 		return sum;
 	}
 
 	getHTML(uid) {
+		Ensure.isNumber(uid);
+
 		let html	= this.toHTML(uid);
 		let id		= `${this.formname.toLowerCase()}-${uid}-container`;
-		return [ id, html ];
+		return [id, html];
 	}
 
 	isTaxpayers(who) {
@@ -42,6 +53,8 @@ export class TaxForm {
 		// collect this information. Any form that is not explicitly marked as belonging to
 		// the spouse, will belong to the taxpayer.
 		//
+		Ensure.isNumber(who);
+
 		const is_spouses = this.lines["is_spouses"] && this.lines["is_spouses"].value;
 		if ((who === SPOUSE) && is_spouses) {
 			return true;
@@ -63,8 +76,8 @@ export class TaxForm {
 	}
 
 	line(lineno) {
-		const line = this.lines[lineno];
-		return line ? line.value : 0;
+		this._ensureValidLine(lineno);
+		return this.lines[lineno].value;
 	}
 
 	loadInputFromWeb(inputs) {
@@ -76,38 +89,39 @@ export class TaxForm {
 		// Forms that have additional fields on the web page besides the line values, they
 		// will need to override this method (see form 1099-G for an example).
 		//
+		Ensure.isObject(inputs);
+
 		for (const key of Object.keys(inputs)) {
+			this._ensureValidLine(key);
 			this.lines[key].user_value = inputs[key];
 		}
 	}
 
-	min(...index_list) {
+	min(...line_list) {
 		//
 		// Given a list of line numbers, return the value of the line with the
 		// smallest value.
 		//
 		const values = [];
 
-		for (const index of index_list) {
-			if (this.lines[index] !== undefined) {
-				values.push(this.lines[index].value);
-			}
+		for (const lineno of line_list) {
+			this._ensureValidLine(lineno);
+			values.push(this.lines[lineno].value);
 		}
 
 		return values.length ? Math.min(...values) : 0;
 	}
 
-	max(...index_list) {
+	max(...line_list) {
 		//
 		// Given a list of line numbers, return the value of the line with the
 		// largest value.
 		//
 		const values = [];
 
-		for (const index of index_list) {
-			if (this.lines[index] !== undefined) {
-				values.push(this.lines[index].value);
-			}
+		for (const lineno of line_list) {
+			this._ensureValidLine(lineno);
+			values.push(this.lines[lineno].value);
 		}
 
 		return values.length ? Math.max(...values) : 0;
@@ -117,25 +131,24 @@ export class TaxForm {
 		//
 		// Copy the information from the instance to the output HTML.
 		//
-		const formname = this.formname.toLowerCase();
+		Ensure.isNumber(uid);
 
-		if (!uid) {
-			throw new Error(`${formname}.putInformation(): UID is undefined.`);
-		}
+		const formname = this.formname.toLowerCase();
 
 		for (const lineno of Object.keys(this.lines)) {
 			HTML.putUserOutput(`${formname}-${uid}-${lineno}`, this.line(lineno));
 		}
 	}
 
-	round(index) {
-		if (this.lines[index] === undefined) {
-			return 0;
-		}
-		return Math.round(this.lines[index].value);
+	round(lineno) {
+		this._ensureValidLine(lineno);
+		return Math.round(this.lines[lineno].value);
 	}
 
 	subtract(lineno1, lineno2) {
+		this._ensureValidLine(lineno1);
+		this._ensureValidLine(lineno2);
+
 		return this.line(lineno1) - this.line(lineno2);
 	}
 
@@ -167,7 +180,8 @@ export class TaxForm {
 						id=`${formname}-${uid}-${lineno}`;
 						attributes = `readonly type="text" id="${id}" ` +
 							`size="10" placeholder="${placeholder}"`;
-						doc.addVoidElement("input", "output-field",	line.value, attributes);
+						doc.addVoidElement("input", "output-field",
+							String(line.value), attributes);
 					doc.stopElement("div");					// End of line
 				}
 				doc.addElement("div", "", "&nbsp;");		// Blank line

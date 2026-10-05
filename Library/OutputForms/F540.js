@@ -198,8 +198,8 @@ export class F540 extends TaxForm {
 		if (tp.rents_home) {
 			this.lines["046"].value	= tt.getTaxValue("CA_RentersCredit", tp.filing_status);
 		}
-		this.lines["047"].value	= this.add("040","041","042","043",
-										   "044","045","046");	// Total Special Credits
+		// Total Special Credits
+		this.lines["047"].value	= this.add("040","043","044","045","046");
 		this.lines["048"].value	= Math.max(0, this.subtract("035", "047"));	// Updated Tax
 
 		// Other taxes

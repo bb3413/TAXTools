@@ -3,6 +3,8 @@
 // This is the Student Loan Interest Deduction Worksheet for Schedule 1, line 21.
 // It is documented in the 1040 Instructions (TY2025) on pages 98-99.
 //
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
@@ -40,6 +42,7 @@ export class StudentLoan extends TaxForm {
 		this.calculated = true;
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
+		const f1040s1 = TaxFormObj.getForm("F1040S1");
 
 		const max_interest	= tt.getTaxValue("MaxStudentLoanInterest", tp.filing_status);
 		const phase_out		= tt.getTaxValue("StudentLoanPhaseOut", tp.filing_status);
@@ -47,9 +50,9 @@ export class StudentLoan extends TaxForm {
 
 		this.lines["01"].value	= Math.min(max_interest, this.student_loan_interest);
 		this.lines["02"].value	= TaxFormObj.getValue("F1040", "09");	// Total Income
-		this.lines["03"].value	= this.add("11", "12", "13", "14", "15",
-										   "16", "17", "18", "19a", "20",
-										   "23", "25");
+		this.lines["03"].value	= f1040s1.add("11", "12", "13", "14",
+									"15", "16", "17", "18", "19a",
+									"20", "23", "25");
 		this.lines["04"].value	= this.subtract("02", "03");
 		this.lines["05"].value	= phase_out;
 		if (this.line("04") > this.line("05")) {
