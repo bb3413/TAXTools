@@ -125,7 +125,7 @@ export class Dependent {
 		this.taxpayer_supported		= inputs.taxpayer_supported;
 		this.dependent_supported	= inputs.dependent_supported;
 		this.disabled				= inputs.disabled;
-		this.has_ssn				= inputs.has_ssn || inputs.has_atin;	// Not an ITIN		
+		this.has_ssn				= inputs.has_ssn || inputs.has_atin;	// Not an ITIN
 	}
 
 	//
@@ -162,7 +162,7 @@ export class Dependent {
 	isQualifiedChild() {
 		const tp = Taxpayer.getTaxpayer();
 
-		// Relationship Test - The child must be the taxpayer’s child, stepchild, foster child,
+		// Relationship Test - The child must be the taxpayer's child, stepchild, foster child,
 		// adopted child, brother, sister, half-brother, half-sister, stepbrother, stepsister,
 		// or a descendant of any of them.
 		switch (this.relationship) {
@@ -204,7 +204,7 @@ export class Dependent {
 			return false;
 		}
 
-		// Support Test - The child must not provide more than half of their own support. 
+		// Support Test - The child must not provide more than half of their own support.
 		//		o	The parent does not need to provide more than half the support for the
 		//			child.
 		//		o	A scholarship is not considered support.
@@ -221,7 +221,7 @@ export class Dependent {
 		if (this.mfj) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -229,7 +229,7 @@ export class Dependent {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		// Qualifying Child Test - The relative cannot be the taxpayer’s qualifying child or
+		// Qualifying Child Test - The relative cannot be the taxpayer's qualifying child or
 		// the qualifying child of any other taxpayer unless that taxpayer does not file a tax
 		// return.
 		if (this.isQualifyingChild()) {
@@ -237,20 +237,20 @@ export class Dependent {
 		}
 
 		// Relationship Test - The relative either:
-		//		o	Must live with the taxpayer all year as a member of the taxpayer’s
+		//		o	Must live with the taxpayer all year as a member of the taxpayer's
 		//			household and not married, or
 		//		o	Must be related to the taxpayer in one of the following ways:
-		//			o	The taxpayer’s child, stepchild, foster child, or a descendant of any
+		//			o	The taxpayer's child, stepchild, foster child, or a descendant of any
 		//				of them,
-		//			o	The taxpayer’s brother, sister, half-brother, half-sister, stepbrother,
+		//			o	The taxpayer's brother, sister, half-brother, half-sister, stepbrother,
 		//				or stepsister,
-		//			o	The taxpayer’s father, mother, grandparent, or other ancestor, but not
+		//			o	The taxpayer's father, mother, grandparent, or other ancestor, but not
 		//				foster parent,
-		//			o	The taxpayer’s stepfather or stepmother,
-		//			o	A son or daughter of the taxpayer’s brother or sister,
-		//			o	A son or daughter of the taxpayer’s half-brother half-sister,
-		//			o	A brother or sister of the taxpayer’s father or mother,
-		//			o	The taxpayer’s son-in-law, daughter-in-law, father-in-law,
+		//			o	The taxpayer's stepfather or stepmother,
+		//			o	A son or daughter of the taxpayer's brother or sister,
+		//			o	A son or daughter of the taxpayer's half-brother half-sister,
+		//			o	A brother or sister of the taxpayer's father or mother,
+		//			o	The taxpayer's son-in-law, daughter-in-law, father-in-law,
 		//				mother-in-law, brother-in-law, or sister-in-law.
 		//		o	Relationships established by marriage and not ended by death or divorce.
 		if (this.months_lived_at_home >= 12) {
@@ -266,14 +266,14 @@ export class Dependent {
 			}
 		}
 
-		// Gross Income Test - The relative’s gross (taxable) income for the year must be less
+		// Gross Income Test - The relative's gross (taxable) income for the year must be less
 		// than $5,050.
 		if (this.gross_income > tt.getTaxValue("MaxDependentGrossIncome")) {
 			return false;
 		}
 
-		// Support Test – The taxpayer must provide more than half of the relative’s support
-		// for the year. 
+		// Support Test - The taxpayer must provide more than half of the relative's support
+		// for the year.
 		//		o	A scholarship is not considered support.
 		//		o	Income received by the relative, but not spent on their own support is not
 		//			considered support.
@@ -283,7 +283,7 @@ export class Dependent {
 		if (!this.taxpayer_suported) {
 			return false;
 		}
-		
+
 		return true;
 	}
 

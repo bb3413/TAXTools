@@ -31,15 +31,15 @@ function removeUnused(obj) {
 		return {};
 	}
 
-	const newobj = {};
+	const new_obj = {};
 	for (const key of Object.keys(obj)) {
 		const value = obj[key];
 		if ((value !== 0) && (value !== "") && (value !== false)) {
-			newobj[key] = value;
+			new_obj[key] = value;
 		}
 	}
 
-	return newobj;
+	return new_obj;
 }
 
 function toString(obj, pad=65) {

@@ -66,7 +66,8 @@ import { Business }		from "../InputWorksheets/Business.js";
 import { Dependent }	from "../InputWorksheets/Dependent.js";
 
 
-const CLASS_NAME	= 0;
+// Column Numbers
+const CLASS			= 0;
 const INPUT			= 1;
 const SINGLETON		= 2;
 const ON_DEMAND		= 3;
@@ -127,7 +128,7 @@ function createOnDemand(formname) {
 	// When getValue() or getTextValue() is called, the default is to return 0 or "" if
 	// the form has not been created. However, some forms get input from other forms and
 	// need to be created and calculated before the value is returned. This array lists
-	// those forms
+	// those forms.
 	if (class_map[formname]) {
 		return class_map[formname][ON_DEMAND];
 	} else {
@@ -136,8 +137,9 @@ function createOnDemand(formname) {
 }
 
 function getClass(classname) {
+	// Get class reference from class name.
 	if (class_map[classname]) {
-		return class_map[classname][CLASS_NAME];
+		return class_map[classname][CLASS];
 	} else {
 		return undefined;
 	}
@@ -230,19 +232,19 @@ function isSingleton(classname) {
 	}
 }
 
-function isInputForm(formname) {
-	if (!formname || typeof formname !== "string") {
-		throw new TypeError("formname must be a non-empty string.");
+function isInputForm(formName) {
+	if (!formName || typeof formName !== "string") {
+		throw new TypeError("formName must be a non-empty string.");
 	}
-	if (class_map[formname]) {
-		return class_map[formname][INPUT];
+	if (class_map[formName]) {
+		return class_map[formName][INPUT];
 	} else {
 		return false;
 	}
 }
 
-function isOutputForm(formname) {
-	return !isInputForm(formname);
+function isOutputForm(formName) {
+	return !isInputForm(formName);
 }
 
 function listAllForms() {

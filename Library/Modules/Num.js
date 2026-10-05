@@ -43,15 +43,15 @@ function isNum(num) {
 	return Number.isFinite(n);
 }
 
-function limit(value, minval = null, maxval = null) {
+function limit(value, min_val = null, max_val = null) {
 	value = _coerceFiniteNumber(value, "value");
 
-	if (minval !== null && minval !== undefined && minval !== "") {
-		value = Math.max(value, _coerceFiniteNumber(minval, "minval"));
+	if (min_val !== null && min_val !== undefined && min_val !== "") {
+		value = Math.max(value, _coerceFiniteNumber(min_val, "min_val"));
 	}
 
-	if (maxval !== null && maxval !== undefined && maxval !== "") {
-		value = Math.min(value, _coerceFiniteNumber(maxval, "maxval"));
+	if (max_val !== null && max_val !== undefined && max_val !== "") {
+		value = Math.min(value, _coerceFiniteNumber(max_val, "max_val"));
 	}
 
 	return value;

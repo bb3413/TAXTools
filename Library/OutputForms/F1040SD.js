@@ -13,22 +13,22 @@ export class F1040SD extends TaxForm {
 		super(formname);
 		this.title = `Schedule D - Capital Gains and Losses`;
 
-		this.lines["01ad"]	= new Line("Short-term prodeeds from 1099-B");
+		this.lines["01ad"]	= new Line("Short-term proceeds from 1099-B");
 		this.lines["01ae"]	= new Line("Short-term cost from 1099-B");
 		this.lines["01ag"]	= new Line("Short-term adjustments from 1099-B");
 		this.lines["01ah"]	= new Line("Short-term gain or loss from 1099-B");
 		// Box A or G checked
-		this.lines["01bd"]	= new Line("Short-term prodeeds from 8949");
+		this.lines["01bd"]	= new Line("Short-term proceeds from 8949");
 		this.lines["01be"]	= new Line("Short-term cost from 8949");
 		this.lines["01bg"]	= new Line("Short-term adjustments from 8949");
 		this.lines["01bh"]	= new Line("Short-term gain or loss from 8949");
 		// Box B or H checked
-		this.lines["02d"]	= new Line("Short-term prodeeds from 8949");
+		this.lines["02d"]	= new Line("Short-term proceeds from 8949");
 		this.lines["02e"]	= new Line("Short-term cost from 8949");
 		this.lines["02g"]	= new Line("Short-term adjustments from 8949");
 		this.lines["02h"]	= new Line("Short-term gain or loss from 8949");
 		// Box C or I checked.
-		this.lines["03d"]	= new Line("Short-term prodeeds from 8949");
+		this.lines["03d"]	= new Line("Short-term proceeds from 8949");
 		this.lines["03e"]	= new Line("Short-term cost from 8949");
 		this.lines["03g"]	= new Line("Short-term adjustments from 8949");
 		this.lines["03h"]	= new Line("Short-term gain or loss from 8949");
@@ -38,22 +38,22 @@ export class F1040SD extends TaxForm {
 		this.lines["06"]	= new Line("Short-term capital loss carryover");
 		this.lines["07"]	= new Line("Net short-term capital gain");
 
-		this.lines["08ad"]	= new Line("Long-term prodeeds from 1099-B");
+		this.lines["08ad"]	= new Line("Long-term proceeds from 1099-B");
 		this.lines["08ae"]	= new Line("Long-term cost from 1099-B");
 		this.lines["08ag"]	= new Line("Long-term adjustments from 1099-B");
 		this.lines["08ah"]	= new Line("Long-term gain or loss from 1099-B");
 		// Box D or J checked
-		this.lines["08bd"]	= new Line("Long-term prodeeds from 8949");
+		this.lines["08bd"]	= new Line("Long-term proceeds from 8949");
 		this.lines["08be"]	= new Line("Long-term cost from 8949");
 		this.lines["08bg"]	= new Line("Long-term adjustments from 8949");
 		this.lines["08bh"]	= new Line("Long-term gain or loss from 8949");
 		// Box E or K checked
-		this.lines["09d"]	= new Line("Long-term prodeeds from 8949");
+		this.lines["09d"]	= new Line("Long-term proceeds from 8949");
 		this.lines["09e"]	= new Line("Long-term cost from 8949");
 		this.lines["09g"]	= new Line("Long-term adjustments from 8949");
 		this.lines["09h"]	= new Line("Long-term gain or loss from 8949");
 		// Box F or L checked
-		this.lines["10d"]	= new Line("Long-term prodeeds from 8949");
+		this.lines["10d"]	= new Line("Long-term proceeds from 8949");
 		this.lines["10e"]	= new Line("Long-term cost from 8949");
 		this.lines["10g"]	= new Line("Long-term adjustments from 8949");
 		this.lines["10h"]	= new Line("Long-term gain or loss from 8949");
@@ -66,7 +66,7 @@ export class F1040SD extends TaxForm {
 		this.lines["16"]	= new Line("Line 7 + 15");
 		this.lines["17"]	= new Line("Lines 15 and 16 > 0");
 		this.lines["18"]	= new Line("28% Rate Gain worksheet, line 7");
-		this.lines["19"]	= new Line("Unrecaptured Section 1250 worksheet, line 18");
+		this.lines["19"]	= new Line("Un-recaptured Section 1250 worksheet, line 18");
 		this.lines["20"]	= new Line("Lines 18 and 19 = 0");
 		this.lines["21"]	= new Line("Line 16 < 0");
 		this.lines["22"]	= new Line("Qualified dividends");

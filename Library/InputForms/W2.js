@@ -297,11 +297,11 @@ const HTML_FORM = `
 						<input type="text" id="w2-XX-18" placeholder="" />
 					</div>
 					<div class="f1099-box">
-						<span class="f1099-box-label">19 Loca income tax</span>
+						<span class="f1099-box-label">19 Local income tax</span>
 						<input type="text" id="w2-XX-19" placeholder="" />
 					</div>
 					<div class="f1099-box">
-						<span class="f1099-box-label">20 Locaity name</span>
+						<span class="f1099-box-label">20 Locality name</span>
 						<input type="text" id="w2-XX-20" placeholder="" />
 					</div>
 				</div>
@@ -370,7 +370,7 @@ export class W2 extends TaxForm {
 		this.lines["08"]		= new Line("Allocated Tips");
 		this.lines["09"]		= new Line("Not Used");
 		this.lines["10"]		= new Line("Dependent Care Benefits");
-		this.lines["11"]		= new Line("Nonqualified Plans");
+		this.lines["11"]		= new Line("Non-qualified Plans");
 		this.lines["12a1"]		= new Line("Option A");
 		this.lines["12a2"]		= new Line("Option A");
 		this.lines["12b1"]		= new Line("Option B");
@@ -432,7 +432,7 @@ export class W2 extends TaxForm {
 
 		return value;
 	}
-	
+
 	getTipIncome() {
 		return this.getBox12("TP");
 	}

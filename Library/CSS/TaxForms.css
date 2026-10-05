@@ -148,7 +148,7 @@
 	background:				var(--output-color);
 }
 
-.notused {
+.not-used {
 	border:					1px solid var(--taxform-border-color);
 	background:				lightgray;
 	padding-left:			3px;

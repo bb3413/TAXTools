@@ -26,7 +26,7 @@ export class F1040S3 extends TaxForm {
 		this.lines["06e"]	= new Line("Reserved for Future Use");
 		this.lines["06f"]	= new Line("Clean Vehicle Credit");
 		this.lines["06g"]	= new Line("Mortgage Interest Credit");
-		this.lines["06h"]	= new Line("DC Homebuyer Credit");
+		this.lines["06h"]	= new Line("DC Home Buyer Credit");
 		this.lines["06i"]	= new Line("EV Credit");
 		this.lines["06j"]	= new Line("Refueling Property Credit");
 		this.lines["06k"]	= new Line("Tax Credit Bond Holder Credit");
@@ -60,12 +60,12 @@ export class F1040S3 extends TaxForm {
 		Debug.enter("F1040S3.calculate()");
 		this.calculated = true;
 
-/*		foreignTaxCredt = TaxFormObj.getValue("F1099INT", "xx") +
+/*		foreign_tax_credit = TaxFormObj.getValue("F1099INT", "xx") +
 									TaxFormObj.getValue("F1099DIV", "xx") +
 									TaxFormObj.getValue("F1041", "xx") +
 									TaxFormObj.getValue("F1165", "xx");
-		if foreignTaxCredt < 300 per spouse
-			1040S3[1] = foreignTaxCredit
+		if foreign_tax_credit < 300 per spouse
+			1040S3[1] = foreign_tax_credit
 		else
 			1040S3[1] f1116[35]
 */
@@ -85,7 +85,7 @@ export class F1040S3 extends TaxForm {
 		this.lines["06e"].value	= 0;									// Reserved
 		this.lines["06f"].value	= TaxFormObj.getValue("F8936", "xx");	// Clean Vehicle
 		this.lines["06g"].value	= TaxFormObj.getValue("F8396", "xx");	// Mortgage Int
-		this.lines["06h"].value	= TaxFormObj.getValue("F8859", "xx");	// DC Homebuyer
+		this.lines["06h"].value	= TaxFormObj.getValue("F8859", "xx");	// DC Home Buyer
 		this.lines["06i"].value	= TaxFormObj.getValue("F8834", "xx");	// EV Credit
 		this.lines["06j"].value	= TaxFormObj.getValue("F8911", "xx");	// Refueling Credit
 		this.lines["06k"].value	= TaxFormObj.getValue("F8912", "xx");	// Bond Holder Credit

@@ -91,10 +91,10 @@ export class F8880 extends TaxForm {
 			TaxFormObj.getValue("F1040S3", "06e") +	// Reserved for Future Use
 			TaxFormObj.getValue("F1040S3", "06f") +	// Clean Vehicle Credit
 			TaxFormObj.getValue("F1040S3", "06g") +	// Mortgage Interest Credit
-			TaxFormObj.getValue("F1040S3", "06h") +	// DC Homebuyer Credit
+			TaxFormObj.getValue("F1040S3", "06h") +	// DC Home Buyer Credit
 			TaxFormObj.getValue("F1040S3", "06i");	// EV Credit
 		this.lines["ws3"].value = this.subtract("ws1", "ws2");
-		
+
 		return this.line("ws3");
 	}
 }

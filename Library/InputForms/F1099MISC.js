@@ -322,7 +322,7 @@ export class F1099MISC extends TaxForm {
 		this.lines["13a"]		= new Line("Cash tips");
 		this.lines["13b"]		= new Line("TTOC");
 		this.lines["14"]		= new Line("Overtime compensation");
-		this.lines["15"]		= new Line("Nonqualified deferred compensation");
+		this.lines["15"]		= new Line("Non-qualified deferred compensation");
 		this.lines["16"]		= new Line("State tax withheld");
 		this.lines["17"]		= new Line("State/state no.");
 

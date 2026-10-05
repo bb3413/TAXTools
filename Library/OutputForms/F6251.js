@@ -14,7 +14,7 @@ export class F6251 extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F6251.Constructor()");
 		super(formname);
-		this.title = `6251 - Alternative Minimum Tax�Individuals`;
+		this.title = `6251 - Alternative Minimum Tax - Individuals`;
 
 		// Form 6251, Part I - AMT Income
 		this.lines["01a"]	= new Line("Total Deductions w/o Senior Deduction");

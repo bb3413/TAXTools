@@ -251,7 +251,7 @@ export class F1099NEC extends TaxForm {
 		this.lines["ssn"]		= new Line("SSN");
 		this.lines["taxpayer"]	= new Line("Taxpayer");
 		this.lines["account"]	= new Line("Account");
-		this.lines["business_bame"]	= new Line("Business Name");
+		this.lines["business_name"]	= new Line("Business Name");
 		this.lines["01a"]		= new Line("Non-employee compensation");
 		this.lines["01b"]		= new Line("Cash tips");
 		this.lines["01c"]		= new Line("TTOC");

@@ -50,7 +50,7 @@ const HTML_FORM = `
 
 				<div>&nbsp;</div>
 				<div class="f1040-checkboxes">
-					<p class="right">Taxayer Is Blind</p>
+					<p class="right">Taxpayer Is Blind</p>
 					<input class="checkbox output-color" readonly type="checkbox"
 						id="f1040-XX-taxpayer-is-blind" size="10" placeholder="0" />
 					<p class="right">Spouse Is Blind</p>
@@ -125,8 +125,8 @@ const HTML_FORM = `
 					<p class="lineno">1i</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-01i" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value">
 					<p class="lineno">1z</p>
@@ -345,8 +345,8 @@ const HTML_FORM = `
 					<p class="lineno">25a</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-25a" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value-lno-value">
 					<p class="lineno">25b</p>
@@ -354,8 +354,8 @@ const HTML_FORM = `
 					<p class="lineno">25b</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-25b" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value-lno-value">
 					<p class="lineno">25c</p>
@@ -363,8 +363,8 @@ const HTML_FORM = `
 					<p class="lineno">25c</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-25c" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value">
 					<p class="lineno">25d</p>
@@ -387,8 +387,8 @@ const HTML_FORM = `
 					<p class="lineno">27a</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-27a" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value-lno-value">
 					<p class="lineno">28</p>
@@ -397,8 +397,8 @@ const HTML_FORM = `
 					<p class="lineno">28</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-28" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value-lno-value">
 					<p class="lineno">29</p>
@@ -407,8 +407,8 @@ const HTML_FORM = `
 					<p class="lineno">29</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-29" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value-lno-value">
 					<p class="lineno">30</p>
@@ -417,8 +417,8 @@ const HTML_FORM = `
 					<p class="lineno">30</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-30" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value-lno-value">
 					<p class="lineno">31</p>
@@ -426,8 +426,8 @@ const HTML_FORM = `
 					<p class="lineno">31</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-31" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value">
 					<p class="lineno">32</p>
@@ -467,8 +467,8 @@ const HTML_FORM = `
 					<p class="lineno">36</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-36" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div class="taxform-lno-desc-lno-value">
 					<p class="lineno">37</p>
@@ -484,8 +484,8 @@ const HTML_FORM = `
 					<p class="lineno">38</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-38" size="10" placeholder="0" />
-					<p class="notused"></p>
-					<p class="notused"></p>
+					<p class="not-used"></p>
+					<p class="not-used"></p>
 				</div>
 				<div>&nbsp;</div>
 			</div>

@@ -202,7 +202,7 @@ const HTML_FORM = `
 			<p>If this 1099-G has a value in box 2, it is for a tax refund from the state.
 			It may or may not be taxable depending upon how it was used on last
 			year&apos;s federal tax return. If you fill in the following fields with
-			the information from last year&apos;s feferal tax return, this tool will
+			the information from last year&apos;s federal tax return, this tool will
 			determine how much of the refund is taxable; otherwise, the entire refund will
 			be treated as taxable.</p>
 

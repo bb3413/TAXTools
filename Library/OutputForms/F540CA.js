@@ -304,7 +304,7 @@ export class F540CA extends TaxForm {
 		this.lines["C-24dC"]	= new Line("Add to Reforestation Expenses");
 
 		this.lines["C-24eA"]	= new Line("Repayment of Unemployment Expenses");
-		this.lines["C-24eB"]	= new Line("Subtract from Repayment of Unemploy Expense");
+		this.lines["C-24eB"]	= new Line("Subtract from Repayment of Unemployment Expense");
 		this.lines["C-24eC"]	= new Line("Add to Repayment of Unemployment Expenses");
 
 		this.lines["C-24fA"]	= new Line("Contribution to 501(c) Pension");
@@ -853,7 +853,7 @@ export class F540CA extends TaxForm {
 					this.lines["C-19aC"].value = f1040s1.alimony_paid;
 			}
 		}
-		
+
 		// IRA Deduction
 		this.lines["C-20A"].value	= TaxFormObj.getValue("F1040S1", "20");
 		this.lines["C-20B"].value	= 0;
@@ -1119,7 +1119,7 @@ export class F540CA extends TaxForm {
 			this.lines["D-25"].value = 0;
 		}
 		this.lines["D-26"].value	= this.add("D-18","D-25");			// Itemized + Misc
-		this.lines["D-27"].value	= 0;								// Other Adjs
+		this.lines["D-27"].value	= 0;								// Other Adjustments
 		this.lines["D-28"].value	= this.add("D-26","D-27");			// Total Deduction
 
 		if (TaxFormObj.getValue("F1040", "11b") <=

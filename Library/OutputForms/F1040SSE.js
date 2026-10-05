@@ -32,7 +32,7 @@ export class F1040SSE extends TaxForm {
 		this.lines["08d"]	= new Line("Wages outside business subject to SS tax");
 		this.lines["09"]	= new Line("");
 		this.lines["10"]	= new Line("12.4% Social Security tax");
-		this.lines["11"]	= new Line("2.9% Medicatre tax");
+		this.lines["11"]	= new Line("2.9% Medicare tax");
 		this.lines["12"]	= new Line("Social Security + Medicare = SE Tax");
 		this.lines["13"]	= new Line("SE Tax Deduction");
 

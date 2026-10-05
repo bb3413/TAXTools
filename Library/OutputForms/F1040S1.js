@@ -17,7 +17,7 @@ function getDeductibleIRAContribution(contribution, who) {
 	//   limited by AGI.
 	// - If taxpayer does not have retirement plan at work, deductible amount is not limited
 	//   by AGI.
-	// - Maximum contribution to all IRAs (sum of all traditional and Roth) is:	
+	// - Maximum contribution to all IRAs (sum of all traditional and Roth) is:
 	//		The amount of earned income (both spouses), or
 	//		$7,000 per spouse if under 50
 	//		$8,000 per spouse if over 50
@@ -125,7 +125,7 @@ export class F1040S1 extends TaxForm {
 
 		// Additions to Income
 		this.lines["01"].value	=				// Taxable Refund
-			TaxFormObj.getValue("F1099G", "taxable_refund");						
+			TaxFormObj.getValue("F1099G", "taxable_refund");
 		this.lines["02a"].value	= 0;									// Alimony Received
 		this.lines["02b"].value	= "";									// Divorce Date
 		if (Dates.isValid(this.lines["02b"].value)) {
@@ -137,7 +137,7 @@ export class F1040S1 extends TaxForm {
 		this.lines["04"].value	= 0;									// Other Gains
 		this.lines["05"].value	= 0;									// Schedule E Income
 		this.lines["06"].value	= 0;									// Farm Income
-		this.lines["07"].value	= TaxFormObj.getValue("F1099G", "01");	// Unemploy Comp
+		this.lines["07"].value	= TaxFormObj.getValue("F1099G", "01");	// Unemployment Comp
 		this.lines["08a"].value	= 0;  // Subtract						// Net Operating Loss
 		this.lines["08b"].value	= 0;									// Gambling
 		this.lines["08c"].value	= 0;									// Cancelled Debt
@@ -174,7 +174,7 @@ export class F1040S1 extends TaxForm {
 		this.lines["10"].value	= this.add("01","02a","03","04",
 										   "05","06","07","09");	// Additional Income
 
-		// Adjustments to Income				
+		// Adjustments to Income
 		this.lines["11"].value =									// Educator Expense
 			Math.min(max_educator_expense, this.educator_expense_taxpayer) +
 			Math.min(max_educator_expense, this.educator_expense_spouse);
@@ -215,13 +215,13 @@ export class F1040S1 extends TaxForm {
 		this.lines["24z"].value	= 0;									// Other Adjustments
 		this.lines["25"].value	= this.add("24a","24b","24c","24d",
 										   "24e","24f","24g","24h",
-										   "24i","24j","24k","24z");	// Total Other Adjs
+										   "24i","24j","24k","24z");	// Total Other Adj
 		// Student Loan, Line 21
 		// Delay calculating this value because it is dependent on lines 11-20, 23, and 25.
 		const student_loan = TaxFormObj.createForm("StudentLoan");		// Create worksheet
 		student_loan.student_loan_interest = TaxFormObj.getValue("F1098E", "01");
 		this.lines["21"].value	= student_loan.calculate();
-		
+
 		this.lines["26"].value	= this.add("11","12","13","14","15",
 										   "16","17","18","19a","20",
 										   "21","22","23","25");		// Adj to Income

@@ -181,14 +181,14 @@ function camelToSnakeCase(name) {
 	}
 	// Convert camel case (abcDefGhi) to snake case (abc_def_ghi) preserving acronyms.
 	return name
-			// Insert underbar before capital letter when preceded by lowercase/number
+			// Insert underscore before capital letter when preceded by lowercase/number
 			.replace(/([a-z0-9]+)([A-Z])/g, '$1_$2')
-			// Insert underbar between acronym and starting word (e.g.,
+			// Insert underscore between acronym and starting word (e.g.,
 			// "HTTPResponse" -> "HTTP Response")
 			.replace(/([A-Z]+)([A-Za-z])/g, '$1_$2')
-			// Insert underbar between letter followed by number
+			// Insert underscore between letter followed by number
 			.replace(/([A-Za-z]+)([0-9])/g, '$1_$2')
-			// Insert underbar between number followed by letter
+			// Insert underscore between number followed by letter
 			.replace(/([0-9]+)([A-Za-z])/g, '$1_$2')
 			.toLowerCase();
 }

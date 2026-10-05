@@ -1,7 +1,7 @@
 
 //
 // California AGI Limitations Worksheet to limit exemptions for high incomes from the
-// Instructions for Form 540 California Resideny Income tax return, page 17.
+// Instructions for Form 540 California Resident Income tax return, page 17.
 //
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";

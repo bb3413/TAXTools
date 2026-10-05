@@ -1,6 +1,6 @@
 
-/* This stylesheet contains styles that are used by all of the tax tools to give them
- * a consistant look and feel.
+/* This style sheet contains styles that are used by all of the tax tools to give them
+ * a consistent look and feel.
  */
 
 :root {
@@ -153,20 +153,20 @@ body {
 }
 
 .checkbox:checked::after {
-	/* Create the checkmark using a pseudo-element. */
+	/* Create the check mark using a pseudo-element. */
 	content:				"";
 	position:				absolute;
 	left:					6px;
 	top:					2px;
 	width:					5px;
 	height:					10px;
-	border:					solid var(--text-color);	/* Color of checkmark */
+	border:					solid var(--text-color);	/* Color of check mark */
 	border-width:			0 1px 1px 0;
 	transform:				rotate(45deg);
 }
 
 /*
- *	If fields are autofilled by the browser, the browser automatically changes the background
+ *	If fields are auto-filled by the browser, the browser automatically changes the background
  *	color of the field to a blue tint. The following code uses a large, solid box-shadow
  *	inside the input box to cover up the browser's blue tint with the tool's input color.
  *	This should work in Chrome, Edge, Safari, and Firefox.

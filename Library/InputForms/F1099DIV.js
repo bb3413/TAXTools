@@ -269,7 +269,7 @@ export class F1099DIV extends TaxForm {
 		this.lines["01b"]		= new Line("Qualified dividends");
 		this.lines["02a"]		= new Line("Total capital gain distr.");
 		this.lines["02b"]		= new Line("Unrecap. Sec. 1250 gain");
-		this.lines["03"]		= new Line("Nondividend distributions");
+		this.lines["03"]		= new Line("Non-dividend distributions");
 		this.lines["04"]		= new Line("Federal income tax withheld");
 		this.lines["05"]		= new Line("Section 199A dividends");
 		this.lines["06"]		= new Line("Investment expenses");
@@ -294,7 +294,7 @@ export class F1099DIV extends TaxForm {
 
 		Debug.exit("f1099div.calculate()");
 	}
-	
+
 	loadInputFromWeb(inputs) {
 		//
 		// The inputs parameter is an object that contains all the input fields from the

@@ -53,10 +53,10 @@ const print_order = [
 function get1099RValue(lineno, type) {
 	//
 	// Form 1099-R is used to report distributions from both IRAs and pensions. Box 7B
-	// is used to indicate if a 1099-R is for an IRA or pansion.
+	// is used to indicate if a 1099-R is for an IRA or pension.
 	//
 	// This function will scan all 1099-Rs that are either IRAs or pensions and sum the
-	// values from the indicated line. The ira pparameter indicates which type of 1099-R
+	// values from the indicated line. The ira parameter indicates which type of 1099-R
 	// to collect information from.
 	//
 	let sum = 0;
@@ -65,7 +65,7 @@ function get1099RValue(lineno, type) {
 	if (form_list) {
 		for (const form of form_list) {
 			if (!form.calculated) {
-				// When simplified methood is supported, 1099-Rs will need to be
+				// When simplified method is supported, 1099-Rs will need to be
 				// calculated before they are accessed.
 				form.calculate();
 			}
@@ -85,7 +85,7 @@ function earnedIncome() {
 	return (
 		TaxFormObj.getValue("F1040",	"01z") +	// Earned income
 		TaxFormObj.getValue("F1040",	"01i") +	// Non-taxable combat pay
-		TaxFormObj.getValue("F1040S1",	"02a") +	// Alimont received
+		TaxFormObj.getValue("F1040S1",	"02a") +	// Alimony received
 		TaxFormObj.getValue("F1040S1",	"03")  +	// Business income
 		TaxFormObj.getValue("F1040S1",	"06")  +	// Farm income
 		TaxFormObj.getValue("F1040S1",	"08r") +	// Scholarships not on W-2
@@ -111,7 +111,7 @@ function getBusinessIncome(business_name) {
 	let sum = 0;
 	const all_1099s = TaxFormObj.getAllForms("F1099NEC")
 						.concat(TaxFormObj.getAllForms("F1099MISC"))
-		
+
 	for (const form of all_1099s) {
 		let bus_name = "NO_NAME";
 		if (form.lines["business_name"]) {
@@ -145,7 +145,7 @@ function getBusinessIncome(business_name) {
 
 function getBusinessNames() {
 	//
-	// This is a bad function becuase it does not include business names from
+	// This is a bad function because it does not include business names from
 	// Schedule Cs. That's because it is used to determine if a Schedule C needs to be
 	// created.  REDESIGN THIS.
 	//
@@ -213,7 +213,7 @@ function getW2RetirementContributions(who) {
 	if (form_list) {
 		for (const form of form_list) {
 			if (form.isTaxpayers(who)) {
-				// This method is only implemed by the W-2 form.
+				// This method is only implemented by the W-2 form.
 				contributions += form.getRetirementContributions();
 			}
 		}

@@ -35,11 +35,11 @@ function expression(input) {
 		// Operators object; assign precedence and whether it is left or right associative
 		// (e.g., it evaluates --5 from right to left.
 		const ops = {
-			"+": { prec: 1, assoc: "L", exec: (a, b) => a + b },
-			"-": { prec: 1, assoc: "L", exec: (a, b) => a - b },
-			"*": { prec: 2, assoc: "L", exec: (a, b) => a * b },
-			"/": { prec: 2, assoc: "L", exec: (a, b) => a / b },
-			"u-": { prec: 3, assoc: "R", exec: (a) => -a }
+			"+":  { precedence: 1, assoc: "L", exec: (a, b) => a + b },
+			"-":  { precedence: 1, assoc: "L", exec: (a, b) => a - b },
+			"*":  { precedence: 2, assoc: "L", exec: (a, b) => a * b },
+			"/":  { precedence: 2, assoc: "L", exec: (a, b) => a / b },
+			"u-": { precedence: 3, assoc: "R", exec: (a) => -a }
 		};
 
 		const queue = []; // Output queue
@@ -66,8 +66,8 @@ function expression(input) {
 
 				while (stack.length && stack[stack.length - 1] !== "(") {
 					const top = stack[stack.length - 1];
-					if (ops[type].prec < ops[top].prec ||
-						(ops[type].prec === ops[top].prec && ops[type].assoc === "L")) {
+					if (ops[type].precedence < ops[top].precedence ||
+						(ops[type].precedence === ops[top].precedence && ops[type].assoc === "L")) {
 						queue.push(stack.pop());
 					} else break;
 				}

@@ -7,7 +7,7 @@ import { Ensure }		from "../Modules/Ensure.js";
 
 export class HTMLBuild {
 	constructor() {
-		this._htmldoc		= [];
+		this._html_doc		= [];
 		this._id			= "";
 		this._indent_level	= 0;
 	}
@@ -15,22 +15,22 @@ export class HTMLBuild {
 	//
 	// Getter methods
 	//
-	get htmldoc() {	return this._htmldoc };
-	get id() {		return this._id };
-	get indent() {	return "\t".repeat(this._indent_level * 1) };
+	get html_doc()	{ return this._html_doc };
+	get id()		{ return this._id };
+	get indent()	{ return "\t".repeat(this._indent_level * 1) };
 
 	//
 	// Setter methods
 	//
-	set htmldoc(doc) {
+	set html_doc(doc) {
 		if (typeof doc === "string") {
-			this._htmldoc = [ doc ];
+			this._html_doc = [ doc ];
 		} else if (Array.isArray(doc)) {
 			// Careful; this is only a reference to the doc, so it can still be
 			// modified outside the object.
-			this._htmldoc = doc;
+			this._html_doc = doc;
 		} else {
-			throw new Error("HTMLBuild.set htmldoc(): Invalid parameter.");
+			throw new Error("HTMLBuild.set html_doc(): Invalid parameter.");
 		}
 	}
 
@@ -50,7 +50,7 @@ export class HTMLBuild {
 		}
 
 		const line = `${this.indent}<${element} ${attributes}>${str}</${element}>`;
-		this.htmldoc.push(line);
+		this.html_doc.push(line);
 	}
 
 	addVoidElement(element, css_class, str="", attributes="") {
@@ -68,7 +68,7 @@ export class HTMLBuild {
 		attributes += `value="${str}"`
 
 		const line = `${this.indent}<${element} ${attributes} />`;
-		this.htmldoc.push(line);
+		this.html_doc.push(line);
 	}
 
 	putAfter(element_id) {
@@ -79,7 +79,7 @@ export class HTMLBuild {
 		const start	= `<div id=${this.id}>\n`;
 		const stop	= "</div>\n";
 		const where	= "afterend";		// beforebegin, afterbegin, beforeend, afterend
-		const whole_doc = start + this.htmldoc.join("\n") + stop;
+		const whole_doc = start + this.html_doc.join("\n") + stop;
 
 		const element = document.getElementById(element_id);
 		if (!element) {
@@ -106,7 +106,7 @@ export class HTMLBuild {
 		this._indent_level = Math.max(0, this._indent_level - 1);
 
 		const line = `${this.indent}</${element}>`;
-		this.htmldoc.push(line);
+		this.html_doc.push(line);
 	}
 
 	startElement(element, css_class="", str="", attributes="") {
@@ -115,12 +115,12 @@ export class HTMLBuild {
 			attributes += `class="${css_class}"`
 		}
 		const line = `${this.indent}<${element} ${attributes}>${str}`;
-		this.htmldoc.push(line);
+		this.html_doc.push(line);
 
 		this._indent_level += 1;
 	}
 
 	toString() {
-		return this.htmldoc.join("\n");
+		return this.html_doc.join("\n");
 	}
 }

@@ -15,20 +15,20 @@ import { Ensure } from "../Modules/Ensure.js";
 
 function getAge(start_date, end_date) {
 	// Determine the number of years between the start date and end date.
-	const startday = getDateObject(start_date);
-	const endday = getDateObject(end_date);
+	const start_day = getDateObject(start_date);
+	const end_day = getDateObject(end_date);
 
-	if (!startday || !endday) {
+	if (!start_day || !end_day) {
 		return 0;
 	}
 
-	const start_year = startday.getFullYear();
-	const end_year = endday.getFullYear();
-	const startday_end_year = new Date(startday);
+	const start_year = start_day.getFullYear();
+	const end_year = end_day.getFullYear();
+	const start_day_end_year = new Date(start_day);
 	let age = end_year - start_year;
 
-	startday_end_year.setFullYear(end_year);
-	if (isBefore(endday, startday_end_year)) {
+	start_day_end_year.setFullYear(end_year);
+	if (isBefore(end_day, start_day_end_year)) {
 		age -= 1;
 	}
 

@@ -12,7 +12,7 @@ export class F1040SA extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F1040SA.Constructor()");
 		super(formname);
-		this.title = `Schdeule A - Itemized Deductions`;
+		this.title = `Schedule A - Itemized Deductions`;
 
 		// Variables for external input. These variables are used to enter information
 		// that does not come from another tax form.
