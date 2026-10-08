@@ -21,6 +21,7 @@ export const HTML = {
 	putSummary,
 
 	addListener,
+	isValidElementID,
 	getCSSGlobalVariable,
 	remove,
 	setFocus,
@@ -188,6 +189,10 @@ function putSummary(details_id, value) {
 function addListener(element_id, event, handler) {
 	const element = Ensure.isValidElementID(element_id);
 	element.addEventListener(event, handler);
+}
+
+function isValidElementID(element_id, msg="") {
+	return document.getElementById(element_id);
 }
 
 function getCSSGlobalVariable(variableName) {

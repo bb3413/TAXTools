@@ -45,9 +45,9 @@ export class Refund extends TaxForm {
 	}
 
 	calculate() {
-		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
-		}
+		// if (this.calculated) {
+		//	throw new Error(`${this.formname} already calculated.`);
+		// }
 
 		Debug.enter("Refund.calculate()");
 		this.calculated = true;

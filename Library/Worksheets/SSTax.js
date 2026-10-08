@@ -49,9 +49,9 @@ export class SSTax extends TaxForm {
 		adjustments			= undefined,
 		lived_with_spouse	= undefined,
 	) {
-		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
-		}
+		// if (this.calculated) {
+		//	throw new Error(`${this.formname} already calculated.`);
+		// }
 
 		Debug.enter("SSTax.calculate()");
 		this.calculated = true;

@@ -52,13 +52,14 @@ import { F7206 }		from "../OutputForms/F7206.js";		// Self-employment Health Ins
 import { F8880 }		from "../OutputForms/F8880.js";		// Retirement Credit
 
 // Worksheets
+import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
+import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
 import { IncTax }		from "../Worksheets/IncTax.js";
+import { IRADeduction }	from "../Worksheets/IRADeduction.js";
+import { Refund }		from "../Worksheets/Refund.js";
 import { SalesTax }		from "../Worksheets/SalesTax.js";
 import { SSTax }		from "../Worksheets/SSTax.js";
 import { StudentLoan }	from "../Worksheets/StudentLoan.js";
-import { Refund }		from "../Worksheets/Refund.js";
-import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
-import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
 
 // Input Worksheets
 import { Assetitem }	from "../InputWorksheets/Assetitem.js";
@@ -107,21 +108,22 @@ const class_map = {
 	"F7206":				[ F7206,		false,	true,	false	],
 	"F8880":				[ F8880,		false,	true,	true	],
 
-	// Worksheets											Create on
-	// Name					Class			Input	Single	Demand
-	"IncTax":				[ IncTax,		false,	true,	true	],
-	"Refund":				[ Refund,		false,	true,	true	],
-	"SalesTax":				[ SalesTax,		false,	true,	true	],
-	"Simple":				[ SalesTax,		false,	false,	true	],
-	"SSTax":				[ SSTax,		false,	false,	true	],
-	"StudentLoan":			[ StudentLoan,	false,	false,	true	],
+	// Worksheets													Create on
+	// Name					Class					Input	Single	Demand
 	"CA_HiIncDeductions":	[ CA_HiIncDeductions,	false,	true,	true	],
 	"CA_HiIncExemptions":	[ CA_HiIncExemptions,	false,	true,	true	],
+	"IncTax":				[ IncTax,				false,	true,	true	],
+	"IRADeduction":			[ IRADeduction,			false,	true,	true	],
+	"Refund":				[ Refund,				false,	true,	true	],
+	"SalesTax":				[ SalesTax,				false,	true,	true	],
+	"Simple":				[ SalesTax,				false,	false,	true	],
+	"SSTax":				[ SSTax,				false,	true,	true	],
+	"StudentLoan":			[ StudentLoan,			false,	true,	true	],
 
 	// Input Worksheets
-	"Assetitem":			[ Assetitem,	true,	false,	false	],
-	"Business":				[ Business,		true,	false,	false	],
-	"Dependent":			[ Dependent,	true,	false,	false	],
+	"Assetitem":			[ Assetitem,			true,	false,	false	],
+	"Business":				[ Business,				true,	false,	false	],
+	"Dependent":			[ Dependent,			true,	false,	false	],
 };
 
 function createOnDemand(formname) {
@@ -240,7 +242,6 @@ function isInputForm(formname) {
 }
 
 function isOutputForm(formname) {
-	Ensure.isNonEmptyString(formname);
 	return !isInputForm(formname);
 }
 

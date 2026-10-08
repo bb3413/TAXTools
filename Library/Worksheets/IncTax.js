@@ -46,9 +46,9 @@ export class IncTax extends TaxForm {
 	}
 
 	calculate() {
-		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
-		}
+		// if (this.calculated) {
+		//	throw new Error(`${this.formname} already calculated.`);
+		// }
 
 		Debug.enter("IncTax.calculate()");
 		this.calculated = true;

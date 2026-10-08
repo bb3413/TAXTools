@@ -13,63 +13,63 @@ export class F1040SD extends TaxForm {
 		super(formname);
 		this.title = `Schedule D - Capital Gains and Losses`;
 
-		this.lines["01ad"]	= new Line("Short-term proceeds from 1099-B");
-		this.lines["01ae"]	= new Line("Short-term cost from 1099-B");
-		this.lines["01ag"]	= new Line("Short-term adjustments from 1099-B");
-		this.lines["01ah"]	= new Line("Short-term gain or loss from 1099-B");
+		this.lines["01ad"]	= new Line("F1040SD.01ad", "Short-term proceeds from 1099-B");
+		this.lines["01ae"]	= new Line("F1040SD.01ae", "Short-term cost from 1099-B");
+		this.lines["01ag"]	= new Line("F1040SD.01ag", "Short-term adjustments from 1099-B");
+		this.lines["01ah"]	= new Line("F1040SD.01ah", "Short-term gain or loss from 1099-B");
 		// Box A or G checked
-		this.lines["01bd"]	= new Line("Short-term proceeds from 8949");
-		this.lines["01be"]	= new Line("Short-term cost from 8949");
-		this.lines["01bg"]	= new Line("Short-term adjustments from 8949");
-		this.lines["01bh"]	= new Line("Short-term gain or loss from 8949");
+		this.lines["01bd"]	= new Line("F1040SD.01bd", "Short-term proceeds from 8949");
+		this.lines["01be"]	= new Line("F1040SD.01be", "Short-term cost from 8949");
+		this.lines["01bg"]	= new Line("F1040SD.01bg", "Short-term adjustments from 8949");
+		this.lines["01bh"]	= new Line("F1040SD.01bh", "Short-term gain or loss from 8949");
 		// Box B or H checked
-		this.lines["02d"]	= new Line("Short-term proceeds from 8949");
-		this.lines["02e"]	= new Line("Short-term cost from 8949");
-		this.lines["02g"]	= new Line("Short-term adjustments from 8949");
-		this.lines["02h"]	= new Line("Short-term gain or loss from 8949");
+		this.lines["02d"]	= new Line("F1040SD.02d", "Short-term proceeds from 8949");
+		this.lines["02e"]	= new Line("F1040SD.02e", "Short-term cost from 8949");
+		this.lines["02g"]	= new Line("F1040SD.02g", "Short-term adjustments from 8949");
+		this.lines["02h"]	= new Line("F1040SD.02h", "Short-term gain or loss from 8949");
 		// Box C or I checked.
-		this.lines["03d"]	= new Line("Short-term proceeds from 8949");
-		this.lines["03e"]	= new Line("Short-term cost from 8949");
-		this.lines["03g"]	= new Line("Short-term adjustments from 8949");
-		this.lines["03h"]	= new Line("Short-term gain or loss from 8949");
+		this.lines["03d"]	= new Line("F1040SD.03d", "Short-term proceeds from 8949");
+		this.lines["03e"]	= new Line("F1040SD.03e", "Short-term cost from 8949");
+		this.lines["03g"]	= new Line("F1040SD.03g", "Short-term adjustments from 8949");
+		this.lines["03h"]	= new Line("F1040SD.03h", "Short-term gain or loss from 8949");
 
-		this.lines["04"]	= new Line("Short-term gain from 6252, 4684, 6781, 8824");
-		this.lines["05"]	= new Line("Net short-term from K-1");
-		this.lines["06"]	= new Line("Short-term capital loss carryover");
-		this.lines["07"]	= new Line("Net short-term capital gain");
+		this.lines["04"]	= new Line("F1040SD.04", "Short-term gain from 6252, 4684, 6781, 8824");
+		this.lines["05"]	= new Line("F1040SD.05", "Net short-term from K-1");
+		this.lines["06"]	= new Line("F1040SD.06", "Short-term capital loss carryover");
+		this.lines["07"]	= new Line("F1040SD.07", "Net short-term capital gain");
 
-		this.lines["08ad"]	= new Line("Long-term proceeds from 1099-B");
-		this.lines["08ae"]	= new Line("Long-term cost from 1099-B");
-		this.lines["08ag"]	= new Line("Long-term adjustments from 1099-B");
-		this.lines["08ah"]	= new Line("Long-term gain or loss from 1099-B");
+		this.lines["08ad"]	= new Line("F1040SD.08ad", "Long-term proceeds from 1099-B");
+		this.lines["08ae"]	= new Line("F1040SD.08ae", "Long-term cost from 1099-B");
+		this.lines["08ag"]	= new Line("F1040SD.08ag", "Long-term adjustments from 1099-B");
+		this.lines["08ah"]	= new Line("F1040SD.08ah", "Long-term gain or loss from 1099-B");
 		// Box D or J checked
-		this.lines["08bd"]	= new Line("Long-term proceeds from 8949");
-		this.lines["08be"]	= new Line("Long-term cost from 8949");
-		this.lines["08bg"]	= new Line("Long-term adjustments from 8949");
-		this.lines["08bh"]	= new Line("Long-term gain or loss from 8949");
+		this.lines["08bd"]	= new Line("F1040SD.08bd", "Long-term proceeds from 8949");
+		this.lines["08be"]	= new Line("F1040SD.08be", "Long-term cost from 8949");
+		this.lines["08bg"]	= new Line("F1040SD.08bg", "Long-term adjustments from 8949");
+		this.lines["08bh"]	= new Line("F1040SD.08bh", "Long-term gain or loss from 8949");
 		// Box E or K checked
-		this.lines["09d"]	= new Line("Long-term proceeds from 8949");
-		this.lines["09e"]	= new Line("Long-term cost from 8949");
-		this.lines["09g"]	= new Line("Long-term adjustments from 8949");
-		this.lines["09h"]	= new Line("Long-term gain or loss from 8949");
+		this.lines["09d"]	= new Line("F1040SD.09d", "Long-term proceeds from 8949");
+		this.lines["09e"]	= new Line("F1040SD.09e", "Long-term cost from 8949");
+		this.lines["09g"]	= new Line("F1040SD.09g", "Long-term adjustments from 8949");
+		this.lines["09h"]	= new Line("F1040SD.09h", "Long-term gain or loss from 8949");
 		// Box F or L checked
-		this.lines["10d"]	= new Line("Long-term proceeds from 8949");
-		this.lines["10e"]	= new Line("Long-term cost from 8949");
-		this.lines["10g"]	= new Line("Long-term adjustments from 8949");
-		this.lines["10h"]	= new Line("Long-term gain or loss from 8949");
+		this.lines["10d"]	= new Line("F1040SD.10d", "Long-term proceeds from 8949");
+		this.lines["10e"]	= new Line("F1040SD.10e", "Long-term cost from 8949");
+		this.lines["10g"]	= new Line("F1040SD.10g", "Long-term adjustments from 8949");
+		this.lines["10h"]	= new Line("F1040SD.10h", "Long-term gain or loss from 8949");
 
-		this.lines["11"]	= new Line("LT Gain from 4797, 2439, 6252, 4684, 6781, 8824");
-		this.lines["12"]	= new Line("Net long-term gain from K-1");
-		this.lines["13"]	= new Line("Capital gain distribution");
-		this.lines["14"]	= new Line("Long-term capital loss carryover");
-		this.lines["15"]	= new Line("Net long-term capital gain");
-		this.lines["16"]	= new Line("Line 7 + 15");
-		this.lines["17"]	= new Line("Lines 15 and 16 > 0");
-		this.lines["18"]	= new Line("28% Rate Gain worksheet, line 7");
-		this.lines["19"]	= new Line("Un-recaptured Section 1250 worksheet, line 18");
-		this.lines["20"]	= new Line("Lines 18 and 19 = 0");
-		this.lines["21"]	= new Line("Line 16 < 0");
-		this.lines["22"]	= new Line("Qualified dividends");
+		this.lines["11"]	= new Line("F1040SD.11", "LT Gain from 4797, 2439, 6252, 4684, 6781, 8824");
+		this.lines["12"]	= new Line("F1040SD.12", "Net long-term gain from K-1");
+		this.lines["13"]	= new Line("F1040SD.13", "Capital gain distribution");
+		this.lines["14"]	= new Line("F1040SD.14", "Long-term capital loss carryover");
+		this.lines["15"]	= new Line("F1040SD.15", "Net long-term capital gain");
+		this.lines["16"]	= new Line("F1040SD.16", "Total Gain or loss");
+		this.lines["17"]	= new Line("F1040SD.17", "Lines 15 and 16 > 0");
+		this.lines["18"]	= new Line("F1040SD.18", "28% Rate Gain worksheet, line 7");
+		this.lines["19"]	= new Line("F1040SD.19", "Un-recaptured Section 1250 worksheet, line 18");
+		this.lines["20"]	= new Line("F1040SD.20", "Lines 18 and 19 = 0");
+		this.lines["21"]	= new Line("F1040SD.21", "Line 16 < 0");
+		this.lines["22"]	= new Line("F1040SD.22", "Qualified dividends");
 
 		Debug.exit("F1040SD.Constructor()");
 	}
@@ -138,21 +138,45 @@ export class F1040SD extends TaxForm {
 		this.lines["15"].value		= this.add("08ah", "08bh", "09h", "10h",
 											   "11", "12", "13", "14");
 		this.lines["16"].value		= this.add("07", "15");
-		if (this.line("16") < 0) {
+		this.lines["17"].value		= 0;	// Not used
+		if (this.line("16") > 0) {
 			if (this.line("15") > 0 && this.line("16") > 0) {
-				this.lines["17"].value		= 0;	// Not used
-				this.lines["18"].value		= TaxFormObj.getValue("CapGainWS", "07");
-				this.lines["19"].value		= TaxFormObj.getValue("Sect1250WS", "18");
-				this.lines["20"].value		= 0;
+				this.lines["17"].value	= 0;	// Not used
+				this.lines["18"].value	= TaxFormObj.getValue("CapGainWS", "07");
+				this.lines["19"].value	= TaxFormObj.getValue("Sect1250WS", "18");
+				this.lines["20"].value	= 0;	// Not used
+				this.lines["21"].value	= 0;
+				if (this.line("16") < 0) {
+					this.lines["21"].value	= Math.min(this.line("16"),
+						tt.getTaxValue("MaxCapitalLoss", tp.filing_status));
+				}
+			} else {
+				this.lines["17"].value	= 0;	// Not used
+				this.lines["18"].value	= 0;
+				this.lines["19"].value	= 0;
+				this.lines["20"].value	= 0;
+				this.lines["21"].value	= 0;
+				if (this.line("16") < 0) {
+					this.lines["21"].value	= Math.min(this.line("16"),
+						tt.getTaxValue("MaxCapitalLoss", tp.filing_status));
+				}
 			}
-		}
-		if (this.line("15") > 0 && this.line("16") > 0) {
-		} else {
+		} else if (this.line("16") < 0) {
+			this.lines["17"].value	= 0;	// Not used
+			this.lines["18"].value	= 0;
+			this.lines["19"].value	= 0;
+			this.lines["20"].value	= 0;
+			this.lines["21"].value	= 0;
 			if (this.line("16") < 0) {
-				this.lines["21"].value = Math.max(
-					tt.getTaxValue("MaxCapitalLoss", tp.filing_status),
-					this.line("16"));
+				this.lines["21"].value	= Math.min(this.line("16"),
+					tt.getTaxValue("MaxCapitalLoss", tp.filing_status));
 			}
+		} else {	// Line 16 === 0
+			this.lines["17"].value	= 0;	// Not used
+			this.lines["18"].value	= 0;
+			this.lines["19"].value	= 0;
+			this.lines["20"].value	= 0;
+			this.lines["21"].value	= 0;
 		}
 		this.lines["22"].value		= 0;	// Not used
 

@@ -124,8 +124,19 @@ function calculateHandler(event) {
 		TaxTable.getTaxTable(HTML.getUserInput("tax-year"));	// Initialize tax tables
 		Taxpayer.getTaxpayer();									// Initialize taxpayer
 		getInput();												// Get the tax data
-		TaxFormObj.getOrCreateForm("F1040").calculate();		// Calculate the Fed return
-		TaxFormObj.getOrCreateForm("F540").calculate();			// Calculate the CA return
+
+		// Calculate the Fed return
+		// There is a circular reference from 1040-S1, lines 20 and 21 to 1040, line 9,
+		// but to 1040, lines 8 and 10 reference 1040-S1, lines 8 and 26. Therefore, a
+		// two-pass calculation is used which gets the correct calculation in most
+		// situations and very close in all situations.
+		TaxFormObj.getOrCreateForm("F1040").calculate();
+		TaxFormObj.getOrCreateForm("F1040S1").recalculate();
+		TaxFormObj.getForm("F1040").recalculate();
+
+		// Calculate the CA return
+		TaxFormObj.getOrCreateForm("F540").calculate();
+
 		putOutputs();											// Display the tax return
 		Debug.turnOn();											// Display debugging data
 	} catch (error) {
@@ -195,12 +206,14 @@ function getAssetsales() {
 		}
 	}
 
-	const f1040sd = TaxFormObj.createForm("F1040SD");
-	f1040sd.lines["01ad"].user_value	= short_term_proceeds;
-	f1040sd.lines["01ae"].user_value	= short_term_basis;
+	if (short_term_proceeds > 0 || long_term_proceeds > 0) {
+		const f1040sd = TaxFormObj.createForm("F1040SD");
+		f1040sd.lines["01ad"].user_value	= short_term_proceeds;
+		f1040sd.lines["01ae"].user_value	= short_term_basis;
 
-	f1040sd.lines["08ad"].user_value	= long_term_proceeds;
-	f1040sd.lines["08ae"].user_value	= long_term_basis;
+		f1040sd.lines["08ad"].user_value	= long_term_proceeds;
+		f1040sd.lines["08ae"].user_value	= long_term_basis;
+	}
 }
 
 function getBusinesses() {
@@ -392,7 +405,7 @@ function initialize() {
 	input_taxforms_container	= new Container("input-taxforms-container");
 	output_taxforms_container	= new Container("output-taxforms-container");
 
-	// Add four blsnl entries to get started.
+	// Add four blsnk entries to get started.
 	addAssetItemHandler();
 	addAssetItemHandler();
 	addAssetItemHandler();

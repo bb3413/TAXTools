@@ -36,9 +36,9 @@ export class CA_HiIncExemptions extends TaxForm {
 	}
 
 	calculate() {
-		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
-		}
+		// if (this.calculated) {
+		//	throw new Error(`${this.formname} already calculated.`);
+		// }
 
 		Debug.enter("CA_HiIncExemptions.calculate()");
 		this.calculated = true;

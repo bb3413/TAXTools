@@ -17,12 +17,10 @@ export class StudentLoan extends TaxForm {
 	constructor(formname) {
 		Debug.enter("StudentLoan.Constructor()");
 		super(formname);
-
-		this.student_loan_interest = 0;
 		
 		this.lines["01"]	= new Line("Student Loan Interest");
 		this.lines["02"]	= new Line("Total Income");
-		this.lines["03"]	= new Line("Other Adjustments");
+		this.lines["03"]	= new Line("Disallowed adjustments");
 		this.lines["04"]	= new Line("Line 2 - Line 3");
 		this.lines["05"]	= new Line("Start of phase out");
 		this.lines["06"]	= new Line("Amount over phase out");
@@ -33,10 +31,12 @@ export class StudentLoan extends TaxForm {
 		Debug.exit("StudentLoan.Constructor()");
 	}
 
-	calculate() {
-		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
-		}
+	calculate(interest) {
+		Ensure.isNumber(interest);
+
+		// if (this.calculated) {
+		// 	throw new Error(`${this.formname} already calculated.`);
+		// }
 
 		Debug.enter("StudentLoan.calculate()");
 		this.calculated = true;
@@ -48,7 +48,7 @@ export class StudentLoan extends TaxForm {
 		const phase_out		= tt.getTaxValue("StudentLoanPhaseOut", tp.filing_status);
 		const factor		= tp.filing_status === MFJ ? 30000 : 15000;
 
-		this.lines["01"].value	= Math.min(max_interest, this.student_loan_interest);
+		this.lines["01"].value	= Math.min(max_interest, interest);
 		this.lines["02"].value	= TaxFormObj.getValue("F1040", "09");	// Total Income
 		this.lines["03"].value	= f1040s1.add("11", "12", "13", "14",
 									"15", "16", "17", "18", "19a",

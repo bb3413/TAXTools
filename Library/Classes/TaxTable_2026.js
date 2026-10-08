@@ -33,7 +33,7 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"CharityMileage":				[ 0.14,			0.14,		0.14,		0.14,		0.14		],
 		"MedicalMileage":				[ 0.205,		0.205,		0.205,		0.205,		0.21		],
 
-		"MaxCapitalLoss":				[ -3000,		-3000,		-3000,		-3000,		-1500		],
+		"MaxCapitalLoss":				[ 3000,			3000,		3000,		3000,		1500		],
 		"MaxEducatorExpenses":			[ 300,			300,		600,		300,		300			],	// TY25
 		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],	// TY25
 		"MaxSALT":						[ 40000,		40000,		40000,		40000,		20000		],	// TY25
@@ -56,7 +56,7 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"MaxChildTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
 		"MaxForeignTaxCredit":			[ 300,			300,		600,		300,		300			],	// TY25
 		"MaxLifetimeLearningCredit":	[ 2000,			2000,		2000,		2000,		0			],	// TY25
-		"MaxResidentialEnergyCredit":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
+		"MaxResidentialEnergyCredit":	[ 0,			0,			0,			0,			0			],
 		"MaxRetirementSavingsCredit":	[ 1000,			1000,		2000,		1000,		1000		],	// TY25
 
 		// Refundable credits			SINGLE			HOH			MFJ			QSS			MFS
@@ -64,6 +64,12 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"MaxCreditForOtherDependents":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
 		"MaxEarnedIncomeCredit":		[ 61555,		61555,		68675,		61555,		0			],	// TY25
 		"MaxPremiumTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
+
+		// IRA Contributions
+		"MaxIRAContribution":			[ 7000,			7000,		7000,		7000,		7000,		],	// TY25
+		"IRAContributionOver50":		[ 1000,			1000,		1000,		1000,		1000,		],	// TY25
+		"IRA_AGILimit":					[ 89000,		89000,		146000,		146000,		89000,		],	// TY25
+		"IRA_AGILimitNoPlan":			[ 89000,		89000,		246000,		146000,		89000,		],	// TY25
 
 		// Dependents
 		"MaxDependentGrossIncome":		[ 5050,			5050,		5050,		5050,		5050,		],	// TY25

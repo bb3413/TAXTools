@@ -34,9 +34,11 @@ export class SalesTax extends TaxForm {
 	}
 
 	calculate(total_sales_tax = 0) {
-		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
-		}
+		Ensure.isNumber(total_sales_tax);
+
+		// if (this.calculated) {
+		//	throw new Error(`${this.formname} already calculated.`);
+		// }
 
 		Debug.enter("SalesTax.calculate()");
 		this.calculated = true;

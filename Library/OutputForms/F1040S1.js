@@ -11,22 +11,6 @@ import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
-function getDeductibleIRAContribution(contribution, who) {
-	// - Contribution is not deductible on a California return.
-	// - If taxpayer has retirement plan at work (W-2, box 13), the deductible amount is
-	//   limited by AGI.
-	// - If taxpayer does not have retirement plan at work, deductible amount is not limited
-	//   by AGI.
-	// - Maximum contribution to all IRAs (sum of all traditional and Roth) is:
-	//		The amount of earned income (both spouses), or
-	//		$7,000 per spouse if under 50
-	//		$8,000 per spouse if over 50
-	// - Update tooltip
-
-	console.warn("Unimplemented function: getDeductibleIRAContribution()");
-	return contribution;
-}
-
 export class F1040S1 extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F1040S1.Constructor()");
@@ -194,10 +178,8 @@ export class F1040S1 extends TaxForm {
 				this.lines["19a"].value	= this.alimony_paid;
 			}
 		}
-		this.lines["20"].value	=									// IRA Deduction
-			getDeductibleIRAContribution(this.ira_contribution_taxpayer, TAXPAYER) +
-			getDeductibleIRAContribution(this.ira_contribution_spouse, SPOUSE);
 
+		this.lines["20"].value	= 0;	// This line is calculated further down
 		this.lines["21"].value	= 0;	// This line is calculated further down
 		this.lines["22"].value	= 0;									// Reserved
 		this.lines["23"].value	= 0;									// Archer MSA
@@ -216,16 +198,38 @@ export class F1040S1 extends TaxForm {
 		this.lines["25"].value	= this.add("24a","24b","24c","24d",
 										   "24e","24f","24g","24h",
 										   "24i","24j","24k","24z");	// Total Other Adj
-		// Student Loan, Line 21
-		// Delay calculating this value because it is dependent on lines 11-20, 23, and 25.
-		const student_loan = TaxFormObj.createForm("StudentLoan");		// Create worksheet
-		student_loan.student_loan_interest = TaxFormObj.getValue("F1098E", "01");
-		this.lines["21"].value	= student_loan.calculate();
+
+		// Delay calculating lines 20 and 21 because they are dependent on
+		// lines 11-19a, 23, and 25.
+		this.lines["20"].value	= this._calculateIRADeduction();		// IRA Contribution
+		this.lines["21"].value	= this._calculateStudentLoanDeduction();// Student Loan
 
 		this.lines["26"].value	= this.add("11","12","13","14","15",
 										   "16","17","18","19a","20",
 										   "21","22","23","25");		// Adj to Income
 
 		Debug.exit("F1040S1.calculate()");
+	}
+
+	_calculateIRADeduction() {
+		const tp = Taxpayer.getTaxpayer();
+		let deduction = 0;
+
+		const taxpayer_worksheet = TaxFormObj.getOrCreateForm("IRADeduction");
+		deduction = taxpayer_worksheet.calculate(TAXPAYER, this.ira_contribution_taxpayer);
+		if (tp.filing_status === MFJ) {
+			const spouse_worksheet = TaxFormObj.createForm("IRADeduction");
+			deduction += spouse_worksheet.calculate(SPOUSE, this.ira_contribution_spouse);
+		}
+
+		return deduction;
+	}
+
+	_calculateStudentLoanDeduction() {
+		const interest	= TaxFormObj.getValue("F1098E", "01");
+		const worksheet	= TaxFormObj.getOrCreateForm("StudentLoan");
+		const deduction	= worksheet.calculate(interest);
+		
+		return deduction;
 	}
 }

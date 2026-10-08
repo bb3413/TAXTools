@@ -4,8 +4,12 @@ export const Debug = {
 	getKeywords,
 	toString,
 	turnOn,
+
+	// Trace functions
 	enter,
 	exit,
+	reftrace,
+	log,
 };
 
 import { Classes }		from "../Modules/Classes.js";
@@ -19,18 +23,20 @@ import { Taxpayer }		from "../Classes/Taxpayer.js";
 let indentation			= 0;
 let debug_all			= false;
 let debug_used_keywords = [];
-let trace_log			= [];
+let debug_log			= [];
 
 //----------  Local Functions ---------------------------------------------------------------
 function keywordList() {
 	const debug_keywords = [
+		"Containers",
 		"Debug",
+		"References",
 		"Taxpayer",
 		"Trace",
 	 ];
 
 	// Keywords are the debug keywords plus the names of the tax forms and worksheets.
-	return debug_keywords.concat(Classes.listAllForms(), Container.listAllContainers());
+	return debug_keywords.concat(Classes.listAllForms());
 }
 
 function removeKeyword(text, keyword) {
@@ -50,7 +56,7 @@ function removeKeyword(text, keyword) {
 	//		a single space.
 	//
 	Ensure.isString(text);
-	// Ensure.isString(keyword);
+	Ensure.isString(keyword);
 
 	const pattern = new RegExp(
 		// Rule 1: Alone on line
@@ -115,7 +121,7 @@ function reset() {
 	indentation			= 0;
 	debug_all			= false;
 	debug_used_keywords	= [];
-	trace_log			= [];
+	debug_log			= [];
 
 	HTML.putElementValue("debug-output", "");
 	hideField("debug-container");
@@ -153,10 +159,10 @@ function toString() {
 	s = s.replace(/,/, ", "); // Add a space after the comma
 	str.push(s);
 
-	if (trace_log.length > 0) {
+	if (debug_log.length > 0) {
 		str.push("");
-		str.push("Debug Trace Log");
-		for (const line of trace_log) {
+		str.push("Debug Message Log");
+		for (const line of debug_log) {
 			str.push(line);
 		}
 	}
@@ -173,7 +179,9 @@ function turnOn() {
 
 	let output = "";
 
-	if (debug_all) {
+	if (debug_all ||
+			debug_used_keywords.includes("Trace") ||
+			debug_used_keywords.includes("References")) {
 		output += Debug.toString();
 		output += "\n\n";
 	}
@@ -185,9 +193,13 @@ function turnOn() {
 		}
 	}
 
-	for (const container of Container.getContainers()) {
-		if (debug_all || debug_used_keywords.includes(container.name)) {
-			output += container.toString();
+	if (debug_all || debug_used_keywords.includes("Containers")) {
+		for (const container of Container.getContainers()) {
+			// Skip the output tax forms. If they exist, they will be printed by the next
+			// section.
+			if (container.container_id !== "output-taxforms-container") {
+				output += container.toString();
+			}
 		}
 	}
 
@@ -209,7 +221,7 @@ function turnOn() {
 }
 
 //
-// Debug tracing functions.
+//-----  Trace Functions  -----------------------------------------------------------
 //
 // For files that want to use these functions, but may not alway have this file included,
 // put the following lines at the top of the file. It check whether the functions are
@@ -220,27 +232,49 @@ function turnOn() {
 //		globalThis.dbgLog   ??= () => {};
 //
 function enter(name) {
-	Ensure.isString(name);
-
 	if (debug_used_keywords.includes("Trace")) {
+		Ensure.isString(name);
+
 		const spaces = " ".repeat(indentation * 2);
 		indentation += 1;
 
 		const str = `${spaces}> ${name}`;
-		trace_log.push(str);
+		debug_log.push(str);
 		// console.log(str);
 	}
 }
 
 function exit(name) {
-	Ensure.isString(name);
-
 	if (debug_used_keywords.includes("Trace")) {
+		Ensure.isString(name);
+
 		indentation = Math.max(0, indentation - 1);
 		const spaces = " ".repeat(indentation * 2);
 
 		const str = `${spaces}< ${name}`;
-		trace_log.push(str);
+		debug_log.push(str);
 		// console.log(str);
 	}
+}
+
+function reftrace(message) {
+	if (debug_used_keywords.includes("References")) {
+		Ensure.isString(message);
+
+		const spaces = " ".repeat(indentation * 2);
+
+		const str = `${spaces}${message}`;
+		debug_log.push(str);
+		// console.log(str);
+	}
+}
+
+function log(message) {
+	Ensure.isString(message);
+
+	const spaces = " ".repeat(indentation * 2);
+
+	const str = `${spaces}${message}`;
+	debug_log.push(str);
+	// console.log(str);
 }

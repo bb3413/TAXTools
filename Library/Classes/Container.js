@@ -121,14 +121,12 @@ export class Container {
 		for (const entry_id of this.entry_ids) {
 			const [ name, uid ] = Container.parseElementID(entry_id);
 			const classname = Classes.findClassName(name);
-			if (Classes.isInputForm(classname)) {
-				str.push("  Entry: " + name);
-				let inputs = Classes.getInputFromWeb(classname, uid);
-				if (Objects.isUsed(inputs)) {
-					inputs = Objects.removeUnused(inputs);
-					str.push(
-						Str.prefixLines("    ", Objects.toString(inputs, 61)));
-				}
+			str.push("  Entry: " + name);
+			let inputs = Classes.getInputFromWeb(classname, uid);
+			if (Objects.isUsed(inputs)) {
+				inputs = Objects.removeUnused(inputs);
+				str.push(
+					Str.prefixLines("    ", Objects.toString(inputs, 61)));
 			}
 		}
 
@@ -156,11 +154,6 @@ export class Container {
 		}
 
 		return uid;
-	}
-
-	static listAllContainers() {
-		// List the names of the containers for Debug.js.
-		return containers.map(container => container.name);
 	}
 
 	static parseElementID(element_id) {

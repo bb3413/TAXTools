@@ -1,25 +1,53 @@
 
+//
+// The functions in this module are used to validate parameters. They all throw an exception
+// if they fail. Most if the functions return the parameter unchanged if they succeed. The
+// exceptions are the expression checks return true and the following functions return an
+// object.
+//
+//		isValidElementID()	returns an element object
+//		isValidDate()		returns an date object
+//
+// There are several similar function listed below that return true or false to indicate
+// success or failure.
+//
+//		Dates.isValid()
+//		HTML.isValidElementID()
+//		Num.isNum()
+//		Objects.isUsed()
+//		Objects.isEmpty()
+//		Str.empty()
+//		TaxForm._ensureValidLine() - throws exception if not valid
+//		TaxTable.isValidTaxYear()
+//
 export const Ensure = {
 	isArray,
-	isNonEmptyString,
-	isNonZeroNumber,
 	isNumber,
 	isObject,
 	isString,
 	isType,
+
+	isFilingStatus,
+	isNonEmptyString,
+	isNonZeroNumber,
+	isTaxpayer,
 	isValidDate,
 	isValidElementID,
 	isValidNumber,
+
 	expression,
 	isFalse,
 	isTrue,
 };
 
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+import { TAXPAYER, SPOUSE }				from "../TAXTools/TAXTools.js";
+
 import { Dates }		from "../Modules/Dates.js";
 import { Num }			from "../Modules/Num.js";
 
 //
-// Variable type checks.
+//-----  Check validity of basic variable types  --------------------------------------------
 //
 function isArray(param, param_name="") {
 	if (!Array.isArray(param)) {
@@ -27,24 +55,6 @@ function isArray(param, param_name="") {
 		throw new TypeError(`Expected ${param_name} to be an array.`);
 	}
 		
-	return param;
-}
-
-function isNonEmptyString(param, param_name="") {
-	if ((typeof param !== "string") || (param === "")) {
-		param_name = param_name ? param_name : "value";
-		throw new TypeError(`Expected ${param_name} to be a non-empty string.`);
-	}
-		
-	return param;
-}
-
-function isNonZeroNumber(param, param_name="") {
-	if ((typeof param !== "number") || (!Number.isFinite(param)) || (param === 0)) {
-		param_name = param_name ? param_name : "value";
-		throw new TypeError(`Expected ${param_name} to be a non-zero number.`);
-	}
-	
 	return param;
 }
 
@@ -87,10 +97,62 @@ function isType(param, type, param_name="") {
 }
 
 //
-// Check validity of complex variable type.
+//-----  Check validity of complex variable types  ------------------------------------------
 //
+function isFilingStatus(param, param_name="") {
+	isNumber(param, param_name);
+
+	switch (param) {
+		case SINGLE:
+		case HOH:
+		case MFJ:
+		case QSS:
+		case MFJ:
+			break;
+		default:
+			param_name = param_name ? param_name : "value";
+			throw new TypeError(`Expected ${param_name} to be a filing status constant.`);
+	}
+
+	return param;
+}
+
+function isNonEmptyString(param, param_name="") {
+	if ((typeof param !== "string") || (param === "")) {
+		param_name = param_name ? param_name : "value";
+		throw new TypeError(`Expected ${param_name} to be a non-empty string.`);
+	}
+		
+	return param;
+}
+
+function isNonZeroNumber(param, param_name="") {
+	if ((typeof param !== "number") || (!Number.isFinite(param)) || (param === 0)) {
+		param_name = param_name ? param_name : "value";
+		throw new TypeError(`Expected ${param_name} to be a non-zero number.`);
+	}
+	
+	return param;
+}
+
+function isTaxpayer(param, param_name="") {
+	isNumber(param, param_name);
+
+	switch (param) {
+		case TAXPAYER:
+		case SPOUSE:
+			break;
+		default:
+			param_name = param_name ? param_name : "value";
+			throw new TypeError(`Expected ${param_name} to be a taxpayer constant.`);
+	}
+
+	return param;
+}
+
 function isValidDate(date, msg="") {
-	if (!Dates.isValid(date)) {
+	date = Dates.getDateObject(date);
+	if (!date) {
 		throw new TypeError(msg ? msg : ("Invalid date: " + date));
 	}
 
@@ -115,7 +177,7 @@ function isValidNumber(num, msg="") {
 }
 
 //
-// Expression evaluation checks.
+//-----  Expression evaluation checks  ------------------------------------------------------
 //
 function expression(expression, msg="") {
 	if (!expression) {

@@ -32,9 +32,9 @@ export class CA_HiIncDeductions extends TaxForm {
 	}
 
 	calculate() {
-		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
-		}
+		// if (this.calculated) {
+		//	throw new Error(`${this.formname} already calculated.`);
+		// }
 
 		Debug.enter("CA_HiIncDeductions.calculate()");
 		this.calculated = true;

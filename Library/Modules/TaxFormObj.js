@@ -96,7 +96,7 @@ function getTextValue(formname, ...lineno) {
 	// If the form has not been implemented, "" will be returned. If there is more than
 	// one instance of the form, the lines from all the instances are concatenated
 	// together.
-	Debug.enter(`TaxFormObj.getTextValue(${formname} ${lineno})`);
+	Debug.enter(`TaxFormObj.getTextValue(${formname}, ${lineno})`);
 	let str = "";
 	let form_list = instances[formname];
 	if (!form_list && Classes.createOnDemand(formname)) {
@@ -130,7 +130,7 @@ function getValue(formname, ...lineno) {
 	// try to create it. If it has not been calculated, it will be calculated. If the
 	// form has not been implemented, zero will be returned. If there is more than one
 	// instance of the form, the lines from all the instances are added together.
-	Debug.enter(`TaxFormObj.getValue(${formname} ${lineno})`);
+	Debug.enter(`TaxFormObj.getValue(${formname}, ${lineno})`);
 	let sum = 0;
 	let form_list = instances[formname];
 	if (!form_list && Classes.createOnDemand(formname)) {

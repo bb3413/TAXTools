@@ -26,10 +26,8 @@ function addOutputForm(formname) {
 
 function showHandler(event) {
 	try {
-		worksheet_container			= new Container("input-worksheets-container");
 		input_taxforms_container	= new Container("input-taxforms-container");
 		output_taxforms_container	= new Container("output-taxforms-container");
-		asset_sales_container		= new Container("assetsales-container");
 
 		for (const formname of Classes.listAllForms()) {
 			// console.log(`Showing ${formname}`);

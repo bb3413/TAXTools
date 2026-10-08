@@ -601,7 +601,7 @@ export class F1040 extends TaxForm {
 		this.lines["03b"].value =
 			TaxFormObj.getValue("F1099DIV",	"01a");		// Ordinary Dividends
 		this.lines["04a"].value =
-			TaxInfo.getIRAValue("01");				// Total IRA Distributions
+			TaxInfo.getIRAValue("01");					// Total IRA Distributions
 		this.lines["04b"].value =
 			TaxInfo.getIRAValue("02a") +				// Taxable IRA Distributions
 			TaxFormObj.getValue("F8606",	"15c") +

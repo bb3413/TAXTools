@@ -33,7 +33,7 @@ export class TaxTable_2025 extends TaxTableTmpl {
 		"CharityMileage":				[ 0.14,			0.14,		0.14,		0.14,		0.14		],
 		"MedicalMileage":				[ 0.21,			0.21,		0.21,		0.21,		0.21		],
 
-		"MaxCapitalLoss":				[ -3000,		-3000,		-3000,		-3000,		-1500		],
+		"MaxCapitalLoss":				[ 3000,			3000,		3000,		3000,		1500		],
 		"MaxEducatorExpenses":			[ 300,			300,		600,		300,		300			],
 		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],
 		"MaxSALT":						[ 40000,		40000,		40000,		40000,		20000		],
@@ -68,8 +68,8 @@ export class TaxTable_2025 extends TaxTableTmpl {
 		// IRA Contributions
 		"MaxIRAContribution":			[ 7000,			7000,		7000,		7000,		7000,		],
 		"IRAContributionOver50":		[ 1000,			1000,		1000,		1000,		1000,		],
-		"IRAContributionAGILimit":		[ 89000,		89000,		146000,		146000,		89000,		],
-		"IRAContribLimitNotCovered":	[ 89000,		89000,		146000,		146000,		89000,		],
+		"IRA_AGILimit":					[ 89000,		89000,		146000,		146000,		89000,		],
+		"IRA_AGILimitNoPlan":			[ 89000,		89000,		246000,		146000,		89000,		],
 		
 		// Dependents
 		"MaxDependentGrossIncome":		[ 5050,			5050,		5050,		5050,		5050,		],
