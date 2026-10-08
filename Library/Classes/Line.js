@@ -1,16 +1,26 @@
 
 import { MAX_DOLLAR, MIN_DOLLAR }	from "../TAXTools/TAXTools.js";
+import { Debug }					from "../Modules/Debug.js";
 import { Ensure }					from "../Modules/Ensure.js";
 import { Num }						from "../Modules/Num.js";
 
 export class Line {
-	constructor(label)
-	{
-		this._label					= label;
+	constructor(name, label="") {
+		Ensure.isString(name);
+		Ensure.isString(label);
+
+		if (label === "") {
+			this._name					= "";
+			this._label					= name;
+		} else {
+			this._name					= name;
+			this._label					= label;
+		}
 		this._value					= 0;
 		this._min_value				= MIN_DOLLAR;
 		this._max_value				= MAX_DOLLAR;
 		this._user_supplied_value	= false;
+		this.initialized			= false;	// Explicitly initialized
 	}
 
 	get label() {
@@ -18,6 +28,13 @@ export class Line {
 	}
 
 	get value() {
+		if (!this.initialized) {
+			if (this._name === "") {
+				Debug.reftrace(`Reference to uninitialized line: ${this._label}`);
+			} else {
+				Debug.reftrace(`Reference to uninitialized line: ${this._name}`);
+			}
+		}
 		return this._value;
 	}
 
@@ -55,6 +72,8 @@ export class Line {
 		// This method is called when the value is calculated by the program, not supplied by
 		// the user (see also "set user_value"). It prevents the calculation from changing a
 		// value supplied by the user.
+		this.initialized = true;
+		
 		if (this.isUserSuppliedValue()) {
 			// Ignore new value.
 			return;
