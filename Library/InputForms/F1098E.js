@@ -51,7 +51,7 @@ const HTML_FORM = `
 					</div>
 
 					<div class="f1099-header-right">
-						<strong>Vehicle Loan Interest Statement</strong>
+						<strong>Student Loan Interest Statement</strong>
 					</div>
 				</div>
 
