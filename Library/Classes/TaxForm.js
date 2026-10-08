@@ -23,7 +23,7 @@ export class TaxForm {
 
 		this.formname			= formname;
 		this.title				= formname;
-		this.calculated			= false;		// True => need to call calculate().
+		this.calculated			= false;		// False => need to call calculate().
 		this.is_spouses			= false;
 		this.lines				= {};
 	}
@@ -138,6 +138,11 @@ export class TaxForm {
 		for (const lineno of Object.keys(this.lines)) {
 			HTML.putUserOutput(`${formname}-${uid}-${lineno}`, this.line(lineno));
 		}
+	}
+
+	recalculate() {
+		this.calculated = false;
+		this.calculate();
 	}
 
 	round(lineno) {
