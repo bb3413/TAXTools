@@ -60,7 +60,7 @@ function checkInputValues(inputs) {
 		Math.min(inp.educator_expenses,
 				 tt.getTaxValue("MaxEducatorExpenses", fs));
 	inp.capital_gains =
-		Math.max(inp.capital_gains,
+		Math.min(inp.capital_gains,
 				 tt.getTaxValue("MaxCapitalLoss", fs));
 	inp.student_loan_interest =
 		Math.min(inp.student_loan_interest,
