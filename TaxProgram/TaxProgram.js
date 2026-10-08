@@ -69,6 +69,7 @@ function addDependentHandler(event) {
 	// Open the dependent area and scroll the window to it.
 	HTML.openDetails(html_id);
 	document.getElementById(html_id).scrollIntoView({behavior: 'smooth', block: 'start'});
+	HTML.setFocus(`dependent-${uid}-name`);
 }
 
 function addFormHandler(event) {
@@ -88,6 +89,25 @@ function addFormHandler(event) {
 	// Open the form and scroll the window to it.
 	HTML.openDetails(taxform_id);
 	document.getElementById(taxform_id).scrollIntoView({behavior: 'smooth', block: 'start'});
+	
+	const [ name, uid ] = Container.parseElementID(taxform_id);
+	switch (formname) {
+		case "W2":			HTML.setFocus(`${name}-${uid}-01`);		break;
+		case "SSA1099":		HTML.setFocus(`${name}-${uid}-05`);		break;
+		case "F1099C":		HTML.setFocus(`${name}-${uid}-02`);		break;
+		case "F1099DIV":	HTML.setFocus(`${name}-${uid}-01a`);	break;
+		case "F1099G":		HTML.setFocus(`${name}-${uid}-01`);		break;
+		case "F1099INT":	HTML.setFocus(`${name}-${uid}-01`);		break;
+		case "F1099K":		HTML.setFocus(`${name}-${uid}-01a`);	break;
+		case "F1099MISC":	HTML.setFocus(`${name}-${uid}-01`);		break;
+		case "F1099NEC":	HTML.setFocus(`${name}-${uid}-01a`);	break;
+		case "F1099OID":	HTML.setFocus(`${name}-${uid}-01`);		break;
+		case "F1099R":		HTML.setFocus(`${name}-${uid}-01`);		break;
+		case "F1099S":		HTML.setFocus(`${name}-${uid}-02a`);	break;
+		case "F1098E":		HTML.setFocus(`${name}-${uid}-01`);		break;
+		case "F1098VLI":	HTML.setFocus(`${name}-${uid}-01`);		break;
+		case "Business":	HTML.setFocus(`${name}-${uid}-name`);	break;
+	}
 }
 
 function addInputFormToWeb(formname) {
