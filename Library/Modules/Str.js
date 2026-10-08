@@ -10,6 +10,7 @@ export const Str = {
 	wrap,
 	wrapLines,
 	upshiftFirst,
+
 	camelCaseToEnglish,
 	camelToSnakeCase,
 	kebabToSnakeCase,
