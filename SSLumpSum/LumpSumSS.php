@@ -26,7 +26,7 @@
 		taxpayer receives a lump sum (retroactive) payment. There are two methods for
 		calculating the taxable amount of a lump sum payment. The payment can either be left
 		as part of the Social Security payments for the current year, or if the payment is
-		for benefits in a previous year, you may be able to reduce the taxable amount by
+		for benefits in a previous year you may be able to reduce the taxable amount by
 		determining how much of the payment would have been taxable if you had received it in
 		the year it was intended.</p>
 
