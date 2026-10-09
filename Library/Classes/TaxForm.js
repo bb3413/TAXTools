@@ -196,10 +196,6 @@ export class TaxForm {
 		return doc.toString();
 	}
 
-	toPrint() {
-		return this.toString();
-	}
-
 	toString() {
 		let str		= [];
 		let title	= [];

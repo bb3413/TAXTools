@@ -75,10 +75,6 @@ function initializeTaxpayer() {
 	return taxpayer;
 }
 
-function printLine(output, label, value) {
-	output.push(label.padEnd(20, " ") + value);
-}
-
 export class Taxpayer {
 	//
 	// ---------------- Static Methods ----------------
@@ -305,29 +301,6 @@ export class Taxpayer {
 			this._is_taxpayer_blind ? "X" : "", "text");
 		HTML.putUserOutput("f1040-1-spouse-is-blind",
 			this._is_spouse_blind ? "X" : "", "text");
-	}
-
-	toPrint() {
-		let lines	= [];
-		const state	= this._state ? this._state : "CA";
-
-		printLine(lines, "Filing Status",		this._filing_status);
-		lines.push("");
-
-		printLine(lines, "Taxpayer's Name",		this._taxpayers_name);
-		printLine(lines, "Street Address",		this._street_address);
-		printLine(lines, "City, State, Zip",	`${this._city}, state ${this._zip_code}`);
-		printLine(lines, "Taxpayer's Birthday",
-			`${this._taxpayers_birthday}, Age: ${this._taxpayers_age}`);
-		printLine(lines, "Taxpayer Is Blind",	this._is_taxpayer_blind);
-
-		if (this._filing_status === MFJ) {
-			printLine(lines, "Spouse's Birthday",
-				`${this._spouses_birthday}, Age: ${this._spouses_age}`);
-			printLine(lines, "Spouse Is Blind",	this._is_spouse_blind);
-		}
-		lines.push("");
-		return lines.join("\n");
 	}
 
 	toString() {
