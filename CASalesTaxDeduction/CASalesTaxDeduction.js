@@ -5,7 +5,7 @@ import { Alert }				from "../Library/Modules/Alert.js";
 import { Dates }				from "../Library/Modules/Dates.js";
 import { Debug }				from "../Library/Modules/Debug.js";
 import { Ensure }				from "../Library/Modules/Ensure.js";
-import { fetchSalesTaxRate }	from "../Library/SalesTax/SalesTaxFromCDTFA.js";
+import { fetchSalesTaxRate }	from "../Library/Modules/SalesTaxFromCDTFA.js";
 import { HTML }					from "../Library/Modules/HTML.js";
 import { TaxFormObj }			from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }				from "../Library/Classes/Taxpayer.js";
