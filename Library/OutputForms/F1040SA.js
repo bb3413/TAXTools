@@ -12,7 +12,8 @@ export class F1040SA extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F1040SA.Constructor()");
 		super(formname);
-		this.title = `Schedule A - Itemized Deductions`;
+		this.title		= `Schedule A - Itemized Deductions`;
+		this.sales_tax	= TaxFormObj.createForm("SalesTax");
 
 		// Variables for external input. These variables are used to enter information
 		// that does not come from another tax form.
@@ -67,13 +68,15 @@ export class F1040SA extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
+		this.sales_tax.resetCalculated();
+
 		this.lines["01"].value	= this.getMedicalExpenses();
 		this.lines["02"].value	= TaxFormObj.getValue("F1040", "11b");	// AGI
 		this.lines["03"].value	= Math.round(this.line("02") * 0.075);	// 7.5% or AGI
 		this.lines["04"].value	= Math.max(0, this.subtract("01", "03"));// Medical Deduction
 		this.lines["05a"].value	= Math.max(							// State tax
 									this.getStateIncTaxPaid(),		// Inc tax, or
-									this.getSalesTax());		// Sales tax
+									this.getSalesTax());			// Sales tax
 		this.lines["05b"].value	= this.property_tax;				// Real Estate Tax
 		this.lines["05c"].value	= this.personal_property_tax;		// Personal Property Tax
 		this.lines["05d"].value	= this.add("05a","05b","05c");		// SALT
@@ -117,7 +120,7 @@ export class F1040SA extends TaxForm {
 	getSalesTax() {
 		// Calculate sales tax deduction.
 		return (	// return cannot be on a line by itself
-			TaxFormObj.createForm("SalesTax").calculate(this.sales_tax_rate) +
+			sales_tax.calculate(this.sales_tax_rate) +
 			this.extra_sales_tax
 		);
 	}

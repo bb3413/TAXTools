@@ -145,6 +145,10 @@ export class TaxForm {
 		this.calculate();
 	}
 
+	resetCalculated() {
+		this.calculated = false;
+	}
+
 	round(lineno) {
 		this._ensureValidLine(lineno);
 		return Math.round(this.lines[lineno].value);

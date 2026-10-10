@@ -275,7 +275,8 @@ export class F1099G extends TaxForm {
 	constructor(formname) {
 		Debug.enter("F1099G.Constructor()");
 		super(formname);
-		this.title = `1099-G - Certain Government Payments`;
+		this.title	= `1099-G - Certain Government Payments`;
+		this.refund	= TaxFormObj.createForm("Refund");
 
 		// Variables for external input. These variables can be used to enter information
 		// that does not come from another tax form.
@@ -317,9 +318,9 @@ export class F1099G extends TaxForm {
 		Debug.enter("F1099G.calculate()");
 
 		this.calculated = true;
+		this.refund.resetCalculated();
 
 		if (this.line("02")) {
-			const refund = TaxFormObj.createForm("Refund");
 			refund.sched_a_5d				= this.prev_5d;
 			refund.sched_a_5e				= this.prev_5e;
 			refund.itemized_deductions		= this.prev_itemized;
