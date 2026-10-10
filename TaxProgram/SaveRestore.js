@@ -21,6 +21,7 @@ import {
 	assetsale_items_container,
 	input_taxforms_container,
 	output_taxforms_container,
+
 	// Functions
 	addInputFormToWeb,
 	changeHandler,
@@ -38,6 +39,7 @@ import { TAX_PROGRAM_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
 // If RAW is true, user input will be copied without changing (debug keywords, expression
 // evaluation, etc. Set it to false to use normal processing of input.
 const RAW = true;
+let error_log = [];
 
 function restoreAssetsaleItems(data) {
 	if (!data || data.length === 0) {
@@ -47,10 +49,15 @@ function restoreAssetsaleItems(data) {
 	assetsale_items_container.reset();		// Remove the four blank entries
 
 	for (const assetitem_data of data) {
-		const uid = Container.getUID("assetitem");
-		const [ html_id, html ] = Assetitem.getHTML(uid);
-		assetsale_items_container.addEntry(html_id, html);
-		Assetitem.putUserOutputs(assetitem_data, uid);
+		try {
+			const uid = Container.getUID("assetitem");
+			const [ html_id, html ] = Assetitem.getHTML(uid);
+			assetsale_items_container.addEntry(html_id, html);
+			Assetitem.putUserOutputs(assetitem_data, uid);
+		} catch (error) {
+			error_log.push(`Error restoring asset/stock sale; ignoring.`);
+			continue;
+		}
 	}
 }
 
@@ -60,10 +67,15 @@ function restoreDependents(data) {
 	}
 
 	for (const dependent_data of data) {
-		const uid = Container.getUID("dependent");
-		const [ html_id, html ] = Dependent.getHTML(uid);
-		dependents_container.addEntry(html_id, html);
-		Dependent.putUserOutputs(dependent_data, uid);
+		try {
+			const uid = Container.getUID("dependent");
+			const [ html_id, html ] = Dependent.getHTML(uid);
+			dependents_container.addEntry(html_id, html);
+			Dependent.putUserOutputs(dependent_data, uid);
+		} catch (error) {
+			error_log.push(`Error restoring dependent; ignoring.`);
+			continue;
+		}
 	}
 }
 
@@ -77,16 +89,46 @@ function restoreInputForms(data) {
 		let lines		= forminfo[1];
 
 		if (!Classes.isInputForm(formname)) {
-			throw new Error(`restoreUserData(): ${formname} ` +
-				"is not an input form, cannot restore.");
+			error_log.push(`Unknown form "${formname}" in file, ignoring.`);
+			continue;
 		}
 
 		const taxform_id = addInputFormToWeb(formname);
 		let [ name, uid ] = Container.parseElementID(taxform_id);
 		const element_id_prefix = `${name}-${uid}-`;
 		for (const lineno of Object.keys(lines)) {
-			HTML.putElementValue(element_id_prefix + lineno.replace(/_/g, "-"), lines[lineno]);
+			try {
+				HTML.putElementValue(
+					element_id_prefix + lineno.replace(/_/g, "-"), lines[lineno]);
+			} catch (error) {
+				error_log.push(`Unknown line "${lineno}" in form ${formname}; ignoring.`);
+				continue;
+			}
 		}
+	}
+}
+
+function restoreExpenses(data) {
+	try {
+		Expenses.putUserOutput(data);
+	} catch (error) {
+		error_log.push(`Error restoring expense information; ignoring.`);
+	}
+}
+
+function restoreTaxpayer(data) {
+	try {
+		Taxpayer.restoreUserInput(data);
+	} catch (error) {
+		error_log.push(`Error restoring taxpayer information; ignoring.`);
+	}
+}
+
+function restoreIncome(data) {
+	try {
+		Income.putUserOutput(data);
+	} catch (error) {
+		error_log.push(`Error restoring income information; ignoring.`);
 	}
 }
 
@@ -96,21 +138,30 @@ function restoreUserData(data) {
 	// The data that was copied from the file is passed a parameter.
 	//
 	try {
+		error_log = [];
+
 		const tool = HTML.getUserInput("title", "text");
 		if (data.tool_name !== tool) {
-			throw new Error(`Restored data file is intended for the ${data.tool} tool.`);
+			throw new Error(`File was saved from the ${data.tool}. ` +
+				"It cannot be restored by this tool.");
 		}
 
 		resetAll();		// Start over, reset everything.
 
 		HTML.putUserOutput("tax-year", data.tax_year, "text");
-		Taxpayer.restoreUserInput(data.taxpayer);
+		restoreTaxpayer(data.taxpayer);
 		restoreDependents(data.dependents);
-		Expenses.putUserOutput(data.expenses);
-		Income.putUserOutput(data.income);
+		restoreExpenses(data.expenses);
+		restoreIncome(data.income);
 		restoreAssetsaleItems(data.assetsale_items);
 		restoreInputForms(data.input_forms);
 		changeHandler();
+
+		if (error_log !== []) {
+			HTML.putElementValue("error-message-output", error_log.join("\n"));
+			document.getElementById("error-message-output")
+				.scrollIntoView({behavior: 'smooth', block: 'start'});
+		}
 	} catch (error) {
 		processError(error);
 	}

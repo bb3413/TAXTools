@@ -496,7 +496,7 @@
 
 		<!-- Display area for error messages. -->
 		<div id="error-message-container">
-			<p id="error-message-output"></p>
+			<pre id="error-message-output"></pre>
 		</div>
 
 		<!-- Display area for debugging information. -->

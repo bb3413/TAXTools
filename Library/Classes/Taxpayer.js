@@ -123,6 +123,8 @@ export class Taxpayer {
 			}
 		}
 
+		HTML.putElementValue("filing-status", "SINGLE");
+
 		// Restore the fields that were saved.
 		for (const key_name of Object.keys(data)) {
 			const element_id = key_name.replace(/_/g, "-");
