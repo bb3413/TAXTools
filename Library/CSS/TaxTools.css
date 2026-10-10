@@ -10,13 +10,15 @@
 	 *
 	 *			background-color: var(--background-color);
 	 */
-	--background-color:			LightCyan;
+	--irs-green:				#DBFFFA;	/* Color on IRS form 1040 */
+	--background-color:			var(--irs-green);
 	--tool-background-color:	White;		/* FFFFFF */
 	--text-color:				Navy;
 	--error-text-color:			Red;
 	--light-text-color:			MediumBlue;
-	--input-color:				#d9fddd;	/* Light green, #9FC; */
-	--output-color:				#DEF;		/* Light blue */
+	--input-color:				var(--irs-green);
+	--input-color:				#F0FFF0;	/* Light green */
+	--output-color:				#DDEEFF;		/* Light blue */
 	--border-color:				var(--text-color);
 	--border-light:				#CCC;		/* Light gray */
 	--shadow-color:				#AAAAAA;	/* Gray */
