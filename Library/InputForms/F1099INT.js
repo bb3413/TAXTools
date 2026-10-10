@@ -115,8 +115,6 @@ const HTML_FORM = `
 									placeholder="0" />
 							</div>
 							<div class="f1099-box">
-								<span class="f1099-box-label"></span>
-								<input type="text" placeholder="" />
 							</div>
 						</div>
 

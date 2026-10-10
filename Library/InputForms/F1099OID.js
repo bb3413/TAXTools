@@ -124,7 +124,7 @@ const HTML_FORM = `
 						</div>
 
 						<div class="f1099-flex-row">
-							<div class="f1099-box">
+							<div class="f1099-box input-color">
 								<span class="f1099-box-label">3 Early withdrawal
 									penalty</span>
 								<input type="text" id="f1099oid-XX-03"

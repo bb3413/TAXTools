@@ -158,28 +158,17 @@ const HTML_FORM = `
 						</div>
 
 						<div class="f1099-flex-row">
-							<div class="f1099-box">
-								<span class="f1099-box-label"></span>
-								<input type="text" placeholder="" />
-							</div>
-							<div class="f1099-box">
-								<span class="f1099-box-label"></span>
-								<input type="text" placeholder="" />
-							</div>
-						</div>
-
-						<div class="f1099-flex-row">
-							<div class="f1099-box input-color" style="border-bottom: none;">
+							<div class="f1099-box input-color">
 								<span class="f1099-box-label">5 State tax withheld</span>
 								<input type="text" id="f1099nec-XX-05"
 									placeholder="0" />
 							</div>
-							<div class="f1099-box" style="border-bottom: none;">
+							<div class="f1099-box">
 								<span class="f1099-box-label">6 State/state no.</span>
 								<input type="text" id="f1099nec-XX-06"
 									placeholder="State / ID" />
 							</div>
-							<div class="f1099-box" style="border-bottom: none;">
+							<div class="f1099-box">
 								<span class="f1099-box-label">7 State income</span>
 								<input type="text" id="f1099nec-XX-07"
 									placeholder="0" />

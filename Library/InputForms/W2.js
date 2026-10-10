@@ -120,8 +120,8 @@ const HTML_FORM = `
 					<div class="f1099-col-right">
 						<div class="f1099-flex-row">
 							<div class="f1099-box input-color">
-								<span class="f1099-box-label">1 Wages, tips, other
-									compensation</span>
+								<span class="f1099-box-label">1 Wages, Tips, Other
+									Compensation</span>
 								<input type="text" id="w2-XX-01" placeholder="0" />
 							</div>
 							<div class="f1099-box input-color">
