@@ -10,7 +10,7 @@ body {
 	height:					100vh;
 }
 
-.tool-container {
+.taxtool-container {
 	width:					320px;
 	background:				#333;	/* Color behind buttons; dark gray. */
 	padding:				20px;

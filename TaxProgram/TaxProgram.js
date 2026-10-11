@@ -1,5 +1,6 @@
 
 import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
 import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
 
@@ -541,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
-	HTML.addListener("tool-container",			"change", changeHandler);
+	HTML.addListener(TAXTOOL_CONTAINER,			"change", changeHandler);
 	HTML.addListener("street-address",			"change", changeAddressHandler);
 	HTML.addListener("city",					"change", changeAddressHandler);
 	HTML.addListener("zip-code",				"change", changeAddressHandler);

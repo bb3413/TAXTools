@@ -19,7 +19,7 @@
 </head>
 
 <body>
-	<div class="tool-container" id="tool-container">
+	<div class="taxtool-container" id="taxtool-container">
 		<p class="trigger version-number" tooltipid="#tax-tools-version-tt">Version:
 			<a href="../Version/Version.html"><span id="tax-tools-version"></span></a></p>
 

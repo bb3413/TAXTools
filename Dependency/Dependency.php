@@ -34,7 +34,7 @@
 </head>
 
 <body>
-	<div class="tool-container">
+	<div class="taxtool-container">
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 

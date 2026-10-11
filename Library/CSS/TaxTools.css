@@ -81,7 +81,7 @@ body {
 	max-width:				8.5in;
 }
 
-.tool-container {
+.taxtool-container {
 	background:				var(--tool-background-color);
 	padding-top:			1rem;
 	padding-bottom:			2rem;

@@ -16,7 +16,7 @@
 </head>
 
 <body>
-	<div class="tool-container">
+	<div class="taxtool-container">
 		<h1 class="title" id="Title">Federal Estimated Tax Calculator</h1>
 		<h2 class="subtitle">for the Tax Year
 			<select id="tax-year" class="trigger" tooltipid="#tax-year-tt">
