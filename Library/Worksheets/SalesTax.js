@@ -16,6 +16,7 @@ export class SalesTax extends TaxForm {
 	constructor(formname) {
 		Debug.enter("SalesTax.Constructor()");
 		super(formname);
+		this.title	= `State and Local General Sales Tax Deduction Worksheet`;
 
 		// Variables for external input. This variable is be used to enter information
 		// that does not come from another tax form.

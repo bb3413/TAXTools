@@ -145,7 +145,7 @@ export class TaxForm {
 		this.calculate();
 	}
 
-	resetCalculated() {
+	resetCalculation() {
 		this.calculated = false;
 	}
 

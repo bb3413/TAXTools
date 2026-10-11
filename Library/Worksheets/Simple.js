@@ -45,6 +45,7 @@ export class Simple extends TaxForm {
 	constructor(formname) {
 		Debug.enter("Simple.Constructor()");
 		super(formname);
+		this.title	= `Simplified Method Worksheet`;
 
 		this.lines["01"]	= new Line("Gross Distribution (1099-R, box 1)");
 		this.lines["02"]	= new Line("Total Contributions (1099-R, box 9b)");

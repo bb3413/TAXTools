@@ -270,6 +270,7 @@ export class F1099R extends TaxForm {
 		super(formname);
 		this.title =
 			`1099-R - Distributions from Pensions, Annuities, Retirement Plans, etc.`;
+		this.simple	= TaxFormObj.createForm("Simple");
 
 		this.lines["is_spouses"]= new Line("Spouse's Tax Form");
 		this.lines["payer"]		= new Line("Payer");
@@ -303,6 +304,11 @@ export class F1099R extends TaxForm {
 		Debug.enter("F1099R.calculate()");
 
 		this.calculated = true;
+		this.simple.resetCalculation();
+
+		if (!this.line("07b")) {
+			simple.calculate();
+		}
 
 		Debug.exit("F1099R.calculate()");
 	}

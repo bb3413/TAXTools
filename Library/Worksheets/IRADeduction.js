@@ -18,6 +18,7 @@ export class IRADeduction extends TaxForm {
 	constructor(formname) {
 		Debug.enter("IRADeduction.Constructor()");
 		super(formname);
+		this.title	= `IRA Contribution Deduction Worksheet`;
 
 		this.lines["01"]	= new Line("Taxpayer has retirement plan at work");
 		this.lines["02"]	= new Line("Income Limit");

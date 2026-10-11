@@ -578,8 +578,8 @@ export class F1040 extends TaxForm {
 		const tp = Taxpayer.getTaxpayer();
 		const getValue = TaxFormObj.getValue;
 
-		this.sstax.resetCalculated();
-		this.inctax.resetCalculated();
+		this.sstax.resetCalculation();
+		this.inctax.resetCalculation();
 
 		this.lines["01a"].value	= getValue("W2", "01");	// Wages
 		this.lines["01b"].value	= 0;					// Household ages

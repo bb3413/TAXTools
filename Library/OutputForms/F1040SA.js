@@ -68,7 +68,7 @@ export class F1040SA extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		this.sales_tax.resetCalculated();
+		this.sales_tax.resetCalculation();
 
 		this.lines["01"].value	= this.getMedicalExpenses();
 		this.lines["02"].value	= TaxFormObj.getValue("F1040", "11b");	// AGI
@@ -120,7 +120,7 @@ export class F1040SA extends TaxForm {
 	getSalesTax() {
 		// Calculate sales tax deduction.
 		return (	// return cannot be on a line by itself
-			sales_tax.calculate(this.sales_tax_rate) +
+			this.sales_tax.calculate(this.sales_tax_rate) +
 			this.extra_sales_tax
 		);
 	}

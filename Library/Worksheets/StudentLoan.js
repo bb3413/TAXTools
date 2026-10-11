@@ -17,6 +17,7 @@ export class StudentLoan extends TaxForm {
 	constructor(formname) {
 		Debug.enter("StudentLoan.Constructor()");
 		super(formname);
+		this.title	= `Student Loan Interest Deduction Worksheet`;
 		
 		this.lines["01"]	= new Line("Student Loan Interest");
 		this.lines["02"]	= new Line("Total Income");

@@ -15,6 +15,7 @@ export class CA_HiIncDeductions extends TaxForm {
 	constructor(formname) {
 		Debug.enter("CA_HiIncDeductions.Constructor()");
 		super(formname);
+		this.title	= `California Itemized Deductions Worksheet`;
 
 		this.lines["01"]	= new Line("Total Deductions");
 		this.lines["02"]	= new Line("Medical + Interest, + Theft");

@@ -16,8 +16,10 @@ export class F1040S1 extends TaxForm {
 		Debug.enter("F1040S1.Constructor()");
 		super(formname);
 		this.title = `Schedule 1 - Additional Income and Adjustments to Income`;
+		const tp = Taxpayer.getTaxpayer();
 
-		this.stident_loan = TaxFormObj.createForm("StudentLoan");
+		// Create worksheets
+		this.student_loan = TaxFormObj.createForm("StudentLoan");
 		this.taxpayer_ira_deduction	= TaxFormObj.createForm("IRADeduction");
 		if (tp.filing_status === MFJ) {
 			this.spouse_ira_deduction = TaxFormObj.createForm("IRADeduction");
@@ -114,6 +116,7 @@ export class F1040S1 extends TaxForm {
 		const tp = Taxpayer.getTaxpayer();
 		const getValue = TaxFormObj.getValue;
 
+		// Reset the worksheets in case this form is being recalculated.
 		this.student_loan.resetCalculation();
 		this.taxpayer_ira_deduction.resetCalculation();
 		if (this.spouse_ira_deduction) {
@@ -230,17 +233,17 @@ export class F1040S1 extends TaxForm {
 		let deduction = 0;
 
 		deduction =
-			taxpayer_ira_deduction.calculate(TAXPAYER, this.ira_contribution_taxpayer);
-		if (spouse_ira_deduction) {
+			this.taxpayer_ira_deduction.calculate(TAXPAYER, this.ira_contribution_taxpayer);
+		if (this.spouse_ira_deduction) {
 			deduction +=
-				spouse_ira_deduction.calculate(SPOUSE, this.ira_contribution_spouse);
+				this.spouse_ira_deduction.calculate(SPOUSE, this.ira_contribution_spouse);
 		}
 
 		return deduction;
 	}
 
 	_calculateStudentLoanDeduction() {
-		const interest	= getValue("F1098E", "01");
+		const interest	= TaxFormObj.getValue("F1098E", "01");
 		const deduction	= this.student_loan.calculate(interest);
 		
 		return deduction;

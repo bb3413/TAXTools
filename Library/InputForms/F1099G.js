@@ -318,7 +318,7 @@ export class F1099G extends TaxForm {
 		Debug.enter("F1099G.calculate()");
 
 		this.calculated = true;
-		this.refund.resetCalculated();
+		this.refund.resetCalculation();
 
 		if (this.line("02")) {
 			refund.sched_a_5d				= this.prev_5d;

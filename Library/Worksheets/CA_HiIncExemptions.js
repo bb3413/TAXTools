@@ -15,6 +15,7 @@ export class CA_HiIncExemptions extends TaxForm {
 	constructor(formname) {
 		Debug.enter("CA_HiIncExemptions.Constructor()");
 		super(formname);
+		this.title	= `California AGI Limitations Worksheet`;
 
 		this.lines["0a"]	= new Line("Federal AGI");
 		this.lines["0b"]	= new Line("Exemption Phaseout");

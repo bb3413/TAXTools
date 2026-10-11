@@ -15,6 +15,7 @@ export class IncTax extends TaxForm {
 	constructor(formname) {
 		Debug.enter("IncTax.Constructor()");
 		super(formname);
+		this.title	= `Qualified Dividends and Capital Gain Tax Worksheet`;
 
 		this.lines["01"]	= new Line("Taxable Income");
 		this.lines["02"]	= new Line("Qualified Dividends");

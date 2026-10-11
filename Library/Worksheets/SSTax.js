@@ -17,6 +17,7 @@ export class SSTax extends TaxForm {
 	constructor(formname) {
 		Debug.enter("SSTax.Constructor()");
 		super(formname);
+		this.title	= `Social Security Benefits Worksheet`;
 
 		this.lines["01"]	= new Line("Sum of all SSA-1099, box 5");
 		this.lines["02"]	= new Line("Half of total SS benefits");

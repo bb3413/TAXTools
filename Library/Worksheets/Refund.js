@@ -18,6 +18,7 @@ export class Refund extends TaxForm {
 	constructor(formname) {
 		Debug.enter("Refund.Constructor()");
 		super(formname);
+		this.title	= `State and Local Income Tax Refund Worksheet`;
 
 		// Variables for external input. These variables can be used to enter information
 		// that does not come from another tax form.
