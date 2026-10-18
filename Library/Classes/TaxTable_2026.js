@@ -34,11 +34,11 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"MedicalMileage":				[ 0.205,		0.205,		0.205,		0.205,		0.21		],
 
 		"MaxCapitalLoss":				[ 3000,			3000,		3000,		3000,		1500		],
-		"MaxEducatorExpenses":			[ 300,			300,		600,		300,		300			],	// TY25
+		"MaxEducatorExpenses":			[ 350,			350,		700,		350,		350			],
 		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],	// TY25
 		"MaxSALT":						[ 40000,		40000,		40000,		40000,		20000		],	// TY25
 		"MaxStudentLoanInterest":		[ 2500,			2500,		2500,		2500,		0			],	// TY25
-		"StudentLoanPhaseOut":			[ 85000,		85000,		17000,		85000,		0			],	// TY25
+		"StudentLoanPhaseOut":			[ 85000,		85000,		175000,		85000,		0			],	// TY25
 
 		// OBBA deductions				SINGLE			HOH			MFJ			QSS			MFS
 		"MaxCarLoanInterestDeduction":	[ 10000,		10000,		10000,		10000,		10000		],	// TY25
@@ -66,13 +66,13 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"MaxPremiumTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
 
 		// IRA Contributions
-		"MaxIRAContribution":			[ 7000,			7000,		7000,		7000,		7000,		],	// TY25
-		"IRAContributionOver50":		[ 1000,			1000,		1000,		1000,		1000,		],	// TY25
-		"IRA_AGILimit":					[ 89000,		89000,		146000,		146000,		89000,		],	// TY25
-		"IRA_AGILimitNoPlan":			[ 89000,		89000,		246000,		146000,		89000,		],	// TY25
+		"MaxIRAContribution":			[ 7500,			7500,		7500,		7500,		7500,		],
+		"IRAContributionOver50":		[ 1100,			1100,		1100,		1100,		1100,		],
+		"IRA_AGILimit":					[ 91000,		91000,		149000,		149000,		91000,		],
+		"IRA_AGILimitNoPlan":			[ 89000,		89000,		252000,		152000,		89000,		],	// TY25
 
 		// Dependents
-		"MaxDependentGrossIncome":		[ 5050,			5050,		5050,		5050,		5050,		],	// TY25
+		"MaxDependentGrossIncome":		[ 5300,			5300,		5300,		5300,		5300,		],
 
 		// AMT							SINGLE			HOH			MFJ			QSS			MFS
 		"AMT_Exemption":				[ 90100,		90100,		140200,		140200,		70100		],

@@ -9,6 +9,7 @@ import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
+import { F1040S1A_HTML }	from "../OutputForms/F1040S1A_HTML.js";
 
 function roundDown(value) {
 	return Math.trunc(value);

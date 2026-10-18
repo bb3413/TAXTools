@@ -28,6 +28,10 @@ export class TaxForm {
 		this.lines				= {};
 	}
 
+	calculate() {
+		this.calculated = true;
+	}
+
 	add(...line_list) {
 		let sum = 0;
 
@@ -45,6 +49,22 @@ export class TaxForm {
 		let html	= this.toHTML(uid);
 		let id		= `${this.formname.toLowerCase()}-${uid}-container`;
 		return [id, html];
+	}
+
+	getValues() {
+		//
+		// Copy values from the tax form.
+		//
+		// The return parameter is an object that contains the name-value pairs for all the
+		// lines copied from the tax form.
+		//
+		const values = {};
+
+		for (const lineno of Object.keys(this.lines)) {
+			values[lineno] = this.line(lineno);
+		}
+
+		return values;
 	}
 
 	isTaxpayers(who) {
@@ -78,23 +98,6 @@ export class TaxForm {
 	line(lineno) {
 		this._ensureValidLine(lineno);
 		return this.lines[lineno].value;
-	}
-
-	loadInputFromWeb(inputs) {
-		//
-		// The inputs parameter is an object that contains all the input fields from the
-		// form's web page. This method copies those fields to the corresponding locations
-		// in this instance of the form.
-		//
-		// Forms that have additional fields on the web page besides the line values, they
-		// will need to override this method (see form 1099-G for an example).
-		//
-		Ensure.isObject(inputs);
-
-		for (const key of Object.keys(inputs)) {
-			this._ensureValidLine(key);
-			this.lines[key].user_value = inputs[key];
-		}
 	}
 
 	min(...line_list) {
@@ -137,6 +140,24 @@ export class TaxForm {
 
 		for (const lineno of Object.keys(this.lines)) {
 			HTML.putUserOutput(`${formname}-${uid}-${lineno}`, this.line(lineno));
+		}
+	}
+
+	putValues(values) {
+		//
+		// Copy values to the tax form.
+		//
+		// The input parameter is an object that contains the name-value pairs for all the
+		// fields to copy to the tax form.
+		//
+		Ensure.isObject(values);
+
+		for (const key of Object.keys(values)) {
+			if (this.lines[key]) {
+				this.lines[key].user_value = values[key];
+			} else {
+				this[key] = values[key];
+			}
 		}
 	}
 

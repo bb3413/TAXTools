@@ -14,6 +14,7 @@
 	<script type="module" src="../Version/Version.js"></script>
 
 	<link rel="stylesheet" href="TaxProgram.css" />
+	<script type="module" src="SaveRestore.js"></script>
 	<script type="module" src="TaxProgram.js"></script>
 	<title>Tax Return Calculator</title>
 </head>
@@ -65,7 +66,7 @@
 			</select>
 		</div>
 		<div class="taxpayer-info-150-400">
-			<p>Taxpayer's Name</p>
+			<p>Taxpayer&apos;s Name</p>
 			<input class="trigger input-field left" type="text" autofocus
 				spellcheck="false" size="45" id="taxpayers-name"
 				tooltipid="#taxpayers-name-tt" />
@@ -92,7 +93,7 @@
 				tooltipid="#street-address-tt"  />
 		</div>
 		<div class="taxpayer-info-150-100">
-			<p>Taxpayer's Birthday</p>
+			<p>Taxpayer&apos;s Birthday</p>
 			<input class="trigger input-field left" type="text"
 				id="taxpayers-birthday" size="36"
 				placeholder="mm/dd/yyyy"
@@ -117,7 +118,7 @@
 		<div>&nbsp;</div>
 		<div id="spouse-container">
 			<div class="taxpayer-info-150-100">
-				<p>Spouse's Birthday</p>
+				<p>Spouse&apos;s Birthday</p>
 				<input class="trigger input-field left" type="text"
 					id="spouses-birthday" size="36"
 					placeholder="mm/dd/yyyy"
@@ -178,284 +179,23 @@
 		</div>
 
 		<!----------  Expenses  ------------------------------------------------------------>
-		<details class="taxform-details" id="expenses-container">
-			<summary class="trigger taxform-summary" tooltipid="#expenses-summary-tt">
-				Expenses</summary>
-			<div class="input-worksheet-container">
-				<h3>Medical Insurance Premiums</h3>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Healthcare Insurance</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-healthcare"
-						size="10" placeholder="0"
-						tooltipid="#expenses-healthcare-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Dental and Vision Insurance</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-dental"
-						size="10" placeholder="0"
-						tooltipid="#expenses-dental-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Medicare</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-medicare"
-						size="10" placeholder="0"
-						tooltipid="#expenses-medicare-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Long Term Care (LTC) Insurance
-						for the Taxpayer</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-taxpayer-ltc"
-						size="10" placeholder="0"
-						tooltipid="#expenses-taxpayer-ltc-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Long Term Care (LTC) Insurance
-						for the Spouse</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-spouse-ltc"
-						size="10" placeholder="0"
-						tooltipid="#expenses-spouse-ltc-tt" />
-				</div>
-
-				<h3>Other Medical Expenses</h3>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Payments to Doctors,
-						Dentists, etc.</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-doctor"
-						size="10" placeholder="0"
-						tooltipid="#expenses-doctor-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Prescriptions</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-prescriptions"
-						size="10" placeholder="0"
-						tooltipid="#expenses-prescriptions-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Medical Aids (glasses,
-						hearing aids, etc.)</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-medical-aids"
-						size="10" placeholder="0"
-						tooltipid="#expenses-medical-aids-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Medical Facilities</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-medical-facilities"
-						size="10" placeholder="0"
-						tooltipid="#expenses-medical-facilities-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Nursing Services</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-nursing-services"
-						size="10" placeholder="0"
-						tooltipid="#expenses-nursing-services-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Medical Miles Driven</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-medical-miles"
-						size="10" placeholder="0"
-						tooltipid="#expenses-medical-miles-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Other Medical Expenses</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-other-medical"
-						size="10" placeholder="0"
-						tooltipid="#expenses-other-medical-tt" />
-				</div>
-
-				<h3>Taxes Paid</h3>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Estimated Payments - Federal</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-est-payments-federal"
-						size="10" placeholder="0"
-						tooltipid="#expenses-est-payments-federal-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Estimated Payments - State</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-est-payments-state"
-						size="10" placeholder="0"
-						tooltipid="#expenses-est-payments-state-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">State Tax Due (from last
-						year's taxes)</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-state-tax-due"
-						size="10" placeholder="0"
-						tooltipid="#expenses-state-tax-due-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Property Tax</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-property-tax"
-						size="10" placeholder="0"
-						tooltipid="#expenses-property-tax-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Personal Property Tax</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-personal-property-tax"
-						size="10" placeholder="0"
-						tooltipid="#expenses-personal-property-tax-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Extra Sales tax</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-extra-sales-tax"
-						size="10" placeholder="0"
-						tooltipid="#expenses-extra-sales-tax-tt" />
-				</div>
-
-				<h3>Charitable Donations</h3>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Cash Donations to Charity</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-cash-donations"
-						size="10" placeholder="0"
-						tooltipid="#expenses-cash-donations-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Non-cash Donations to
-						Charity</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-noncash-donations"
-						size="10" placeholder="0"
-						tooltipid="#expenses-noncash-donations-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Miles Driven for Charity</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-charitable-miles"
-						size="10" placeholder="0"
-						tooltipid="#expenses-charitable-miles-tt" />
-				</div>
-
-				<h3>Other Expenses</h3>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Educator Expenses - Taxpayer</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-educator-taxpayer"
-						size="10" placeholder="0"
-						tooltipid="#expenses-educator-taxpayer-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Educator Expenses - Spouse</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-educator-spouse"
-						size="10" placeholder="0"
-						tooltipid="#expenses-educator-taxpayer-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Alimony Paid</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-alimony-paid"
-						size="10" placeholder="0"
-						tooltipid="#expenses-alimony-paid-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Divorce Date</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-divorce-date"
-						size="10" placeholder="mm/dd/yyyy"
-						tooltipid="#expenses-divorce-date-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Tax Preparation Fees</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-tax-preparation"
-						size="10" placeholder="0"
-						tooltipid="#expenses-tax-preparation-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Investment Expenses</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-investment-expenses"
-						size="10" placeholder="0"
-						tooltipid="#expenses-investment-expenses-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">IRA Contribution - Taxpayer</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-ira-contribution-taxpayer"
-						size="10" placeholder="0"
-						tooltipid="#expenses-ira-contribution-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">IRA Contribution - Spouse</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="expenses-ira-contribution-spouse"
-						size="10" placeholder="0"
-						tooltipid="#expenses-ira-contribution-tt" />
-				</div>
-				<p>&nbsp;</p>
-			</div>
-		</details>
+		<!-- Display area for expenses. -->
+		<div id="expenses-container">
+		</div>
 
 		<!----------  Income  -------------------------------------------------------------->
-		<details class="taxform-details" id="income-container">
-			<summary class="trigger taxform-summary" tooltipid="#income-summary-tt">
-				Income Not on a Tax Form</summary>
-			<div class="input-worksheet-container">
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Jury Duty</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="income-jury-duty"
-						size="10" placeholder="0"
-						tooltipid="#income-jury-duty-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Alimony Received</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="income-alimony-received"
-						size="10" placeholder="0"
-						tooltipid="#income-alimony-received-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Divorce Data</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="income-divorce-date"
-						size="10" placeholder="mm/dd/yyyy"
-						tooltipid="#income-divorce-date-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Gambling Winnings</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="income-gambling"
-						size="10" placeholder="0"
-						tooltipid="#income-gambling-tt" />
-				</div>
-				<div class="input-worksheet-row">
-					<div class="input-worksheet-row-label">Other Income</div>
-					<input class="trigger input-worksheet-row-value input-field"
-						type="text" id="income-other"
-						size="10" placeholder="0"
-						tooltipid="#income-other-tt" />
-				</div>
-			</div>		<!-- input-worksheet-container -->
-			<div>&nbsp;</div>
-		</details>
+		<!-- Display area for income. -->
+		<div id="income-container">
+		</div>
 
 		<!----------  Stock/Asset Sales  --------------------------------------------------->
-		<details class="taxform-details" id="assetsales-container">
-			<summary class="trigger taxform-summary" tooltipid="#asset-sale-summary-tt">
+		<details class="taxform-details" id="sales-container">
+			<summary class="trigger taxform-summary" tooltipid="#sales-summary-tt">
 				Sale of Stocks/Assets</summary>
 			<div>
-				<input class="trigger add-asset-sale-button center-text" type="button"
-					id="add-asset-sale-button" value="Add Entry"
-						tooltipid="#add-asset-sale-button-tt" />
+				<input class="trigger add-assetsale-button center-text" type="button"
+					id="add-assetsale-button" value="Add Entry"
+						tooltipid="#add-assetsale-button-tt" />
 			</div>
 			<div class="assetsales-container assetsales-header">
 				<p class="center-text">Long Term</p>
@@ -472,7 +212,7 @@
 				<p>Wash Sale</p>
 			</div>
 			<!-- Display area for individual sales. -->
-			<div id="assetsale-items-container">
+			<div id="assetsales-container">
 			</div>
 			<div>&nbsp;</div>
 		</details>

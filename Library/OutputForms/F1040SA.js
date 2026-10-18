@@ -7,6 +7,7 @@ import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
+import { F1040SA_HTML }	from "../OutputForms/F1040SA_HTML.js";
 
 export class F1040SA extends TaxForm {
 	constructor(formname) {

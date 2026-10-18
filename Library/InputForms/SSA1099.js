@@ -1,250 +1,29 @@
 
+// Classes
+import { Line }			from "../Classes/Line.js";
+import { TaxForm }		from "../Classes/TaxForm.js";
+import { SSA1099_HTML }	from "../InputForms/SSA1099_HTML.js";
+
+// Modules
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
-import { HTML }			from "../Modules/HTML.js";
-import { Line }			from "../Classes/Line.js";
-import { Objects }		from "../Modules/Objects.js";
-import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
-const ELEMENTS = {
-	// Element ID		Value Type
-	"is-spouses":		[""],
-	"01":				["text"],
-	"02":				["text"],
-	"03":				[""],
-	"03a":				[""],
-	"03b":				[""],
-	"04":				["text"],
-	"05":				[""],
-	"06":				[""],
-	"07":				["text"],
-	"08":				["text"],
-};
-
-const HTML_FORM = `
-		<details class="taxform-details" id="ssa1099-XX-container">
-			<summary class="taxform-summary">SSA-1099 - Social Security Benefit
-				Statement</summary>
-			<div>&nbsp;</div>
-			<div class="ssa-outside-header">Form SSA-1099 - Social Security
-				Benefit Statement</div>
-
-			<div class="taxform-owner">
-				<input type="radio" name="ssa1099-XX-owner"
-					id="ssa1099-XX-is-taxpayers" checked />
-				<label for="ssa1099-XX-is-taxpayers">
-					Taxpayer&apos;s Tax Form</label>
-
-				<input type="radio" name="ssa1099-XX-owner"
-					id="ssa1099-XX-is-spouses" />
-				<label for="ssa1099-XX-is-spouses">
-					Spouse&apos;s Tax Form</label>
-				</div>
-			</div>
-
-			<div class="f1099-taxform-container">
-				<!-- Header Section -->
-				<div class="f1099-header-row">
-					<div class="ssa-header-left">
-						<h1><span id="tax-year">202X</span></h1>
-					</div>
-					<div class="ssa-header-right">
-						<ul>
-							<li>Part of your Social Security benefits shown in box 5 may
-								be taxable income.</li>
-							<li>See the reverse for more information.</li>
-						</ul>
-					</div>
-				</div>
-
-				<div class="ssa-row-1">
-					<div class="f1099-box ssa-border-right">
-						<span class="f1099-box-label">Box 1. Name</span>
-						<input type="text" id="ssa1099-XX-01"
-							placeholder="Beneficiary&apos;s name" />
-					</div>
-					<div class="f1099-box">
-						<span class="f1099-box-label">Box 2. Beneficiary&apos;s Social
-							Security Number</span>
-						<input type="text" id="ssa1099-XX-02"
-							placeholder="123-45-6789" />
-					</div>
-				</div>
-
-				<div class="ssa-row-2">
-					<div class="f1099-box ssa-border-right">
-						<span class="f1099-box-label">Box 3. Benefits Paid in 202X</span>
-						<input type="text" id="ssa1099-XX-03"
-							placeholder="0" />
-					</div>
-					<div class="f1099-box ssa-border-right">
-						<span class="f1099-box-label">Box 4. Benefits Repaid to SSA in
-							202X</span>
-						<input type="text" id="ssa1099-XX-04"
-							placeholder="0" />
-					</div>
-					<div class="f1099-box input-color">
-						<span class="f1099-box-label">Box 5. Net Benefits for 202X (Box 3
-							minus Box 4)</span>
-						<input type="text" id="ssa1099-XX-05"
-							placeholder="0" />
-					</div>
-				</div>
-
-				<!-- Main Content Grid -->
-				<div class="f1099-main-grid">
-					<!-- Left Column: Payer & Recipient Info Inputs -->
-					<div class="f1099-col-left">
-						<div class="f1099-box f1099-box-large" style="border-bottom: none;">
-							<h2 class="ssa-subheading">Description of Amount in Box 3</h2>
-							<div class="ssa-label-group input-color">
-								<span class="f1099-box-label">
-									<label for="ssa-XX-03a">Medicare Part B:</label>
-								</span>
-								<input type="text" id="ssa1099-XX-03a" name="ssa-XX-03a"
-									placeholder="0" />
-							</div>
-							<div class="ssa-label-group input-color">
-								<span class="f1099-box-label">
-									<label for="ssa-XX-03b">Medicare Part D:</label>
-								</span>
-								<input type="text" id="ssa1099-XX-03b" name="ssa-XX-03b"
-									placeholder="0" />
-							</div>
-						</div>
-					</div>
-
-					<!-- Right Column: Numbered Input Boxes -->
-					<div class="f1099-col-right">
-						<div class="f1099-box f1099-box-large">
-							<h2 class="ssa-subheading">Description of Amount in Box 4</h2>
-							<textarea id="ssa1099-XX-04" placeholder=""></textarea>
-						</div>
-						<div class="f1099-flex-row">
-							<div class="f1099-box input-color">
-								<span class="f1099-box-label">Box 6. Voluntary Federal
-									Income Tax Withheld</span>
-								<input type="text" id="ssa1099-XX-06"
-									placeholder="0" />
-							</div>
-						</div>
-
-						<div class="f1099-flex-row">
-							<div class="f1099-box">
-								<span class="f1099-box-label">Box 7. Address</span>
-								<textarea id="ssa1099-XX-07"
-									placeholder="Payer Name&#10;Street Address&#10;City, State, ZIP&#10;Phone Number"></textarea>
-							</div>
-						</div>
-
-						<div class="f1099-flex-row">
-							<div class="f1099-box" style="border-bottom: none;">
-								<span class="f1099-box-label">Box 8. Claim Number</span>
-								<input type="text" id="ssa1099-XX-08"
-									placeholder="Optional Account #" />
-							</div>
-						</div>
-					</div>		<!-- f1099-col-right -->
-				</div>		<!-- f1099-main-grid -->
-			</div>		<!-- f1099-taxform-container -->
-			<div class="f1099-footer-note">Form <strong>SSA-1099</strong></div>
-			<div>&nbsp;</div>
-		</details>
-`;
-
 export class SSA1099 extends TaxForm {
-	static getHTML(uid) {
-		//
-		// Get the HTML code to display the tax form for inputting values. Return an array
-		// with the element ID for the form's outer container and the HTML code.
-		//
-		if (!uid) {
-			throw new Error(`SSA1099.getHTML(): UID is undefined.`);
-		}
-
-		const html = HTML_FORM.replace(/XX/g, uid)
-								.replace(/202X/g, TaxTable.getTaxYear());
-
-		return [ `ssa1099-${uid}-container`, html ];
-	}
-
-	static getInputFromWeb(uid, raw = false) {
-		//
-		// Read the fields of the form from the web and return an object with the
-		// information. Raw user input is only used to save and restore user input.
-		//
-		if (!uid) {
-			throw new Error(`SSA1099.getInputFromWeb(): UID is undefined.`);
-		}
-
-		const element = document.getElementById(`ssa1099-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`SSA1099.getInputFromWeb(): Element not found: ssa1099-${uid}-container`);
-		}
-
-		let inputs = {};
-		const form_id = "ssa1099";
-
-		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
-			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `${form_id}-${uid}-${field_name}`;
-			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
-		}
-
-		return inputs;
-	}
-
 	constructor(formname) {
 		Debug.enter("SSA1099.Constructor()");
 		super(formname);
 		this.title = `SSA-1099 - Social Security Benefit Statement`;
 
-		this.lines["is_spouses"]= new Line("Spouse's Tax Form");
-		this.lines["01"]		= new Line("Name");
-		this.lines["02"]		= new Line("Social Security Number");
-		this.lines["03"]		= new Line("Benefits Paid");
-		this.lines["03a"]		= new Line("Medicare Part B");
-		this.lines["03b"]		= new Line("Medicare Part D");
-		this.lines["04"]		= new Line("Benefits Repaid");
-		this.lines["05"]		= new Line("Net Benefits");
-		this.lines["06"]		= new Line("Federal Income Tax Withheld");
-		this.lines["07"]		= new Line("Address");
-		this.lines["08"]		= new Line("Claim Number");
-
-		Debug.exit("SSA1099.Constructor()");
-	}
-
-	calculate() {
-		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
-		}
-
-		Debug.enter("SSA1099.calculate()");
-
-		this.calculated = true;
-
-		Debug.exit("SSA1099.calculate()");
-	}
-
-	loadInputFromWeb(inputs) {
-		//
-		// The inputs parameter is an object that contains all the input fields from the
-		// form's web page. This method copies those fields to the corresponding locations
-		// in this instance of the form.
-		//
-		for (const key of Object.keys(inputs)) {
-			switch (key) {
-				case "is_spouses":
-					this[key] = inputs[key];
-					break;
-				default:
-					this.lines[key].user_value = inputs[key];
-					break;
+		// Create the lines on the form.
+		let field_info = SSA1099_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
 			}
 		}
+
+		Debug.exit("SSA1099.Constructor()");
 	}
 }

@@ -1,53 +1,82 @@
 
-import { Ensure }		from "../Modules/Ensure.js";
-import { HTML }			from "../Modules/HTML.js";
+// Classes
+import { HTMLBlock }	from "../Classes/HTMLBlock.js";
+import { HTMLMgr }		from "../Classes/HTMLMgr.js";
 
-const ELEMENTS = {
-	// Element ID			Value Type
-	"jury-duty":			[],
-	"alimony-received":		[],
-	"divorce-date":			["text"],
-	"gambling":				[],
+// Modules
+import { Debug }		from "../Modules/Debug.js";
+import { Ensure }		from "../Modules/Ensure.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
+
+const HTML_CODE = `
+		<details class="taxform-details" id="income-XX">
+			<summary class="trigger taxform-summary" tooltipid="#income-summary-tt">
+				Income Not on a Tax Form</summary>
+			<div class="input-worksheet-container">
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Jury Duty</div>
+					<input class="trigger input-worksheet-row-value input-field"
+						type="text" id="income-XX-jury-duty"
+						size="10" placeholder="0"
+						tooltipid="#income-jury-duty-tt" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Alimony Received</div>
+					<input class="trigger input-worksheet-row-value input-field"
+						type="text" id="income-XX-alimony-received"
+						size="10" placeholder="0"
+						tooltipid="#income-alimony-received-tt" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Divorce Data</div>
+					<input class="trigger input-worksheet-row-value input-field"
+						type="text" id="income-XX-divorce-date"
+						size="10" placeholder="mm/dd/yyyy"
+						tooltipid="#income-divorce-date-tt" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Gambling Winnings</div>
+					<input class="trigger input-worksheet-row-value input-field"
+						type="text" id="income-XX-gambling"
+						size="10" placeholder="0"
+						tooltipid="#income-gambling-tt" />
+				</div>
+				<div class="input-worksheet-row">
+					<div class="input-worksheet-row-label">Other Income</div>
+					<input class="trigger input-worksheet-row-value input-field"
+						type="text" id="income-XX-other"
+						size="10" placeholder="0"
+						tooltipid="#income-other-tt" />
+				</div>
+			</div>		<!-- input-worksheet-container -->
+			<div>&nbsp;</div>
+		</details>
+`;
+
+const FIELD_INFO = {
+	// Field Name			Value Type	Is Line	Description
+	"jury-duty":			["",		false,	""],
+	"alimony-received":		["",		false,	""],
+	"divorce-date":			["text",	false,	""],
+	"gambling":				["",		false,	""],
 
 };
 
-export class Income {
-	static getInputFromWeb(raw = false) {
-		//
-		// Read the fields from the web and return an object with the values. Raw user input
-		// is only used to save and restore user input.
-		//
-		let inputs = {};
-		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
-			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `income-${field_name}`;
-			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
-		}
-
-		return inputs;
+export class Income extends HTMLBlock {
+	static getFieldInfo() {
+		return FIELD_INFO;
 	}
 
-	static putUserOutput(inputs) {
-		//
-		// Copy the value of the fields from the inputs object to the web.
-		//
-		for (const key_name of Object.keys(inputs)) {
-			const field_name = key_name.replace(/_/g, "-");
-			const element_id = `income-${field_name}`;
-			if (document.getElementById(element_id)) {
-				HTML.putUserOutput(element_id, inputs[key_name]);
-			}
-		}
+	static getHTML(uid) {
+		return HTML_CODE.replace(/XX/g, uid)
+							.replace(/202X/g, TaxTable.getTaxYear());
 	}
 
-	static reset() {
-		// Clear the fields on the web page.
-		for (const field_name of Object.keys(ELEMENTS)) {
-			const element_id = `income-${field_name}`;
-			if (document.getElementById(element_id)) {
-				HTML.putElementValue(element_id, "");
-			}
-		}
+	constructor() {
+		super();
+		this.name		= "income";
+		this.uid		= HTMLMgr.getMgr().allocateUID(this.name);
+		this.html		= Income.getHTML(this.uid);
+		this.fields		= Income.getFieldInfo();
 	}
 }

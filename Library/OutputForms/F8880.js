@@ -9,6 +9,7 @@ import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
+import { F8880_HTML }	from "../OutputForms/F8880_HTML.js";
 
 export class F8880 extends TaxForm {
 	constructor(formname) {

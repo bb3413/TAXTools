@@ -13,13 +13,14 @@ export const Debug = {
 };
 
 import { Classes }		from "../Modules/Classes.js";
-import { Container }	from "../Classes/Container.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { HTML }			from "../Modules/HTML.js";
 import { Str }			from "../Modules/Str.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
+const DEBUG_CONTAINER	= "debug-container";
+const DEBUG_OUTPUT		= "debug-output";
 let indentation			= 0;
 let debug_all			= false;
 let debug_used_keywords = [];
@@ -28,7 +29,6 @@ let debug_log			= [];
 //----------  Local Functions ---------------------------------------------------------------
 function keywordList() {
 	const debug_keywords = [
-		"Containers",
 		"Debug",
 		"References",
 		"Taxpayer",
@@ -123,8 +123,8 @@ function reset() {
 	debug_used_keywords	= [];
 	debug_log			= [];
 
-	HTML.putElementValue("debug-output", "");
-	hideField("debug-container");
+	HTML.putElementValue(DEBUG_OUTPUT, "");
+	hideField(DEBUG_CONTAINER);
 }
 
 function getKeywords(input_string) {
@@ -193,16 +193,6 @@ function turnOn() {
 		}
 	}
 
-	if (debug_all || debug_used_keywords.includes("Containers")) {
-		for (const container of Container.getContainers()) {
-			// Skip the output tax forms. If they exist, they will be printed by the next
-			// section.
-			if (container.container_id !== "output-taxforms-container") {
-				output += container.toString();
-			}
-		}
-	}
-
 	for (const form of TaxFormObj.getAllForms()) {
 		if (debug_all || debug_used_keywords.includes(form.formname)) {
 			output += form.toString();
@@ -211,12 +201,12 @@ function turnOn() {
 
 	output = Str.wrapLines(output);
 
-	const element = document.getElementById("debug-output");
+	const element = document.getElementById(DEBUG_OUTPUT);
 	if (!element) {
 		throw new Error("Debug.turnOn: The \"debug-output\" HTML element is missing.");
 	} else {
-		HTML.putElementValue("debug-output", output);
-		showField("debug-container");
+		HTML.putElementValue(DEBUG_OUTPUT, output);
+		showField(DEBUG_CONTAINER);
 	}
 }
 

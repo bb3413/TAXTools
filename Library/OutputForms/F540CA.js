@@ -8,6 +8,7 @@ import { TaxFormObj }			from "../Modules/TaxFormObj.js";
 import { TaxTable }				from "../Modules/TaxTable.js";
 import { Taxpayer }				from "../Classes/Taxpayer.js";
 import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
+import { F540CA_HTML }			from "../OutputForms/F540CA_HTML.js";
 
 export class F540CA extends TaxForm {
 	constructor(formname) {

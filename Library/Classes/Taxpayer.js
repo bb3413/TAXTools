@@ -7,11 +7,12 @@ import { Dates }		from "../Modules/Dates.js";
 import { Dependent }	from "../InputWorksheets/Dependent.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { HTML }			from "../Modules/HTML.js";
+import { HTMLMgr }		from "../Classes/HTMLMgr.js";
 import { Str }			from "../Modules/Str.js";
 import { Objects }		from "../Modules/Objects.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
-const ELEMENTS = {
+const FIELD_INFO = {
 	// Element ID			Value Type
 	"filing-status":		["text"],
 	"taxpayers-name":		["text"],
@@ -48,8 +49,8 @@ function initializeTaxpayer() {
 	const taxpayer = new Taxpayer();
 		
 	// Initialize the fields from the web page.
-	for (const field_name of Object.keys(ELEMENTS)) {
-		const value_type	= ELEMENTS[field_name][0];
+	for (const field_name of Object.keys(FIELD_INFO)) {
+		const value_type	= FIELD_INFO[field_name][0];
 		const key_name		= field_name.replace(/-/g, "_");
 		if (document.getElementById(field_name)) {
 			switch (key_name) {
@@ -79,17 +80,20 @@ export class Taxpayer {
 	//
 	// ---------------- Static Methods ----------------
 	//
-	static getInputFromWeb(raw = false) {
+	static getValues(raw = false) {
 		//
-		// Read the fields from the web and return an object with the values. Raw user input
-		// is only used to save and restore user input.
+		// Copy values from the web page.
+		//
+		// The return parameter is an object that contains the name-value pairs for all the
+		// fields copied from the web page.  Raw user input is only used to save and restore
+		// user input.
 		//
 		let inputs = {};
 
 		// Copy the fields from the web page.
-		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
+		for (const field_name of Object.keys(FIELD_INFO)) {
 			const key_name		= field_name.replace(/-/g, "_");
+			const value_type	= raw ? "raw" : FIELD_INFO[field_name][0];
 			if (document.getElementById(field_name)) {
 				inputs[key_name] = HTML.getUserInput(field_name, value_type);
 			}
@@ -113,11 +117,17 @@ export class Taxpayer {
 		return taxpayer;
 	}
 
-	static restoreUserInput(data) {
+	static putValues(data) {
+		//
+		// Copy values to the web page.
+		//
+		// The input parameter is an object that contains the name-value pairs for all the
+		// fields to copy to the web page.
+		//
 		Ensure.isObject(data);
 
 		// Clean all the fields.
-		for (const element_id of Object.keys(ELEMENTS)) {
+		for (const element_id of Object.keys(FIELD_INFO)) {
 			if (document.getElementById(element_id)) {
 				HTML.putElementValue(element_id, "");
 			}
@@ -136,7 +146,7 @@ export class Taxpayer {
 
 	static reset() {
 		// Clear the fields on the web page.
-		for (const element_id of Object.keys(ELEMENTS)) {
+		for (const element_id of Object.keys(FIELD_INFO)) {
 			if (document.getElementById(element_id)) {
 				HTML.putElementValue(element_id, "");
 			}
@@ -269,39 +279,43 @@ export class Taxpayer {
 		return false;
 	}
 
-	putTaxpayerInformation() {
+	fillIn1040() {
 		//
 		// Put the taxpayer information on the output form 1040.
 		//
-		HTML.putUserOutput("f1040-1-filing-status",
+		const hm	= HTMLMgr.getMgr();
+		const block = hm.getBlock("f1040");
+		const id	= block.getID();
+
+		HTML.putUserOutput(`${id}-filing-status`,
 			filingStatusToStr(this._filing_status), "text");
-		HTML.putUserOutput("f1040-1-taxpayers-name",
+		HTML.putUserOutput(`${id}-taxpayers-name`,
 			this._taxpayers_name, "text");
-		HTML.putUserOutput("f1040-1-street-address",
+		HTML.putUserOutput(`${id}-street-address`,
 			this._street_address, "text");
 		if (!Str.empty(this._city)) {
 			const state = this._state ? this._state : "CA";
-			HTML.putUserOutput("f1040-1-city-state-zip",
+			HTML.putUserOutput(`${id}-city-state-zip`,
 				`${this._city}, ${state} ${this._zip_code}`.trim(), "text");
 		} else {
-			HTML.putUserOutput("f1040-1-city-state-zip","", "text");
+			HTML.putUserOutput(`${id}-city-state-zip`,"", "text");
 		}
 
 		if (!Str.empty(this._taxpayers_birthday)) {
-			HTML.putUserOutput("f1040-1-taxpayers-birthday",
+			HTML.putUserOutput(`${id}-taxpayers-birthday`,
 				`${this._taxpayers_birthday} (Age ${this._taxpayers_age})`, "text");
 		} else {
-			HTML.putUserOutput("f1040-1-taxpayers-birthday", " ", "text");
+			HTML.putUserOutput(`${id}-taxpayers-birthday`, " ", "text");
 		}
 		if (!Str.empty(this._spouses_birthday)) {
-			HTML.putUserOutput("f1040-1-spouses-birthday",
+			HTML.putUserOutput(`${id}-spouses-birthday`,
 				`${this._spouses_birthday} (Age ${this._spouses_age})`, "text");
 		} else {
-			HTML.putUserOutput("f1040-1-spouses-birthday", " ", "text");
+			HTML.putUserOutput(`${id}-spouses-birthday`, " ", "text");
 		}
-		HTML.putUserOutput("f1040-1-taxpayer-is-blind",
+		HTML.putUserOutput(`${id}-taxpayer-is-blind`,
 			this._is_taxpayer_blind ? "X" : "", "text");
-		HTML.putUserOutput("f1040-1-spouse-is-blind",
+		HTML.putUserOutput(`${id}-spouse-is-blind`,
 			this._is_spouse_blind ? "X" : "", "text");
 	}
 

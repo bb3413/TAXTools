@@ -6,8 +6,6 @@ export const Objects = {
 	toString,
 };
 
-import { Ensure } from "../Modules/Ensure.js";
-
 function isEmpty(obj) {
 	return !Objects.isUsed(obj);
 }

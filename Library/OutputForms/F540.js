@@ -10,6 +10,7 @@ import { TaxInfo }				from "../Modules/TaxInfo.js";
 import { TaxTable }				from "../Modules/TaxTable.js";
 import { Taxpayer }				from "../Classes/Taxpayer.js";
 import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
+import { F540_HTML }			from "../OutputForms/F540_HTML.js";
 
 export class F540 extends TaxForm {
 	constructor(formname) {

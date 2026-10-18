@@ -4,6 +4,7 @@ import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { F1040S2_HTML }	from "../OutputForms/F1040S2_HTML.js";
 
 export class F1040S2 extends TaxForm {
 	constructor(formname) {

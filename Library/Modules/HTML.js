@@ -25,12 +25,14 @@ export const HTML = {
 	getCSSGlobalVariable,
 	remove,
 	setFocus,
+	scrollTo,
 };
 
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Num }			from "../Modules/Num.js";
 
+//-----  Details element  -------------------------------------------------------------------
 function closeDetails(element_id) {
 	const element = Ensure.isValidElementID(element_id);
 	element.open = false;
@@ -191,6 +193,11 @@ function addListener(element_id, event, handler) {
 	element.addEventListener(event, handler);
 }
 
+function removeListener(element_id, event, handler) {
+	const element = Ensure.isValidElementID(element_id);
+	element.removeEventListener(event, handler);
+}
+
 function isValidElementID(element_id, msg="") {
 	return document.getElementById(element_id);
 }
@@ -221,4 +228,9 @@ function remove(element_id) {
 function setFocus(element_id) {
 	const element = Ensure.isValidElementID(element_id);
 	element.focus();
+}
+
+function scrollTo(element_id) {
+	const element = Ensure.isValidElementID(element_id);
+	element.scrollIntoView({behavior: 'smooth', block: 'start'});
 }

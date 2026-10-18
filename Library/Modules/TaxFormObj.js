@@ -2,7 +2,6 @@
 //
 // This module manages tax forms that have been created as objects.
 //
-
 export const TaxFormObj = {
 	createForm,
 	getAllForms,
@@ -23,9 +22,8 @@ let instances = {};		// This variable is indexed by form name. For each form, it
 
 //----------  Local Functions ---------------------------------------------------------------
 function addForm(formname, form) {
-	if (!formname) {
-		throw new Error("TaxFormObj.addForm(): Form name is not set.");
-	}
+	Ensure.isNonEmptyString(formname);
+	Ensure.isObject(form);
 
 	let form_list = instances[formname];
 	if (!form_list) {
@@ -45,6 +43,8 @@ function addForm(formname, form) {
 
 //----------  Exported Functions ------------------------------------------------------------
 function createForm(formname) {
+	Ensure.isNonEmptyString(formname);
+
 	const form_class = Classes.getClass(formname);
 
 	if (form_class) {
@@ -57,8 +57,12 @@ function createForm(formname) {
 }
 
 function getAllForms(formname = "") {
+	//
 	// Get all the form objects that have been created, or all the forms of a
 	// particular type.
+	//
+	Ensure.isString(formname);
+
 	if (formname !== "") {
 		return (instances[formname] ? instances[formname] : []);
 	} else {
@@ -70,32 +74,39 @@ function getAllForms(formname = "") {
 	}
 }
 
-function getForm(formname, uid = 1) {
+function getForm(formname) {
 	//
-	// Get an instance of a form. If it has not been created, undefined will be returned.
+	// Get an instance of a form.
 	//
-	let form_list = instances[formname];
-	if (form_list) {
-		if (form_list.length < uid) {
-			throw new Error(`TaxFormObj.getForm(): Invalid UID for form ${formname}.`);
-		} else {
-			return form_list[uid-1];
-		}
+	Ensure.isNonEmptyString(formname);
+
+	const form_list = instances[formname];
+	if (!form_list) {
+		return undefined;
+	}
+	if (form_list.length !== 1) {
+		throw new Error(`Expected exactly one form.`);
 	}
 
-	return undefined;
+	return form_list[0];	// Return the form, not an array.
 }
 
 function getOrCreateForm(formname) {
+	Ensure.isNonEmptyString(formname);
+
 	return TaxFormObj.getForm(formname) || TaxFormObj.createForm(formname);
 }
 
 function getTextValue(formname, ...lineno) {
+	//
 	// This method will get a text value from a tax form. If the form does not exist,
 	// it will try to create it. If it has not been calculated, it will be calculated.
 	// If the form has not been implemented, "" will be returned. If there is more than
 	// one instance of the form, the lines from all the instances are concatenated
 	// together.
+	//
+	Ensure.isNonEmptyString(formname);
+
 	Debug.enter(`TaxFormObj.getTextValue(${formname}, ${lineno})`);
 	let str = "";
 	let form_list = instances[formname];
@@ -126,10 +137,14 @@ function getTextValue(formname, ...lineno) {
 }
 
 function getValue(formname, ...lineno) {
+	//
 	// This method will get a value from a tax form. If the form does not exist, it will
 	// try to create it. If it has not been calculated, it will be calculated. If the
 	// form has not been implemented, zero will be returned. If there is more than one
 	// instance of the form, the lines from all the instances are added together.
+	//
+	Ensure.isNonEmptyString(formname);
+
 	Debug.enter(`TaxFormObj.getValue(${formname}, ${lineno})`);
 	let sum = 0;
 	let form_list = instances[formname];

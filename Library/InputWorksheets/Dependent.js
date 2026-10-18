@@ -1,27 +1,15 @@
 
-import { Dates }		from "../Modules/Dates.js";
+// Classes
+import { HTMLBlock }	from "../Classes/HTMLBlock.js";
+import { HTMLMgr }		from "../Classes/HTMLMgr.js";
+
+// Modules
+import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
-import { Taxpayer }		from "../Classes/Taxpayer.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 
-const ELEMENTS = {
-	// Element ID			Value Type
-	"name":					["text"],
-	"birthday":				["text"],
-	"relationship":			["text"],
-	"months-lived-at-home":	[],
-	"gross-income":			[],
-	"fulltime-student":		[],
-	"mfj":					[],
-	"taxpayer-supported":	[],
-	"dependent-supported":	[],
-	"disabled":				[],
-	"has-ssn":				[],
-	"has-itin":				[],
-	"has-atin":				[],
-};
-
-const HTML_FORM = `
-		<details class="taxform-details" id="dependent-XX-container">
+const HTML_CODE = `
+		<details class="taxform-details" id="dependent-XX">
 			<summary class="taxform-summary">Dependent #-UID-</summary>
 			<div class="input-worksheet-container">
 				<div class="taxpayer-info-150-400">
@@ -111,38 +99,40 @@ const HTML_FORM = `
 		</details>
 `;
 
-export class Dependent {
-	constructor(inputs) {
-		this.age					= 0;
+const FIELD_INFO = {
+	// Field Name			Value Type	Is Line	Description
+	"name":					["text",	false,	""],
+	"birthday":				["text",	false,	""],
+	"relationship":			["text",	false,	""],
+	"months-lived-at-home":	["",		false,	""],
+	"gross-income":			["",		false,	""],
+	"fulltime-student":		["",		false,	""],
+	"mfj":					["",		false,	""],
+	"taxpayer-supported":	["",		false,	""],
+	"dependent-supported":	["",		false,	""],
+	"disabled":				["",		false,	""],
+	"has-ssn":				["",		false,	""],
+	"has-itin":				["",		false,	""],
+	"has-atin":				["",		false,	""],
+};
 
-		this.name					= inputs.name;
-		this.birthday				= inputs.birthday;
-		this.relationship			= inputs.relationship;
-		this.months_lived_at_home	= inputs.months_lived_at_home;
-		this.gross_income			= inputs.gross_income;
-		this.fulltime_student		= inputs.fulltime_student;
-		this.mfj					= inputs.mfj;
-		this.taxpayer_supported		= inputs.taxpayer_supported;
-		this.dependent_supported	= inputs.dependent_supported;
-		this.disabled				= inputs.disabled;
-		this.has_ssn				= inputs.has_ssn || inputs.has_atin;	// Not an ITIN
+export class Dependent extends HTMLBlock {
+	static getFieldInfo() {
+		return FIELD_INFO;
 	}
 
-	//
-	// ---------------- Getter Methods ----------------
-	//
-	get name() {			return this.name};
-	get birthday() {		return this.birthday};
-	get age() {				return this.age};
-	get is_blind() {		return this.is_blind};
-	get has_ssn() {			return this.has_ssn};
+	static getHTML(uid) {
+		return HTML_CODE.replace(/XX/g, uid)
+							.replace(/202X/g, TaxTable.getTaxYear());
+	}
 
-	//
-	// ---------------- Setter Methods ----------------
-	//
-	set name(name) {		this.name			= name }
-	set is_blind(bool) {	this.is_blind		= bool }
-	set has_ssn(bool) {		this.has_ssn		= bool }
+	constructor() {
+		super();
+		this.name		= "dependent";
+		this.uid		= HTMLMgr.getMgr().allocateUID(this.name);
+		this.html		= Dependent.getHTML(this.uid);
+		this.fields		= Dependent.getFieldInfo();
+	}
 
 	set birthday(birthday) {
 		if (birthday === null || birthday === undefined) { return; }
@@ -162,9 +152,9 @@ export class Dependent {
 	isQualifiedChild() {
 		const tp = Taxpayer.getTaxpayer();
 
-		// Relationship Test - The child must be the taxpayer's child, stepchild, foster child,
-		// adopted child, brother, sister, half-brother, half-sister, stepbrother, stepsister,
-		// or a descendant of any of them.
+		// Relationship Test - The child must be the taxpayer's child, stepchild, foster
+		// child, adopted child, brother, sister, half-brother, half-sister, stepbrother,
+		// stepsister, or a descendant of any of them.
 		switch (this.relationship) {
 			case "NONE":		return false;
 			case "OFFSPRING":	break;
@@ -216,8 +206,9 @@ export class Dependent {
 			return false;
 		}
 
-		// Joint Return Test - The child must not be filing a joint return for the year (unless
-		// it is filed only to get a refund of income tax withheld or estimated tax paid).
+		// Joint Return Test - The child must not be filing a joint return for the year
+		// (unless it is filed only to get a refund of income tax withheld or estimated tax
+		// paid).
 		if (this.mfj) {
 			return false;
 		}
@@ -230,8 +221,8 @@ export class Dependent {
 		const tp = Taxpayer.getTaxpayer();
 
 		// Qualifying Child Test - The relative cannot be the taxpayer's qualifying child or
-		// the qualifying child of any other taxpayer unless that taxpayer does not file a tax
-		// return.
+		// the qualifying child of any other taxpayer unless that taxpayer does not file a
+		// tax return.
 		if (this.isQualifyingChild()) {
 			return false;
 		}
@@ -242,10 +233,11 @@ export class Dependent {
 		//		o	Must be related to the taxpayer in one of the following ways:
 		//			o	The taxpayer's child, stepchild, foster child, or a descendant of any
 		//				of them,
-		//			o	The taxpayer's brother, sister, half-brother, half-sister, stepbrother,
+		//			o	The taxpayer's brother, sister, half-brother, half-sister,
+		//				stepbrother,
 		//				or stepsister,
-		//			o	The taxpayer's father, mother, grandparent, or other ancestor, but not
-		//				foster parent,
+		//			o	The taxpayer's father, mother, grandparent, or other ancestor, but
+		//				not foster parent,
 		//			o	The taxpayer's stepfather or stepmother,
 		//			o	A son or daughter of the taxpayer's brother or sister,
 		//			o	A son or daughter of the taxpayer's half-brother half-sister,
@@ -285,59 +277,5 @@ export class Dependent {
 		}
 
 		return true;
-	}
-
-	//
-	// ---------------- Static Methods ----------------
-	//
-	static getHTML(uid) {
-		if (!uid) {
-			throw new Error(`Dependent.getHTML(): UID is undefined.`);
-		}
-
-		const html = HTML_FORM.replace(/XX/g, uid)
-									.replace(/-UID-/g, uid);
-
-		return [ `dependent-${uid}-container`, html ];
-	}
-
-	static getInputFromWeb(uid, raw = false) {
-		//
-		// Read the fields of the worksheet from the web and return an object with the
-		// values. Raw user input is only used to save and restore user input.
-		//
-		if (!uid) {
-			throw new Error(`Dependent.getUserInput(): UID is undefined.`);
-		}
-
-		// Make sure the worksheet exists.
-		const element = document.getElementById(`dependent-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`Dependent.getUserInput(): Element not found: dependent-${uid}-container`);
-		}
-
-		let inputs = {};
-		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
-			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `dependent-${uid}-${field_name}`;
-			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
-		}
-
-		return inputs;
-	}
-
-	static putUserOutput(inputs, uid) {
-		//
-		// Copy the value of the fields from the inputs object to the web.
-		//
-		for (const key_name of Object.keys(inputs)) {
-			const element_name	= key_name.replace(/_/g, "-");
-			const element_id	= `dependent-${uid}-${element_name}`;
-			if (document.getElementById(element_id)) {
-				HTML.putUserOutput(element_id, inputs[key_name]);
-			}
-		}
 	}
 }

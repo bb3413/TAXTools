@@ -1,68 +1,77 @@
 
 //
-// This module ...
+// This module manages individual blocks of HTML that can be dynamilcally added
+// to the current web page (DOM).
 //
 import { TAXTOOL_CONTAINER } from "../TAXTools/TAXTools.js";
+import { Classes }		from "../Modules/Classes.js";
 import { Ensure }		from "../Modules/Ensure.js";
-
-const FIELDS = {
-	// Field Name	Value Type	Line	Description
-	"name":			["text",	true,	"Blah blah blah"],
-}
-
-const HTML_CODE = `
-`;
+import { HTML }			from "../Modules/HTML.js";
 
 export class HTMLBlock {
-	_change_handler(event) {
+	constructor() {
+		this.name		= "";
+		this.uid		= 0;
+		this.html		= undefined;
+		this.fields		= undefined;
 	}
 
-	constructor(name) {
-		this.name		= name;
-		this.uid		= HTMLMgr.getMgr().getUID(name);
+	clearValues() {
+		//
+		// Clear the fields on the web page.
+		//
+		for (const field_name of Object.keys(this.fields)) {
+			const element_id = `${this.name}-${this.uid}-${field_name}`;
+			HTML.putElementValue(element_id, "");
+		}
+	}
+
+	getFormname() {
+		return Classes.findClassName(this.name);
+	}
+
+	getID() {
+		//
+		// Get the element ID of the block.
+		//
+		return `${this.name}-${this.uid}`
 	}
 
 	getValues(raw = false) {
 		//
-		// Get the value of all the FIELDS defined in the FIELDS object.
+		// Copy values from the web page.
 		//
-		for (const field_name of Object.keys(FIELDS)) {
-			const value_type	= raw ? "raw" : FIELDS[field_name][0];
+		// The return parameter is an object that contains the name-value pairs for all the
+		// fields copied from the web page.
+		//
+		Ensure.isObject(this.fields);
+
+		const values = {};
+
+		for (const field_name of Object.keys(this.fields)) {
 			const key_name		= field_name.replace(/-/g, "_");
+			const value_type	= raw ? "raw" : this.fields[field_name][0];
 			const element_id	= `${this.name}-${this.uid}-${field_name}`;
-			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
+			values[key_name]	= HTML.getUserInput(element_id, value_type);
 		}
 
-		return inputs;
+		return values;
 	}
 
-	install() {
+	putValues(values) {
 		//
-		// Insert the HTML into the web page.
+		// Copy values to the web page.
 		//
-		HTML.addListener(TAXTOOL_CONTAINER, "change", _changeHandler);
-	}
+		// The input parameter is an object that contains the name-value pairs for all the
+		// fields to copy to the web page.
+		//
+		Ensure.isObject(values);
 
-	putValue(field_name, value) {
-		//
-		// Put the value into the field on the web page.
-		//
-	}
-
-	putValues(data) {
-		//
-		// Copy the value of all the FIELDS from the passed object to the fields on the
-		// web page.
-		//
-	}
-
-	uninstall() {
-		//
-		// Remove the blog from the web page.
-		//
-		HTML.removeListener(TAXTOOL_CONTAINER, "change", _changeHandler);
-	}
-
-	toString() {
+		for (const key_name of Object.keys(values)) {
+			const field_name	= key_name.replace(/_/g, "-");
+			const value_type	= this.fields[field_name][0];
+			const element_id	= `${this.name}-${this.uid}-${field_name}`;
+			HTML.putUserOutput(element_id, values[key_name], value_type);
+		}
 	}
 }

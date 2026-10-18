@@ -1,20 +1,15 @@
 
+// Classes
+import { HTMLBlock }	from "../Classes/HTMLBlock.js";
+import { HTMLMgr }		from "../Classes/HTMLMgr.js";
+
+// Modules
+import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
-import { HTML }			from "../Modules/HTML.js";
-import { Objects }		from "../Modules/Objects.js";
-import { Str }			from "../Modules/Str.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 
-const ELEMENTS = {
-	// Element ID			Value Type
-	"long-term":			[],
-	"name":					["text"],
-	"proceeds":				[],
-	"basis":				[],
-	"wash-sale":			[],
-};
-
-const HTML_FORM = `
-						<div class="assetsales-container" id="assetitem-XX-container">
+const HTML_CODE = `
+						<div class="assetsales-container" id="assetitem-XX">
 							<input class="trigger input-field" type="checkbox"
 								id="assetitem-XX-long-term" size="10"
 								tooltipid="#assetitem-long-term-tt" />
@@ -33,54 +28,30 @@ const HTML_FORM = `
 						</div>
 `;
 
-export class Assetitem {
+const FIELD_INFO = {
+	// Field Name		Value Type	Is Line	Description
+	"long-term":		["",		false,	""],
+	"name":				["text",	false,	""],
+	"proceeds":			["",		false,	""],
+	"basis":			["",		false,	""],
+	"wash-sale":		["",		false,	""],
+};
+
+export class Assetitem extends HTMLBlock {
+	static getFieldInfo() {
+		return FIELD_INFO;
+	}
+
 	static getHTML(uid) {
-		if (!uid) {
-			throw new Error(`Assetitem.getHTML(): UID is undefined.`);
-		}
-
-		const html = HTML_FORM.replace(/XX/g, uid);
-
-		return [ `assetitem-${uid}-container`, html ];
+		return HTML_CODE.replace(/XX/g, uid)
+							.replace(/202X/g, TaxTable.getTaxYear());
 	}
 
-	static getInputFromWeb(uid, raw = false) {
-		//
-		// Read the fields of the worksheet from the web and return an object with the
-		// values. Raw user input is only used to save and restore user input.
-		//
-		if (!uid) {
-			throw new Error(`Assetitem.getUserInput(): UID is undefined.`);
-		}
-
-		// Make sure the worksheet exists.
-		const element = document.getElementById(`assetitem-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`Assetitem.getUserInput(): Element not found: assetitem-${uid}-container`);
-		}
-
-		let inputs = {};
-		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
-			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `assetitem-${uid}-${field_name}`;
-			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
-		}
-
-		return inputs;
-	}
-
-	static putUserOutput(inputs, uid) {
-		//
-		// Copy the value of the fields from the inputs object to the web.
-		//
-		for (const key_name of Object.keys(inputs)) {
-			const element_name	= key_name.replace(/_/g, "-");
-			const element_id	= `assetitem-${uid}-${element_name}`;
-			if (document.getElementById(element_id)) {
-				HTML.putUserOutput(element_id, inputs[key_name]);
-			}
-		}
+	constructor() {
+		super();
+		this.name		= "assetitem";
+		this.uid		= HTMLMgr.getMgr().allocateUID(this.name);
+		this.html		= Assetitem.getHTML(this.uid);
+		this.fields		= Assetitem.getFieldInfo();
 	}
 }

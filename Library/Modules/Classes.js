@@ -2,26 +2,13 @@
 //
 // This module provides utilities to manage the names of classes.
 //
-export const Classes = {
-	createOnDemand,
-	findClassName,
-	getClass,
-	getHTML,
-	getInputFromWeb,
-	isSingleton,
-	isInputForm,
-	isOutputForm,
-	listAllForms,
-	loadInputFromWeb,
-};
-
 import { SINGLE, HOH, MFJ, QSS, MFS } from "../TAXTools/TAXTools.js";
 
 import { Ensure }		from "../Modules/Ensure.js";
 
 // Input Tax Forms
-import { F1098E }		from "../InputForms/F1098E.js";		// Student loan interest
-import { F1098VLI }		from "../InputForms/F1098VLI.js";	// Vehicle loan interest
+import { F1098E }		from "../InputForms/F1098E.js";
+import { F1098VLI }		from "../InputForms/F1098VLI.js";
 import { F1099C }		from "../InputForms/F1099C.js";
 import { F1099DIV }		from "../InputForms/F1099DIV.js";
 import { F1099G }		from "../InputForms/F1099G.js";
@@ -54,76 +41,197 @@ import { F8880 }		from "../OutputForms/F8880.js";		// Retirement Credit
 // Worksheets
 import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
 import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
-import { IncTax }		from "../Worksheets/IncTax.js";
-import { IRADeduction }	from "../Worksheets/IRADeduction.js";
-import { Refund }		from "../Worksheets/Refund.js";
-import { SalesTax }		from "../Worksheets/SalesTax.js";
-import { SSTax }		from "../Worksheets/SSTax.js";
-import { StudentLoan }	from "../Worksheets/StudentLoan.js";
+import { IncTax }			from "../Worksheets/IncTax.js";
+import { IRADeduction }		from "../Worksheets/IRADeduction.js";
+import { Refund }			from "../Worksheets/Refund.js";
+import { SalesTax }			from "../Worksheets/SalesTax.js";
+import { Simple }			from "../Worksheets/Simple.js";
+import { SSTax }			from "../Worksheets/SSTax.js";
+import { StudentLoan }		from "../Worksheets/StudentLoan.js";
 
 // Input Worksheets
-import { Assetitem }	from "../InputWorksheets/Assetitem.js";
-import { Business }		from "../InputWorksheets/Business.js";
-import { Dependent }	from "../InputWorksheets/Dependent.js";
+import { Assetitem }		from "../InputWorksheets/Assetitem.js";
+import { Business }			from "../InputWorksheets/Business.js";
+import { Dependent }		from "../InputWorksheets/Dependent.js";
+import { Expenses }			from "../InputWorksheets/Expenses.js";
+import { Income }			from "../InputWorksheets/Income.js";
 
+// Web Pages
+import { F1098E_HTML }		from "../InputForms/F1098E_HTML.js";
+import { F1098VLI_HTML }	from "../InputForms/F1098VLI_HTML.js";
+import { F1099C_HTML }		from "../InputForms/F1099C_HTML.js";
+import { F1099DIV_HTML }	from "../InputForms/F1099DIV_HTML.js";
+import { F1099G_HTML }		from "../InputForms/F1099G_HTML.js";
+import { F1099INT_HTML }	from "../InputForms/F1099INT_HTML.js";
+import { F1099K_HTML }		from "../InputForms/F1099K_HTML.js";
+import { F1099MISC_HTML }	from "../InputForms/F1099MISC_HTML.js";
+import { F1099NEC_HTML }	from "../InputForms/F1099NEC_HTML.js";
+import { F1099OID_HTML }	from "../InputForms/F1099OID_HTML.js";
+import { F1099R_HTML }		from "../InputForms/F1099R_HTML.js";
+import { F1099S_HTML }		from "../InputForms/F1099S_HTML.js";
+import { SSA1099_HTML }		from "../InputForms/SSA1099_HTML.js";
+import { W2_HTML }			from "../InputForms/W2_HTML.js";
+
+import { F1040_HTML }		from "../OutputForms/F1040_HTML.js";
+import { F1040S1_HTML }		from "../OutputForms/F1040S1_HTML.js";
+import { F1040S1A_HTML }	from "../OutputForms/F1040S1A_HTML.js";
+import { F1040S2_HTML }		from "../OutputForms/F1040S2_HTML.js";
+import { F1040S3_HTML }		from "../OutputForms/F1040S3_HTML.js";
+import { F1040SA_HTML }		from "../OutputForms/F1040SA_HTML.js";
+import { F1040SC_HTML }		from "../OutputForms/F1040SC_HTML.js";
+import { F1040SD_HTML }		from "../OutputForms/F1040SD_HTML.js";
+import { F1040SSE_HTML }	from "../OutputForms/F1040SSE_HTML.js";
+import { F540_HTML }		from "../OutputForms/F540_HTML.js";
+import { F540CA_HTML }		from "../OutputForms/F540CA_HTML.js";
+import { F6251_HTML }		from "../OutputForms/F6251_HTML.js";
+import { F7206_HTML }		from "../OutputForms/F7206_HTML.js";
+import { F8880_HTML }		from "../OutputForms/F8880_HTML.js";
+
+export const Classes = {
+	createOnDemand,
+	findClassName,
+	getClass,
+	isSingleton,
+	isInputForm,
+	isOutputForm,
+	listAllForms,
+};
 
 // Column Numbers
-const CLASS			= 0;
-const INPUT			= 1;
+const INPUT			= 0;
+const WORKSHEET		= 1;
 const SINGLETON		= 2;
 const ON_DEMAND		= 3;
 
+const form_info = {
+	// Input Tax Forms									Create on
+	// Name					Input	Worksheet	Single	Demand
+	"F1098E":				[ true,		false,	false,	false	],
+	"F1098VLI":				[ true,		false,	false,	false	],
+	"F1099C":				[ true,		false,	false,	false	],
+	"F1099DIV":				[ true,		false,	false,	false	],
+	"F1099G":				[ true,		false,	false,	false	],
+	"F1099INT":				[ true,		false,	false,	false	],
+	"F1099K":				[ true,		false,	false,	false	],
+	"F1099MISC":			[ true,		false,	false,	false	],
+	"F1099NEC":				[ true,		false,	false,	false	],
+	"F1099OID":				[ true,		false,	false,	false	],
+	"F1099R":				[ true,		false,	false,	false	],
+	"F1099S":				[ true,		false,	false,	false	],
+	"SSA1099":				[ true,		false,	false,	false	],
+	"W2":					[ true,		false,	false,	false	],
+
+	// Output Tax Forms									Create on
+	// Name					Input	Worksheet	Single	Demand
+	"F1040":				[ false,	false,	true,	true	],
+	"F1040S1":				[ false,	false,	true,	true	],
+	"F1040S1A":				[ false,	false,	true,	true	],
+	"F1040S2":				[ false,	false,	true,	true	],
+	"F1040S3":				[ false,	false,	true,	true	],
+	"F1040SA":				[ false,	false,	true,	true	],
+	"F1040SC":				[ false,	false,	false,	false	],
+	"F1040SD":				[ false,	false,	true,	false	],
+	"F1040SSE":				[ false,	false,	false,	true	],
+	"F540":					[ false,	false,	true,	true	],
+	"F540CA":				[ false,	false,	true,	true	],
+	"F6251":				[ false,	false,	true,	false	],
+	"F7206":				[ false,	false,	true,	false	],
+	"F8880":				[ false,	false,	true,	true	],
+
+    // Worksheets										Create on
+    // Name                 Input   Worksheet	Single  Demand
+    "CA_HiIncDeductions":   [ false,	true,	true,   true    ],
+    "CA_HiIncExemptions":   [ false,	true,	true,   true    ],
+    "IncTax":               [ false,	true,	true,   true    ],
+    "IRADeduction":         [ false,	true,	true,   true    ],
+    "Refund":               [ false,	true,	true,   true    ],
+    "SalesTax":             [ false,	true,	true,   true    ],
+    "Simple":               [ false,	true,	false,  true    ],
+    "SSTax":                [ false,	true,	true,   true    ],
+    "StudentLoan":          [ false,	true,	true,   true    ],
+};
+
 const class_map = {
-	// Input Tax Forms										Create on
-	// Name					Class			Input	Single	Demand
-	"F1098E":				[ F1098E,		true,	false,	false	],
-	"F1098VLI":				[ F1098VLI,		true,	false,	false	],
-	"F1099C":				[ F1099C,		true,	false,	false	],
-	"F1099DIV":				[ F1099DIV,		true,	false,	false	],
-	"F1099G":				[ F1099G,		true,	false,	false	],
-	"F1099INT":				[ F1099INT,		true,	false,	false	],
-	"F1099K":				[ F1099K,		true,	false,	false	],
-	"F1099MISC":			[ F1099MISC,	true,	false,	false	],
-	"F1099NEC":				[ F1099NEC,		true,	false,	false	],
-	"F1099OID":				[ F1099OID,		true,	false,	false	],
-	"F1099R":				[ F1099R,		true,	false,	false	],
-	"F1099S":				[ F1099S,		true,	false,	false	],
-	"SSA1099":				[ SSA1099,		true,	false,	false	],
-	"W2":					[ W2,			true,	false,	false	],
+	// Input forms
+	"F1098E":				F1098E,
+	"F1098VLI":				F1098VLI,
+	"F1099C":				F1099C,
+	"F1099DIV":				F1099DIV,
+	"F1099G":				F1099G,
+	"F1099INT":				F1099INT,
+	"F1099K":				F1099K,
+	"F1099MISC":			F1099MISC,
+	"F1099NEC":				F1099NEC,
+	"F1099OID":				F1099OID,
+	"F1099R":				F1099R,
+	"F1099S":				F1099S,
+	"SSA1099":				SSA1099,
+	"W2":					W2,
 
-	// Output Tax Forms										Create on
-	// Name					Class			Input	Single	Demand
-	"F1040":				[ F1040,		false,	true,	true	],
-	"F1040S1":				[ F1040S1,		false,	true,	true	],
-	"F1040S1A":				[ F1040S1A,		false,	true,	true	],
-	"F1040S2":				[ F1040S2,		false,	true,	true	],
-	"F1040S3":				[ F1040S3,		false,	true,	true	],
-	"F1040SA":				[ F1040SA,		false,	true,	true	],
-	"F1040SC":				[ F1040SC,		false,	false,	false	],
-	"F1040SD":				[ F1040SD,		false,	true,	false	],
-	"F1040SSE":				[ F1040SSE,		false,	false,	true	],
-	"F540":					[ F540,			false,	true,	true	],
-	"F540CA":				[ F540CA,		false,	true,	true	],
-	"F6251":				[ F6251,		false,	true,	false	],
-	"F7206":				[ F7206,		false,	true,	false	],
-	"F8880":				[ F8880,		false,	true,	true	],
+	// Output Tax Forms
+	"F1040":				F1040,
+	"F1040S1":				F1040S1,
+	"F1040S1A":				F1040S1A,
+	"F1040S2":				F1040S2,
+	"F1040S3":				F1040S3,
+	"F1040SA":				F1040SA,
+	"F1040SC":				F1040SC,
+	"F1040SD":				F1040SD,
+	"F1040SSE":				F1040SSE,
+	"F540":					F540,
+	"F540CA":				F540CA,
+	"F6251":				F6251,
+	"F7206":				F7206,
+	"F8880":				F8880,
 
-	// Worksheets													Create on
-	// Name					Class					Input	Single	Demand
-	"CA_HiIncDeductions":	[ CA_HiIncDeductions,	false,	true,	true	],
-	"CA_HiIncExemptions":	[ CA_HiIncExemptions,	false,	true,	true	],
-	"IncTax":				[ IncTax,				false,	true,	true	],
-	"IRADeduction":			[ IRADeduction,			false,	true,	true	],
-	"Refund":				[ Refund,				false,	true,	true	],
-	"SalesTax":				[ SalesTax,				false,	true,	true	],
-	"Simple":				[ SalesTax,				false,	false,	true	],
-	"SSTax":				[ SSTax,				false,	true,	true	],
-	"StudentLoan":			[ StudentLoan,			false,	true,	true	],
+	// Worksheets
+	"CA_HiIncDeductions":	CA_HiIncDeductions,
+	"CA_HiIncExemptions":	CA_HiIncExemptions,
+	"IncTax":				IncTax,
+	"IRADeduction":			IRADeduction,
+	"Refund":				Refund,
+	"SalesTax":				SalesTax,
+	"Simple":				Simple,
+	"SSTax":				SSTax,
+	"StudentLoan":			StudentLoan,
 
 	// Input Worksheets
-	"Assetitem":			[ Assetitem,			true,	false,	false	],
-	"Business":				[ Business,				true,	false,	false	],
-	"Dependent":			[ Dependent,			true,	false,	false	],
+	"Assetitem":			Assetitem,
+	"Business":				Business,
+	"Dependent":			Dependent,
+	"Expenses":				Expenses,
+	"Income":				Income,
+
+	// Web Pages
+	"F1098E_HTML":			F1098E_HTML,
+	"F1098VLI_HTML":		F1098VLI_HTML,
+	"F1099C_HTML":			F1099C_HTML,
+	"F1099DIV_HTML":		F1099DIV_HTML,
+	"F1099G_HTML":			F1099G_HTML,
+	"F1099INT_HTML":		F1099INT_HTML,
+	"F1099K_HTML":			F1099K_HTML,
+	"F1099MISC_HTML":		F1099MISC_HTML,
+	"F1099NEC_HTML":		F1099NEC_HTML,
+	"F1099OID_HTML":		F1099OID_HTML,
+	"F1099R_HTML":			F1099R_HTML,
+	"F1099S_HTML":			F1099S_HTML,
+	"SSA1099_HTML":			SSA1099_HTML,
+	"W2_HTML":				W2_HTML,
+
+	"F1040_HTML":			F1040_HTML,
+	"F1040S1_HTML":			F1040S1_HTML,
+	"F1040S1A_HTML":		F1040S1A_HTML,
+	"F1040S2_HTML":			F1040S2_HTML,
+	"F1040S3_HTML":			F1040S3_HTML,
+	"F1040SA_HTML":			F1040SA_HTML,
+	"F1040SC_HTML":			F1040SC_HTML,
+	"F1040SD_HTML":			F1040SD_HTML,
+	"F1040SSE_HTML":		F1040SSE_HTML,
+	"F540_HTML":			F540_HTML,
+	"F540CA_HTML":			F540CA_HTML,
+	"F6251_HTML":			F6251_HTML,
+	"F7206_HTML":			F7206_HTML,
+	"F8880_HTML":			F8880_HTML,
 };
 
 function createOnDemand(formname) {
@@ -133,22 +241,18 @@ function createOnDemand(formname) {
 	// those forms.
 	Ensure.isNonEmptyString(formname);
 
-	if (class_map[formname]) {
-		return class_map[formname][ON_DEMAND];
+	if (form_info[formname]) {
+		return form_info[formname][ON_DEMAND];
 	} else {
 		return false;
 	}
 }
 
 function getClass(classname) {
-	// Get class reference from class name.
+	// Get class reference from the class name.
 	Ensure.isNonEmptyString(classname);
 
-	if (class_map[classname]) {
-		return class_map[classname][CLASS];
-	} else {
-		return undefined;
-	}
+	return class_map[classname];
 }
 
 function findClassName(name) {
@@ -162,70 +266,14 @@ function findClassName(name) {
 		}
 	}
 
-	throw new Error(`Classes.findClassName(): ${name} not found.`);
-}
-
-function getHTML(classname, ...rest) {
-	Ensure.isNonEmptyString(classname);
-
-	// This method allows you to call the static method getHTML() by classname.
-	switch (classname) {
-		case "F1098E":		return F1098E.getHTML(...rest);
-		case "F1098VLI":	return F1098VLI.getHTML(...rest);
-		case "F1099C":		return F1099C.getHTML(...rest);
-		case "F1099DIV":	return F1099DIV.getHTML(...rest);
-		case "F1099G":		return F1099G.getHTML(...rest);
-		case "F1099INT":	return F1099INT.getHTML(...rest);
-		case "F1099K":		return F1099K.getHTML(...rest);
-		case "F1099MISC":	return F1099MISC.getHTML(...rest);
-		case "F1099NEC":	return F1099NEC.getHTML(...rest);
-		case "F1099OID":	return F1099OID.getHTML(...rest);
-		case "F1099R":		return F1099R.getHTML(...rest);
-		case "F1099S":		return F1099S.getHTML(...rest);
-		case "SSA1099":		return SSA1099.getHTML(...rest);
-		case "W2":			return W2.getHTML(...rest);
-
-		case "Assetitem":	return Assetitem.getHTML(...rest);
-		case "Business":	return Business.getHTML(...rest);
-		case "Dependent":	return Dependent.getHTML(...rest);
-		default:
-			throw new Error(`Classes.getHTML(): unimplemented form: ${classname}`);
-	}
-}
-
-function getInputFromWeb(classname, ...rest) {
-	Ensure.isNonEmptyString(classname);
-
-	// This method allows you to call the static method getInputFromWeb() by classname.
-	switch (classname) {
-		case "F1098E":		return F1098E.getInputFromWeb(...rest);
-		case "F1098VLI":	return F1098VLI.getInputFromWeb(...rest);
-		case "F1099C":		return F1099C.getInputFromWeb(...rest);
-		case "F1099DIV":	return F1099DIV.getInputFromWeb(...rest);
-		case "F1099G":		return F1099G.getInputFromWeb(...rest);
-		case "F1099INT":	return F1099INT.getInputFromWeb(...rest);
-		case "F1099K":		return F1099K.getInputFromWeb(...rest);
-		case "F1099MISC":	return F1099MISC.getInputFromWeb(...rest);
-		case "F1099NEC":	return F1099NEC.getInputFromWeb(...rest);
-		case "F1099OID":	return F1099OID.getInputFromWeb(...rest);
-		case "F1099R":		return F1099R.getInputFromWeb(...rest);
-		case "F1099S":		return F1099S.getInputFromWeb(...rest);
-		case "SSA1099":		return SSA1099.getInputFromWeb(...rest);
-		case "W2":			return W2.getInputFromWeb(...rest);
-
-		case "Assetitem":	return Assetitem.getInputFromWeb(...rest);
-		case "Business":	return Business.getInputFromWeb(...rest);
-		case "Dependent":	return Dependent.getInputFromWeb(...rest);
-		default:
-			throw new Error(`Classes.getInputFromWeb(): unimplemented form: ${classname}`);
-	}
+	throw new Error(`${name} not found.`);
 }
 
 function isSingleton(classname) {
 	Ensure.isNonEmptyString(classname);
 	
-	if (class_map[classname]) {
-		return class_map[classname][SINGLETON];
+	if (form_info[classname]) {
+		return form_info[classname][SINGLETON];
 	} else {
 		return true;
 	}
@@ -234,44 +282,25 @@ function isSingleton(classname) {
 function isInputForm(formname) {
 	Ensure.isNonEmptyString(formname);
 
-	if (class_map[formname]) {
-		return class_map[formname][INPUT];
+	if (form_info[formname]) {
+		return form_info[formname][INPUT];
 	} else {
 		return false;
 	}
 }
 
 function isOutputForm(formname) {
-	return !isInputForm(formname);
+	Ensure.isNonEmptyString(formname);
+
+	if (form_info[formname]) {
+		return ((!form_info[formname][INPUT]) && (!form_info[formname][WORKSHEET]));
+	} else {
+		return false;
+	}
 }
 
 function listAllForms() {
 	// Return array with the names of the supported tax forms and worksheets.
 	// The debug module uses this as a list of keywords.
-	return Object.keys(class_map);
-}
-
-function loadInputFromWeb(classname, ...rest) {
-	Ensure.isNonEmptyString(classname);
-
-	// This method allows you to call the static method loadInputFromWeb() by classname.
-	switch (classname) {
-		case "F1098E":		return F1098E.loadInputFromWeb(...rest);
-		case "F1098VLI":	return F1098VLI.loadInputFromWeb(...rest);
-		case "F1099C":		return F1099C.loadInputFromWeb(...rest);
-		case "F1099DIV":	return F1099DIV.loadInputFromWeb(...rest);
-		case "F1099G":		return F1099G.loadInputFromWeb(...rest);
-		case "F1099INT":	return F1099INT.loadInputFromWeb(...rest);
-		case "F1099K":		return F1099K.loadInputFromWeb(...rest);
-		case "F1099MISC":	return F1099MISC.loadInputFromWeb(...rest);
-		case "F1099NEC":	return F1099NEC.loadInputFromWeb(...rest);
-		case "F1099OID":	return F1099OID.loadInputFromWeb(...rest);
-		case "F1099R":		return F1099R.loadInputFromWeb(...rest);
-		case "F1099S":		return F1099S.loadInputFromWeb(...rest);
-		case "SSA1099":		return SSA1099.loadInputFromWeb(...rest);
-		case "W2":			return W2.loadInputFromWeb(...rest);
-		default:
-			throw new Error(
-				`Classes.loadInputFromWeb(): unimplemented form: ${classname}`);
-	}
+	return Object.keys(form_info);
 }

@@ -1,34 +1,35 @@
 
+import { HTMLMgr }		from "../Library/Classes/HTMLMgr.js";
 import { Classes }		from "../Library/Modules/Classes.js";
-import { Container }	from "../Library/Classes/Container.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
 import { HTML }			from "../Library/Modules/HTML.js";
-import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 
-let worksheet_container;
-let input_taxforms_container;
-let output_taxforms_container;
-let asset_sales_container;
+const INPUT_TAXFORMS_CONTAINER			= "input-taxforms-container";
+const OUTPUT_TAXFORMS_CONTAINER			= "output-taxforms-container";
 
 function addInputForm(formname) {
-	let uid = Container.getUID(formname);
-	let [ taxform_id, html ] = Classes.getHTML(formname, uid);
-	input_taxforms_container.addEntry(taxform_id, html);
+	const hm = HTMLMgr.getMgr();
+
+	try {
+		hm.createAndAddBlock(formname + "_HTML", INPUT_TAXFORMS_CONTAINER, "beforeend");
+	} catch {
+		throw new Error(`Error loading input form: ${formname}`);
+	}
 }
 
 function addOutputForm(formname) {
-	let form = TaxFormObj.createForm(formname);
-	let uid = Container.getUID(form.formname);
-	let [ taxform_id, html ] = form.getHTML(uid);
-	output_taxforms_container.addEntry(taxform_id, html);
-	form.putInformation(uid);
+	const hm = HTMLMgr.getMgr();
+
+	try {
+		const html_block = hm.createBlock(formname + "_HTML");
+		hm.addBlock(html_block, OUTPUT_TAXFORMS_CONTAINER, "beforeend");
+	} catch {
+		throw new Error(`Error loading output form: ${formname}`);
+	}
 }
 
 function showHandler(event) {
 	try {
-		input_taxforms_container	= new Container("input-taxforms-container");
-		output_taxforms_container	= new Container("output-taxforms-container");
-
 		for (const formname of Classes.listAllForms()) {
 			// console.log(`Showing ${formname}`);
 			if (Classes.isInputForm(formname)) {

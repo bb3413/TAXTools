@@ -20,8 +20,6 @@
 export const IncludeFile = { loadIncludes };
 export { loadIncludes };
 
-import { Ensure } from "../Modules/Ensure.js";
-
 async function loadIncludes(container = document, depth = 0) {
 	const MAX_DEPTH = 5; // Prevent accidental recursion
 	if (depth > MAX_DEPTH) {

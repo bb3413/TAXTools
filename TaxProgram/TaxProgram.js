@@ -5,58 +5,56 @@ import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
 
 // Classes
-import { Container }	from "../Library/Classes/Container.js";
-import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
-// Modules
-import { Classes }		from "../Library/Modules/Classes.js";
-import { Dates }		from "../Library/Modules/Dates.js";
-import { Debug }		from "../Library/Modules/Debug.js";
-import { Ensure }		from "../Library/Modules/Ensure.js";
-import { HTML }			from "../Library/Modules/HTML.js";
-import { Objects }		from "../Library/Modules/Objects.js";
-import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
-import { TaxInfo }		from "../Library/Modules/TaxInfo.js";
-import { TaxTable }		from "../Library/Modules/TaxTable.js";
-// Tax Forms and Input Worksheets
-import { F1040 }		from "../Library/OutputForms/F1040.js";
-import { Assetitem }	from "../Library/InputWorksheets/Assetitem.js";
-import { Business }		from "../Library/InputWorksheets/Business.js";
-import { Dependent }	from "../Library/InputWorksheets/Dependent.js";
-import { Expenses }		from "../Library/InputWorksheets/Expenses.js";
-import { Income }		from "../Library/InputWorksheets/Income.js";
+import { HTMLMgr }						from "../Library/Classes/HTMLMgr.js";
+import { Taxpayer }						from "../Library/Classes/Taxpayer.js";
 
-import { saveUserDataHandler }		from "./SaveRestore.js";
-import { restoreUserDataHandler }	from "./SaveRestore.js";
+// Modules
+import { Classes }						from "../Library/Modules/Classes.js";
+import { Dates }						from "../Library/Modules/Dates.js";
+import { Debug }						from "../Library/Modules/Debug.js";
+import { Ensure }						from "../Library/Modules/Ensure.js";
+import { HTML }							from "../Library/Modules/HTML.js";
+import { Objects }						from "../Library/Modules/Objects.js";
+import { Str }							from "../Library/Modules/Str.js";
+import { TaxFormObj }					from "../Library/Modules/TaxFormObj.js";
+import { TaxInfo }						from "../Library/Modules/TaxInfo.js";
+import { TaxTable }						from "../Library/Modules/TaxTable.js";
+
+// Tax Forms and Input Worksheet
+import { Assetitem }					from "../Library/InputWorksheets/Assetitem.js";
+import { Business }						from "../Library/InputWorksheets/Business.js";
+import { Dependent }					from "../Library/InputWorksheets/Dependent.js";
+import { Expenses }						from "../Library/InputWorksheets/Expenses.js";
+import { Income }						from "../Library/InputWorksheets/Income.js";
 
 export {
-	// Global variables
-	dependents_container,
-	assetsale_items_container,
-	input_taxforms_container,
-	output_taxforms_container,
-
-	// Functions
-	addInputFormToWeb,
+	addInputForm,
 	changeHandler,
 	processError,
 	resetAll,
 };
 
+// HTML containers for dynamic content.
+export const DEPENDENTS_CONTAINER		= "dependents-container";
+export const EXPENSES_CONTAINER			= "expenses-container";
+export const INCOME_CONTAINER			= "income-container";
+export const ASSETSALES_CONTAINER		= "assetsales-container";
+export const INPUT_TAXFORMS_CONTAINER	= "input-taxforms-container";
+export const OUTPUT_TAXFORMS_CONTAINER	= "output-taxforms-container";
+export const ERROR_MESSAGE_OUTPUT		= "error-message-output";
+export const DEBUG_CONTAINER			= "debug-container";
+export const DEBUG_OUTPUT				= "debug-output";
+
 let sales_tax = 0;		// Global variable because it is initialized asynchronously.
 
-let dependents_container;
-let assetsale_items_container;
-let input_taxforms_container;
-let output_taxforms_container;
-
-function addAssetItemHandler(event) {
+function addAssetSaleHandler(event) {
 	//
 	// This function is called when the user clicks on the "Add Entry" button to add an
 	// Asset/Stock Sale entry to the web page.
 	//
-	const uid = Container.getUID("assetitem");
-	const [ html_id, html ] = Assetitem.getHTML(uid);
-	assetsale_items_container.addEntry(html_id, html);
+	const hm = HTMLMgr.getMgr();
+
+	hm.createAndAddBlock("Assetitem", ASSETSALES_CONTAINER, "beforeend");
 }
 
 function addDependentHandler(event) {
@@ -64,75 +62,88 @@ function addDependentHandler(event) {
 	// This function is called when the user clicks on the "Add Dependent" button to add the
 	// fields for a new dependent to the web page.
 	//
-	const uid = Container.getUID("dependent");
-	const [ html_id, html ] = Dependent.getHTML(uid);
-	dependents_container.addEntry(html_id, html);
+	const hm = HTMLMgr.getMgr();
+
+	const block = hm.createAndAddBlock("Dependent", DEPENDENTS_CONTAINER, "beforeend");
 
 	// Open the dependent area and scroll the window to it.
-	HTML.openDetails(html_id);
-	document.getElementById(html_id).scrollIntoView({behavior: 'smooth', block: 'start'});
-	HTML.setFocus(`dependent-${uid}-name`);
+	HTML.openDetails(block.getID());
+	HTML.scrollTo(block.getID());
+	HTML.setFocus(`${block.name}-${block.uid}-name`);
 }
 
-function addFormHandler(event) {
+function addInputFormHandler(event) {
 	//
 	// This function is called when the user clicks on the "Add Form" button to add a new
 	// input tax form to the web page.
 	//
 	const formname = HTML.getElementValue("add-form-button");	// Get selected form name.
 	HTML.putElementValue("add-form-button", "None");			// Reset to "Add Form".
-
-	if (formname === "") {
-			return;
-	}
-
-	let taxform_id = addInputFormToWeb(formname);
-
-	// Open the form and scroll the window to it.
-	HTML.openDetails(taxform_id);
-	document.getElementById(taxform_id).scrollIntoView({behavior: 'smooth', block: 'start'});
-	
-	const [ name, uid ] = Container.parseElementID(taxform_id);
-	switch (formname) {
-		case "W2":			HTML.setFocus(`${name}-${uid}-01`);		break;
-		case "SSA1099":		HTML.setFocus(`${name}-${uid}-05`);		break;
-		case "F1099C":		HTML.setFocus(`${name}-${uid}-02`);		break;
-		case "F1099DIV":	HTML.setFocus(`${name}-${uid}-01a`);	break;
-		case "F1099G":		HTML.setFocus(`${name}-${uid}-01`);		break;
-		case "F1099INT":	HTML.setFocus(`${name}-${uid}-01`);		break;
-		case "F1099K":		HTML.setFocus(`${name}-${uid}-01a`);	break;
-		case "F1099MISC":	HTML.setFocus(`${name}-${uid}-01`);		break;
-		case "F1099NEC":	HTML.setFocus(`${name}-${uid}-01a`);	break;
-		case "F1099OID":	HTML.setFocus(`${name}-${uid}-01`);		break;
-		case "F1099R":		HTML.setFocus(`${name}-${uid}-01`);		break;
-		case "F1099S":		HTML.setFocus(`${name}-${uid}-02a`);	break;
-		case "F1098E":		HTML.setFocus(`${name}-${uid}-01`);		break;
-		case "F1098VLI":	HTML.setFocus(`${name}-${uid}-01`);		break;
-		case "Business":	HTML.setFocus(`${name}-${uid}-name`);	break;
-	}
-}
-
-function addInputFormToWeb(formname) {
-	let uid = Container.getUID(formname);
-	let [ taxform_id, html ] = Classes.getHTML(formname, uid);
-	input_taxforms_container.addEntry(taxform_id, html);
-
-	return taxform_id;
-}
-
-function addOutputFormToWeb(form) {
-	if (typeof form.getHTML !== 'function') {
-		throw new Error(
-			`${form.formname}.getHTML does not exist; cannot add output form.`);
+	if (formname === "" || formname === "None") {
 		return;
 	}
 
-	let uid = Container.getUID(form.formname);
-	let [ taxform_id, html ] = form.getHTML(uid);
-	output_taxforms_container.addEntry(taxform_id, html);
-	form.putInformation(uid);
+	const block		= addInputForm(formname);
+	const block_id	= block.getID();
 
-	return taxform_id;
+	// Open the form and scroll the window to it.
+	HTML.openDetails(block_id);
+	HTML.scrollTo(block_id);
+
+	// Set the focus to the first box on the form.
+	
+	switch (formname) {
+		case "W2":			HTML.setFocus(`${block_id}-01`);	break;
+		case "SSA1099":		HTML.setFocus(`${block_id}-05`);	break;
+		case "F1099C":		HTML.setFocus(`${block_id}-02`);	break;
+		case "F1099DIV":	HTML.setFocus(`${block_id}-01a`);	break;
+		case "F1099G":		HTML.setFocus(`${block_id}-01`);	break;
+		case "F1099INT":	HTML.setFocus(`${block_id}-01`);	break;
+		case "F1099K":		HTML.setFocus(`${block_id}-01a`);	break;
+		case "F1099MISC":	HTML.setFocus(`${block_id}-01`);	break;
+		case "F1099NEC":	HTML.setFocus(`${block_id}-01a`);	break;
+		case "F1099OID":	HTML.setFocus(`${block_id}-01`);	break;
+		case "F1099R":		HTML.setFocus(`${block_id}-01`);	break;
+		case "F1099S":		HTML.setFocus(`${block_id}-02a`);	break;
+		case "F1098E":		HTML.setFocus(`${block_id}-01`);	break;
+		case "F1098VLI":	HTML.setFocus(`${block_id}-01`);	break;
+		case "Business":	HTML.setFocus(`${block_id}-name`);	break;
+	}
+}
+
+function addInputForm(formname) {
+	Ensure.isNonEmptyString(formname);
+
+	const hm		= HTMLMgr.getMgr();
+	let block_name	= formname.toLowerCase();
+	let last_block	= hm.lastBlock(block_name);
+	let block		= undefined;
+
+	if (last_block) {
+		block = hm.createAndAddBlock(
+						formname + "_HTML",
+						last_block.getID(),
+						"afterend");
+	} else {
+		block = hm.createAndAddBlock(
+						formname + "_HTML",
+						"input-taxforms-container",
+						"beforeend");
+	}
+	
+	return block;
+}
+
+function addOutputForm(form) {
+	const hm = HTMLMgr.getMgr();
+
+	const html_block = hm.createBlock(form.formname + "_HTML");
+	if (Str.empty(html_block.html)) {
+		html_block.html = form.toHTML(html_block.uid);
+	}
+	
+	hm.addBlock(html_block, OUTPUT_TAXFORMS_CONTAINER, "beforeend");
+	html_block.putValues(form.getValues());
 }
 
 function calculateHandler(event) {
@@ -169,8 +180,8 @@ function calculateHandler(event) {
 async function changeAddressHandler(event) {
 	//
 	// If the address changes, we need to get the sale tax rate for the new address. This is
-	// retrieved asynchronously from the Internet, but it should be finished by the time it is
-	// needed.
+	// retrieved asynchronously from the Internet, but it should be finished by the time it
+	// is needed.
 	//
 	const street_address	= HTML.getUserInput("street-address",	"text");
 	const city				= HTML.getUserInput("city",				"text");
@@ -187,7 +198,7 @@ function changeHandler(event) {
 	// This function is called when any of the input fields are changed. It will update any
 	// fields on the web page that may be affected by the change.
 	//
-	HTML.putElementValue("error-message-output", "");	// Clear error message.
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");	// Clear error message.
 
 	resetCalculation();  // Reset the previous calculation if there was one.
 
@@ -202,6 +213,8 @@ function changeHandler(event) {
 }
 
 function getAssetsales() {
+	const hm = HTMLMgr.getMgr();
+
 	let short_term_proceeds	= 0;
 	let short_term_basis	= 0;
 	let short_term_wash		= 0;
@@ -209,22 +222,20 @@ function getAssetsales() {
 	let long_term_basis		= 0;
 	let long_term_wash		= 0;
 
-	for (const entry_id of assetsale_items_container.getEntries("Assetitem")) {
-		const [ name, uid ] = Container.parseElementID(entry_id);
-		const item = Assetitem.getInputFromWeb(uid);
-
-		if (Objects.isEmpty(item)) {
+	for (const block of hm.getBlocks("assetitem")) {
+		const values = block.getValues();
+		if (Objects.isEmpty(values)) {
 			continue;
 		}
 
-		if (item.long_term) {
-			long_term_proceeds	+= item.proceeds;
-			long_term_basis		+= item.basis;
-			long_term_wash		+= item.wash;
+		if (values.long_term) {
+			long_term_proceeds	+= values.proceeds;
+			long_term_basis		+= values.basis;
+			long_term_wash		+= values.wash;
 		} else {
-			short_term_proceeds	+= item.proceeds;
-			short_term_basis	+= item.basis;
-			short_term_wash		+= item.wash;
+			short_term_proceeds	+= values.proceeds;
+			short_term_basis	+= values.basis;
+			short_term_wash		+= values.wash;
 		}
 	}
 
@@ -239,42 +250,41 @@ function getAssetsales() {
 }
 
 function getBusinesses() {
+	const hm = HTMLMgr.getMgr();
 	let business_names = [];
 
-	for (const entry_id of input_taxforms_container.getEntries("Business")) {
-		const [ name, uid ] = Container.parseElementID(entry_id);
-		const inputs = Business.getInputFromWeb(uid);
-
-		if (Objects.isEmpty(inputs)) {
+	for (const block of hm.getBlocks("business")) {
+		const values = block.getValues();
+		if (Objects.isEmpty(values)) {
 			continue;
 		}
 
 		const f1040sc = TaxFormObj.createForm("F1040SC");
 
 		let business_name = "NO_NAME";
-		if (inputs["name"]) {
-			business_name = inputs["name"];
+		if (values["name"]) {
+			business_name = values["name"];
 		}
 		if (business_names.includes(business_name)) {
 			throw new Error(`Business names must be unique: ${business_name}`);
 		}
 
-		f1040sc.cash_income = inputs["cash_income"];
+		f1040sc.cash_income = values["cash_income"];
 
 		f1040sc.lines["name"].user_value	= business_name;
-		f1040sc.lines["08" ].user_value		= inputs["advertising"];
-		f1040sc.lines["09" ].user_value		= inputs["tolls"] +
-			tt.getBusinessMileageDeduction(inputs["business_miles"]);
-		f1040sc.lines["10" ].user_value		= inputs["commissions"];
-		f1040sc.lines["15" ].user_value		= inputs["insurance"];
-		f1040sc.lines["16b"].user_value		= inputs["interest"];
-		f1040sc.lines["20b"].user_value		= inputs["rent"];
-		f1040sc.lines["22" ].user_value		= inputs["office_supplies"] + inputs["tools"];
-		f1040sc.lines["23" ].user_value		= inputs["licenses"];
-		f1040sc.lines["24a"].user_value		= inputs["travel"];
-		f1040sc.lines["24b"].user_value		= inputs["meals"];
-		f1040sc.lines["25" ].user_value		= inputs["utilities"];
-		f1040sc.lines["27b"].user_value		= inputs["other_expenses"] + inputs["training"];
+		f1040sc.lines["08" ].user_value		= values["advertising"];
+		f1040sc.lines["09" ].user_value		= values["tolls"] +
+			tt.getBusinessMileageDeduction(values["business_miles"]);
+		f1040sc.lines["10" ].user_value		= values["commissions"];
+		f1040sc.lines["15" ].user_value		= values["insurance"];
+		f1040sc.lines["16b"].user_value		= values["interest"];
+		f1040sc.lines["20b"].user_value		= values["rent"];
+		f1040sc.lines["22" ].user_value		= values["office_supplies"] + values["tools"];
+		f1040sc.lines["23" ].user_value		= values["licenses"];
+		f1040sc.lines["24a"].user_value		= values["travel"];
+		f1040sc.lines["24b"].user_value		= values["meals"];
+		f1040sc.lines["25" ].user_value		= values["utilities"];
+		f1040sc.lines["27b"].user_value		= values["other_expenses"] + values["training"];
 	}
 
 	// Make sure that Schedule Cs were created for all the businesses that have 1099-NECs
@@ -288,25 +298,26 @@ function getBusinesses() {
 };
 
 function getDependents() {
+	const hm = HTMLMgr.getMgr();
 	const tp = Taxpayer.getTaxpayer();
 
-	for (const dependent of dependents_container.getEntries("Dependent")) {
-		const [ entry_name, uid ] = Container.parseElementID(entry_id);
-		const inputs = Dependent.getInputFromWeb(uid);
-		if (Objects.isUsed(inputs)) {
-			tp.addDependent(inputs);
+	for (const block of hm.getBlocks("dependent")) {
+		const values = block.getValues();
+		if (Objects.isEmpty(values)) {
+			continue;
 		}
+
+		tp.addDependent(values);
 	}
 };
 
 function getExpenses() {
+	const hm		= HTMLMgr.getMgr();
 	const tt		= TaxTable.getTaxTable();
 	const tp		= Taxpayer.getTaxpayer();
-	const inputs	= Expenses.getInputFromWeb();
 
-	if (Objects.isEmpty(inputs)) {
-		return;
-	}
+	const block		= hm.getBlock("expenses");
+	const values	= block.getValues();
 
 	const f1040		= TaxFormObj.getOrCreateForm("F1040");
 	const f1040s1	= TaxFormObj.getOrCreateForm("F1040S1");
@@ -315,75 +326,94 @@ function getExpenses() {
 	const f540ca	= TaxFormObj.getOrCreateForm("F540CA");
 
 	// Form 1040
-	f1040.estimated_payments = inputs["est_payments_federal"];
+	f1040.estimated_payments = values["est_payments_federal"];
 
 	// Form 1040, Schedule 1
-	f1040s1.alimony_paid				= inputs["alimony_paid"];
-	f1040s1.lines["19c"].user_value		= inputs["divorce_date"];
-	f1040s1.educator_expense_taxpayer	= inputs["educator_taxpayer"];
-	f1040s1.educator_expense_spouse		= inputs["educator_spouse"];
+	f1040s1.alimony_paid				= values["alimony_paid"];
+	f1040s1.lines["19c"].user_value		= values["divorce_date"];
+	f1040s1.educator_expense_taxpayer	= values["educator_taxpayer"];
+	f1040s1.educator_expense_spouse		= values["educator_spouse"];
 	// Also enter on form 8880.
-	f1040s1.ira_contribution_taxpayer	= inputs["ira_contribution_taxpayer"];
-	f1040s1.ira_contribution_spouse		= inputs["ira_contribution_spouse"];
+	f1040s1.ira_contribution_taxpayer	= values["ira_contribution_taxpayer"];
+	f1040s1.ira_contribution_spouse		= values["ira_contribution_spouse"];
 
 	// Form 1040, Schedule A
-	f1040sa.medicare = inputs["medicare"];
+	f1040sa.medicare = values["medicare"];
 	f1040sa.medical_insurance =
-		inputs["healthcare"] +
-		inputs["dental"] +
-		Math.min(inputs["taxpayer_ltc"], tt.getMaxLTC(tp.taxpayers_age)) +
-		Math.min(inputs["taxpayer_ltc"], tt.getMaxLTC(tp.spouses_age));
+		values["healthcare"] +
+		values["dental"] +
+		Math.min(values["taxpayer_ltc"], tt.getMaxLTC(tp.taxpayers_age)) +
+		Math.min(values["taxpayer_ltc"], tt.getMaxLTC(tp.spouses_age));
 
 	f1040sa.medical_expenses =
-		inputs["doctor"] +
-		inputs["prescriptions"] +
-		inputs["medical_aids"] +
-		inputs["medical_facilities"] +
-		inputs["nursing_services"] +
-		tt.getMedicalMileageDeduction(inputs["medical_miles"]) +
-		inputs["other_medical"];
+		values["doctor"] +
+		values["prescriptions"] +
+		values["medical_aids"] +
+		values["medical_facilities"] +
+		values["nursing_services"] +
+		tt.getMedicalMileageDeduction(values["medical_miles"]) +
+		values["other_medical"];
 
 	f1040sa.sales_tax_rate			= sales_tax;
-	f1040sa.extra_sales_tax			= inputs["extra_sales_tax"];
-	f1040sa.est_payments_state		= inputs["est_payments_state"];
-	f1040sa.state_tax_due			= inputs["state_tax_due"];
-	f1040sa.property_tax			= inputs["property_tax"];
-	f1040sa.personal_property_tax	= inputs["personal_property_tax"];
-	f1040sa.cash_donations			= inputs["cash_donations"];
+	f1040sa.extra_sales_tax			= values["extra_sales_tax"];
+	f1040sa.est_payments_state		= values["est_payments_state"];
+	f1040sa.state_tax_due			= values["state_tax_due"];
+	f1040sa.property_tax			= values["property_tax"];
+	f1040sa.personal_property_tax	= values["personal_property_tax"];
+	f1040sa.cash_donations			= values["cash_donations"];
 	f1040sa.noncash_donations =
-		inputs["noncash_donations"]+
-		tt.getCharitableMileageDeduction(inputs["charitable_miles"]);
+		values["noncash_donations"]+
+		tt.getCharitableMileageDeduction(values["charitable_miles"]);
 
 	// Form 8880
-	if (inputs["ira_contribution_taxpayer"] || inputs["ira_contribution_spouse"]) {
+	if (values["ira_contribution_taxpayer"] || values["ira_contribution_spouse"]) {
 		const f8880	= TaxFormObj.getOrCreateForm("F8880");
 		// Also enter in form 1040-S1
-		f8880.ira_contribution_taxpayer	= inputs["ira_contribution_taxpayer"];
-		f8880.ira_contribution_spouse	= inputs["ira_contribution_spouse"];
+		f8880.ira_contribution_taxpayer	= values["ira_contribution_taxpayer"];
+		f8880.ira_contribution_spouse	= values["ira_contribution_spouse"];
 	}
 		
 	// Form 540
-	f540.lines["072"].user_value = inputs["est_payments_state"];
+	f540.lines["072"].user_value = values["est_payments_state"];
 
 	// Form 540-CA
-	f540ca.lines["D-20"].user_value	= inputs["tax_preparation"];
-	f540ca.investment_expenses		= inputs["investment_expenses"];
+	f540ca.lines["D-20"].user_value	= values["tax_preparation"];
+	f540ca.investment_expenses		= values["investment_expenses"];
 }
 
 function getIncome() {
-	const inputs = Income.getInputFromWeb();
-	if (Objects.isEmpty(inputs)) {
-			return;
+	const hm		= HTMLMgr.getMgr();
+	const block		= hm.getBlock("income")
+	const values	= block.getValues();
+	const f1040s1	= TaxFormObj.getOrCreateForm("F1040S1");
+
+	f1040s1.alimony_received = values["alimony_received"];
+
+	f1040s1.lines["24a"].user_value = values["jury_duty"];
+	f1040s1.lines["02b"].user_value = values["divorce_date"];
+	f1040s1.lines["08b"].user_value = values["gambling"];
+	f1040s1.lines["08z"].user_value = values["other"];
+}
+
+function getInputForms() {
+	// For each form that the taxpayer added to the web page, create a form object and
+	// copy the fields from the web to the form object.
+	const hm = HTMLMgr.getMgr();
+
+	for (const block of hm.getBlocks()) {
+		const formname = block.getFormname();
+		if (!Classes.isInputForm(formname)) {
+			continue;
+		}
+
+		const values = block.getValues();
+		if (Objects.isEmpty(values)) {
+			continue;
+		}
+
+		const form = TaxFormObj.createForm(formname);
+		form.putValues(values);
 	}
-
-	const f1040s1 = TaxFormObj.getOrCreateForm("F1040S1");
-
-	f1040s1.alimony_received = inputs["alimony_received"];
-
-	f1040s1.lines["24a"].user_value = inputs["jury_duty"];
-	f1040s1.lines["02b"].user_value = inputs["divorce_date"];
-	f1040s1.lines["08b"].user_value = inputs["gambling"];
-	f1040s1.lines["08z"].user_value = inputs["other"];
 }
 
 function getInput() {
@@ -391,28 +421,12 @@ function getInput() {
 	// When the tax return is calculated, this function is called to copy the information
 	// from the web page to objects instances of the tax form.
 	//
-
-	// Get information from the input worksheets.
 	getDependents();
 	getExpenses();
 	getIncome();
 	getAssetsales();
 	getBusinesses();
-
-	// For each for that the taxpayer added to the web page, create a form object and
-	// copy the fields from the web to the form object.
-	for (let taxform_id of input_taxforms_container.getEntries()) {
-		let [ formname, uid ] = Container.parseElementID(taxform_id);
-		formname = formname.toUpperCase();
-		
-		const inputs = Classes.getInputFromWeb(formname, uid);
-		if (!Objects.isUsed(inputs)) {
-			return;
-		}
-		
-		const form = TaxFormObj.createForm(formname);
-		form.loadInputFromWeb(inputs);
-	}
+	getInputForms();
 }
 
 function initialize() {
@@ -422,69 +436,80 @@ function initialize() {
 	HTML.hideElement("spouse-container");
 
 	// Add input worksheets.
-	dependents_container		= new Container("dependents-container");
-	assetsale_items_container	= new Container("assetsale-items-container");
-	input_taxforms_container	= new Container("input-taxforms-container");
-	output_taxforms_container	= new Container("output-taxforms-container");
+	const hm = HTMLMgr.getMgr();
+	hm.createAndAddBlock("Expenses",	EXPENSES_CONTAINER,		"beforeend");
+	hm.createAndAddBlock("Income",		INCOME_CONTAINER, 		"beforeend");
 
-	// Add four blsnk entries to get started.
-	addAssetItemHandler();
-	addAssetItemHandler();
-	addAssetItemHandler();
-	addAssetItemHandler();
+	// Add four blnk entries to get started.
+	hm.createAndAddBlock("Assetitem",	ASSETSALES_CONTAINER,	"beforeend");
+	hm.createAndAddBlock("Assetitem",	ASSETSALES_CONTAINER,	"beforeend");
+	hm.createAndAddBlock("Assetitem",	ASSETSALES_CONTAINER,	"beforeend");
+	hm.createAndAddBlock("Assetitem",	ASSETSALES_CONTAINER,	"beforeend");
 
-	HTML.closeAllDetails();
-	HTML.hideElement("output-taxforms-container");
-	HTML.hideElement("debug-container");
-	HTML.putElementValue("error-message-output", "");
+	HTML.hideElement(OUTPUT_TAXFORMS_CONTAINER);
+	HTML.hideElement(DEBUG_CONTAINER);
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
 }
 
 function listBusinessNames() {
-	let business_names = [];
+	const hm = HTMLMgr.getMgr();
+	const business_names = [];
 
-	// Search the small business worksheets for business names.
-	for (const worksheet_id of worksheet_container.getEntries()) {
-		if (worksheet_id.startsWith("business-")) {
-			let [ name, uid ] = Container.parseElementID(worksheet_id);
-			let business_name_id = `${name}-${uid}-name`;
-			let business_name = HTML.getElementValue(business_name_id);
-			if (business_name === "") {
-				business_name = "NO-NAME";
-			}
-			if (business_names.includes(business_name)) {
-				throw new Error("listBusinesses: More than one business with " +
-					`the same name: ${business_name}`);
-			}
-			business_names.push(business_name);
+	for (const block of hm.getBlocks("business")) {
+		const values = block.getValues();
+		if (Objects.isEmpty(values)) {
+			continue;
 		}
+	
+		let business_name = values.name === "" ? "NO-NAME" : values.name;
+		if (business_names.includes(business_name)) {
+			throw new Error("listBusinesses: More than one business with " +
+				`the same name: ${business_name}`);
+		}
+		business_names.push(business_name);
 	}
 
 	// Search the 1099-NEC and 1099-MISC forms for business names.
-	for (const form_id of input_taxforms_container.getEntries()) {
-		if (form_id.startsWith("f1099NEC-") || form_id.startsWith("f1099MISC-")) {
-			let [ name, uid ] = Container.parseElementID(form_id);
-			let business_name_id = `${name}-${uid}-business-name`;
-			let business_name = HTML.getElementValue(business_name_id);
-			if (business_name === "" && form_id.startsWith("f1099NEC-")) {
-				business_name = "NO-NAME";
-			}
-			if (business_name && !business_names.includes(business_name)) {
-				business_names.push(business_name);
-			}
+	for (const block of hm.getBlocks()) {
+		const values = block.getValues();
+		if (Objects.isEmpty(values)) {
+			continue;
+		}
+
+		
+		if (block.name === "f1099misc") {
+			let business_name = values.name === "" ? "NO-NAME" : values.name;
+		}
+
+		if (block.name === "f1099nec") {
+			let business_name = values.name === "" ? "NO-NAME" : values.name;
+		}
+	
+		if (business_name && !business_names.includes(business_name)) {
+			business_names.push(business_name);
 		}
 	}
 
 	return business_names;
 }
 
+function parseElementID(element_id) {
+	// Returns:  [ name, uid ]
+	Ensure.isString(element_id);
+
+	const parts = element_id.split("-");
+	const name = parts[0] || "";
+	const uid = parts.length > 1 ? parts[1] : "0";
+	return [ name, uid ];
+}
+	
 function processError(error) {
 	//
 	// Process an error caught by one of the main functions.
 	//
-	HTML.putElementValue("error-message-output", error);
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error);
 	console.log("Stack trace:", error.stack);
-	document.getElementById("error-message-output")
-		.scrollIntoView({behavior: 'smooth', block: 'start'});
+	HTML.scrollTo(ERROR_MESSAGE_OUTPUT);
 }
 
 function putOutputs() {
@@ -498,15 +523,18 @@ function putOutputs() {
 	// Create the tax return web pages.
 	for(const form of TaxInfo.formsInPrintOrder()) {
 		if (form.isUsed() || (form.formname === "F1040")) {
-			addOutputFormToWeb(form);
+			addOutputForm(form);
 		}
 	}
 
 	// Put the taxpayer information into form 1040.
-	Taxpayer.getTaxpayer().putTaxpayerInformation();
+	const tp = Taxpayer.getTaxpayer();
+	tp.fillIn1040();
 
 	// Show the tax return forms.
-	HTML.openDetails("f1040-1-container");
+	const hm = HTMLMgr.getMgr();
+	const block = hm.getBlock("f1040");
+	HTML.openDetails(block.getID());
 	HTML.showElement("output-taxforms-container");
 	document.getElementById("output-taxforms-container")
 		.scrollIntoView({behavior: 'smooth', block: 'start'});
@@ -516,13 +544,13 @@ function resetAll() {
 	//
 	// Start over, reset everything.
 	//
+	const hm = HTMLMgr.getMgr();
+
 	Debug.reset();
 	TaxFormObj.reset();
 	Taxpayer.reset();
-	Expenses.reset();
-	Income.reset();
 	TaxTable.reset();
-	Container.reset();
+	hm.reset();
 
 	initialize();
 }
@@ -531,10 +559,12 @@ function resetCalculation() {
 	//
 	// Reset the tax calculation, but leave the information entered by the user as is.
 	//
+	const hm = HTMLMgr.getMgr();
+
 	Debug.reset();
 	TaxFormObj.reset();						// Reset the tax calculations.
 	Taxpayer.resetCalculation();			// Re-read the input fields.
-	output_taxforms_container.reset();		// Remove tax return (output) web pages
+	hm.removeOutputForms();					// Remove tax return (output) web pages
 	HTML.hideElement("output-taxforms-container");
 }
 
@@ -546,13 +576,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.addListener("street-address",			"change", changeAddressHandler);
 	HTML.addListener("city",					"change", changeAddressHandler);
 	HTML.addListener("zip-code",				"change", changeAddressHandler);
-	HTML.addListener("add-asset-sale-button",	"click",  addAssetItemHandler);
+	HTML.addListener("add-assetsale-button",	"click",  addAssetSaleHandler);
 	HTML.addListener("add-dependent-button",	"click",  addDependentHandler);
-	HTML.addListener("add-form-button",			"click",  addFormHandler);
+	HTML.addListener("add-form-button",			"click",  addInputFormHandler);
 	HTML.addListener("calculate-button",		"click",  calculateHandler);
-
-	HTML.addListener("save-button",				"click",  saveUserDataHandler);
-	HTML.addListener("input-file",				"change", restoreUserDataHandler);
 
 	initialize();
 });

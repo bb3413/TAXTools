@@ -11,6 +11,7 @@ import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
+import { F7206_HTML }	from "../OutputForms/F7206_HTML.js";
 
 export class F7206 extends TaxForm {
 	constructor(formname) {

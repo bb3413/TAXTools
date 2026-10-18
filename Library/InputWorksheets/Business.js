@@ -1,32 +1,15 @@
 
+// Classes
+import { HTMLBlock }	from "../Classes/HTMLBlock.js";
+import { HTMLMgr }		from "../Classes/HTMLMgr.js";
+
+// Modules
+import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
-import { HTML }			from "../Modules/HTML.js";
-import { Objects }		from "../Modules/Objects.js";
-import { Str }			from "../Modules/Str.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 
-const ELEMENTS = {
-	// Element ID			Value Type
-	"name":					["text"],
-	"cash-income":			[],
-	"advertising":			[],
-	"commissions":			[],
-	"insurance":			[],
-	"interest":				[],
-	"office-supplies":		[],
-	"utilities":			[],
-	"licenses":				[],
-	"training":				[],
-	"tools":				[],
-	"travel":				[],
-	"meals":				[],
-	"rent":					[],
-	"business-miles":		[],
-	"tolls":				[],
-	"other-expenses":		[],
-};
-
-const HTML_FORM = `
-		<details class="taxform-details" id="business-XX-container">
+const HTML_CODE = `
+		<details class="taxform-details" id="business-XX">
 			<summary class="taxform-summary">Small Business #-UID-</summary>
 			<div class="input-worksheet-container">
 				<div class="taxpayer-info-150-400">
@@ -142,41 +125,42 @@ const HTML_FORM = `
 		</details>
 `;
 
-export class Business {
-	static getHTML(uid) {
-		if (!uid) {
-			throw new Error(`Business.getHTML(): UID is undefined.`);
-		}
+const FIELD_INFO = {
+	// Field Name			Value Type	Is Line	Description
+	"name":					["text",	false,	""],
+	"cash-income":			["",		false,	""],
+	"advertising":			["",		false,	""],
+	"commissions":			["",		false,	""],
+	"insurance":			["",		false,	""],
+	"interest":				["",		false,	""],
+	"office-supplies":		["",		false,	""],
+	"utilities":			["",		false,	""],
+	"licenses":				["",		false,	""],
+	"training":				["",		false,	""],
+	"tools":				["",		false,	""],
+	"travel":				["",		false,	""],
+	"meals":				["",		false,	""],
+	"rent":					["",		false,	""],
+	"business-miles":		["",		false,	""],
+	"tolls":				["",		false,	""],
+	"other-expenses":		["",		false,	""],
+};
 
-		const html = HTML_FORM.replace(/XX/g, uid)
-									.replace(/-UID-/g, uid);
-
-		return [ `business-${uid}-container`, html ];
+export class Business extends HTMLBlock {
+	static getFieldInfo() {
+		return FIELD_INFO;
 	}
 
-	static getInputFromWeb(uid, raw = false) {
-		//
-		// Read the fields of the worksheet from the web and return an object with the
-		// values. Raw user input is only used to save and restore user input.
-		//
-		if (!uid) {
-			throw new Error(`Business.getUserInput(): UID is undefined.`);
-		}
+	static getHTML(uid) {
+		return HTML_CODE.replace(/XX/g, uid)
+							.replace(/202X/g, TaxTable.getTaxYear());
+	}
 
-		// Make sure the worksheet exists.
-		const element = document.getElementById(`business-${uid}-container`);
-		if (!element) {
-			throw new Error(
-				`Business.getUserInput(): Element not found: business-${uid}-container`);
-		}
-
-		let inputs = {};
-		for (const field_name of Object.keys(ELEMENTS)) {
-			const value_type	= raw ? "raw" : ELEMENTS[field_name][0];
-			const key_name		= field_name.replace(/-/g, "_");
-			const element_id	= `business-${uid}-${field_name}`;
-			inputs[key_name]	= HTML.getUserInput(element_id, value_type);
-		}
-		return inputs;
+	constructor() {
+		super();
+		this.name		= "business";
+		this.uid		= HTMLMgr.getMgr().allocateUID(this.name);
+		this.html		= Business.getHTML(this.uid);
+		this.fields		= Business.getFieldInfo();
 	}
 }

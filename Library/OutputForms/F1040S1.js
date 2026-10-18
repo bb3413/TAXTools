@@ -10,6 +10,7 @@ import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
+import { F1040S1_HTML }	from "../OutputForms/F1040S1_HTML.js";
 
 export class F1040S1 extends TaxForm {
 	constructor(formname) {
@@ -34,71 +35,13 @@ export class F1040S1 extends TaxForm {
 		this.ira_contribution_taxpayer	= 0;
 		this.ira_contribution_spouse	= 0;
 
-		// Additions to Income
-		this.lines["01"]	= new Line("Taxable Refund");
-		this.lines["02a"]	= new Line("Alimony Received");
-		this.lines["02b"]	= new Line("Received Divorce Date");
-		this.lines["03"]	= new Line("Business Income");
-		this.lines["04"]	= new Line("Other Gains");
-		this.lines["05"]	= new Line("Schedule E Income");
-		this.lines["06"]	= new Line("Farm Income");
-		this.lines["07"]	= new Line("Unemployment Compensation");
-		this.lines["08a"]	= new Line("Net Operating Loss");	// Subtract
-		this.lines["08b"]	= new Line("Gambling");
-		this.lines["08c"]	= new Line("Cancellation of Debt");
-		this.lines["08d"]	= new Line("Foreign Earned Income Exclusion");	// Subtract
-		this.lines["08e"]	= new Line("Income from form 8853");
-		this.lines["08f"]	= new Line("Income from form 8889");
-		this.lines["08g"]	= new Line("Alaska Permanent Fund");
-		this.lines["08h"]	= new Line("Jury Duty Pay");
-		this.lines["08i"]	= new Line("Prizes and Awards");
-		this.lines["08j"]	= new Line("Hobby Income");
-		this.lines["08k"]	= new Line("Stock Options");
-		this.lines["08l"]	= new Line("Income from Rent");
-		this.lines["08m"]	= new Line("USOC Prize");
-		this.lines["08n"]	= new Line("Section 951(a) Inclusion");
-		this.lines["08o"]	= new Line("Section 951A(a) Inclusion");
-		this.lines["08p"]	= new Line("Excess Business Loss");
-		this.lines["08q"]	= new Line("Taxable ABLE Distributions");
-		this.lines["08r"]	= new Line("Scholarship Not on W-2");
-		this.lines["08s"]	= new Line("Non-taxable Medicaid Waiver Payment");	// Subtract
-		this.lines["08t"]	= new Line("Pension from Non-qualified Plan");
-		this.lines["08u"]	= new Line("Wages While Incarcerated");
-		this.lines["08v"]	= new Line("Digital Assets Received");
-		this.lines["08z"]	= new Line("Other Income");
-		this.lines["09"]	= new Line("Total Other Income");
-		this.lines["10"]	= new Line("Additional Income");
-
-		// Adjustments to Income
-		this.lines["11"]	= new Line("Educator Expense");
-		this.lines["12"]	= new Line("Business Expense from Form 2106");
-		this.lines["13"]	= new Line("HSA Deduction");
-		this.lines["14"]	= new Line("Moving Expenses");
-		this.lines["15"]	= new Line("Deductible SE Tax");
-		this.lines["16"]	= new Line("Deductible SEP, Simple");
-		this.lines["17"]	= new Line("Self-employed Health Insurance");
-		this.lines["18"]	= new Line("Early Withdrawal Penalty");
-		this.lines["19a"]	= new Line("Alimony Paid");
-		this.lines["19b"]	= new Line("Recipient SSN");
-		this.lines["19c"]	= new Line("Paid Divorce Date");
-		this.lines["20"]	= new Line("IRA Deduction");
-		this.lines["21"]	= new Line("Student Loan Interest Deduction");
-		this.lines["22"]	= new Line("Reserved for Future Use");
-		this.lines["23"]	= new Line("Archer MSA Deduction");
-		this.lines["24a"]	= new Line("Jury Duty Pay");
-		this.lines["24b"]	= new Line("Rental Expense (see line 8l)");
-		this.lines["24c"]	= new Line("Non-taxable amount is USOC");
-		this.lines["24d"]	= new Line("Reforestation Expenses");
-		this.lines["24e"]	= new Line("Repayment of Unemployment Expenses");
-		this.lines["24f"]	= new Line("Contribution to 501(c) Pension");
-		this.lines["24g"]	= new Line("Contributions to 403(b) Plan");
-		this.lines["24h"]	= new Line("Attorney Fees");
-		this.lines["24i"]	= new Line("Attorney Fees");
-		this.lines["24j"]	= new Line("Foreign Earned Income Housing Deduction");
-		this.lines["24k"]	= new Line("Excess Deduction from Form 1041");
-		this.lines["24z"]	= new Line("Other Adjustments");
-		this.lines["25"]	= new Line("Total Other Adjustments");
-		this.lines["26"]	= new Line("Adjustments to Income");
+		// Create the lines on the form.
+		let field_info = F1040S1_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F1040S1.Constructor()");
 	}

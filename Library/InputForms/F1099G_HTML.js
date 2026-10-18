@@ -1,43 +1,18 @@
 
+// Classes
+import { HTMLBlock }	from "../Classes/HTMLBlock.js";
+import { HTMLMgr }		from "../Classes/HTMLMgr.js";
+
+// Modules
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { HTML }			from "../Modules/HTML.js";
-import { Line }			from "../Classes/Line.js";
-import { Objects }		from "../Modules/Objects.js";
-import { TaxForm }		from "../Classes/TaxForm.js";
-import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
-import { Refund }		from "../Worksheets/Refund.js";
 
 import { TAXTOOL_CONTAINER } from "../TAXTools/TAXTools.js";
 
-const FIELDS = {
-	// Field Name		Value Type	Line	Description
-	"is-spouses":		["",		true,	""],
-	"payer":			["text",	true,	""],
-	"ein":				["text",	true,	""],
-	"ssn":				["text",	true,	""],
-	"taxpayer":			["text",	true,	""],
-	"account":			["text",	true,	""],
-	"01":				["",		true,	""],
-	"02":				["",		true,	""],
-	"03":				["",		true,	""],
-	"04":				["",		true,	""],
-	"05":				["",		true,	""],
-	"06":				["",		true,	""],
-	"07":				["",		true,	""],
-	"08":				["",		true,	""],
-	"09":				["",		true,	""],
-	"10":				["",		true,	""],
-	"11":				["text",	true,	""],
-	"12":				["",		true,	""],
-	"prev-itemized":	["",		true,	""],
-	"prev-5d":			["",		true,	""],
-	"prev-5e":			["",		true,	""],
-};
-
 const HTML_CODE = `
-		<details class="taxform-details" id="f1099g-XX-container">
+		<details class="taxform-details" id="f1099g-XX">
 			<summary class="taxform-summary">1099-G - Certain Government Payments</summary>
 			<div>&nbsp;</div>
 
@@ -230,14 +205,63 @@ const HTML_CODE = `
 		</details>
 `;
 
-export class W1099G extends TaxForm {
-	constructor() {
-		super("F1099G");
-		const mgr HTMLMgr.getMgr();
-		this.name = "F1099G"
-		this.uid = mgr.getUID("F1099G");
+const FIELD_INFO = {
+	// Field Name		Value Type	Is Line	Description
+	"is-spouses":		["",		false,	"Spouse's Tax Form"],
+	"payer":			["text",	true,	"Payer"],
+	"ein":				["text",	true,	"EIN"],
+	"ssn":				["text",	true,	"SSN"],
+	"taxpayer":			["text",	true,	"Taxpayer"],
+	"account":			["text",	true,	"Account"],
+	"01":				["",		true,	"Unemployment compensation"],
+	"02":				["",		true,	"State tax refunds, credits, or offsets"],
+	"03":				["",		true,	"Box 2 amount is for tax year"],
+	"04":				["",		true,	"Federal income tax withheld"],
+	"05":				["",		true,	"RTAA payments"],
+	"06":				["",		true,	"Taxable grants"],
+	"07":				["",		true,	"Agriculture payments"],
+	"08":				["",		true,	"Check if box 2 is trade or f1099g income"],
+	"09":				["",		true,	"Market gain"],
+	"10":				["",		true,	"Family leave benefits"],
+	"11":				["text",	true,	"State/state no."],
+	"12":				["",		true,	"State tax withheld"],
+	// Locally defined line for external output.
+	"taxable-refund":	["",		true,	"Taxable state refund"],
+	"explanation":		["",		true,	"Explanation of refund amount"],
+	// Local variables for input information
+	"prev-itemized":	["",		false,	""],
+	"prev-5d":			["",		false,	""],
+	"prev-5e":			["",		false,	""],
+};
+
+export class F1099G_HTML extends HTMLBlock {
+	_change_handler(event) {
 	}
 
-	calculate() {
+	static getFieldInfo() {
+		return FIELD_INFO;
+	}
+
+	static getHTML(uid) {
+		return HTML_CODE.replace(/XX/g, uid)
+							.replace(/202X/g, TaxTable.getTaxYear());
+	}
+
+	constructor() {
+		super();
+		this.name		= "f1099g";
+		this.uid		= HTMLMgr.getMgr().allocateUID(this.name);
+		this.html		= F1099G_HTML.getHTML(this.uid);
+		this.fields		= F1099G_HTML.getFieldInfo();
+	}
+
+	install(next_to, where) {
+		super.install(next_to, where);
+		HTML.addListener(TAXTOOL_CONTAINER, "change", this._changeHandler);
+	}
+
+	uninstall() {
+		HTML.removeListener(TAXTOOL_CONTAINER, "change", this._changeHandler);
+		super.uninstall();
 	}
 }

@@ -59,6 +59,9 @@ function get1099RValue(lineno, type) {
 	// values from the indicated line. The ira parameter indicates which type of 1099-R
 	// to collect information from.
 	//
+	Ensure.isNonEmptyString(lineno);
+	Ensure.isNumber(type);
+
 	let sum = 0;
 	let form_list = TaxFormObj.getAllForms("F1099R");
 
@@ -108,6 +111,8 @@ function formsInPrintOrder() {
 }
 
 function getBusinessIncome(business_name) {
+	Ensure.isNonEmptyString(business_name);
+
 	let sum = 0;
 	const all_1099s = TaxFormObj.getAllForms("F1099NEC")
 						.concat(TaxFormObj.getAllForms("F1099MISC"))
@@ -168,10 +173,14 @@ function getBusinessNames() {
 }
 
 function getIRAValue(lineno) {
+	Ensure.isNonEmptyString(lineno);
+
 	return get1099RValue(lineno, IRA);
 }
 
 function getPensionValue(lineno) {
+	Ensure.isNonEmptyString(lineno);
+
 	return get1099RValue(lineno, PENSION);
 }
 
@@ -207,6 +216,8 @@ function getW2RetirementContributions(who) {
 	// Get the retirement contributions withheld from the taxpayer wages for either
 	// the taxpayer or the spouse.
 	//
+	Ensure.isTaxpayer(who);
+
 	let contributions = 0;
 	let form_list = TaxFormObj.getAllForms("W2");
 
@@ -242,6 +253,8 @@ function getW2TipIncome() {
 }
 
 function hasRetirementPlan(who) {
+	Ensure.isTaxpayer(who);
+
 	let form_list = TaxFormObj.getAllForms("W2");
 	if (form_list) {
 		for (const form of form_list) {

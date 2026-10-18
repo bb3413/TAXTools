@@ -8,7 +8,7 @@ import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
-
+import { F1040SSE_HTML }	from "../OutputForms/F1040SSE_HTML.js";
 
 export class F1040SSE extends TaxForm {
 	constructor(formname) {
