@@ -123,12 +123,12 @@ export class F1040 extends TaxForm {
 		this.lines["17"].value	= getValue("F1040S2", "03");	// Additional Tax
 		this.lines["18"].value	= this.add("16", "17");			// Total Tax
 		this.lines["19"].value	= getValue("F8812", "14");		// Child Tax Credit
-		this.lines["20"].value	= getValue("F1040S3", "08");	// Non-refund Creds
+		this.lines["20"].value	= getValue("F1040S3", "08");	// Non-refund Credits
 		this.lines["21"].value	= this.add("19", "20");
 		this.lines["22"].value	= Math.max(0, this.subtract("18", "21"));	// Tax - Credits
 		this.lines["23"].value	= getValue("F1040S2", "21");	// Other Taxes
 		this.lines["24"].value	= this.add("22", "23");			// Total Tax
-		this.lines["25a"].value	= getValue("W2", "02");			// W2 Witholding
+		this.lines["25a"].value	= getValue("W2", "02");			// W2 Withholding
 		this.lines["25b"].value	=								// 1099 Withholding
 			getValue("F1099INT", "04") +
 			getValue("F1099DIV", "04") +
@@ -145,8 +145,8 @@ export class F1040 extends TaxForm {
 		this.lines["27a"].value	= getValue("EIC", "xx");			// EIC
 		this.lines["28"].value	= getValue("F8812", "27");			// Additional CTC
 		this.lines["29"].value	= getValue("F8863", "08");			// Amer Opp Cred
-		this.lines["30"].value	= getValue("F8839", "13");			// Refund Adopt Cred
-		this.lines["31"].value	= getValue("F1040S3", "15");		// Other Refund Creds
+		this.lines["30"].value	= getValue("F8839", "13");			// Refund Adopt Credit
+		this.lines["31"].value	= getValue("F1040S3", "15");		// Other Refund Credits
 		this.lines["32"].value	= this.add("27a","28","29","30","31");	// Estimated Payments
 		this.lines["33"].value	= this.add("25d","26","32");		// Total Payments
 		if (this.line("33") > this.line("24")) {

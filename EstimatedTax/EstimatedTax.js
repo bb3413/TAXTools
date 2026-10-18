@@ -519,7 +519,7 @@ function restoreDataHandler(data) {
 	HTML.putElementValue("QualifiedCharitableDistribution",
 						 inputs.qualified_charitable_distribution);
 
-	// Non-refndable Credits
+	// Non-refundable Credits
 	HTML.putElementValue("AmericanOppCreditNoRefund",
 						 inputs.american_opp_credit_no_refund);
 	HTML.putElementValue("ChildCareCredit",

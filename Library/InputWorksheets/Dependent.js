@@ -272,7 +272,7 @@ export class Dependent extends HTMLBlock {
 		//		o	If two or more people could claim the person except for the support test,
 		//			and together they provide more than half the support, one of them can file
 		//			form 2120 Multiple Support Agreement and claim the person.
-		if (!this.taxpayer_suported) {
+		if (!this.taxpayer_supported) {
 			return false;
 		}
 

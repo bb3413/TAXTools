@@ -85,11 +85,11 @@ function solve(input) {
 	if (!tokens) return 0;
 
 	const ops = {
-		"+": { prec: 1, assoc: "L", exec: (a, b) => a + b },
-		"-": { prec: 1, assoc: "L", exec: (a, b) => a - b },
-		"*": { prec: 2, assoc: "L", exec: (a, b) => a * b },
-		"/": { prec: 2, assoc: "L", exec: (a, b) => a / b },
-		"u-": { prec: 3, assoc: "R", exec: (a) => -a }
+		"+": { precision: 1, assoc: "L", exec: (a, b) => a + b },
+		"-": { precision: 1, assoc: "L", exec: (a, b) => a - b },
+		"*": { precision: 2, assoc: "L", exec: (a, b) => a * b },
+		"/": { precision: 2, assoc: "L", exec: (a, b) => a / b },
+		"u-": { precision: 3, assoc: "R", exec: (a) => -a }
 	};
 
 	const queue = [];
@@ -111,8 +111,8 @@ function solve(input) {
 			}
 			while (stack.length && stack[stack.length - 1] !== "(") {
 				const top = stack[stack.length - 1];
-				if (ops[type].prec < ops[top].prec ||
-					(ops[type].prec === ops[top].prec && ops[type].assoc === "L")) {
+				if (ops[type].precision < ops[top].precision ||
+					(ops[type].precision === ops[top].precision && ops[type].assoc === "L")) {
 					queue.push(stack.pop());
 				} else break;
 			}

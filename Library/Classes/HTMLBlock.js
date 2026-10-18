@@ -1,6 +1,6 @@
 
 //
-// This module manages individual blocks of HTML that can be dynamilcally added
+// This module manages individual blocks of HTML that can be dynamically added
 // to the current web page (DOM).
 //
 import { TAXTOOL_CONTAINER } from "../TAXTools/TAXTools.js";

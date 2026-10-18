@@ -61,7 +61,7 @@ export class IRADeduction extends TaxForm {
 											"15","16","17","18","19a",
 											"23","25");
 			this.lines["05"].value	= this.subtract("03", "04");
-			if (this.line("05") < this.liune("02")) {
+			if (this.line("05") < this.line("02")) {
 				return 0;	// Not deductible
 			}
 			this.lines["06"].value = this.subtract("02", "05");	// Income limit - income
@@ -84,7 +84,7 @@ export class IRADeduction extends TaxForm {
 					} else {
 						this.lines["07"].value = doLine7(who);
 					}
-					break;		
+					break;
 			}
 		}
 
@@ -102,7 +102,7 @@ export class IRADeduction extends TaxForm {
 function agiLimit(who) {
 	const tp = Taxpayer.getTaxpayer();
 	const tt = TaxTable.getTaxTable();
-	
+
 	let limit = tt.getTaxValue("IRA_AGILimit", tp.filing_status);
 	if ((tp.filing_status === MFS) && !this.line("01")) {
 		limit = tt.getTaxValue("IRA_AGILimitNoPlan", tp.filing_status);
@@ -134,7 +134,7 @@ function doLine7(who) {
 			((who === SPOUSE) && (tp.spouses_age >= 50)) ) {
 		over50 = true;
 	}
-	
+
 	let percent = 0;
 	switch (tp.filing_status) {
 		case SINGLE:
@@ -153,7 +153,7 @@ function doLine7(who) {
 					percent = 0.80;
 				} else {
 					percent = 0.70;
-				}									  
+				}
 			} else if (over50) {
 				percent = 0.40;
 			} else {
@@ -161,7 +161,7 @@ function doLine7(who) {
 			}
 			break;
 	}
-				
+
 	let line7 = this.line("06") * percent;
 	line7 = Math.min(200, roundup(tmp, 10));
 	return line7;

@@ -18,7 +18,7 @@ export class F1040SC extends TaxForm {
 
 		// Variables for external input. This variable is be used to enter information
 		// that does not come from another tax form.
-		this.cash_inccome	= 0;
+		this.cash_income	= 0;
 
 		this.lines["name"]	= new Line("Business Name");
 
@@ -77,7 +77,7 @@ export class F1040SC extends TaxForm {
 		this.lines["name"].value	= "";				//Business Name
 
 		// Income
-		this.lines["01"].value	= this.cash_inccome +	// Gross Receipts or Sales
+		this.lines["01"].value	= this.cash_income +	// Gross Receipts or Sales
 									TaxInfo.getBusinessIncome(this.line("name"));
 		this.lines["02"].value	= 0;				// Returns and Allowances
 		this.lines["03"].value	= this.subtract("01", "02");

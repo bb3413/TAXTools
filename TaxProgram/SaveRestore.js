@@ -44,7 +44,7 @@ function restoreAssetsaleItems(assetsales) {
 	// Remove the four blank entries
 	const blocks = HTMLMgr.getBlocks("assetitem");
 	for (const block of blocks) {
-		hm.removeblock(block);
+		hm.removeBlock(block);
 	}
 
 	for (const values of assetsales) {

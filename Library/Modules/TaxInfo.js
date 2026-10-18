@@ -2,7 +2,6 @@
 //
 // This module calculates information from the current tax forms.
 //
-
 export const TaxInfo = {
 	earnedIncome,
 	formsInPrintOrder,

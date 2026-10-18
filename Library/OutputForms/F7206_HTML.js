@@ -28,19 +28,19 @@ const FIELD_INFO = {
 }
 
 export class F7206_HTML extends HTMLBlock {
-static getFieldInfo() {
-return FIELD_INFO;
-}
+	static getFieldInfo() {
+		return FIELD_INFO;
+	}
 
-static getHTML(uid) {
-throw new Error("getHTML() not implemented for F7206.");
-}
+	static getHTML(uid) {
+		throw new Error("getHTML() not implemented for F7206.");
+	}
 
-constructor() {
-super();
-this.name= "f7206";
-this.uid= HTMLMgr.getMgr().allocateUID(this.name);
-this.html= "";
-this.fields= F7206_HTML.getFieldInfo();
-}
+	constructor() {
+		super();
+		this.name= "f7206";
+		this.uid= HTMLMgr.getMgr().allocateUID(this.name);
+		this.html= "";
+		this.fields= F7206_HTML.getFieldInfo();
+	}
 }
