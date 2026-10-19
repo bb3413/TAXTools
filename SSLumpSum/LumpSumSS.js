@@ -1,4 +1,6 @@
 
+import { TAXTOOL_CONTAINER } from "../Library/TAXTools/TAXTools.js";
+
 import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
@@ -175,25 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
-	HTML.addListener("FilingStatus-0",					"change", changeHandler);
-	HTML.addListener("SocialSecurity-0",				"change", changeHandler);
-	HTML.addListener("Income-0",						"change", changeHandler);
-	HTML.addListener("TaxExemptInterest-0",				"change", changeHandler);
-	HTML.addListener("Adjustments-0",					"change", changeHandler);
-
-	HTML.addListener("FilingStatus-1",					"change", changeHandler);
-	HTML.addListener("LumpSum-1",						"change", changeHandler);
-	HTML.addListener("AGI-1",							"change", changeHandler);
-	HTML.addListener("TaxExemptInterest-1",				"change", changeHandler);
-	HTML.addListener("SocialSecurityReceivedReported-2","change", changeHandler);
-	HTML.addListener("SocialSecurityTaxableReported-2",	"change", changeHandler);
-
-	HTML.addListener("FilingStatus-2",					"change", changeHandler);
-	HTML.addListener("LumpSum-2",						"change", changeHandler);
-	HTML.addListener("AGI-2",							"change", changeHandler);
-	HTML.addListener("TaxExemptInterest-2",				"change", changeHandler);
-	HTML.addListener("SocialSecurityReceivedReported-2","change", changeHandler);
-	HTML.addListener("SocialSecurityTaxableReported-2",	"change", changeHandler);
-
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
 	HTML.hideElement("debug-container");
 });

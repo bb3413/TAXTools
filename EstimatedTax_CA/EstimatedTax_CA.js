@@ -9,6 +9,9 @@ import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
 import { ESTIMATED_TAX_CA_SAVE_FILE } from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }		from "../Library/TAXTools/TAXTools.js";
+import { filingStatusToStr }		from "../Library/TAXTools/TAXTools.js";
 
 // This variable needs to be global so it can be accessed by the save and restore handlers.
 let inputs = {};
@@ -67,7 +70,7 @@ function getInputs() {
 	inputs.taxpayers_name =
 		HTML.getUserInput("TaxpayersName", "text");
 	inputs.filing_status =
-		HTML.getUserInput("FilingStatus", "text").toUpperCase();
+		strToFilingStatus(HTML.getUserInput("FilingStatus", "text"));
 	inputs.taxpayers_birthday =
 		HTML.getUserInput("TaxpayersBirthday", "text");
 	inputs.spouses_birthday =
@@ -464,77 +467,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 
 	// Listen for changes to the input data.
-	HTML.addListener("tax-year",						"change", changeHandler);
-	HTML.addListener("SaveButton",						"click",  saveUserData);
-	HTML.addListener("InputFile",						"change", restoreUserData);
-
-	// Taxpayer Information
-	HTML.addListener("TaxpayersName",					"change", changeHandler);
-	HTML.addListener("FilingStatus",					"change", changeHandler);
-	HTML.addListener("TaxpayersBirthday",				"change", changeHandler);
-	HTML.addListener("SpousesBirthday",					"change", changeHandler);
-
-	// Input Data
-	HTML.addListener("FederalAGI",						"change", changeHandler);
-	HTML.addListener("NumberOfDependents",				"change", changeHandler);
-
-	// Subtractions
-	HTML.addListener("USTreasuryObligations",			"change", changeHandler);
-	HTML.addListener("MilitaryRetirementIncome",		"change", changeHandler);
-	HTML.addListener("TaxableSocialSecurity",			"change", changeHandler);
-	HTML.addListener("StateTaxRefund",					"change", changeHandler);
-	HTML.addListener("UnemploymentIncome",				"change", changeHandler);
-	HTML.addListener("CaliforniaLotteryWinnings",		"change", changeHandler);
-	HTML.addListener("NonqualifiedHSADistributions",	"change", changeHandler);
-	HTML.addListener("AlimonyPaid",						"change", changeHandler);
-	HTML.addListener("OtherSubtractions",				"change", changeHandler);
-
-	// Additions
-	HTML.addListener("HSAEmployerContributions",		"change", changeHandler);
-	HTML.addListener("AlimonyReceived",					"change", changeHandler);
-	HTML.addListener("HomeLoanDebtCancellation",		"change", changeHandler);
-	HTML.addListener("EmployerPaidStudentLoanPayments",	"change", changeHandler);
-	HTML.addListener("EducatorExpenses",				"change", changeHandler);
-	HTML.addListener("HSAContributions",				"change", changeHandler);
-	HTML.addListener("IRAContributions",				"change", changeHandler);
-	HTML.addListener("OtherAdditions",					"change", changeHandler);
-
-	// Itemized Deductions
-	HTML.addListener("FederalItemizedDeductions",		"change", changeHandler);
-	HTML.addListener("StateIncomeTax",					"change", changeHandler);
-	HTML.addListener("QualifiedHSADistributions",		"change", changeHandler);
-	HTML.addListener("SALTLimitExcess",					"change", changeHandler);
-	HTML.addListener("HomeMortgageInterestLimit",		"change", changeHandler);
-	HTML.addListener("TaxPreparationFee",				"change", changeHandler);
-	HTML.addListener("SafeDepositBox",					"change", changeHandler);
-	HTML.addListener("InvestmentFee",					"change", changeHandler);
-	HTML.addListener("OtherDeductions",					"change", changeHandler);
-
-	// Other Taxes, Interest, and Penalties
-	HTML.addListener("SharedResponsibilityPenalty",		"change", changeHandler);
-	HTML.addListener("InterestAndPenalties",			"change", changeHandler);
-	HTML.addListener("UnderpaymentOfEstimatedTax",		"change", changeHandler);
-	HTML.addListener("UseTax",							"change", changeHandler);
-	HTML.addListener("MiscellaneousTaxes",				"change", changeHandler);
-
-	// Non-refundable Credits
-	HTML.addListener("ChildCareCredit",					"change", changeHandler);
-	HTML.addListener("RentersCredit",					"change", changeHandler);
-	HTML.addListener("OtherNonrefundableCredits",		"change", changeHandler);
-
-	// Refundable Credits
-	HTML.addListener("EITC",							"change", changeHandler);
-	HTML.addListener("YoungChildTaxCredit",				"change", changeHandler);
-	HTML.addListener("FosterYouthTaxCredit",			"change", changeHandler);
-	HTML.addListener("OtherRefundableCredits",			"change", changeHandler);
-
-	// Payments
-	HTML.addListener("Withholding",						"change", changeHandler);
-	HTML.addListener("EstimatedPayments",				"change", changeHandler);
-	HTML.addListener("OtherPayments",					"change", changeHandler);
-
-	// Contributions
-	HTML.addListener("Contributions",					"change", changeHandler);
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
+	HTML.addListener("SaveButton",		"click",  saveUserData);
+	HTML.addListener("InputFile",		"change", restoreUserData);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
 	// focus but display the page without scrolling to that element.

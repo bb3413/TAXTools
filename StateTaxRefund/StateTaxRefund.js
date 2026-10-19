@@ -1,4 +1,6 @@
 
+import { TAXTOOL_CONTAINER } from "../Library/TAXTools/TAXTools.js";
+
 import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
@@ -144,22 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
-	HTML.addListener("PreviousTaxYear",			"change", changeHandler);
-	HTML.addListener("FilingStatus",			"change", changeHandler);
-	HTML.addListener("TaxpayersBirthday",		"change", changeHandler);
-	HTML.addListener("SpousesBirthday",			"change", changeHandler);
-	HTML.addListener("TaxpayerIsBlind",			"change", changeHandler);
-	HTML.addListener("SpouseIsBlind",			"change", changeHandler);
-	HTML.addListener("StateTaxRefund",			"change", changeHandler);
-
-	// Information from last year
-	HTML.addListener("StateIncomeTax",			"change", changeHandler);
-	HTML.addListener("SalesTax",				"change", changeHandler);
-	HTML.addListener("SalesTaxUsed",			"change", changeHandler);
-	HTML.addListener("RealEstateTaxes",			"change", changeHandler);
-	HTML.addListener("PersonalPropertyTaxes",	"change", changeHandler);
-	HTML.addListener("ItemizedDeductions",		"change", changeHandler);
-
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
 	HTML.putUserOutput("PreviousTaxYear", Dates.getTaxYear() - 1, "text");
 	HTML.hideElement("SpouseContainer");
 	HTML.hideElement("debug-container");

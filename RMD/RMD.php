@@ -17,7 +17,7 @@
 </head>
 
 <body>
-	<div class="taxtool-container">
+	<div class="taxtool-container" id="taxtool-container">
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 

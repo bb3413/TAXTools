@@ -19,8 +19,10 @@ import { Str }			from "../Modules/Str.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 
-const DEBUG_CONTAINER	= "debug-container";
-const DEBUG_OUTPUT		= "debug-output";
+// Element IDs
+import { DEBUG_CONTAINER }	from "../TAXTools/TAXTools.js";
+import { DEBUG_OUTPUT }		from "../TAXTools/TAXTools.js";
+
 let indentation			= 0;
 let debug_all			= false;
 let debug_used_keywords = [];
@@ -203,7 +205,7 @@ function turnOn() {
 
 	const element = document.getElementById(DEBUG_OUTPUT);
 	if (!element) {
-		throw new Error("Debug.turnOn: The \"debug-output\" HTML element is missing.");
+		throw new Error(`The ${DEBUG_OUTPUT} HTML element is missing.`);
 	} else {
 		HTML.putElementValue(DEBUG_OUTPUT, output);
 		showField(DEBUG_CONTAINER);

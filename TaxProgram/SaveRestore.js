@@ -340,6 +340,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
-	HTML.addListener("save-button",				"click",  saveDataHandler);
-	HTML.addListener("input-file",				"change", restoreDataHandler);
+	HTML.addListener("save-button",	"click",  saveDataHandler);
+	HTML.addListener("input-file",	"change", restoreDataHandler);
 });

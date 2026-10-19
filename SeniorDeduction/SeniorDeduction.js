@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
-	HTML.addListener("tax-year",				"change", changeHandler);
+	HTML.addListener("tax-year",			"change", changeHandler);
 	HTML.addListener("FilingStatus",		"change", changeHandler);
 	HTML.addListener("AdjustedGrossIncome",	"change", changeHandler);
 	HTML.addListener("TaxpayersBirthday",	"change", changeHandler);

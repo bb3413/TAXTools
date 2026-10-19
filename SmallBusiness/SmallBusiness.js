@@ -1,4 +1,6 @@
 
+import { TAXTOOL_CONTAINER } from "../Library/TAXTools/TAXTools.js";
+
 import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
@@ -155,39 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
-
-	// Income
-	HTML.addListener("Sales",					"change", changeHandler);
-	HTML.addListener("Returns",					"change", changeHandler);
-	HTML.addListener("Cost",					"change", changeHandler);
-	HTML.addListener("OtherIncome",				"change", changeHandler);
-	HTML.addListener("HomeOfficeExpense",		"change", changeHandler);
-	// HTML.addListener("GrossIncome",			"change", changeHandler);
-
-	// Expenses
-	HTML.addListener("Advertising",				"change", changeHandler);
-	HTML.addListener("CarAndTruck",				"change", changeHandler);
-	HTML.addListener("CarAndTruckMiles",		"change", changeHandler);
-	HTML.addListener("CommissionsAndFees",		"change", changeHandler);
-	HTML.addListener("ContractLabor",			"change", changeHandler);
-	HTML.addListener("Depletion",				"change", changeHandler);
-	HTML.addListener("Depreciation",			"change", changeHandler);
-	HTML.addListener("EmployeeBenefitPrograms",	"change", changeHandler);
-	HTML.addListener("Insurance",				"change", changeHandler);
-	HTML.addListener("Interest",				"change", changeHandler);
-	HTML.addListener("ProfessionalServices",	"change", changeHandler);
-	HTML.addListener("MedicalInsurance",		"change", changeHandler);
-	HTML.addListener("OfficeExpenses",			"change", changeHandler);
-	HTML.addListener("PensionPlan",				"change", changeHandler);
-	HTML.addListener("Rent",					"change", changeHandler);
-	HTML.addListener("Repairs",					"change", changeHandler);
-	HTML.addListener("Supplies",				"change", changeHandler);
-	HTML.addListener("TaxesAndLicenses",		"change", changeHandler);
-	HTML.addListener("Travel",					"change", changeHandler);
-	HTML.addListener("Utilities",				"change", changeHandler);
-	HTML.addListener("Wages",					"change", changeHandler);
-	HTML.addListener("OtherExpenses",			"change", changeHandler);
-	// HTML.addListener("TotalExpenses",		"change", changeHandler);
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
 	// focus but display the page without scrolling to that element.

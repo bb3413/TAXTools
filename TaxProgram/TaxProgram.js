@@ -1,6 +1,8 @@
 
 import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
 import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { DEBUG_CONTAINER }				from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
 import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
 
@@ -41,9 +43,7 @@ export const INCOME_CONTAINER			= "income-container";
 export const ASSETSALES_CONTAINER		= "assetsales-container";
 export const INPUT_TAXFORMS_CONTAINER	= "input-taxforms-container";
 export const OUTPUT_TAXFORMS_CONTAINER	= "output-taxforms-container";
-export const ERROR_MESSAGE_OUTPUT		= "error-message-output";
-export const DEBUG_CONTAINER			= "debug-container";
-export const DEBUG_OUTPUT				= "debug-output";
+
 
 let sales_tax = 0;		// Global variable because it is initialized asynchronously.
 

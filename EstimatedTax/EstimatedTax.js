@@ -8,7 +8,10 @@ import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-import { ESTIMATED_TAX_SAVE_FILE } from "../Library/TAXTools/TAXTools.js";
+import { ESTIMATED_TAX_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }		from "../Library/TAXTools/TAXTools.js";
+import { filingStatusToStr }		from "../Library/TAXTools/TAXTools.js";
 
 // This variable needs to be global so it can be accessed by the save handler.
 let inputs = {};
@@ -139,7 +142,7 @@ function getInputs() {
 	inputs.taxpayers_name =
 		HTML.getUserInput("TaxpayersName", "text");
 	inputs.filing_status =
-		HTML.getUserInput("FilingStatus", "text").toUpperCase();
+		strToFilingStatus(HTML.getUserInput("FilingStatus", "text"));
 	inputs.taxpayers_birthday =
 		HTML.getUserInput("TaxpayersBirthday", "text");
 	inputs.spouses_birthday =
@@ -595,89 +598,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 
 	// Listen for changes to the input data.
-	HTML.addListener("tax-year",						"change", changeHandler);
-	HTML.addListener("SaveButton",						"click",  saveUserData);
-	HTML.addListener("InputFile",						"change", restoreUserData);
-
-	// Taxpayer information
-	HTML.addListener("TaxpayersName",					"change", changeHandler);
-	HTML.addListener("FilingStatus",					"change", changeHandler);
-	HTML.addListener("TaxpayersBirthday",				"change", changeHandler);
-	HTML.addListener("SpousesBirthday",					"change", changeHandler);
-
-	// Income
-	HTML.addListener("Wages",							"change", changeHandler);
-	HTML.addListener("TaxExemptInterest",				"change", changeHandler);
-	HTML.addListener("TaxableInterest",					"change", changeHandler);
-	HTML.addListener("QualifiedDividends",				"change", changeHandler);
-	HTML.addListener("OrdinaryDividends",				"change", changeHandler);
-	HTML.addListener("RetirementAccounts",				"change", changeHandler);
-	HTML.addListener("SocialSecurity",					"change", changeHandler);
-	HTML.addListener("CapitalGains",					"change", changeHandler);
-	HTML.addListener("SelfEmploymentIncome",			"change", changeHandler);
-	HTML.addListener("OtherIncome",						"change", changeHandler);
-
-	// Other Taxes
-	HTML.addListener("SelfEmploymentTax",				"change", changeHandler);
-	HTML.addListener("EarlyWithdrawalTax",				"change", changeHandler);
-	HTML.addListener("OtherTaxes",						"change", changeHandler);
-
-	// Adjustments
-	HTML.addListener("EducatorExpenses",				"change", changeHandler);
-	HTML.addListener("HealthSavingsAccount",			"change", changeHandler);
-	HTML.addListener("SelfEmploymentTaxAdjustment",		"change", changeHandler);
-	HTML.addListener("SelfEmployedHealthInsurance",		"change", changeHandler);
-	HTML.addListener("EarlyWithdrawalPenalty",			"change", changeHandler);
-	HTML.addListener("AlimonyPaid",						"change", changeHandler);
-	HTML.addListener("IRAContributions",				"change", changeHandler);
-	HTML.addListener("StudentLoanInterest",				"change", changeHandler);
-	HTML.addListener("OtherAdjustments",				"change", changeHandler);
-
-	// Deductions (non-itemized)
-	HTML.addListener("QualifiedBusinessIncomeDeduction","change", changeHandler);
-	HTML.addListener("QualifiedTipsDeduction",			"change", changeHandler);
-	HTML.addListener("QualifiedOvertimeDeduction",		"change", changeHandler);
-	HTML.addListener("CarLoanInterestDeduction",		"change", changeHandler);
-	HTML.addListener("SeniorDeduction",					"change", changeHandler);
-
-	// Deductions (itemized)
-	HTML.addListener("MedicalInsurance",				"change", changeHandler);
-	HTML.addListener("DoctorVisits",					"change", changeHandler);
-	HTML.addListener("PrescriptionDrugs",				"change", changeHandler);
-	HTML.addListener("MedicalAids",						"change", changeHandler);
-	HTML.addListener("OtherMedicalExpenses",			"change", changeHandler);
-	HTML.addListener("LTCTaxpayer",						"change", changeHandler);
-	HTML.addListener("LTCSpouse",						"change", changeHandler);
-	HTML.addListener("MedicalMiles",					"change", changeHandler);
-	HTML.addListener("StateIncomeTax",					"change", changeHandler);
-	HTML.addListener("SalesTax",						"change", changeHandler);
-	HTML.addListener("RealEstatePropertyTax",			"change", changeHandler);
-	HTML.addListener("PersonalPropertyTax",				"change", changeHandler);
-	HTML.addListener("MortgageInterest",				"change", changeHandler);
-	HTML.addListener("CashGiftsToCharity",				"change", changeHandler);
-	HTML.addListener("NoncashGiftsToCharity",			"change", changeHandler);
-	HTML.addListener("QualifiedCharitableDistribution",	"change", changeHandler);
-
-	// Non-refundable Credits
-	HTML.addListener("AmericanOppCreditNoRefund",		"change", changeHandler);
-	HTML.addListener("ChildCareCredit",					"change", changeHandler);
-	HTML.addListener("ChildTaxCredit",					"change", changeHandler);
-	HTML.addListener("ForeignTaxCredit",				"change", changeHandler);
-	HTML.addListener("LifetimeLearningCredit",			"change", changeHandler);
-	HTML.addListener("ResidentialEnergyCredit",			"change", changeHandler);
-	HTML.addListener("RetirementSavingsCredit",			"change", changeHandler);
-	HTML.addListener("OtherNonrefundableCredits",		"change", changeHandler);
-
-	// Refundable Credits
-	HTML.addListener("AmericanOppCreditRefundable",		"change", changeHandler);
-	HTML.addListener("CreditForOtherDependents",		"change", changeHandler);
-	HTML.addListener("EarnedIncomeCredit",				"change", changeHandler);
-	HTML.addListener("PremiumTaxCredit",				"change", changeHandler);
-	HTML.addListener("OtherRefundableCredits",			"change", changeHandler);
-
-	// Payments
-	HTML.addListener("Withholding",						"change", changeHandler);
-	HTML.addListener("EstimatedTaxPaid",				"change", changeHandler);
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
+	HTML.addListener("SaveButton",		"click",  saveUserData);
+	HTML.addListener("InputFile",		"change", restoreUserData);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
 	// focus but display the page without scrolling to that element.

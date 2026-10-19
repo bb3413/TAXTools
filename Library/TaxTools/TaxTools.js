@@ -3,9 +3,14 @@ import { Ensure } from "../Modules/Ensure.js";
 
 export const MAX_DOLLAR			= 99999999;
 export const MIN_DOLLAR			= -99999999;
+
 // The TAXTOOL_CONTAINER is the attribute ID of an HTML block element that encloses the
-// entire web page. All TAXTools use the same ID for the outer container.
-export const TAXTOOL_CONTAINER	= "taxtool-container";
+// entire web page. All TAXTools use the same IDs for the following containers.
+export const TAXTOOL_CONTAINER			= "taxtool-container";
+export const ERROR_MESSAGE_CONTAINER	= "error-message-container";
+export const ERROR_MESSAGE_OUTPUT		= "error-message-output";
+export const DEBUG_CONTAINER			= "debug-container";
+export const DEBUG_OUTPUT				= "debug-output";
 
 // URLs
 export const TAXTOOLS_URL		= "https://www.bruceblinn.com/6-OtherStuff/Taxes/TAXTools/";

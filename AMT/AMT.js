@@ -7,6 +7,8 @@ import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
+import { TAXTOOL_CONTAINER } from "../Library/TAXTools/TAXTools.js";
+
 function changeHandler(event) {
 	//
 	// This function is called when any input field is changed. It calculates the
@@ -163,44 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 
 	// Listen for changes to the input data.
-	HTML.addListener("tax-year",					"change", changeHandler);
-	HTML.addListener("FilingStatus",				"change", changeHandler);
-	HTML.addListener("TaxpayersBirthday",			"change", changeHandler);
-	HTML.addListener("SpousesBirthday",				"change", changeHandler);
-	HTML.addListener("TaxpayerIsBlind",				"change", changeHandler);
-	HTML.addListener("SpouseIsBlind",				"change", changeHandler);
-
-	// Input fields
-	HTML.addListener("AGI",							"change", changeHandler);
-	HTML.addListener("QualifiedDividends",			"change", changeHandler);
-	HTML.addListener("CapitalGains",				"change", changeHandler);
-	HTML.addListener("TaxableIncome",				"change", changeHandler);
-	HTML.addListener("IncomeTax",					"change", changeHandler);
-
-	HTML.addListener("ItemizedDeduction",			"change", changeHandler);
-	HTML.addListener("TaxesPaidDeduction",			"change", changeHandler);
-	HTML.addListener("QBIDeduction",				"change", changeHandler);
-
-	HTML.addListener("StateTaxRefund",				"change", changeHandler);
-	HTML.addListener("InvestmentInterestExpense",	"change", changeHandler);
-	HTML.addListener("Depletion",					"change", changeHandler);
-	HTML.addListener("NetOperatingLoss",			"change", changeHandler);
-	HTML.addListener("AlternateNetOperatingLoss",	"change", changeHandler);
-	HTML.addListener("PrivateActivityBondsInterest","change", changeHandler);
-	HTML.addListener("QualifiedSmallBusinessStock",	"change", changeHandler);
-	HTML.addListener("IncentiveStockOptions",		"change", changeHandler);
-	HTML.addListener("EstatesAndTrusts",			"change", changeHandler);
-	HTML.addListener("DispositionOfProperty",		"change", changeHandler);
-	HTML.addListener("Post1986Depreciation",		"change", changeHandler);
-	HTML.addListener("PassiveActivities",			"change", changeHandler);
-	HTML.addListener("LossLimitations",				"change", changeHandler);
-	HTML.addListener("CirculationCosts",			"change", changeHandler);
-	HTML.addListener("LongTermContracts",			"change", changeHandler);
-	HTML.addListener("MiningCosts",					"change", changeHandler);
-	HTML.addListener("ResearchCosts",				"change", changeHandler);
-	HTML.addListener("InstallmentSales",			"change", changeHandler);
-	HTML.addListener("IntangibleDrillingCosts",		"change", changeHandler);
-	HTML.addListener("OtherIncome",					"change", changeHandler);
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
 
 	HTML.hideElement("SpouseContainer");
 	HTML.hideElement("debug-container");

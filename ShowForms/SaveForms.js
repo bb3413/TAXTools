@@ -20,7 +20,7 @@ const header = `
 </head>
 
 <body>
-	<div class="taxtool-container" id="ToolContainer">
+	<div class="taxtool-container">
 	<!---------------------------------------------------------------------------->
 `;
 
