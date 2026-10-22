@@ -81,6 +81,7 @@ export class Refund extends TaxForm {
 				this.explanation = "All of refund is less than the amount " +
 					"of state and local taxes that are over the SALT cap. The refund is " +
 					"not taxable.";
+				Debug.exit("Refund.calculate()");
 				return;
 			}
 		} else {
@@ -108,6 +109,7 @@ export class Refund extends TaxForm {
 				this.explanation = "Itemized deductions were less than " +
 					"the standard deduction. The taxpayer could have used the " +
 					"standard deduction.";
+				Debug.exit("Refund.calculate()");
 				return;
 			}
 		}

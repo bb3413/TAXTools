@@ -62,6 +62,7 @@ export class IRADeduction extends TaxForm {
 											"23","25");
 			this.lines["05"].value	= this.subtract("03", "04");
 			if (this.line("05") < this.line("02")) {
+				Debug.exit("IRADeduction.calculate()");
 				return 0;	// Not deductible
 			}
 			this.lines["06"].value = this.subtract("02", "05");	// Income limit - income

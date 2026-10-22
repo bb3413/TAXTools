@@ -92,6 +92,7 @@ export class SSTax extends TaxForm {
 		this.lines["06"].value	= adjustments - student_loan_int;	// Adjustments
 		if (this.line("06") >= this.line("05")) {
 			this.lines["18"].value = 0;
+			Debug.exit("SSTax.calculate()");
 			return 0;
 		}
 		this.lines["07"].value	= Math.max(0, this.subtract("05", "06"));	// SS income
@@ -101,6 +102,7 @@ export class SSTax extends TaxForm {
 			this.lines["08"].value = tt.get_SS_Start_50(filing_status);		// Start 50% range
 			if (this.line("08") >= this.line("07")) {
 				this.lines["18"].value = 0;
+				Debug.exit("SSTax.calculate()");
 				return 0;
 			}
 			this.lines["09"].value	= Math.max(0, this.subtract("07","08"));// Amount over
