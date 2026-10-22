@@ -23,7 +23,7 @@ async function fetchSalesTaxRate(address, city, zip) {
 
 		const data = await response.json();
 		if (data && data.taxRateInfo && data.taxRateInfo.length > 0) {
-			salesTaxRate = (data.taxRateInfo[0].rate * 100).toFixed(3);
+			salesTaxRate = parseFloat((data.taxRateInfo[0].rate * 100).toFixed(3));
 			console.log("Sales Tax Rate: ",			salesTaxRate);
 			console.log("Sales Tax County: ",		data.taxRateInfo[0].county);
 			console.log("Sales Tax Jurisdiction: ",	data.taxRateInfo[0].jurisdiction);
