@@ -26,7 +26,6 @@ h1, h2, h3, h4 {
 
 .restore-button {
 	display: 				inline-block;
-	cursor:					pointer;
 	padding-left:			6px;
 	padding-right:			6px;
 }
