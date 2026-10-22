@@ -19,6 +19,7 @@ export const TaxInfo = {
 import { Classes }		from "../Modules/Classes.js";
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
+import { Str }			from "../Modules/Str.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 
 // Which retirement plan
@@ -115,8 +116,13 @@ function getBusinessIncome(business_name) {
 	let sum = 0;
 	const all_1099s = TaxFormObj.getAllForms("F1099NEC")
 						.concat(TaxFormObj.getAllForms("F1099MISC"))
+						.concat(TaxFormObj.getAllForms("F1099K"));
 
 	for (const form of all_1099s) {
+		if ((form.formname === "F1099MISC") && Str.empty(form.lines["business_name"])) {
+			continue;
+		}
+
 		let bus_name = "NO_NAME";
 		if (form.lines["business_name"]) {
 			bus_name = form.lines["business_name"];
@@ -155,9 +161,14 @@ function getBusinessNames() {
 	//
 	let business_names = [];
 	let business_forms = TaxFormObj.getAllForms("F1099NEC")
-							.concat(TaxFormObj.getAllForms("F1099MISC"));
+							.concat(TaxFormObj.getAllForms("F1099MISC"))
+							.concat(TaxFormObj.getAllForms("F1099K"));
 
 	for (const form of business_forms) {
+		if ((form.formname === "F1099MISC") && Str.empty(form.lines["business_name"])) {
+			continue;
+		}
+
 		let business_name = "NO_NAME";
 		if (form.lines["business_name"]) {
 			business_name = form.lines["business_name"].toUpperCase;
@@ -193,7 +204,7 @@ function getStateWithholding() {
 		TaxFormObj.getValue("F1099MISC",	"16") +
 		TaxFormObj.getValue("F1099MISC",	"05") +
 		TaxFormObj.getValue("F1099OID",		"14") +
-		TaxFormObj.getValue("F1099R",		"14")
+		TaxFormObj.getValue("F1099R",		"14");
 	);
 }
 

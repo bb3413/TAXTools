@@ -234,6 +234,13 @@ const HTML_CODE = `
 			</div>		<!-- f1099-taxform-container -->
 			<div class="f1099-footer-note">Form <strong>1099-K</strong></div>
 			<div>&nbsp;</div>
+
+			<div class="supplemental-line-150-400">
+				<p>Name of Business (if applicable)</p>
+				<input class="input-field left" type="text" spellcheck="false"
+					size="45" id="f1099k-XX-business-name" />
+			</div>
+			<div>&nbsp;</div>
 		</details>
 `;
 
@@ -266,6 +273,7 @@ const FIELD_INFO = {
 	"05l":				["",		true,	""],
 	"06":				["",		true,	""],
 	"07":				["text",	true,	""],
+	"business-name":	["text",	true,	""],
 };
 
 export class F1099K_HTML extends HTMLBlock {
