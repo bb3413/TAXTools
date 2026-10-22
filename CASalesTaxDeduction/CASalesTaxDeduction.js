@@ -51,6 +51,7 @@ function changeHandler(event) {
 		console.log("Stack trace:", error.stack);
 		document.getElementById("error-message-output")
 			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Debug.turnOn();
 	}
 }
 
