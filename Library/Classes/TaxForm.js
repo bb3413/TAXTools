@@ -190,8 +190,7 @@ export class TaxForm {
 		const formname	= this.formname.toLowerCase();
 		const doc		= new HTMLBuild();
 
-		doc.startElement("details", "taxform-details", "",
-				`id="${formname}-${uid}-container"`);	// Start of details
+		doc.startElement("details", "taxform-details", "", `id="${formname}-${uid}"`);					
 			doc.addElement("summary", "taxform-summary", this.title);
 			doc.startElement("div", "taxform-container");	// Start of taxform-container
 				doc.addElement("div", "", "&nbsp;");		// Blank line
