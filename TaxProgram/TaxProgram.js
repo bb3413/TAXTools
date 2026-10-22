@@ -3,6 +3,7 @@ import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
 import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
 import { DEBUG_CONTAINER }				from "../Library/TAXTools/TAXTools.js";
 import { ERROR_MESSAGE_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
 import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
 
@@ -77,8 +78,8 @@ function addInputFormHandler(event) {
 	// This function is called when the user clicks on the "Add Form" button to add a new
 	// input tax form to the web page.
 	//
-	const formname = HTML.getElementValue("add-form-button");	// Get selected form name.
-	HTML.putElementValue("add-form-button", "None");			// Reset to "Add Form".
+	const formname = HTML.getElementValue("input-form-button");	// Get selected form name.
+	HTML.putElementValue("input-form-button", "None");			// Reset to "Add Form".
 	if (formname === "" || formname === "None") {
 		return;
 	}
@@ -510,6 +511,7 @@ function processError(error) {
 	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error);
 	console.log("Stack trace:", error.stack);
 	HTML.scrollTo(ERROR_MESSAGE_OUTPUT);
+	Debug.turnOn();
 }
 
 function putOutputs() {
@@ -577,8 +579,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.addListener("city",					"change", changeAddressHandler);
 	HTML.addListener("zip-code",				"change", changeAddressHandler);
 	HTML.addListener("add-assetsale-button",	"click",  addAssetSaleHandler);
-	HTML.addListener("add-dependent-button",	"click",  addDependentHandler);
-	HTML.addListener("add-form-button",			"click",  addInputFormHandler);
+	HTML.addListener("dependent-button",		"click",  addDependentHandler);
+	HTML.addListener("input-form-button",		"click",  addInputFormHandler);
 	HTML.addListener("calculate-button",		"click",  calculateHandler);
 
 	initialize();

@@ -33,8 +33,7 @@ function addForm(formname, form) {
 	}
 
 	if ((form_list.length > 0) && Classes.isSingleton(formname)) {
-		throw new Error(
-			`TaxFormObj.addForm(): Singleton form ${formname} already exists; cannot add.`);
+		throw new Error(`Singleton form ${formname} already exists; cannot add.`);
 		return;
 	}
 

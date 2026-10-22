@@ -94,6 +94,7 @@ export const Classes = {
 	isSingleton,
 	isInputForm,
 	isOutputForm,
+	isWorksheet,
 	listAllForms,
 };
 
@@ -143,7 +144,7 @@ const form_info = {
     "CA_HiIncDeductions":   [ false,	true,	true,   true    ],
     "CA_HiIncExemptions":   [ false,	true,	true,   true    ],
     "IncTax":               [ false,	true,	true,   true    ],
-    "IRADeduction":         [ false,	true,	true,   true    ],
+    "IRADeduction":         [ false,	true,	false,  true    ],
     "Refund":               [ false,	true,	true,   true    ],
     "SalesTax":             [ false,	true,	true,   true    ],
     "Simple":               [ false,	true,	false,  true    ],
@@ -294,6 +295,16 @@ function isOutputForm(formname) {
 
 	if (form_info[formname]) {
 		return ((!form_info[formname][INPUT]) && (!form_info[formname][WORKSHEET]));
+	} else {
+		return false;
+	}
+}
+
+function isWorksheet(sheet_name) {
+	Ensure.isNonEmptyString(sheet_name);
+
+	if (form_info[sheet_name]) {
+		return form_info[sheet_name][WORKSHEET];
 	} else {
 		return false;
 	}

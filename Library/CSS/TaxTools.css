@@ -65,18 +65,11 @@ input[type="radio"] {
 }
 
 body {
-	/* PDF files cannot print Calibri font so switch to helvetica when making a PDF file.
-	 * When using Helvetica use font-size 14px.
-	 */
-	font-family:			/* Calibri, */ Helvetica, Arial, sans-serif;
-	font-size:				14px;	/* Use this with Helvetica */
+	font-family:			Helvetica, Arial, sans-serif;
+	font-size:				14px;
 	line-height:			1.4;
-	max-width:				7.5in;
-	/* background-image: linear-gradient(to bottom, var(--background-color), white); */
 	background-color:		var(--background-color);
 	color:					var(--text-color);
-	/* display:				flex;
-	justify-content:		center; */
 	padding:				0.2in;
 	max-width:				8.5in;
 }
@@ -131,6 +124,7 @@ body {
 .button {
 	background:				var(--input-color);
 	color:					var(--text-color);
+	cursor:					pointer;
 	border:					1px solid var(--border-color);
 	box-shadow: 			0px 2px 4px var(--shadow-color);
 	border-radius:			3px;
@@ -138,8 +132,8 @@ body {
 
 .button:active {
 	box-shadow:				0px 1px 2px var(--shadow-color);	/* Lowering the shadow */
-	transform:				scale(0.95);	/* Scaling button to 0.98 to its original size */
-/*	transform:				translateY(2px);		/* Or, moving button 2px to y-axis */
+	transform:				scale(0.95);						/* 0.95 of original size */
+/*	transform:				translateY(2px);					/* Or, move 2px to y-axis */
 }
 
 .checkbox {
@@ -162,16 +156,30 @@ body {
 	top:					2px;
 	width:					5px;
 	height:					10px;
-	border:					solid var(--text-color);	/* Color of check mark */
+	border:					1px solid var(--border-color);
 	border-width:			0 1px 1px 0;
 	transform:				rotate(45deg);
 }
 
+.radio-button input[type="radio"] {
+    appearance:				none;				/* Hide native radio */
+	background-color:		var(--input-color);	/* Color when selected */
+    width:					1.15em;				/* Set width */
+    height:					1.15em;				/* Set height */
+    border-radius:			50%;				/* Make it circular */
+    border:					1px solid var(--border-color);	/* Outer ring */
+}
+
+.radio-button input[type="radio"]:checked {
+    background-color:		var(--text-color);			/* Color when selected */
+    box-shadow:				inset 0 0 0 0.15em white;	/* Inner dot */
+}
+
 /*
- *	If fields are auto-filled by the browser, the browser automatically changes the background
- *	color of the field to a blue tint. The following code uses a large, solid box-shadow
- *	inside the input box to cover up the browser's blue tint with the tool's input color.
- *	This should work in Chrome, Edge, Safari, and Firefox.
+ * If fields are auto-filled by the browser, the browser automatically changes the
+ * background color of the field to a blue tint. The following code uses a large, solid
+ * box-shadow inside the input box to cover up the browser's blue tint with the tool's
+ * input color. This should work in Chrome, Edge, Safari, and Firefox.
  */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -195,12 +203,18 @@ input:-webkit-autofill:focus {
 	line-height:			1.4;
 }
 
-/* Overrides: put the after the class where you want to override the attribute. */
+/*
+ * Overrides: put the after the class where you want to override the attribute.
+ */
+ 
+.box			{ border:				1px solid var(--border-color); }
 .noborder		{ border:				none !important; }
 .input-color	{ background-color:		var(--input-color); }
 .output-color	{ background-color:		var(--output-color); }
 .right			{ text-align:			right; }
 .left			{ text-align:			left; }
+.flex-right		{ justify-content:		right; }
+.flex-left		{ justify-content:		left; }
 .span-two		{ grid-column:			span 2; }
 .span-three		{ grid-column:			span 3; }
 .span-four		{ grid-column:			span 4; }
@@ -210,3 +224,32 @@ input:-webkit-autofill:focus {
 .flex-center	{ justify-content:		center; }	/* Center the elements in a flex-box. */
 .bold			{ font-weight:			bold; }
 .center-text	{ text-align:			center; }
+.pointer		{ cursor:				pointer; }
+
+/*
+ * Input lines with two fields
+ */
+.taxpayer-info-150-100 {
+	display:				grid;
+	grid-template-columns:	150px 100px;
+}
+
+.taxpayer-info-150-100 p {
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+.taxpayer-info-150-100 input {
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+.taxpayer-info-150-400 {
+	display:				grid;
+	grid-template-columns:	150px 400px;
+}
+
+.taxpayer-info-150-400 p {
+	margin-top:				0;
+	margin-bottom:			0;
+}
