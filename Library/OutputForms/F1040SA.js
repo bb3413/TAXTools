@@ -14,7 +14,7 @@ export class F1040SA extends TaxForm {
 		Debug.enter("F1040SA.Constructor()");
 		super(formname);
 		this.title		= `Schedule A - Itemized Deductions`;
-		this.sales_tax	= TaxFormObj.createForm("SalesTax");
+		this.sales_tax	= TaxFormObj.getOrCreateForm("SalesTax");
 
 		// Variables for external input. These variables are used to enter information
 		// that does not come from another tax form.
