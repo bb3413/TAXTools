@@ -107,14 +107,8 @@ export class F1040 extends TaxForm {
 		this.lines["09"].value	= this.add("01z","02b","03b","04b","05b","06b","07a","08");
 		this.lines["11a"].value	= this.subtract("09", "10");	// AGI
 		this.lines["11b"].value	= this.line("11a");				// AGI
-		const standard_deduction =
-			tt.getStandardDeduction(
-				tp.filing_status,
-				tp.taxpayers_age,
-				tp.spouses_age,
-				tp.is_taxpayer_blind,
-				tp.is_spouse_blind);
-		this.lines["12e"].value	= Math.max(standard_deduction, getValue("F1040SA", "17"));
+		this.lines["12e"].value	= Math.max(tt.getStandardDeduction(),
+										   getValue("F1040SA", "17"));
 		this.lines["13a"].value	= getValue("F8995", "15");		// QBI Deduction
 		this.lines["13b"].value	= getValue("F1040S1A", "38");	// Additional Deducts
 		this.lines["14"].value	= this.add("12e","13a","13b");	// Total Deductions

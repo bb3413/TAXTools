@@ -17,7 +17,7 @@ export class TaxTableTmpl {
 		return Math.round(miles * this.getTaxValue("CharityMileage"));
 	}
 
-	getIncomeTaxFromTable(filing_status, income) {
+	getIncomeTaxFromTable(income) {
 		// Note: there is another function named getIncomeTax() in
 		// Library/IncomeTax.js.
 		//
@@ -26,12 +26,13 @@ export class TaxTableTmpl {
 		//
 		//		((income - start_of_bracket) * tax_rate) + cumulative_tax
 		//
-		Ensure.isNumber(filing_status);
 		Ensure.isNumber(income);
+
+		const tp = Taxpayer.getTaxpayer();
 
 		let tax  = 0;
 		for (let row = 0; row < this.income_tax_table.length; row++) {
-			if ((filing_status === this.income_tax_table[row][0]) &&
+			if ((tp.filing_status === this.income_tax_table[row][0]) &&
 					income > this.income_tax_table[row][1] &&
 					income <= this.income_tax_table[row][2]) {
 
@@ -136,79 +137,40 @@ export class TaxTableTmpl {
 		return deduction;
 	}
 
-	getSeniorDeduction(
-		filing_status,
-		agi,
-		taxpayers_age				= 0,
-		spouses_age					= 0)
-	{
-		Ensure.isNumber(filing_status);
-		Ensure.isNumber(agi);
-		Ensure.isNumber(taxpayers_age);
-		Ensure.isNumber(spouses_age);
+	getStandardDeduction(taxpayers_age = -1, spouses_age = -1) {
+		const tp = Taxpayer.getTaxpayer();
 
-		let senior_deduction		= 0;
-		let deduction				= 0
-		let excess					= 0;
-		const max_senior_deduction =
-			this.getTaxValue("MaxSeniorDeduction", filing_status);
-		const phase_out_start =
-			this.getTaxValue("SeniorDeductionPhaseOut", filing_status);
+		let std_deduction		= this.getTaxValue("StandardDeduction")
+		let std_deduction_extra	= this.getTaxValue("StandardDeductionExtra")
 
-		excess = Math.max(0, agi - phase_out_start);
-		deduction = Math.round(Math.max(0, max_senior_deduction - (excess * 0.06)));
-
-		if (taxpayers_age >= 65) {
-			senior_deduction = deduction;
-		}
-
-		if (filing_status === MFJ) {
-			if (spouses_age >= 65) {
-				senior_deduction += deduction;
-			}
-		}
-
-		return senior_deduction;
-	}
-
-	getStandardDeduction(
-		filing_status		= SINGLE,
-		taxpayers_age		= 0,
-		spouses_age			= 0,
-		is_taxpayer_blind	= false,
-		is_spouse_blind		= false)
-	{
-		Ensure.isNumber(filing_status);
-		Ensure.isNumber(taxpayers_age);
-		Ensure.isNumber(spouses_age);
-
-		let std_deduction		= this.getTaxValue("StandardDeduction", filing_status)
-		let std_deduction_extra	= this.getTaxValue("StandardDeductionExtra", filing_status)
+		taxpayers_age	= taxpayers_age !== -1 ? taxpayers_age : tp.taxpayers_age;
+		spouses_age		= spouses_age !== -1 ? spouses_age : tp.spouses_age;
 
 		if (taxpayers_age >= 65)
 			std_deduction += std_deduction_extra;
-		if (is_taxpayer_blind)
+		if (tp.is_taxpayer_blind)
 			std_deduction += std_deduction_extra;
 
-		if (filing_status === MFJ) {
+		if (tp.filing_status === MFJ) {
 			if (spouses_age >= 65)
 				std_deduction += std_deduction_extra;
-			if (is_spouse_blind)
+			if (tp.is_spouse_blind)
 				std_deduction += std_deduction_extra;
 		}
 
 		return std_deduction;
 	}
 
-	getTaxValue(name, filing_status = SINGLE) {
+	getTaxValue(name) {
 		Ensure.isString(name);
-		Ensure.isNumber(filing_status);
+
+		const tp = Taxpayer.getTaxpayer();
 
 		if (!this.values[name]) {
-			throw new Error("TT.getTaxValue(): Invalid tax value: " + name);
+			throw new Error(`Invalid tax value: ${name}`);
 		}
 
-		return this.values[name][filing_status]
+		return this.values[name][tp.filing_status]
 	}
 
 	getTaxYear() {
@@ -216,12 +178,11 @@ export class TaxTableTmpl {
 		return this.tax_year;
 	}
 
-	get_AMT_Exemption(filing_status, amt_income) {
-		Ensure.isNumber(filing_status);
+	get_AMT_Exemption(amt_income) {
 		Ensure.isNumber(amt_income);
 
-		let exemption	= this.getTaxValue("AMT_Exemption", filing_status);
-		let phase_out	= this.getTaxValue("AMT_ExemptionPhaseOut", filing_status);
+		let exemption	= this.getTaxValue("AMT_Exemption");
+		let phase_out	= this.getTaxValue("AMT_ExemptionPhaseOut");
 		let excess		= 0;
 
 		if (amt_income > phase_out) {
@@ -231,13 +192,13 @@ export class TaxTableTmpl {
 		return Math.max(0, exemption - excess);
 	}
 
-	get_AMT_Tax(filing_status, income) {
-		Ensure.isNumber(filing_status);
+	get_AMT_Tax(income) {
 		Ensure.isNumber(income);
 
+		const tp = Taxpayer.getTaxpayer();
 		let tax = 0;
 		for (let row = 0; row < this.amt_tax.length; row++) {
-			if ((filing_status === this.amt_tax[row][0]) &&
+			if ((tp.filing_status === this.amt_tax[row][0]) &&
 					income > this.amt_tax[row][1] &&
 					income <= this.amt_tax[row][2]) {
 
@@ -252,51 +213,18 @@ export class TaxTableTmpl {
 		return Math.round(tax);
 	}
 
-	get_CA_Exemption(
-		filing_status		= SINGLE,
-		taxpayers_age		= 0,
-		spouses_age			= 0,
-		is_taxpayer_blind	= false,
-		is_spouse_blind		= false,
-		num_dependents		= 0)
-	{
-		Ensure.isNumber(filing_status);
-		Ensure.isNumber(taxpayers_age);
-		Ensure.isNumber(spouses_age);
-		Ensure.isNumber(num_dependents);
-
-		const personal_exemption	= this.getTaxValue("CA_PersonalExemption");
-		const dependent_exemption	= this.getTaxValue("CA_DependentExemption");
-
-		let exemption = personal_exemption;		// One exemption for the taxpayer.
-		if (taxpayers_age >= 65)
-			exemption += personal_exemption;
-		if (is_taxpayer_blind)
-			exemption += personal_exemption;
-
-		if (filing_status === MFJ) {
-			exemption += personal_exemption;		// One exemption for the spouse.
-			if (spouses_age >= 65)
-				exemption += personal_exemption;
-			if (is_spouse_blind)
-				exemption += personal_exemption;
-		}
-
-	 	exemption += num_dependents * dependent_exemption;
-
-		return exemption;
-	}
-
-	get_CA_IncomeTax(filing_status, income) {
+	get_CA_IncomeTax(income) {
 		// Find the tax bracket for the filing status and income, then compute
 		// the tax:
 		//
 		//		((income - start_of_bracket) * tax_rate) + cumulative_tax
 		//
-		Ensure.isNumber(filing_status);
 		Ensure.isNumber(income);
 
+		const tp = Taxpayer.getTaxpayer();
+
 		// SINGLE and MFS are the same. MFJ and QSS are the same.
+		let filing_status = tp.filing_status;
 		switch (filing_status) {
 			case QSS:
 				filing_status	= MFJ;
@@ -307,7 +235,6 @@ export class TaxTableTmpl {
 		}
 
 		let tax = 0;
-
 		for (let row = 0; row < this.ca_income_tax_table.length; row++) {
 			if ((filing_status === this.ca_income_tax_table[row][0]) &&
 					income > this.ca_income_tax_table[row][1] &&
@@ -323,31 +250,6 @@ export class TaxTableTmpl {
 		}
 
 		return Math.round(tax);
-	}
-
-	get_CA_StandardDeduction(filing_status) {
-		Ensure.isNumber(filing_status);
-		return this.getTaxValue("CA_StandardDeduction", filing_status);
-	}
-
-	get_CapGains_15_Start(filing_status) {
-		Ensure.isNumber(filing_status);
-		return this.getTaxValue("CG_15PercentRangeStart", filing_status);
-	}
-
-	get_CapGains_20_Start(filing_status) {
-		Ensure.isNumber(filing_status);
-		return this.getTaxValue("CG_20PercentRangeStart", filing_status);
-	}
-
-	get_SS_Start_50(filing_status) {
-		Ensure.isNumber(filing_status);
-		return this.getTaxValue("SS_50PercentRangeStart", filing_status);
-	}
-
-	get_SS_50_Range(filing_status) {
-		Ensure.isNumber(filing_status);
-		return this.getTaxValue("SS_50PercentRangeLength", filing_status);
 	}
 
 	isValidTaxYear(tax_year) {

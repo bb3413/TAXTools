@@ -20,7 +20,7 @@ export class F1040S1 extends TaxForm {
 		const tp = Taxpayer.getTaxpayer();
 
 		// Create worksheets
-		this.student_loan = TaxFormObj.createForm("StudentLoan");
+		this.student_loan			= TaxFormObj.createForm("StudentLoan");
 		this.taxpayer_ira_deduction	= TaxFormObj.createForm("IRADeduction");
 		if (tp.filing_status === MFJ) {
 			this.spouse_ira_deduction = TaxFormObj.createForm("IRADeduction");
@@ -54,10 +54,9 @@ export class F1040S1 extends TaxForm {
 		Debug.enter("F1040S1.calculate()");
 		this.calculated = true;
 
-		// Abbreviations
-		const tt = TaxTable.getTaxTable();
-		const tp = Taxpayer.getTaxpayer();
-		const getValue = TaxFormObj.getValue;
+		const tt = TaxTable.getTaxTable();		// Abbreviation
+		const tp = Taxpayer.getTaxpayer();		// Abbreviation
+		const getValue = TaxFormObj.getValue;	// Abbreviation
 
 		// Reset the worksheets in case this form is being recalculated.
 		this.student_loan.resetCalculation();
@@ -66,10 +65,10 @@ export class F1040S1 extends TaxForm {
 			this.spouse_ira_deduction.resetCalculation();
 		}
 
-		const max_educator_expense = tt.getTaxValue("MaxEducatorExpenses", SINGLE);
+		const max_educator_expense = tt.getTaxValue("MaxEducatorExpenses");
 
 		// Additions to Income
-		this.lines["01"].value	= getValue("F1099G", "taxable_refund");	// Taxable Refund
+		this.lines["01"].value	= this._taxableRefund();
 		this.lines["02a"].value	= 0;									// Alimony Received
 		this.lines["02b"].value	= "";									// Divorce Date
 		if (Dates.isValid(this.lines["02b"].value)) {
@@ -190,5 +189,18 @@ export class F1040S1 extends TaxForm {
 		const deduction	= this.student_loan.calculate(interest);
 		
 		return deduction;
+	}
+
+	_taxableRefund() {
+		let taxable_refund = 0;
+
+		for (const f1099g of TaxFormObj.getForms("F1099G")) {
+			if (f1099g.lines["02"].value > 0) {
+				f1099g.calculate();
+				taxable_refund += f1099g.refund.taxable_amount;
+			}
+		}
+
+		return taxable_refund;
 	}
 }

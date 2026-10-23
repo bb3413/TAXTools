@@ -53,71 +53,74 @@ function checkInputValues(inputs) {
 	const tp	= Taxpayer.getTaxpayer();
 	const fs	= tp.filing_status;
 	const inp	= inputs;	// Shorthand
+	const max_educator_expenses = tt.getTaxValue("MaxEducatorExpenses");
+	if (fs === MFJ) {
+		max_educator_expenses *= 2;
+	}
 
 	inp.ltc_taxpayer =
 		Math.min(inp.ltc_taxpayer, tt.getMaxLTC(tp.taxpayers_age));
 	inp.ltc_spouse =
 		Math.min(inp.ltc_spouse, tt.getMaxLTC(tp.spouses_age));
 
-	inp.educator_expenses =
-		Math.min(inp.educator_expenses,
-				 tt.getTaxValue("MaxEducatorExpenses", fs));
+	inp.educator_expenses = MaxEducatorExpenses
+		Math.min(inp.educator_expenses, max_educator_expenses);
 	inp.capital_gains =
 		Math.min(inp.capital_gains,
-				 tt.getTaxValue("MaxCapitalLoss", fs));
+				 tt.getTaxValue("MaxCapitalLoss"));
 	inp.student_loan_interest =
 		Math.min(inp.student_loan_interest,
-				 tt.getTaxValue("MaxStudentLoanInterest", fs));
+				 tt.getTaxValue("MaxStudentLoanInterest"));
 
 	// OBBA
 	inp.qualified_tips_deduction =
 		Math.min(inp.qualified_tips_deduction,
-				 tt.getTaxValue("MaxTipsDeduction", fs));
+				 tt.getTaxValue("MaxTipsDeduction"));
 	inp.qualified_overtime_deduction =
 		Math.min(inp.qualified_overtime_deduction,
-				 tt.getTaxValue("MaxOvertimeDeduction", fs));
+				 tt.getTaxValue("MaxOvertimeDeduction"));
 	inp.car_loan_interest_deduction =
 		Math.min(inp.car_loan_interest_deduction,
-				 tt.getTaxValue("MaxCarLoanInterestDeduction", fs));
+				 tt.getTaxValue("MaxCarLoanInterestDeduction"));
 	inp.senior_deduction =
-		Math.min(inp.senior_deduction, tt.getTaxValue("MaxSeniorDeduction", fs));
+		Math.min(inp.senior_deduction, tt.getTaxValue("MaxSeniorDeduction"));
 
 	// Non-refundable Credits
 	inp.american_opp_credit_no_refund =
 		Math.min(inp.american_opp_credit_no_refund,
-				 tt.getTaxValue("MaxAmericanOppCreditNoRefund",	fs));
+				 tt.getTaxValue("MaxAmericanOppCreditNoRefund"));
 	inp.child_care_credit =
 		Math.min(inp.child_care_credit,
-				 tt.getTaxValue("MaxChildAndDependentCareCredit", fs));
+				 tt.getTaxValue("MaxChildAndDependentCareCredit"));
 	inp.child_tax_credit =
 		Math.min(inp.child_tax_credit,
-				 tt.getTaxValue("MaxChildTaxCredit", fs));
+				 tt.getTaxValue("MaxChildTaxCredit"));
 	inp.foreign_tax_credit =
 		Math.min(inp.foreign_tax_credit,
-				 tt.getTaxValue("MaxForeignTaxCredit", fs));
+				 tt.getTaxValue("MaxForeignTaxCredit"));
 	inp.lifetime_learning_credit =
 		Math.min(inp.lifetime_learning_credit,
-				 tt.getTaxValue("MaxLifetimeLearningCredit", fs));
+				 tt.getTaxValue("MaxLifetimeLearningCredit"));
 	inp.residential_energy_credit =
 		Math.min(inp.residential_energy_credit,
-				 tt.getTaxValue("MaxResidentialEnergyCredit",	fs));
+				 tt.getTaxValue("MaxResidentialEnergyCredit"));
 	inp.retirement_savings_credit =
 		Math.min(inp.retirement_savings_credit,
-				 tt.getTaxValue("MaxRetirementSavingsCredit",	fs));
+				 tt.getTaxValue("MaxRetirementSavingsCredit"));
 
 	// Refundable Credits
 	inp.american_opp_credit_refundable =
 		Math.min(inp.american_opp_credit_refundable,
-				 tt.getTaxValue("MaxAmericanOppCreditRefundable",fs));
+				 tt.getTaxValue("MaxAmericanOppCreditRefundable"));
 	inp.credit_for_other_dependents =
 		Math.min(inp.credit_for_other_dependents,
-				 tt.getTaxValue("MaxCreditForOtherDependents", fs));
+				 tt.getTaxValue("MaxCreditForOtherDependents"));
 	inp.earned_income_credit =
 		Math.min(inp.earned_income_credit,
-				 tt.getTaxValue("MaxEarnedIncomeCredit", fs));
+				 tt.getTaxValue("MaxEarnedIncomeCredit"));
 	inp.premium_tax_credit =
 		Math.min(inp.premium_tax_credit,
-				 tt.getTaxValue("MaxPremiumTaxCredit", fs));
+				 tt.getTaxValue("MaxPremiumTaxCredit"));
 }
 
 function createTaxpayer(inputs) {

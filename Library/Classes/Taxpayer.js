@@ -52,7 +52,7 @@ function initializeTaxpayer() {
 	for (const field_name of Object.keys(FIELD_INFO)) {
 		const value_type	= FIELD_INFO[field_name][0];
 		const key_name		= field_name.replace(/-/g, "_");
-		if (document.getElementById(field_name)) {
+		if (HTML.isValidElementID(field_name)) {
 			switch (key_name) {
 				case "filing_status":
 					taxpayer[key_name] = 
@@ -63,6 +63,10 @@ function initializeTaxpayer() {
 					break;
 			}
 		}
+	}
+
+	if (typeof taxpayer["filing_status"] !== "number") {
+		taxpayer[filing_status] = SINGLE;
 	}
 
 	if (taxpayer.filing_status === MFJ) {
@@ -100,14 +104,6 @@ export class Taxpayer {
 		}
 
 		return inputs;
-	}
-
-	static getFilingStatus() {
-		if (taxpayer) {
-			return taxpayer.filing_status;
-		} else {
-			return SINGLE;
-		}
 	}
 
 	static getTaxpayer() {

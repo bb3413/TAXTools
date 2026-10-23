@@ -1011,7 +1011,7 @@ export class F540CA extends TaxForm {
 
 		// SALT after Limit
 		this.lines["D-05eA"].value	= Math.min(this.line("D-05dA"),
-										   tt.getTaxValue("MaxSALT", tp.filing_status));
+										   tt.getTaxValue("MaxSALT"));
 		this.lines["D-05eB"].value	= this.line("D-05aB");
 		this.lines["D-05eC"].value	= this.subtract("D-05dA","D-05eA");
 
@@ -1123,16 +1123,14 @@ export class F540CA extends TaxForm {
 		this.lines["D-27"].value	= 0;								// Other Adjustments
 		this.lines["D-28"].value	= this.add("D-26","D-27");			// Total Deduction
 
-		if (TaxFormObj.getValue("F1040", "11b") <=
-			tt.getTaxValue("CA_HiIncPhaseout", tp.filing_status)) {
+		if (TaxFormObj.getValue("F1040", "11b") <= tt.getTaxValue("CA_HiIncPhaseout")) {
 			this.lines["D-29"].value = this.line("D-28");			// Itemized Deduction
 		} else {
 			this.lines["D-29"].value =
 				new CA_HiIncDeductions("CA_HiIncDeductions").line("deductions");
 		}
 		this.lines["D-30"].value =
-			Math.max(this.line("D-29"),
-						tt.getTaxValue("CA_StandardDeduction", tp.filing_status));
+			Math.max(this.line("D-29"), tt.getTaxValue("CA_StandardDeduction"));
 
 		Debug.exit("F540CA.calculate()");
 	}

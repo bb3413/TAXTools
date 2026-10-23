@@ -34,7 +34,7 @@ export class TaxTable_2024 extends TaxTableTmpl {
 		"MedicalMileage":				[ 0.21,			0.21,		0.21,		0.21,		0.21		],
 
 		"MaxCapitalLoss":				[ 3000,			3000,		3000,		3000,		1500		],
-		"MaxEducatorExpenses":			[ 300,			300,		600,		300,		300			],
+		"MaxEducatorExpenses":			[ 300,			300,		300,		300,		300			],	// Per taxpayer
 		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],
 		"MaxSALT":						[ 10000,		10000,		10000,		10000,		10000		],
 		"MaxStudentLoanInterest":		[ 2500,			2500,		2500,		2500,		0			],

@@ -34,11 +34,11 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"MedicalMileage":				[ 0.205,		0.205,		0.205,		0.205,		0.21		],
 
 		"MaxCapitalLoss":				[ 3000,			3000,		3000,		3000,		1500		],
-		"MaxEducatorExpenses":			[ 350,			350,		700,		350,		350			],
+		"MaxEducatorExpenses":			[ 350,			350,		350,		350,		350			],	// Per taxpayer
 		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],	// TY25
 		"MaxSALT":						[ 40000,		40000,		40000,		40000,		20000		],	// TY25
 		"MaxStudentLoanInterest":		[ 2500,			2500,		2500,		2500,		0			],	// TY25
-		"StudentLoanPhaseOut":			[ 85000,		85000,		175000,		85000,		0			],	// TY25
+		"StudentLoanPhaseOut":			[ 85000,		85000,		175000,		85000,		0			],
 
 		// OBBA deductions				SINGLE			HOH			MFJ			QSS			MFS
 		"MaxCarLoanInterestDeduction":	[ 10000,		10000,		10000,		10000,		10000		],	// TY25
@@ -187,11 +187,11 @@ export class TaxTable_2026 extends TaxTableTmpl {
 	ltc_table = [
 		// 			Maximum
 		// Age		Premium
-		[	71,		6020	],		// TY25
-		[	61,		4810	],		// TY25
-		[	51,		1800	],		// TY25
-		[	41,		900		],		// TY25
-		[	0,		480		],		// TY25
+		[	71,		6200	],
+		[	61,		4960	],
+		[	51,		1860	],
+		[	41,		930		],
+		[	0,		500		],
 	];
 
 	//

@@ -115,10 +115,8 @@ export class F540 extends TaxForm {
 		this.calculated = true;
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
-		const personal_exemption =
-			tt.getTaxValue("CA_PersonalExemption", tp.filing_status);
-		const dependent_exemption =
-			tt.getTaxValue("CA_DependentExemption", tp.filing_status);
+		const personal_exemption =	tt.getTaxValue("CA_PersonalExemption");
+		const dependent_exemption =	tt.getTaxValue("CA_DependentExemption");
 
 		// Filing Status
 		this.lines["001"].value	= false;	// SINGLE
@@ -180,8 +178,8 @@ export class F540 extends TaxForm {
 		this.lines["019"].value	= Math.max(0, this.subtract("017", "018"));	// Taxable Income
 
 		// Tax
-		this.lines["031"].value	= tt.get_CA_IncomeTax(tp.filing_status, this.line("019"));
-		if (this.line("013") > tt.getTaxValue("CA_HiIncPhaseout", tp.filing_status)) {
+		this.lines["031"].value	= tt.get_CA_IncomeTax(this.line("019"));
+		if (this.line("013") > tt.getTaxValue("CA_HiIncPhaseout")) {
 			this.lines["032"].value =
 				new CA_HiIncExemptions("CA_HiIncExemptions").line("exemptions");
 		} else {
@@ -197,7 +195,7 @@ export class F540 extends TaxForm {
 		this.lines["045"].value	= 0;									// Other Credit
 		this.lines["046"].value	= 0;									// Renter's Credit
 		if (tp.rents_home) {
-			this.lines["046"].value	= tt.getTaxValue("CA_RentersCredit", tp.filing_status);
+			this.lines["046"].value	= tt.getTaxValue("CA_RentersCredit");
 		}
 		// Total Special Credits
 		this.lines["047"].value	= this.add("040","043","044","045","046");
