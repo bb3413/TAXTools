@@ -128,7 +128,7 @@ export class HTMLMgr {
 		Ensure.isNonEmptyString(block_name);
 
 		const block_list = loaded_blocks[block_name];
-		const block = undefined;
+		let block = undefined;
 
 		if (block_list && block_list.length > 0) {
 			block = block_list[block_list.length - 1];

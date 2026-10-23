@@ -45,13 +45,11 @@ export class CA_HiIncExemptions extends TaxForm {
 		this.calculated = true;
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
-		const personal_exemption =
-			tt.getTaxValue("CA_PersonalExemption", tp.filing_status);
-		const dependent_exemption =
-			tt.getTaxValue("CA_DependentExemption", tp.filing_status);
+		const personal_exemption =	tt.getTaxValue("CA_PersonalExemption");
+		const dependent_exemption =	tt.getTaxValue("CA_DependentExemption");
 
 		this.lines["0a"].value	= TaxFormObj.getValue("F540", "13");	// Federal AGI
-		this.lines["0b"].value	= tt.getTaxValue("CA_HiIncPhaseout", tp.filing_status);
+		this.lines["0b"].value	= tt.getTaxValue("CA_HiIncPhaseout");
 		this.lines["0c"].value	= this.subtract("0a", "0b");
 		if (tp.filing_status === MFJ) {
 			this.lines["0d"].value	= this.line("0c") / 2500;

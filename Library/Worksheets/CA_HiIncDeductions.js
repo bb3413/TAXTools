@@ -52,7 +52,7 @@ export class CA_HiIncDeductions extends TaxForm {
 		} else {
 			this.lines["04"].value	= Math.round(this.line("03") * 0.80);	// 80%
 			this.lines["05"].value	= TaxFormObj.getValue("F1040", "11b");	// Federal AGI
-			this.lines["06"].value	= tt.getTaxValue("CA_HiIncPhaseout", tp.filing_status);
+			this.lines["06"].value	= tt.getTaxValue("CA_HiIncPhaseout");
 			this.lines["07"].value	= this.subtract("05", "06");			// AGI - Phaseout
 			if (this.line("07") <= 0) {
 				this.lines["deductions"].value	= this.line("01");

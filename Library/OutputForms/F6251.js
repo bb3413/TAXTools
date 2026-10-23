@@ -97,21 +97,18 @@ export class F6251 extends TaxForm {
 		const tp = Taxpayer.getTaxpayer();
 
 		// Input values
-		const qualified_dividends	= TaxFormObj.getValue("F1040",	"03a");
-		const capital_gains			= TaxFormObj.getValue("F1040",	"07a");
-		const agi					= TaxFormObj.getValue("F1040",	"11b");
-		const qbi_deduction			= TaxFormObj.getValue("F1040",	"13a");
-		const total_deductions		= TaxFormObj.getValue("F1040",	"14");
-		const taxable_income		= TaxFormObj.getValue("F1040",	"15");
-		const income_tax			= TaxFormObj.getValue("F1040",	"16");
+		const qualified_dividends	= TaxFormObj.getValue("F1040",		"03a");
+		const capital_gains			= TaxFormObj.getValue("F1040",		"07a");
+		const agi					= TaxFormObj.getValue("F1040",		"11b");
+		const qbi_deduction			= TaxFormObj.getValue("F1040",		"13a");
+		const total_deductions		= TaxFormObj.getValue("F1040",		"14");
+		const taxable_income		= TaxFormObj.getValue("F1040",		"15");
+		const income_tax			= TaxFormObj.getValue("F1040",		"16");
 		const taxable_refund		= TaxFormObj.getValue("F1040S1",	"01");
-		const senior_deduction		= TaxFormObj.getValue("F1040S1A","37");
+		const senior_deduction		= TaxFormObj.getValue("F1040S1A",	"37");
 		const itemized_deductions	= TaxFormObj.getValue("F1040SA",	"17");
 		const taxes_paid_deduction	= TaxFormObj.getValue("F1040SA",	"07");
-		const standard_deduction	= tt.getStandardDeduction(
-										tp.filing_status,
-										tp.taxpayers_age,		tp.spouses_age,
-										tp.is_taxpayer_blind,	tp.is_spouse_blind);
+		const standard_deduction	= tt.getStandardDeduction();
 		const itemized				= itemized_deductions > standard_deduction;
 
 		// Form 6251, Part I - AMT Income
@@ -123,8 +120,10 @@ export class F6251 extends TaxForm {
 			this.lines["02a"].value = standard_deduction;
 		}
 
+		taxable_refund = taxable_refund === 0 ?  0 : (0 - taxable_refund);
+		
 		// Fields 2b, 2f, and 2s are entered as positive numbers but subtracted from total.
-		this.lines["02b"].value	= (taxable_refund);	// Subtract Taxable Refund
+		this.lines["02b"].value	= (taxable_refund);		// Subtract Taxable Refund
 		this.lines["02c"].value	= 0;					// Investment Interest Expense
 		this.lines["02d"].value	= 0;					// Depletion
 		this.lines["02e"].value	= 0;					// Net Operating Loss Deduction
@@ -160,14 +159,14 @@ export class F6251 extends TaxForm {
 		this.lines["15"].value	= this.add("13", "14");
 		this.lines["16"].value	= this.min("12", "15");
 		this.lines["17"].value	= this.subtract("12", "16");
-		this.lines["18"].value	= tt.get_AMT_Tax(tp.filing_status, this.line("17"));
-		this.lines["19"].value	= tt.get_CapGains_15_Start(tp.filing_status);
+		this.lines["18"].value	= tt.get_AMT_Tax(this.line("17"));
+		this.lines["19"].value	= tt.getTaxValue("CG_15PercentRangeStart");
 		this.lines["20"].value	= taxable_income;
 		this.lines["21"].value	= Math.max(0, this.subtract("19", "20"));
 		this.lines["22"].value	= this.min("12", "13");
 		this.lines["23"].value	= this.min("21", "22");							// 0%
 		this.lines["24"].value	= this.subtract("22", "23");
-		this.lines["25"].value	= tt.get_CapGains_20_Start(tp.filing_status);
+		this.lines["25"].value	= tt.getTaxValue("CG_20PercentRangeStart");
 		this.lines["26"].value	= this.line("21");
 		this.lines["27"].value	= taxable_income;
 		this.lines["28"].value	= this.add("26", "27");
@@ -185,17 +184,17 @@ export class F6251 extends TaxForm {
 			}
 		}
 		this.lines["38"].value	= this.add("18", "31", "34", "37");
-		this.lines["39"].value	= tt.get_AMT_Tax(tp.filing_status, this.line("12"));
+		this.lines["39"].value	= tt.get_AMT_Tax(this.line("12"));
 		this.lines["40"].value	= this.min("38", "39");
 
 		// Form 6251, Part II - Alternative Minimum Tax
-		this.lines["05"].value	= tt.get_AMT_Exemption(tp.filing_status, this.line("04"));
+		this.lines["05"].value	= tt.get_AMT_Exemption(this.line("04"));
 		this.lines["06"].value	= this.subtract("04", "05");			// AMTInc - AMT Exemp
 		if (this.line("06") > 0) {
 			if ((capital_gains > 0) || (qualified_dividends > 0)) {
 				this.lines["07"].value = this.line("40");
 			} else {
-				this.lines["07"].value = tt.get_AMT_Tax(tp.filing_status, this.line("06"));
+				this.lines["07"].value = tt.get_AMT_Tax(this.line("06"));
 			}
 			this.lines["08"].value	= 0;								// Foreign tax credit
 			this.lines["09"].value	= this.subtract("07", "08");		// AMT

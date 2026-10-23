@@ -63,7 +63,7 @@ function get1099RValue(lineno, type) {
 	Ensure.isNumber(type);
 
 	let sum = 0;
-	let form_list = TaxFormObj.getAllForms("F1099R");
+	let form_list = TaxFormObj.getForms("F1099R");
 
 	if (form_list) {
 		for (const form of form_list) {
@@ -101,7 +101,7 @@ function formsInPrintOrder() {
 	let forms = [];
 
 	for (let formname of print_order) {
-		let more_forms = TaxFormObj.getAllForms(formname);
+		let more_forms = TaxFormObj.getForms(formname);
 		for (let next_form of more_forms) {
 			forms.push(next_form);
 		}
@@ -114,9 +114,9 @@ function getBusinessIncome(business_name) {
 	Ensure.isNonEmptyString(business_name);
 
 	let sum = 0;
-	const all_1099s = TaxFormObj.getAllForms("F1099NEC")
-						.concat(TaxFormObj.getAllForms("F1099MISC"))
-						.concat(TaxFormObj.getAllForms("F1099K"));
+	const all_1099s = TaxFormObj.getForms("F1099NEC")
+						.concat(TaxFormObj.getForms("F1099MISC"))
+						.concat(TaxFormObj.getForms("F1099K"));
 
 	for (const form of all_1099s) {
 		if ((form.formname === "F1099MISC") && Str.empty(form.lines["business_name"])) {
@@ -160,9 +160,9 @@ function getBusinessNames() {
 	// created.  REDESIGN THIS.
 	//
 	let business_names = [];
-	let business_forms = TaxFormObj.getAllForms("F1099NEC")
-							.concat(TaxFormObj.getAllForms("F1099MISC"))
-							.concat(TaxFormObj.getAllForms("F1099K"));
+	let business_forms = TaxFormObj.getForms("F1099NEC")
+							.concat(TaxFormObj.getForms("F1099MISC"))
+							.concat(TaxFormObj.getForms("F1099K"));
 
 	for (const form of business_forms) {
 		if ((form.formname === "F1099MISC") && Str.empty(form.lines["business_name"])) {
@@ -204,13 +204,13 @@ function getStateWithholding() {
 		TaxFormObj.getValue("F1099MISC",	"16") +
 		TaxFormObj.getValue("F1099MISC",	"05") +
 		TaxFormObj.getValue("F1099OID",		"14") +
-		TaxFormObj.getValue("F1099R",		"14");
+		TaxFormObj.getValue("F1099R",		"14")
 	);
 }
 
 function getW2OvertimePay() {
 	let overtime_pay = 0;
-	let form_list = TaxFormObj.getAllForms("W2");
+	let form_list = TaxFormObj.getForms("W2");
 
 	if (form_list) {
 		for (const form of form_list) {
@@ -229,7 +229,7 @@ function getW2RetirementContributions(who) {
 	Ensure.isTaxpayer(who);
 
 	let contributions = 0;
-	let form_list = TaxFormObj.getAllForms("W2");
+	let form_list = TaxFormObj.getForms("W2");
 
 	if (form_list) {
 		for (const form of form_list) {
@@ -245,7 +245,7 @@ function getW2RetirementContributions(who) {
 
 function getW2TipIncome() {
 	let tip_income = 0;
-	let form_list = TaxFormObj.getAllForms("W2");
+	let form_list = TaxFormObj.getForms("W2");
 
 	if (form_list) {
 		for (const form of form_list) {
@@ -265,7 +265,7 @@ function getW2TipIncome() {
 function hasRetirementPlan(who) {
 	Ensure.isTaxpayer(who);
 
-	let form_list = TaxFormObj.getAllForms("W2");
+	let form_list = TaxFormObj.getForms("W2");
 	if (form_list) {
 		for (const form of form_list) {
 			if (form.isTaxpayers(who) && form.line("13b")) {

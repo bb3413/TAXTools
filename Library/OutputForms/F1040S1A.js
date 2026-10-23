@@ -103,8 +103,8 @@ export class F1040S1A extends TaxForm {
 		let start_of_phase_out	= 0;
 
 		// No Tax on Tips
-		max_deduction		= tt.getTaxValue("MaxTipsDeduction",		tp.filing_status);
-		start_of_phase_out	= tt.getTaxValue("TipsDeductionPhaseOut",	tp.filing_status);
+		max_deduction		= tt.getTaxValue("MaxTipsDeduction");
+		start_of_phase_out	= tt.getTaxValue("TipsDeductionPhaseOut");
 
 		this.lines["01"].value	= TaxFormObj.getValue("F1040", "11b");	// AGI
 		this.lines["02a"].value	= 0;									// Puerto Rico Inc
@@ -138,10 +138,8 @@ export class F1040S1A extends TaxForm {
 		}
 
 		// No Tax on Overtime
-		max_deduction =
-			tt.getTaxValue("MaxOvertimeDeduction",		tp.filing_status);
-		start_of_phase_out =
-			tt.getTaxValue("OvertimeDeductionPhaseOut",	tp.filing_status);
+		max_deduction =			tt.getTaxValue("MaxOvertimeDeduction");
+		start_of_phase_out =	tt.getTaxValue("OvertimeDeductionPhaseOut");
 
 		this.lines["14a"].value	=  			// Overtime Pay from wages
 			TaxInfo.getW2OvertimePay();
@@ -164,10 +162,8 @@ export class F1040S1A extends TaxForm {
 		}
 
 		// No Tax on Car Loan Interest
-		max_deduction =
-			tt.getTaxValue("MaxCarLoanInterestDeduction", tp.filing_status);
-		start_of_phase_out =
-			tt.getTaxValue("CarLoanInterestPhaseOut", tp.filing_status);
+		max_deduction =			tt.getTaxValue("MaxCarLoanInterestDeduction");
+		start_of_phase_out =	tt.getTaxValue("CarLoanInterestPhaseOut");
 
 		this.lines["22a"].value	=									// Car Loan #1 Interest
 			TaxFormObj.getValue("F1098VLI", "01");
@@ -188,8 +184,8 @@ export class F1040S1A extends TaxForm {
 		}
 
 		// Enhanced Deduction for Seniors
-		max_deduction		= tt.getTaxValue("MaxSeniorDeduction",		tp.filing_status);
-		start_of_phase_out	= tt.getTaxValue("SeniorDeductionPhaseOut",	tp.filing_status);
+		max_deduction		= tt.getTaxValue("MaxSeniorDeduction");
+		start_of_phase_out	= tt.getTaxValue("SeniorDeductionPhaseOut");
 
 		this.lines["31"].value	= this.line("03");				// AGI + Foreign Income
 		this.lines["32"].value	= start_of_phase_out;

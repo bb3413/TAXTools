@@ -4,8 +4,8 @@
 //
 export const TaxFormObj = {
 	createForm,
-	getAllForms,
 	getForm,
+	getForms,
 	getOrCreateForm,
 	getTextValue,
 	getValue,
@@ -55,24 +55,6 @@ function createForm(formname) {
 	return undefined;
 }
 
-function getAllForms(formname = "") {
-	//
-	// Get all the form objects that have been created, or all the forms of a
-	// particular type.
-	//
-	Ensure.isString(formname);
-
-	if (formname !== "") {
-		return (instances[formname] ? instances[formname] : []);
-	} else {
-		let all_forms = [];
-		for (const formname of Object.keys(instances)) {
-			all_forms = all_forms.concat(instances[formname]);
-		}
-		return all_forms;
-	}
-}
-
 function getForm(formname) {
 	//
 	// Get an instance of a form.
@@ -88,6 +70,24 @@ function getForm(formname) {
 	}
 
 	return form_list[0];	// Return the form, not an array.
+}
+
+function getForms(formname = "") {
+	//
+	// Get all the form objects that have been created, or all the forms of a
+	// particular type.
+	//
+	Ensure.isString(formname);
+
+	if (formname !== "") {
+		return (instances[formname] ? instances[formname] : []);
+	} else {
+		let all_forms = [];
+		for (const formname of Object.keys(instances)) {
+			all_forms = all_forms.concat(instances[formname]);
+		}
+		return all_forms;
+	}
 }
 
 function getOrCreateForm(formname) {
@@ -175,7 +175,7 @@ function reset() {
 }
 
 function toConsole() {
-	const form_list = TaxFormObj.getAllForms();
+	const form_list = TaxFormObj.getForms();
 	for (const form of form_list) {
 		form.toConsole();
 	}

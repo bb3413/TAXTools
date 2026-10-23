@@ -104,9 +104,9 @@ function agiLimit(who) {
 	const tp = Taxpayer.getTaxpayer();
 	const tt = TaxTable.getTaxTable();
 
-	let limit = tt.getTaxValue("IRA_AGILimit", tp.filing_status);
+	let limit = tt.getTaxValue("IRA_AGILimit");
 	if ((tp.filing_status === MFS) && !this.line("01")) {
-		limit = tt.getTaxValue("IRA_AGILimitNoPlan", tp.filing_status);
+		limit = tt.getTaxValue("IRA_AGILimitNoPlan");
 	}
 	if ((tp.filing_status === MFS) && (tp.months_lived_together > 0)) {
 		limit = 10000;
@@ -119,10 +119,10 @@ function contributionLimit(who) {
 	const tp = Taxpayer.getTaxpayer();
 	const tt = TaxTable.getTaxTable();
 
-	let limit = tt.getTaxValue("MaxIRAContribution", tp.filing_status);
+	let limit = tt.getTaxValue("MaxIRAContribution");
 	if ( ((who === TAXPAYER) && (tp.taxpayers_age >= 50)) ||
 		   ((who === SPOUSE) && (tp.spouses_age >= 50)) ) {
-		limit += tt.getTaxValue("IRAContributionOver50", tp.filing_status);
+		limit += tt.getTaxValue("IRAContributionOver50");
 	}
 
 	return limit;

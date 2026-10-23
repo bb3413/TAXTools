@@ -99,14 +99,14 @@ export class SSTax extends TaxForm {
 		if ((filing_status === MFS) && lived_with_spouse) {
 			this.lines["16"].value = Math.round(this.line("07") * 0.85);	// 85%
 		} else {
-			this.lines["08"].value = tt.get_SS_Start_50(filing_status);		// Start 50% range
+			this.lines["08"].value = tt.getTaxValue("SS_50PercentRangeStart");	// Start 50% range
 			if (this.line("08") >= this.line("07")) {
 				this.lines["18"].value = 0;
 				Debug.exit("SSTax.calculate()");
 				return 0;
 			}
 			this.lines["09"].value	= Math.max(0, this.subtract("07","08"));// Amount over
-			this.lines["10"].value	= tt.get_SS_50_Range(filing_status);	// Len of range
+			this.lines["10"].value	= tt.getTaxValue("SS_50PercentRangeLength");// Len of range
 			this.lines["11"].value	= Math.max(0, this.subtract("09","10"));// Amt over range
 			this.lines["12"].value	= this.min("09","10");					// Amount in range
 			this.lines["13"].value	= Math.round(this.line("12") * 0.50);	// 50% of in range

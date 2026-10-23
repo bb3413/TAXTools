@@ -225,9 +225,7 @@ const FIELD_INFO = {
 	"10":				["",		true,	"Family leave benefits"],
 	"11":				["text",	true,	"State/state no."],
 	"12":				["",		true,	"State tax withheld"],
-	// Locally defined line for external output.
-	"taxable-refund":	["",		true,	"Taxable state refund"],
-	"explanation":		["",		true,	"Explanation of refund amount"],
+
 	// Local variables for input information
 	"prev-itemized":	["",		false,	""],
 	"prev-5d":			["",		false,	""],

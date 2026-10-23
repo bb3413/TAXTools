@@ -35,11 +35,12 @@ function calculateTaxableAmount(inputs) {
 										"tax could have used instead of state income tax " +
 										"for the same or better result.";
 	} else {
-		// The refund worksheet expect the current year's tax tables.
+		// The refund worksheet expects the current year's tax tables.
 		const tax_year = TaxTable.getTaxYear();
 		TaxTable.getTaxTable(tax_year+1);
-		outputs.taxable_amount	= TaxFormObj.getValue("F1099G",	"taxable_refund");
-		outputs.explanation		= TaxFormObj.getTextValue("F1099G",	"explanation");
+		outputs.taxable_amount	= TaxFormObj.getValue("F1099S1",	"01");
+		const f1040s1			= TaxFormObj.getForm("F1040S1");
+		outputs.explanation		= f1040s1.refund.explanation;
 	}
 
 	return outputs;
@@ -122,11 +123,12 @@ function mapInputValues(inputs) {
 						inputs.prev_personal_property_taxes;
 	const line_5e	= Math.min(line_5d, max_salt);
 
-	const f1099g = TaxFormObj.createForm("F1099G");
+	const f1099s1	= TaxFormObj.createForm("F1099S1");
+	const f1099g	= TaxFormObj.createForm("F1099G");
 	f1099g.lines["02"].user_value = inputs.state_tax_refund;
-	f1099g["prev_5d"]		= line_5d;
-	f1099g["prev_5e"]		= line_5e;
-	f1099g["prev_itemized"]	= inputs.prev_itemized_deductions;
+	f1099s1["prev_5d"]			= line_5d;
+	f1099s1["prev_5e"]			= line_5e;
+	f1099s1["prev_itemized"]	= inputs.prev_itemized_deductions;
 }
 
 function putOutputs(outputs) {

@@ -149,7 +149,7 @@ export class F1040SD extends TaxForm {
 				this.lines["21"].value	= 0;
 				if (this.line("16") < 0) {
 					this.lines["21"].value	= Math.min(this.line("16"),
-						tt.getTaxValue("MaxCapitalLoss", tp.filing_status));
+						tt.getTaxValue("MaxCapitalLoss"));
 				}
 			} else {
 				this.lines["17"].value	= 0;	// Not used
@@ -159,7 +159,7 @@ export class F1040SD extends TaxForm {
 				this.lines["21"].value	= 0;
 				if (this.line("16") < 0) {
 					this.lines["21"].value	= Math.min(this.line("16"),
-						tt.getTaxValue("MaxCapitalLoss", tp.filing_status));
+						tt.getTaxValue("MaxCapitalLoss"));
 				}
 			}
 		} else if (this.line("16") < 0) {
@@ -170,7 +170,7 @@ export class F1040SD extends TaxForm {
 			this.lines["21"].value	= 0;
 			if (this.line("16") < 0) {
 				this.lines["21"].value	= Math.min(this.line("16"),
-					tt.getTaxValue("MaxCapitalLoss", tp.filing_status));
+					tt.getTaxValue("MaxCapitalLoss"));
 			}
 		} else {	// Line 16 === 0
 			this.lines["17"].value	= 0;	// Not used

@@ -195,7 +195,7 @@ function turnOn() {
 		}
 	}
 
-	for (const form of TaxFormObj.getAllForms()) {
+	for (const form of TaxFormObj.getForms()) {
 		if (debug_all || debug_used_keywords.includes(form.formname)) {
 			output += form.toString();
 		}

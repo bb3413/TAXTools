@@ -51,10 +51,6 @@ export class F1099G extends TaxForm {
 			refund.itemized_deductions		= this.prev_itemized;
 			refund.refund					= this.line("02");
 			refund.calculate();
-
-			// Locally defined line for external output.
-			this.lines["taxable_refund"].value	= refund.taxable_amount;
-			this.lines["explanation"].value		= refund.explanation;
 		}
 
 		Debug.exit("F1099G.calculate()");

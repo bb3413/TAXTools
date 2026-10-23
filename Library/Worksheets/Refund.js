@@ -98,9 +98,8 @@ export class Refund extends TaxForm {
 			this.lines["05"].value	= 0;	// Get base standard deduction
 			this.lines["06"].value	= 0;	// Get extra standard deduction
 			const tt = TaxTable.getTaxTable(tax_year-1);	// Use last year's tables
-			this.lines["07"].value	= tt.getStandardDeduction(tp.filing_status,
-											tp.taxpayers_age-1, tp.spouses_age-1,
-											tp.is_taxpayer_blind, tp.is_spouse_blind);
+			this.lines["07"].value	= tt.getStandardDeduction(
+											tp.taxpayers_age-1, tp.spouses_age-1);
 			TaxTable.getTaxTable(tax_year);					// Restore current tables.
 			if (this.line("07") < this.line("04")) {
 				// Itemized deductions - standard deduction
@@ -125,8 +124,8 @@ export class Refund extends TaxForm {
 			// Line =_3 explanation was set above.
 		}
 
-		this.taxable_amount = this.line("09")
+		this.taxable_amount = this.line("09");
 		Debug.exit("Refund.calculate()");
-		return;
+		return this.taxable_amount;
 	}
 }

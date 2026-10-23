@@ -82,7 +82,7 @@ export class F1040SA extends TaxForm {
 		this.lines["05c"].value	= this.personal_property_tax;		// Personal Property Tax
 		this.lines["05d"].value	= this.add("05a","05b","05c");		// SALT
 		this.lines["05e"].value	= Math.min(this.line("05d"),		// SALT after Limit
-									tt.getTaxValue("MaxSALT", tp.filing_status));
+									tt.getTaxValue("MaxSALT"));
 		this.lines["06"].value	= 0;								// Other Taxes
 		this.lines["07"].value	= this.add("05e","06");				// Deduction for Taxes
 		this.lines["08a"].value	= TaxFormObj.getValue("F1098", "01"); // Mortgage Interest
