@@ -119,11 +119,9 @@ export class F6251 extends TaxForm {
 		} else {
 			this.lines["02a"].value = standard_deduction;
 		}
-
-		taxable_refund = taxable_refund === 0 ?  0 : (0 - taxable_refund);
 		
 		// Fields 2b, 2f, and 2s are entered as positive numbers but subtracted from total.
-		this.lines["02b"].value	= (taxable_refund);		// Subtract Taxable Refund
+		this.lines["02b"].value	= (taxable_refund);	// Subtract Taxable Refund
 		this.lines["02c"].value	= 0;					// Investment Interest Expense
 		this.lines["02d"].value	= 0;					// Depletion
 		this.lines["02e"].value	= 0;					// Net Operating Loss Deduction
@@ -143,11 +141,18 @@ export class F6251 extends TaxForm {
 		this.lines["02s"].value	= (0);	// Subtract			Installment Sales
 		this.lines["02t"].value	= 0;					// Intangible Drilling Costs
 		this.lines["03"].value	= 0;					// Other Income
-		this.lines["04"].value	= this.add("01b","02a",	// AMT Income
-										   "02c","02d","02e","02g","02h","02i",
+
+		// Convert to negative values
+		for (const lineno of ["02b", "02f", "02s"]) {
+			if (this.lines[lineno].value > 0) {
+				this.lines[lineno]._value = this.lines[lineno].value * -1;
+			}
+		}
+
+		this.lines["04"].value	= this.add("01b","02a","02b","02c",	// AMT Income
+										   "02d","02e","02f","02g","02h","02i",
 										   "02j","02k","02l","02m","02n","02o",
-										   "02p","02q","02r","02t","03") -
-												this.add("02b","02f","02s");
+										   "02p","02q","02r","02s","02t","03");
 
 		// Form 6251, Part III
 		//

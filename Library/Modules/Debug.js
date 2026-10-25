@@ -181,6 +181,7 @@ function turnOn() {
 
 	let output = "";
 
+	// Print information about debugging
 	if (debug_all ||
 			debug_used_keywords.includes("Trace") ||
 			debug_used_keywords.includes("References")) {
@@ -188,6 +189,7 @@ function turnOn() {
 		output += "\n\n";
 	}
 
+	// Print information about the taxpayer
 	if (debug_all || debug_used_keywords.includes("Taxpayer")) {
 		let tp = Taxpayer.getTaxpayer();
 		if (tp) {
@@ -195,6 +197,7 @@ function turnOn() {
 		}
 	}
 
+	// Print the tax forms and worksheets
 	for (const form of TaxFormObj.getForms()) {
 		if (debug_all || debug_used_keywords.includes(form.formname)) {
 			output += form.toString();

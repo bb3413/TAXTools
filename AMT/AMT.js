@@ -7,7 +7,9 @@ import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-import { TAXTOOL_CONTAINER } from "../Library/TAXTools/TAXTools.js";
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
 
 function changeHandler(event) {
 	//
@@ -28,7 +30,7 @@ function changeHandler(event) {
 			HTML.hideElement("SpouseContainer");
 		}
 		TaxTable.getTaxTable(inputs.tax_year);	// Initialize tax tables
-		createTaxpayer(inputs);					// Initialize taxpayer
+		Taxpayer.getTaxpayer();					// Initialize taxpayer
 		mapInputValues(inputs);					// Map input values to tax forms
 		putOutputs();							// Put results on web page
 		Debug.turnOn();							// Put debug info on web page if enabled
@@ -40,19 +42,6 @@ function changeHandler(event) {
 	}
 }
 
-function createTaxpayer(inputs) {
-	const taxpayer					= new Taxpayer();
-
-	taxpayer.tax_year				= inputs.tax_year;
-	taxpayer.filing_status			= inputs.filing_status;
-	taxpayer.taxpayers_birthday		= inputs.taxpayers_birthday;
-	taxpayer.spouses_birthday		= inputs.spouses_birthday;
-	taxpayer.is_taxpayer_blind		= inputs.is_taxpayer_blind;
-	taxpayer.is_spouse_blind		= inputs.is_spouse_blind;
-
-	return taxpayer;
-}
-
 function getInputs() {
 	//
 	// Get the values from the web page. Put them in an object literal so the values
@@ -62,7 +51,8 @@ function getInputs() {
 
 	// Input fields
 	inputs.tax_year				= HTML.getUserInput("tax-year");
-	inputs.filing_status		= HTML.getUserInput("FilingStatus", "text").toUpperCase();
+	inputs.filing_status		=
+		strToFilingStatus(HTML.getUserInput("FilingStatus", "text"));
 	inputs.taxpayers_birthday	= HTML.getUserInput("TaxpayersBirthday", "text");
 	inputs.spouses_birthday		= HTML.getUserInput("SpousesBirthday", "text");
 	inputs.is_taxpayer_blind	= HTML.getUserInput("TaxpayerIsBlind");
