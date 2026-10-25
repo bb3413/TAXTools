@@ -1,5 +1,4 @@
 
-
 // Classes
 import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";

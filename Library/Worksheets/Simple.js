@@ -8,6 +8,7 @@ import { Dates }		from "../Modules/Dates.js";
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
+import { Str }			from "../Modules/Str.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
@@ -88,9 +89,11 @@ export class Simple extends TaxForm {
 			throw new Error("Spouse's birthday is not specified.");
 		}
 
-		taxpayers_age_at_start = Dates.getAge(tp.taxpayers_birthday, annuity_start_date);
+		taxpayers_age_at_start =
+			Dates.getAge(tp.taxpayers_birthday, this.annuity_start_date);
 		if (!Str.empty(tp.spouses_birthday)) {
-			spouses_age_at_start = Dates.getAge(tp.spouses_birthday, annuity_start_date);
+			spouses_age_at_start =
+				Dates.getAge(tp.spouses_birthday, this.annuity_start_date);
 		}
 
 		this.lines["01"].value	= this.annuity_start_date;	// Gross Dist (1099-R, box 1)
