@@ -228,6 +228,9 @@ export class TaxForm {
 
 		// Convert attributes
 		for (const key of Object.keys(this)) {
+			if (typeof this[key] === "object") {
+				continue;
+			}
 			switch (key) {
 				case "lines":
 				case "formname":
