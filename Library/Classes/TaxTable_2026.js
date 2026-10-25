@@ -36,7 +36,7 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"MaxCapitalLoss":				[ 3000,			3000,		3000,		3000,		1500		],
 		"MaxEducatorExpenses":			[ 350,			350,		350,		350,		350			],	// Per taxpayer
 		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],	// TY25
-		"MaxSALT":						[ 40000,		40000,		40000,		40000,		20000		],	// TY25
+		"MaxSALT":						[ 40400,		40400,		40400,		40400,		20200		],
 		"MaxStudentLoanInterest":		[ 2500,			2500,		2500,		2500,		0			],	// TY25
 		"StudentLoanPhaseOut":			[ 85000,		85000,		175000,		85000,		0			],
 
