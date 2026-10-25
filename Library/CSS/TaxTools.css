@@ -2,7 +2,6 @@
 /* This style sheet contains styles that are used by all of the tax tools to give them
  * a consistent look and feel.
  */
-
 :root {
 	/* Global variables
 	 *
@@ -176,6 +175,29 @@ body {
 }
 
 /*
+ * Save and Restore buttons
+ */
+.save-restore-container {
+	display:				flex;
+	justify-content:		right;
+	align-items:			flex-end;	/* Align the buttons on bottom edge */
+	gap:					5px;		/* Space between buttons */
+}
+
+.save-button {
+	padding-bottom:			3px;
+}
+
+.restore-button {
+	font-size:				13px;	/* Use this with Helvetica */
+	display: 				inline-block;
+	padding-left:			6px;
+	padding-right:			6px;
+	padding-top:			1px;
+	padding-bottom:			1px;
+}
+
+/*
  * If fields are auto-filled by the browser, the browser automatically changes the
  * background color of the field to a blue tint. The following code uses a large, solid
  * box-shadow inside the input box to cover up the browser's blue tint with the tool's
@@ -206,7 +228,6 @@ input:-webkit-autofill:focus {
 /*
  * Overrides: put the after the class where you want to override the attribute.
  */
- 
 .box			{ border:				1px solid var(--border-color); }
 .noborder		{ border:				none !important; }
 .input-color	{ background-color:		var(--input-color); }
@@ -225,31 +246,3 @@ input:-webkit-autofill:focus {
 .bold			{ font-weight:			bold; }
 .center-text	{ text-align:			center; }
 .pointer		{ cursor:				pointer; }
-
-/*
- * Input lines with two fields
- */
-.taxpayer-info-150-100 {
-	display:				grid;
-	grid-template-columns:	150px 100px;
-}
-
-.taxpayer-info-150-100 p {
-	margin-top:				0;
-	margin-bottom:			0;
-}
-
-.taxpayer-info-150-100 input {
-	margin-top:				0;
-	margin-bottom:			0;
-}
-
-.taxpayer-info-150-400 {
-	display:				grid;
-	grid-template-columns:	150px 400px;
-}
-
-.taxpayer-info-150-400 p {
-	margin-top:				0;
-	margin-bottom:			0;
-}

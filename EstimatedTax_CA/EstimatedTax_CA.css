@@ -12,25 +12,6 @@ h1, h2, h3 {
 	font-weight:			700;
 }
 
-.save-restore-container {
-	display:				flex;
-	justify-content:		flex-end;	/* Align the div block to the right. */
-	align-items:			flex-end;	/* Align buttons on bottom edge. */
-	gap:					5px;		/* Optional: adds space between buttons */
-	margin-bottom:			3px;
-}
-
-.save-button {
-	padding-bottom:			3px;
-}
-
-.restore-button {
-	display: 				inline-block;
-	cursor:					pointer;
-	padding-left:			6px;
-	padding-right:			6px;
-}
-
 .taxpayer-info-box {
 	border:					1px solid var(--border-color);
 	padding:				0.5rem;

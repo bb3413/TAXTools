@@ -34,7 +34,6 @@
 	padding-left:			20px;
 }
 
-
 /*
  * Line types
  *
@@ -109,6 +108,34 @@
 
 .taxform-lno-4-checkboxes p {
 	text-align:				right;
+}
+
+/*
+ * Input lines with two fields
+ */
+.taxpayer-info-150-100 {
+	display:				grid;
+	grid-template-columns:	150px 100px;
+}
+
+.taxpayer-info-150-100 p {
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+.taxpayer-info-150-100 input {
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+.taxpayer-info-150-400 {
+	display:				grid;
+	grid-template-columns:	150px 400px;
+}
+
+.taxpayer-info-150-400 p {
+	margin-top:				0;
+	margin-bottom:			0;
 }
 
 /*
