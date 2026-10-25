@@ -8,10 +8,11 @@ import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-import { ESTIMATED_TAX_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
-import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
-import { strToFilingStatus }		from "../Library/TAXTools/TAXTools.js";
-import { filingStatusToStr }		from "../Library/TAXTools/TAXTools.js";
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { ESTIMATED_TAX_SAVE_FILE }		from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
+import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
 
 // This variable needs to be global so it can be accessed by the save handler.
 let inputs = {};
@@ -63,7 +64,7 @@ function checkInputValues(inputs) {
 	inp.ltc_spouse =
 		Math.min(inp.ltc_spouse, tt.getMaxLTC(tp.spouses_age));
 
-	inp.educator_expenses = MaxEducatorExpenses
+	inp.educator_expenses =
 		Math.min(inp.educator_expenses, max_educator_expenses);
 	inp.capital_gains =
 		Math.min(inp.capital_gains,
