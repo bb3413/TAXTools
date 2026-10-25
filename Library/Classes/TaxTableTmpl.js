@@ -163,12 +163,11 @@ export class TaxTableTmpl {
 
 	getTaxValue(name) {
 		Ensure.isString(name);
-
-		const tp = Taxpayer.getTaxpayer();
-
 		if (!this.values[name]) {
 			throw new Error(`Invalid tax value: ${name}`);
 		}
+
+		const tp = Taxpayer.getTaxpayer();
 
 		return this.values[name][tp.filing_status]
 	}

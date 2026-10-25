@@ -3,6 +3,7 @@ export const TaxTable = {
 	getTaxTable,
 	getTaxYear,
 	reset,
+	setTaxTable,
 };
 
 import { Dates }		from "../Modules/Dates.js";
@@ -12,7 +13,6 @@ import { TaxTable_2025 } from "../Classes/TaxTable_2025.js";
 import { TaxTable_2026 } from "../Classes/TaxTable_2026.js";
 
 let tax_table = undefined;
-let tax_table_year = undefined;
 
 function getTaxTable(tax_year) {
 	if (!tax_year) {
@@ -21,13 +21,12 @@ function getTaxTable(tax_year) {
 	}
 
 	tax_year = Number(tax_year);
-	if (tax_table && (tax_table_year === tax_year)) {
+	if (tax_table && (tax_table.tax_year === tax_year)) {
 		// If the parameters match the current tax table, return it.
 		return tax_table;
 	}
 
 	tax_table = undefined;
-	tax_table_year = tax_year;
 
 	if (tax_year === 2024) {
 		tax_table = new TaxTable_2024();
@@ -43,11 +42,19 @@ function getTaxTable(tax_year) {
 }
 
 function getTaxYear() {
-	// This is implemented as both a static and instance method.
-	return tax_table_year || Dates.getTaxYear();
+	if (tax_table) {
+		return tax_table.tax_year;
+	} else {
+		return Dates.getTaxYear();
+	}
 }
 
 function reset() {
-	tax_table		= undefined;
-	tax_table_year	= undefined;
+	tax_table = undefined;
+}
+
+function setTaxTable(new_tax_table) {
+	Ensure.isObject(new_tax_table);
+
+	tax_table = new_tax_table;
 }

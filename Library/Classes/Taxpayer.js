@@ -155,6 +155,10 @@ export class Taxpayer {
 		taxpayer = undefined;
 	}
 
+	static setTaxpayer(new_taxpayer) {
+		taxpayer = new_taxpayer;
+	}
+
 	//
 	// ---------------- Constructor ----------------
 	//
@@ -205,7 +209,10 @@ export class Taxpayer {
 	//
 	// ---------------- Setter Methods ----------------
 	//
-	set filing_status(fs) {				this._filing_status		= fs }
+	set filing_status(fs) {
+		Ensure.isNumber(fs);
+		this._filing_status = fs;
+	}
 	set taxpayers_name(name) {			this._taxpayers_name	= name }
 	set street_address(str) {			this._street_address	= str }
 	set city(str) {						this._city				= str }
@@ -227,9 +234,9 @@ export class Taxpayer {
 
 	set taxpayers_age(age) {
 		if (age === null || age === undefined) { return; }
-		if (age !== 0) {
+		if (age > 0) {
 			this._taxpayers_birthday	= "";
-			this._taxpayers_age		= age;
+			this._taxpayers_age			= age;
 		}
 	}
 
@@ -242,9 +249,9 @@ export class Taxpayer {
 
 	set spouses_age(age) {
 		if (age === null || age === undefined) { return; }
-		if (age !== 0) {
-			this._spouses_birthday	= "";
-			this._spouses_age		= age;
+		if (age > 0) {
+			this._spouses_birthday		= "";
+			this._spouses_age			= age;
 		}
 	}
 
@@ -254,6 +261,12 @@ export class Taxpayer {
 	addDependent(inputs) {
 		Ensure.isObject(inputs);
 		this._dependents.push(new Dependent(inputs));
+	}
+
+	clone() {
+		// This method is a shallow copy. If an object or array is contained in this object 
+		// it will be copied by reference.
+		return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 	}
 
 	familySize() {

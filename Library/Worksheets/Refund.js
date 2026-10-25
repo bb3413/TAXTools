@@ -6,6 +6,8 @@
 // Income, Line 1 on page 88. Instructions say to use the State and Local Income
 // Tax Refund Worksheet on page 90, which is implemented in this worksheet.
 //
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
@@ -46,14 +48,14 @@ export class Refund extends TaxForm {
 	}
 
 	calculate() {
-		// if (this.calculated) {
-		//	throw new Error(`${this.formname} already calculated.`);
-		// }
-
+		//
+		// This method expects the tax tables and taxpayer's age to reflect the year the
+		// deduction was taken (e.g. last year).
+		//
 		Debug.enter("Refund.calculate()");
 		this.calculated = true;
+		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
-		const tax_year = TaxTable.getTaxYear();
 
 		// Inputs
 		this.refund = Math.min(	// State Tax Refund
@@ -97,10 +99,7 @@ export class Refund extends TaxForm {
 		} else {
 			this.lines["05"].value	= 0;	// Get base standard deduction
 			this.lines["06"].value	= 0;	// Get extra standard deduction
-			const tt = TaxTable.getTaxTable(tax_year-1);	// Use last year's tables
-			this.lines["07"].value	= tt.getStandardDeduction(
-											tp.taxpayers_age-1, tp.spouses_age-1);
-			TaxTable.getTaxTable(tax_year);					// Restore current tables.
+			this.lines["07"].value	= tt.getStandardDeduction();
 			if (this.line("07") < this.line("04")) {
 				// Itemized deductions - standard deduction
 				this.lines["08"].value	= this.subtract("04", "07");

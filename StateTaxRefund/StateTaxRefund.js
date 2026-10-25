@@ -1,6 +1,4 @@
 
-import { TAXTOOL_CONTAINER } from "../Library/TAXTools/TAXTools.js";
-
 import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
@@ -8,6 +6,10 @@ import { HTML }			from "../Library/Modules/HTML.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
+
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 
 function calculateTaxableAmount(inputs) {
 
@@ -35,12 +37,9 @@ function calculateTaxableAmount(inputs) {
 										"tax could have used instead of state income tax " +
 										"for the same or better result.";
 	} else {
-		// The refund worksheet expects the current year's tax tables.
-		const tax_year = TaxTable.getTaxYear();
-		TaxTable.getTaxTable(tax_year+1);
-		outputs.taxable_amount	= TaxFormObj.getValue("F1099S1",	"01");
-		const f1040s1			= TaxFormObj.getForm("F1040S1");
-		outputs.explanation		= f1040s1.refund.explanation;
+		outputs.taxable_amount	= TaxFormObj.getValue("F1040S1", "01");
+		const f1099g			= TaxFormObj.getForm("F1099G");
+		outputs.explanation		= f1099g.refund.explanation;
 	}
 
 	return outputs;
@@ -59,7 +58,7 @@ function changeHandler(event) {
 		Taxpayer.reset();
 
 		const inputs = getInputs();							// Get inputs from  web page
-		TaxTable.getTaxTable(inputs.previous_tax_year);		// Initialize tax tables
+		TaxTable.getTaxTable(inputs.tax_year);				// Initialize tax tables
 		const taxpayer = createTaxpayer(inputs);			// Initialize taxpayer
 		mapInputValues(inputs);								// Map input values to forms
 		const outputs = calculateTaxableAmount(inputs);
@@ -94,10 +93,9 @@ function getInputs() {
 	const inputs = {};
 
 	// Input fields
-	inputs.previous_tax_year =
-		HTML.getUserInput("PreviousTaxYear");
+	inputs.tax_year							= 	HTML.getUserInput("tax-year");
 	inputs.filing_status =
-		HTML.getUserInput("FilingStatus", "text").toUpperCase();
+		strToFilingStatus(HTML.getUserInput("FilingStatus", "text"));
 	inputs.taxpayers_birthday				= HTML.getUserInput("TaxpayersBirthday", "text");
 	inputs.is_taxpayer_blind				= HTML.getUserInput("TaxpayerIsBlind");
 	inputs.spouses_birthday					= HTML.getUserInput("SpousesBirthday", "text");
@@ -123,12 +121,11 @@ function mapInputValues(inputs) {
 						inputs.prev_personal_property_taxes;
 	const line_5e	= Math.min(line_5d, max_salt);
 
-	const f1099s1	= TaxFormObj.createForm("F1099S1");
 	const f1099g	= TaxFormObj.createForm("F1099G");
-	f1099g.lines["02"].user_value = inputs.state_tax_refund;
-	f1099s1["prev_5d"]			= line_5d;
-	f1099s1["prev_5e"]			= line_5e;
-	f1099s1["prev_itemized"]	= inputs.prev_itemized_deductions;
+	f1099g.lines["02"].user_value	= inputs.state_tax_refund;
+	f1099g["prev_5d"]				= line_5d;
+	f1099g["prev_5e"]				= line_5e;
+	f1099g["prev_itemized"]			= inputs.prev_itemized_deductions;
 }
 
 function putOutputs(outputs) {
@@ -149,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
 	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
-	HTML.putUserOutput("PreviousTaxYear", Dates.getTaxYear() - 1, "text");
+	HTML.putUserOutput("tax-year", Dates.getTaxYear(), "text");
 	HTML.hideElement("SpouseContainer");
 	HTML.hideElement("debug-container");
 });

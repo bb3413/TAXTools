@@ -4,6 +4,7 @@ import { Line }			from "../Classes/Line.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { F1099G_HTML }	from "../InputForms/F1099G_HTML.js";
 import { Refund }		from "../Worksheets/Refund.js";
+import { Taxpayer }		from "../Classes/Taxpayer.js";
 
 // Modules
 import { Debug }		from "../Modules/Debug.js";
@@ -37,7 +38,7 @@ export class F1099G extends TaxForm {
 
 	calculate() {
 		if (this.calculated) {
-			throw new Error(`${this.formname} already calculated.`);
+			return;
 		}
 
 		Debug.enter("F1099G.calculate()");
@@ -46,11 +47,24 @@ export class F1099G extends TaxForm {
 		this.refund.resetCalculation();
 
 		if (this.line("02")) {
-			refund.sched_a_5d				= this.prev_5d;
-			refund.sched_a_5e				= this.prev_5e;
-			refund.itemized_deductions		= this.prev_itemized;
-			refund.refund					= this.line("02");
-			refund.calculate();
+			const tt = TaxTable.getTaxTable();		// Save current value
+			const tp = Taxpayer.getTaxpayer();		// Save current value
+
+			TaxTable.getTaxTable(tt.tax_year-1);	// Set tax tables to previous year.
+			const prev_tp			= tp.clone();	// Shallow copy
+			prev_tp.taxpayers_age	= tp.taxpayers_age - 1;
+			prev_tp.spouses_age		= tp.spouses_age - 1;
+			Taxpayer.setTaxpayer(prev_tp);
+
+			this.refund.sched_a_5d				= this.prev_5d;
+			this.refund.sched_a_5e				= this.prev_5e;
+			this.refund.itemized_deductions		= this.prev_itemized;
+			this.refund.refund					= this.line("02");
+			this.refund.calculate();
+
+			Taxpayer.setTaxpayer(tp);
+			TaxTable.setTaxTable(tt);
+
 		}
 
 		Debug.exit("F1099G.calculate()");
