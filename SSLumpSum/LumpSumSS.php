@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Social Security Lump Sum Calculator</h1>
+		<h1 class="title" id="title">Social Security Lump Sum Calculator</h1>
 
 		<p>This tool calculates the amount of Social Security that is taxable when the
 		taxpayer receives a lump sum (retroactive) payment. There are two methods for

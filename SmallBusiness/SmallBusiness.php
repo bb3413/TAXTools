@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Small Business Tax Calculator</h1>
+		<h1 class="title" id="title">Small Business Tax Calculator</h1>
 
 		<p>This tool calculates the taxes for a small business. The blue fields are computed
 		from the information you provide. The green fields are where you enter information.

@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">California Sales Tax Calculator</h1>
+		<h1 class="title" id="title">California Sales Tax Calculator</h1>
 
 		<p>This tool will show the sales tax percentage for the address. You must enter
 		a valid value in all three address fields.</p>

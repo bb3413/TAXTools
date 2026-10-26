@@ -22,6 +22,7 @@
 //
 export const Ensure = {
 	isArray,
+	isFunction,
 	isNumber,
 	isObject,
 	isString,
@@ -38,12 +39,17 @@ export const Ensure = {
 	expression,
 	isFalse,
 	isTrue,
+
+	processError,
 };
 
 import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
 import { TAXPAYER, SPOUSE }				from "../TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../TAXTools/TAXTools.js";
 
 import { Dates }		from "../Modules/Dates.js";
+import { Debug }		from "../Modules/Debug.js";
+import { HTML }			from "../Modules/HTML.js";
 import { Num }			from "../Modules/Num.js";
 
 //
@@ -55,6 +61,15 @@ function isArray(param, param_name="") {
 		throw new TypeError(`Expected ${param_name} to be an array.`);
 	}
 		
+	return param;
+}
+
+function isFunction(param, param_name="") {
+	if (typeof param !== "function") {
+		param_name = param_name ? param_name : "value";
+		throw new TypeError(`Expected ${param_name} to be a function.`);
+	}
+	
 	return param;
 }
 
@@ -201,4 +216,17 @@ function isTrue(expression, msg="") {
 	}
 
 	return true;
+}
+
+//
+//-----  Miscellaneous  ---------------------------------------------------------------------
+//	
+function processError(error) {
+	//
+	// Process an error caught by one of the main functions.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error);
+	console.log("Stack trace:", error.stack);
+	HTML.scrollTo(ERROR_MESSAGE_OUTPUT);
+	Debug.turnOn();
 }

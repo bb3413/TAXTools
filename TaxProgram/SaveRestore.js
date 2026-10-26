@@ -19,12 +19,11 @@ import { Income }		from "../Library/InputWorksheets/Income.js";
 
 import {
 	addInputForm,
-	changeHandler,
-	processError,
 	resetAll,
 } from "./TaxProgram.js";
 
 import { TAX_PROGRAM_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }		from "../Library/TAXTools/TAXTools.js";
 
 // If RAW is true, user input will be copied without changing (debug keywords, expression
 // evaluation, etc. Set it to false to use normal processing of input.
@@ -82,14 +81,13 @@ function restoreData(data) {
 		restoreIncome(data.income);
 		restoreAssetsaleItems(data.assetsale_items);
 		restoreInputForms(data.input_forms);
-		changeHandler();
 
 		if (error_log !== []) {
-			HTML.putElementValue("error-message-output", error_log.join("\n"));
-			HTML.scrollTo("error-message-output");
+			HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error_log.join("\n"));
+			HTML.scrollTo(ERROR_MESSAGE_OUTPUT);
 		}
 	} catch (error) {
-		processError(error);
+		Ensure.processError(error);
 	}
 }
 
@@ -240,7 +238,7 @@ function saveDataHandler(event) {
 
 		File.saveToFile(data, TAX_PROGRAM_SAVE_FILE);
 	} catch (error) {
-		processError(error)
+		Ensure.processError(error);
 	}
 }
 

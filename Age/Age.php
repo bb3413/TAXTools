@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Age Calculator</h1>
+		<h1 class="title" id="title">Age Calculator</h1>
 
 		<p>This tool is primarily intended to calculate a person's age, but is can be used
 		to determine the number of years between any two dates. Or, you can enter one of the

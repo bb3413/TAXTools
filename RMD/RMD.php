@@ -21,7 +21,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Required Minimum Distribution Calculator</h1>
+		<h1 class="title" id="title">Required Minimum Distribution Calculator</h1>
 
 		<p>You cannot keep retirement funds in retirement accounts indefinitely. In general,
 		you have to start taking withdrawals from your Traditional IRA, SIMPLE IRA, SEP

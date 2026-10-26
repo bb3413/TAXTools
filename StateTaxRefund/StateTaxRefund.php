@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">State Income Tax Refund Calculator</h1>
+		<h1 class="title" id="title">State Income Tax Refund Calculator</h1>
 
 		<p>A state income tax refund is only taxable to the extent that the taxpayer
 		benefited from claiming the state income tax as a deduction on the previous year's

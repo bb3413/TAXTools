@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Enhanced Deduction for Seniors Calculator</h1>
+		<h1 class="title" id="title">Enhanced Deduction for Seniors Calculator</h1>
 
 		<p>This tool calculates the Enhanced Deduction for Seniors. Seniors aged 65 and
 		older can claim a deduction of up to $6,000 if they are single or $12,000 if they

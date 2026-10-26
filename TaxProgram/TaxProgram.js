@@ -32,8 +32,6 @@ import { Income }						from "../Library/InputWorksheets/Income.js";
 
 export {
 	addInputForm,
-	changeHandler,
-	processError,
 	resetAll,
 };
 
@@ -174,7 +172,7 @@ function calculateHandler(event) {
 		putOutputs();											// Display the tax return
 		Debug.turnOn();											// Display debugging data
 	} catch (error) {
-		processError(error);
+		Ensure.processError(error);
 	}
 }
 
@@ -502,16 +500,6 @@ function parseElementID(element_id) {
 	const name = parts[0] || "";
 	const uid = parts.length > 1 ? parts[1] : "0";
 	return [ name, uid ];
-}
-	
-function processError(error) {
-	//
-	// Process an error caught by one of the main functions.
-	//
-	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error);
-	console.log("Stack trace:", error.stack);
-	HTML.scrollTo(ERROR_MESSAGE_OUTPUT);
-	Debug.turnOn();
 }
 
 function putOutputs() {

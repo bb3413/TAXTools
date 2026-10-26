@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">California Sales Tax Deduction Calculator</h1>
+		<h1 class="title" id="title">California Sales Tax Deduction Calculator</h1>
 
 		<p>This tool calculates the amount of the sales tax deduction you are allowed. On
 		Schedule A, Itemized Deductions, you have a choice of taking a deduction for the

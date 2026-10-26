@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Taxable Social Security Calculator</h1>
+		<h1 class="title" id="title">Taxable Social Security Calculator</h1>
 
 		<p>This tool calculates the amount of Social Security that is taxable.
 		Click <a href="TaxableSS-Help.html">this link</a> for more help with this tool.</p>

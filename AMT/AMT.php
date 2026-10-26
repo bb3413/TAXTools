@@ -5,12 +5,12 @@
 	<link rel="stylesheet" href="../Library/CSS/TAXTools.css" />
 	<link rel="stylesheet" href="../Library/CSS/Tooltips.css" />
 	<link rel="stylesheet" href="../Library/CSS/HTML.css" />
+	<link rel="stylesheet" href="AMT.css" />
 
 	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
 	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>
+	<script type="module" src="../Library/Modules/SaveRestore.js"></script>
 	<script type="module" src="../Version/Version.js"></script>
-
-	<link rel="stylesheet" href="AMT.css" />
 	<script type="module" src="AMT.js"></script>
 	<title>Alternative Minimum Tax Calculator</title>
 </head>
@@ -20,7 +20,7 @@
 		<p class="version-number">Version: <a href="../Version/Version.html">
 			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Alternative Minimum Tax Calculator</h1>
+		<h1 class="title" id="title">Alternative Minimum Tax Calculator</h1>
 
 		<p>The Alternative Minimum Tax (AMT) is a separate tax calculation that is intended
 		to prevent high-income taxpayers from not paying their fair share of taxes through
@@ -39,7 +39,18 @@
 		at the bottom. Click <a href="AMT-Help.html"> this link</a> for more help with this
 		tool.</p>
 
-		<h2>Taxpayer Information</h2>
+		<div class="save-restore-container">
+			<!-- Save Button -->
+			<input type="button" id="save-button" class="trigger button save-button"
+				value="Save" tooltipid="#save-button-tt" />
+
+			<!-- Restore Button -->
+			<input type="file" id="input-file" accept=".txt" style="display: none;" />
+			<label for="input-file" class="trigger button restore-button"
+				tooltipid="#restore-button-tt">Restore</label>
+		</div>
+
+		<h2 style="margin-top: 0;">Taxpayer Information</h2>
 		<div class="table-3">
 			<p>Tax Year</p>
 			<select class="trigger input-field" id="tax-year" tooltipid="#tax-year-tt">
