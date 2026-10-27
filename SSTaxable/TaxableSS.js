@@ -8,14 +8,16 @@ import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-import { ERROR_MESSAGE_OUTPUT }	from "../Library/TAXTools/TAXTools.js";
-import { SS_TAXABLE_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { SS_TAXABLE_SAVE_FILE }			from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 
 const SAVE_FILE		= SS_TAXABLE_SAVE_FILE;
 const FIELD_INFO	= {
 	// Field Name					Value Type
 	"FilingStatus":					["text"],
-	"LivedWithSpouseContainer":		[""],
 	"LivedWithSpouse":				[""],
 	"SocialSecurity":				[""],
 	"Income":						[""],
@@ -42,10 +44,6 @@ const FIELD_INFO	= {
 	"IRAContributions":				[""],
 	"StudentLoanInterest":			[""],
 	"OtherAdjustments":				[""],
-	"error-message-container":		[""],
-	"error-message-output":			[""],
-	"debug-container":				[""],
-	"debug-output":					[""],
 };
 
 
@@ -161,7 +159,7 @@ function changeHandler(event) {
 		const inputs = getInputs();						// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);			// Initialize tax tables
 		createTaxpayer(inputs);							// Initialize taxpayer
-		const outputs	= calculateTax(inputs);
+		const outputs = calculateTax(inputs);
 		putOutputs(inputs, outputs);					// Put results on web page
 		Debug.turnOn();									// Put debug info on web page
 	} catch (error) {
@@ -170,8 +168,11 @@ function changeHandler(event) {
 }
 
 function createTaxpayer(inputs) {
-	const taxpayer				= new Taxpayer();
-	taxpayer.lived_with_spouse	= inputs.lived_with_spouse
+	const taxpayer = new Taxpayer();
+
+	taxpayer.filing_status		= inputs.filing_status;
+	taxpayer.lived_with_spouse	= inputs.lived_with_spouse;
+
 	return taxpayer;
 }
 
@@ -184,7 +185,7 @@ function getInputs() {
 
 	inputs.tax_year					= Dates.getTaxYear();
 
-	inputs.filing_status			= HTML.getUserInput("FilingStatus","text").toUpperCase();
+	inputs.filing_status = strToFilingStatus(HTML.getUserInput("FilingStatus", "text"));
 	inputs.lived_with_spouse		= HTML.getUserInput("LivedWithSpouse");
 	inputs.social_security			= HTML.getUserInput("SocialSecurity");
 	inputs.income					= HTML.getUserInput("Income");
@@ -228,11 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
-	HTML.addListener("FilingStatus",				"change", changeHandler);
-	HTML.addListener("LivedWithSpouse",				"change", changeHandler);
-	HTML.addListener("SocialSecurity",				"change", changeHandler);
+	HTML.addListener(TAXTOOL_CONTAINER,				"change", changeHandler);
+	// HTML.addListener("FilingStatus",				"change", changeHandler);
+	// HTML.addListener("LivedWithSpouse",			"change", changeHandler);
+	// HTML.addListener("SocialSecurity",			"change", changeHandler);
 	HTML.addListener("Income",						"change", changeIncomeHandler);
-	HTML.addListener("TaxExemptInterest",			"change", changeHandler);
+	// HTML.addListener("TaxExemptInterest",		"change", changeHandler);
 	HTML.addListener("Adjustments",					"change", changeAdjustmentsHandler);
 
 	// Income

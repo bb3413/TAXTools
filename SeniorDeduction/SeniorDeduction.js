@@ -8,6 +8,10 @@ import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }		from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }		from "../Library/TAXTools/TAXTools.js";
+
 let input_color			= "";
 let output_color		= "";
 
@@ -17,12 +21,12 @@ function changeHandler(event) {
 	//
 	try {
 		resetAll();
-		const inputs	= getInputs();					// Get inputs from the web page
+		const inputs = getInputs();						// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);			// Initialize tax tables
 		createTaxpayer(inputs);							// Initialize taxpayer
 		mapInputValues(inputs);							// Map input values to tax forms
 		TaxFormObj.getForm("F1040S1A").calculate();		// Calculate the tax forms
-		putOutputs(taxpayer);							// Put results on web page
+		putOutputs();									// Put results on web page
 		Debug.turnOn();									// Put debug info on web page
 	} catch (error) {
 		Ensure.processError(error);
@@ -65,7 +69,8 @@ function getInputs() {
 	const inputs = {};
 
 	inputs.tax_year					= HTML.getUserInput("tax-year");
-	inputs.filing_status			= HTML.getUserInput("FilingStatus","text").toUpperCase();
+	inputs.filing_status =
+		strToFilingStatus(HTML.getUserInput("FilingStatus","text"));
 	inputs.adjusted_gross_income	= HTML.getUserInput("AdjustedGrossIncome");
 	inputs.taxpayers_birthday		= HTML.getUserInput("TaxpayersBirthday", "text");
 	inputs.taxpayers_age			= 0;
@@ -88,7 +93,9 @@ function mapInputValues(inputs) {
 	f1040S1A.lines["01"].user_value = inputs.adjusted_gross_income;
 }
 
-function putOutputs(taxpayer) {
+function putOutputs() {
+	const taxpayer = Taxpayer.getTaxpayer();
+
 	if (taxpayer.filing_status === MFJ) {
 		HTML.showElement("SpouseContainer");
 	} else {

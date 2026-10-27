@@ -32,7 +32,7 @@ function removeUnused(obj) {
 	const new_obj = {};
 	for (const key of Object.keys(obj)) {
 		const value = obj[key];
-		if ((value !== 0) && (value !== "") && (value !== false)) {
+		if ((value !== 0) && (value !== "0") && (value !== "") && (value !== false)) {
 			new_obj[key] = value;
 		}
 	}

@@ -40,7 +40,11 @@ const FIELD_INFO	= {
 
 
 function calculateTax(inputs) {
-	const outputs = {};
+	const outputs				= {};
+	outputs.ss_taxable_0		= 0;
+	outputs.ss_taxable_alt		= 0;
+	outputs.ss_taxable_new_1	= 0;
+	outputs.ss_taxable_new_2	= 0;
 
 	const ss_tax_0		= TaxFormObj.createForm("SSTax");
 	const ss_tax_alt	= TaxFormObj.createForm("SSTax");
@@ -170,8 +174,9 @@ function putOutputs(inputs, outputs) {
 	let taxable_percent = 0;
 
 	// Current year - Standard Method
-	taxable_percent =
-		Math.round(outputs.ss_taxable_0 / inputs.ss_received_0 * 100);
+	taxable_percent	=
+		(inputs.ss_received_0 === 0) ?
+			0 : Math.round(outputs.ss_taxable_0 / inputs.ss_received_0 * 100);
 	HTML.putUserOutput("TaxableSocialSecurity-0",		outputs.ss_taxable_0);
 	HTML.putUserOutput("TaxablePercent-0",				taxable_percent + "%", "text");
 
@@ -190,7 +195,9 @@ function putOutputs(inputs, outputs) {
 	HTML.putUserOutput("TaxablePercent-2",				taxable_percent + "%", "text");
 
 	// Alternate taxable amount
-	taxable_percent = Math.round(outputs.ss_taxable_alt / inputs.ss_received_0 * 100);
+	taxable_percent	=
+		(inputs.ss_received_0 === 0) ?
+			0 : Math.round(outputs.ss_taxable_alt / inputs.ss_received_0 * 100);
 	HTML.putUserOutput("TaxableSocialSecurityAlt",		outputs.ss_taxable_alt);
 	HTML.putUserOutput("TaxablePercentAlt",				taxable_percent + "%", "text");
 }

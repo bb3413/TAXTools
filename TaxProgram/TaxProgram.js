@@ -9,6 +9,7 @@ import { Dates }						from "../Library/Modules/Dates.js";
 import { Debug }						from "../Library/Modules/Debug.js";
 import { Ensure }						from "../Library/Modules/Ensure.js";
 import { HTML }							from "../Library/Modules/HTML.js";
+import { SaveRestore }					from "./SaveRestore.js";
 import { Objects }						from "../Library/Modules/Objects.js";
 import { Str }							from "../Library/Modules/Str.js";
 import { TaxFormObj }					from "../Library/Modules/TaxFormObj.js";
@@ -39,11 +40,12 @@ export const ASSETSALES_CONTAINER		= "assetsales-container";
 export const INPUT_TAXFORMS_CONTAINER	= "input-taxforms-container";
 export const OUTPUT_TAXFORMS_CONTAINER	= "output-taxforms-container";
 
+const SAVE_FILE = TAX_PROGRAM_SAVE_FILE;
+
 let sales_tax = 0;		// Global variable because it is initialized asynchronously.
 
 export {
 	addInputForm,
-	resetAll,
 };
 
 function addAssetSaleHandler(event) {
@@ -570,6 +572,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.addListener("dependent-button",		"click",  addDependentHandler);
 	HTML.addListener("input-form-button",		"click",  addInputFormHandler);
 	HTML.addListener("calculate-button",		"click",  calculateHandler);
+
+	SaveRestore.initialize(SAVE_FILE, {}, resetAll);
 
 	initialize();
 });

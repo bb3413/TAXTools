@@ -148,7 +148,7 @@ const form_info = {
     "Refund":               [ false,	true,	true,   true    ],
     "SalesTax":             [ false,	true,	true,   true    ],
     "Simple":               [ false,	true,	false,  true    ],
-    "SSTax":                [ false,	true,	true,   true    ],
+    "SSTax":                [ false,	true,	false,  true    ],
     "StudentLoan":          [ false,	true,	true,   true    ],
 };
 

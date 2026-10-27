@@ -22,10 +22,10 @@ import { HTML }		from "../Modules/HTML.js";
 import { TAXTOOL_CONTAINER } 	from "../TAXTools/TAXTools.js";
 import { ERROR_MESSAGE_OUTPUT } from "../TAXTools/TAXTools.js";
 
-let error_log	= [];
-let filename	= undefined;
-let field_info	= undefined;
-let reset_func	= undefined;
+let error_log		= [];
+let save_file_name	= undefined;
+let field_info		= undefined;
+let reset_func		= undefined;
 
 function getValues() {
 	//
@@ -38,7 +38,7 @@ function getValues() {
 
 	for (const element_id of Object.keys(field_info)) {
 		const key_name		= element_id.replace(/-/g, "_");
-		values[key_name]	= HTML.getUserInput(element_id, "raw");
+		values[key_name]	= HTML.getElementValue(element_id);
 	}
 
 	return values;
@@ -49,9 +49,9 @@ function initialize(file, fields, reset_all) {
 	Ensure.isObject(fields);
 	Ensure.isFunction(reset_all);
 
-	filename	= file;
-	field_info	= fields;
-	reset_func	= reset_all;
+	save_file_name	= file;
+	field_info		= fields;
+	reset_func		= reset_all;
 }
 
 function putValues(values) {
@@ -78,15 +78,15 @@ function restoreData(data) {
 	try {
 		error_log = [];
 
-		const tool = HTML.getUserInput("title", "text");
+		const tool = HTML.getElementValue("title");
 		if (data.tool_name !== tool) {
-			throw new Error(`File was saved from the ${data.tool}. ` +
+			throw new Error(`File was saved from the ${data.tool_name}. ` +
 				"It cannot be restored by this tool.");
 		}
 
 		reset_func();										// Start over, reset everything.
 		putValues(data.values);								// Put the new values
-		HTML.dispatchEvent(TAXTOOL_CONTAINER, "change");	// Update the calculation
+		HTML.dispatchEvent(TAXTOOL_CONTAINER, "change");	// Update the tool
 
 		if (error_log.length !== 0) {
 			HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error_log.join("\n"));
@@ -118,13 +118,13 @@ function saveDataHandler(event) {
 	//
 	try {
 		const data = {
-			"tool_name":		HTML.getUserInput("title", "text"),
-			"version":			HTML.getUserInput("tax-tools-version", "text"),
+			"tool_name":		HTML.getElementValue("title"),
+			"version":			HTML.getElementValue("tax-tools-version"),
 			"creation_date":	new Date().toLocaleDateString(),
 			"values":			getValues(),
 		};
 
-		File.saveToFile(data, filename);
+		File.saveToFile(data, save_file_name);
 	} catch (error) {
 		Ensure.processError(error);
 	}

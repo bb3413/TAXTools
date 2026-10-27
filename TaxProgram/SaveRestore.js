@@ -1,9 +1,14 @@
 
+export const SaveRestore = {
+	initialize,
+};
+
 // Classes
 import { HTMLMgr }	from "../Library/Classes/HTMLMgr.js";
 
 // Modules
 import { Classes }		from "../Library/Modules/Classes.js";
+import { Ensure }		from "../Library/Modules/Ensure.js";
 import { File }			from "../Library/Modules/File.js";
 import { HTML }			from "../Library/Modules/HTML.js";
 import { Objects }		from "../Library/Modules/Objects.js";
@@ -17,18 +22,28 @@ import { Dependent }	from "../Library/InputWorksheets/Dependent.js";
 import { Expenses }		from "../Library/InputWorksheets/Expenses.js";
 import { Income }		from "../Library/InputWorksheets/Income.js";
 
-import {
-	addInputForm,
-	resetAll,
-} from "./TaxProgram.js";
+import { addInputForm }	from "./TaxProgram.js";
 
-import { TAX_PROGRAM_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
 import { ERROR_MESSAGE_OUTPUT }		from "../Library/TAXTools/TAXTools.js";
 
 // If RAW is true, user input will be copied without changing (debug keywords, expression
 // evaluation, etc. Set it to false to use normal processing of input.
-const RAW = true;
-let error_log = [];
+const RAW			= true;
+let error_log		= [];
+let save_file_name	= undefined;
+let field_info		= undefined;
+let reset_func		= undefined;
+
+function initialize(file, fields, reset_all) {
+	Ensure.isNonEmptyString(file);
+	Ensure.isObject(fields);
+	Ensure.isFunction(reset_all);
+
+	save_file_name	= file;
+	field_info		= fields;
+	reset_func		= reset_all;
+}
 
 function restoreAssetsaleItems(assetsales) {
 	//
@@ -66,13 +81,13 @@ function restoreData(data) {
 	try {
 		error_log = [];
 
-		const tool = HTML.getUserInput("title", "text");
+		const tool = HTML.getElementValue("title");
 		if (data.tool_name !== tool) {
 			throw new Error(`File was saved from the ${data.tool}. ` +
 				"It cannot be restored by this tool.");
 		}
 
-		resetAll();		// Start over, reset everything.
+		reset_func();	// Start over, reset everything.
 
 		HTML.putUserOutput("tax-year", data.tax_year, "text");
 		restoreTaxpayer(data.taxpayer);
@@ -81,6 +96,8 @@ function restoreData(data) {
 		restoreIncome(data.income);
 		restoreAssetsaleItems(data.assetsale_items);
 		restoreInputForms(data.input_forms);
+
+		HTML.dispatchEvent(TAXTOOL_CONTAINER, "change");	// Update the tool.
 
 		if (error_log.length !== 0) {
 			HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error_log.join("\n"));
@@ -223,10 +240,10 @@ function saveDataHandler(event) {
 	//
 	try {
 		const data = {
-			"tool_name":		HTML.getUserInput("title", "text"),
-			"version":			HTML.getUserInput("tax-tools-version", "text"),
+			"tool_name":		HTML.getElementValue("title"),
+			"version":			HTML.getElementValue("tax-tools-version"),
 			"todays_date":		new Date().toLocaleDateString(),
-			"tax_year":			HTML.getUserInput("tax-year", "text"),
+			"tax_year":			HTML.getElementValue("tax-year"),
 			"taxpayer":			saveTaxpayer(),
 			"dependents":		saveDependents(),
 			"expenses":			saveExpenses(),
@@ -236,7 +253,7 @@ function saveDataHandler(event) {
 			"output_forms":		saveOutputForms(),
 		};
 
-		File.saveToFile(data, TAX_PROGRAM_SAVE_FILE);
+		File.saveToFile(data, save_file_name);
 	} catch (error) {
 		Ensure.processError(error);
 	}

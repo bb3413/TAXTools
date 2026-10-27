@@ -3,7 +3,7 @@ import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { HTML }			from "../Modules/HTML.js";
 import { Line }			from "../Classes/Line.js";
-import { Objects }		from "../Modules/Objects.js";
+import { Str }			from "../Modules/Str.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxInfo }		from "../Modules/TaxInfo.js";
@@ -75,6 +75,9 @@ export class F1040SC extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 
 		this.lines["name"].value	= "";				//Business Name
+		if (Str.empty(this.lines["name"].value)) {
+			this.lines["name"].value = "NO_NAME";
+		}
 
 		// Income
 		this.lines["01"].value	= this.cash_income +	// Gross Receipts or Sales
