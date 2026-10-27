@@ -21,6 +21,7 @@ export const HTML = {
 	putSummary,
 
 	addListener,
+	dispatchEvent,
 	isValidElementID,
 	getCSSGlobalVariable,
 	remove,
@@ -191,6 +192,11 @@ function putSummary(details_id, value) {
 function addListener(element_id, event, handler) {
 	const element = Ensure.isValidElementID(element_id);
 	element.addEventListener(event, handler);
+}
+
+function dispatchEvent(element_id, event_type = "change") {
+	const element = Ensure.isValidElementID(element_id);
+	element.dispatchEvent(new Event(event_type));
 }
 
 function removeListener(element_id, event, handler) {

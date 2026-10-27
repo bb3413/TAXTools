@@ -4,6 +4,8 @@ import { Ensure }	from "../Library/Modules/Ensure.js";
 import { HTML }		from "../Library/Modules/HTML.js";
 import { Num }		from "../Library/Modules/Num.js";
 
+import { ERROR_MESSAGE_OUTPUT }	from "../Library/TAXTools/TAXTools.js";
+
 let start			= "";
 let end				= "";
 let age				= 0;
@@ -12,7 +14,7 @@ let output_color	= "";
 
 function ageHandler(event) {
 	try {
-		HTML.putElementValue("error-message-output", "");
+		HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
 
 		age = HTML.getUserInput("Age", "text");
 		if (age === "")
@@ -26,10 +28,7 @@ function ageHandler(event) {
 			calculateStartDate(end, age);
 		}
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		Ensure.processError(error);
 	}
 }
 
@@ -72,7 +71,7 @@ function calculateStartDate(end, age) {
 
 function endHandler(event) {
 	try {
-		HTML.putElementValue("error-message-output", "");
+		HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
 
 		end = HTML.getUserInput("End", "text");
 		if (!Dates.getDateObject(end)) {
@@ -88,15 +87,13 @@ function endHandler(event) {
 			calculateStartDate(end, age);
 		}
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output").scrollIntoView();
+		Ensure.processError(error);
 	}
 }
 
 function startHandler(event) {
 	try {
-		HTML.putElementValue("error-message-output", "");
+		HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
 
 		start = HTML.getUserInput("Start", "text");
 		if (!Dates.getDateObject(start)) {
@@ -112,9 +109,7 @@ function startHandler(event) {
 			calculateEndDate(start, age);
 		}
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output").scrollIntoView();
+		Ensure.processError(error);
 	}
 }
 

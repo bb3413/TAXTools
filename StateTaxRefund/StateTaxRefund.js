@@ -3,13 +3,34 @@ import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
 import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
 import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { STATE_REFUND_SAVE_FILE }		from "../Library/TAXTools/TAXTools.js";
 import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
+
+const SAVE_FILE		= STATE_REFUND_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name				Value Type
+	"tax-year":					["text"],
+	"FilingStatus":				["text"],
+	"TaxpayersBirthday":		["text"],
+	"TaxpayerIsBlind":			[""],
+	"SpousesBirthday":			["text"],
+	"SpouseIsBlind":			[""],
+	"StateTaxRefund":			[""],
+	"StateIncomeTax":			[""],
+	"SalesTax":					[""],
+	"SalesTaxUsed":				[""],
+	"RealEstateTaxes":			[""],
+	"PersonalPropertyTaxes":	[""],
+	"ItemizedDeductions":		[""],
+};
 
 function calculateTaxableAmount(inputs) {
 
@@ -51,12 +72,7 @@ function changeHandler(event) {
 	// whole AMT (not just the field tha was changed).
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-		TaxFormObj.reset();
-		Taxpayer.reset();
-
+		resetAll();
 		const inputs = getInputs();							// Get inputs from  web page
 		TaxTable.getTaxTable(inputs.tax_year);				// Initialize tax tables
 		const taxpayer = createTaxpayer(inputs);			// Initialize taxpayer
@@ -65,10 +81,7 @@ function changeHandler(event) {
 		putOutputs(outputs);								// Put results on web page
 		Debug.turnOn();										// Put debug info on web page
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Ensure.processError(error);
 	}
 }
 
@@ -141,11 +154,24 @@ function putOutputs(outputs) {
 	HTML.putUserOutput("Explanation",	outputs.explanation,	"text");
 }
 
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
 	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
+
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
+
 	HTML.putUserOutput("tax-year", Dates.getTaxYear(), "text");
 	HTML.hideElement("SpouseContainer");
 	HTML.hideElement("debug-container");

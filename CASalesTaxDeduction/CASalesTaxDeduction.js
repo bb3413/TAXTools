@@ -1,15 +1,40 @@
 
-import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
-
 import { Alert }				from "../Library/Modules/Alert.js";
 import { Dates }				from "../Library/Modules/Dates.js";
 import { Debug }				from "../Library/Modules/Debug.js";
 import { Ensure }				from "../Library/Modules/Ensure.js";
 import { fetchSalesTaxRate }	from "../Library/Modules/SalesTaxFromCDTFA.js";
 import { HTML }					from "../Library/Modules/HTML.js";
+import { SaveRestore }			from "../Library/Modules/SaveRestore.js";
 import { TaxFormObj }			from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }				from "../Library/Classes/Taxpayer.js";
 import { TaxTable }				from "../Library/Modules/TaxTable.js";
+
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { CA_SALES_TAX_SAVE_FILE }		from "../Library/TAXTools/TAXTools.js";
+
+const SAVE_FILE		= CA_SALES_TAX_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name				Value Type
+	"tax-year":					["text"],
+	"StreetAddress":			["text"],
+	"City":						["text"],
+	"State":					["text"],
+	"ZipCode":					["text"],
+	"FamilySize":				[""],
+	"ExtraSalesTax":			[""],
+	"Wages":					[""],
+	"TaxExemptInterest":		[""],
+	"TaxableInterest":			[""],
+	"QualifiedDividends":		[""],
+	"OrdinaryDividends":		[""],
+	"RetirementAccounts":		[""],
+	"SocialSecurity":			[""],
+	"CapitalGains":				[""],
+	"SelfEmploymentIncome":		[""],
+	"OtherIncome":				[""],
+};
 
 let total_sales_tax			= 0;
 let total_spendable_income	= 0;
@@ -33,35 +58,16 @@ function changeHandler(event) {
 	// whole deduction (not just the field tha was changed).
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-		TaxFormObj.reset();
-		Taxpayer.reset();
-
+		resetAll();
 		const inputs = getInputs();					// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);		// Initialize tax tables
-		createTaxpayer(inputs);						// Initialize taxpayer
 		mapInputValues(inputs);						// Map input values to tax forms
 		TaxFormObj.getForm("SalesTax").calculate(total_sales_tax);	// Calculate the tax
 		putOutputs();								// Put results on web page
 		Debug.turnOn();								// Put debug info on web page if enabled
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
-		Debug.turnOn();
+		Ensure.processError(error);
 	}
-}
-
-function createTaxpayer(inputs) {
-	const taxpayer					= new Taxpayer();
-
-	taxpayer.filing_status			= SINGLE;
-	taxpayer.number_of_dependents	= Math.min(0, inputs.family_size - 1);
-
-	return taxpayer;
 }
 
 function getInputs() {
@@ -124,6 +130,16 @@ function putOutputs() {
 	HTML.putUserOutput("SalesTaxDeduction",		TaxFormObj.getValue("SalesTax", "08"));
 }
 
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
@@ -145,6 +161,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.addListener("CapitalGains",			"change", changeHandler);
 	HTML.addListener("SelfEmploymentIncome",	"change", changeHandler);
 	HTML.addListener("OtherIncome",				"change", changeHandler);
+
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
 	HTML.hideElement("debug-container");
 });

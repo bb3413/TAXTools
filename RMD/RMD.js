@@ -5,6 +5,8 @@ import { Ensure }		from "../Library/Modules/Ensure.js";
 import { HTML }			from "../Library/Modules/HTML.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
+import { ERROR_MESSAGE_OUTPUT }	from "../Library/TAXTools/TAXTools.js";
+
 let input_color			= "";
 let output_color		= "";
 
@@ -43,19 +45,13 @@ function changeHandler(event) {
 	// This function is called when any input field is changed.
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-
+		resetAll();
 		const inputs	= getInputs();						// Get inputs from the web page
 		const outputs	= calculateRMD(inputs);
 		putOutputs(outputs);								// Put results on web page
 		Debug.turnOn();										// Put debug info on web page
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Ensure.processError(error);
 	}
 }
 
@@ -78,6 +74,14 @@ function getInputs() {
 function putOutputs(outputs) {
 	HTML.putUserOutput("TaxpayersAge",	outputs.taxpayers_age);
 	HTML.putUserOutput("RMD",			outputs.rmd);
+}
+
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

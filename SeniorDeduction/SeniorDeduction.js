@@ -16,12 +16,7 @@ function changeHandler(event) {
 	// This function is called when any input field is changed.
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-		TaxFormObj.reset();
-		Taxpayer.reset();
-
+		resetAll();
 		const inputs	= getInputs();					// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);			// Initialize tax tables
 		createTaxpayer(inputs);							// Initialize taxpayer
@@ -30,10 +25,7 @@ function changeHandler(event) {
 		putOutputs(taxpayer);							// Put results on web page
 		Debug.turnOn();									// Put debug info on web page
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Ensure.processError(error);
 	}
 }
 
@@ -118,6 +110,16 @@ function putOutputs(taxpayer) {
 	HTML.putUserOutput("TaxpayersAge",			taxpayer.taxpayers_age);
 	HTML.putUserOutput("SpousesAge",			taxpayer.spouses_age);
 	HTML.putUserOutput("SeniorDeduction", 		TaxFormObj.getValue("F1040S1A", "37"));
+}
+
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -4,6 +4,7 @@ import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
 import { File }			from "../Library/Modules/File.js";
 import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
@@ -11,8 +12,93 @@ import { TaxTable }		from "../Library/Modules/TaxTable.js";
 import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
 import { ESTIMATED_TAX_SAVE_FILE }		from "../Library/TAXTools/TAXTools.js";
 import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
 import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
+
+const SAVE_FILE		= ESTIMATED_TAX_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name					Value Type
+	"tax-year":						["text"],
+	"TaxpayersName":				["text"],
+	"FilingStatus":					["text"],
+	"TaxpayersBirthday":			["text"],
+	"SpousesBirthday":				["text"],
+
+	// Income
+	"Wages":						[""],
+	"TaxExemptInterest":			[""],
+	"TaxableInterest":				[""],
+	"QualifiedDividends":			[""],
+	"OrdinaryDividends":			[""],
+	"RetirementAccounts":			[""],
+	"SocialSecurity":				[""],
+	"CapitalGains":					[""],
+	"SelfEmploymentIncome":			[""],
+	"OtherIncome":					[""],
+
+	// Other Taxes
+	"SelfEmploymentTax":			[""],
+	"EarlyWithdrawalTax":			[""],
+	"OtherTaxes":					[""],
+
+	// Adjustments
+	"EducatorExpenses":				[""],
+	"HealthSavingsAccount":			[""],
+	"SelfEmploymentTaxAdjustment":	[""],
+	"SelfEmployedHealthInsurance":	[""],
+	"EarlyWithdrawalPenalty":		[""],
+	"AlimonyPaid":					[""],
+	"IRAContributions":				[""],
+	"StudentLoanInterest":			[""],
+	"OtherAdjustments":				[""],
+
+	// Deductions (non-itemized)
+	"QualifiedBusinessIncomeDeduction":	[""],
+	"QualifiedTipsDeduction":		[""],
+	"QualifiedOvertimeDeduction":	[""],
+	"CarLoanInterestDeduction":		[""],
+	"SeniorDeduction":				[""],
+
+	// Deductions
+	"MedicalInsurance":				[""],
+	"DoctorVisits":					[""],
+	"PrescriptionDrugs":			[""],
+	"MedicalAids":					[""],
+	"LTCTaxpayer":					[""],
+	"LTCSpouse":					[""],
+	"MedicalMiles":					[""],
+	"OtherMedicalExpenses":			[""],
+	"StateIncomeTax":				[""],
+	"SalesTax":						[""],
+	"RealEstatePropertyTax":		[""],
+	"PersonalPropertyTax":			[""],
+	"MortgageInterest":				[""],
+	"CashGiftsToCharity":			[""],
+	"NoncashGiftsToCharity":		[""],
+	"QualifiedCharitableDistribution":	[""],
+
+	// Non-refundable Credits
+	"AmericanOppCreditNoRefund":	[""],
+	"ChildCareCredit":				[""],
+	"ChildTaxCredit":				[""],
+	"ForeignTaxCredit":				[""],
+	"LifetimeLearningCredit":		[""],
+	"ResidentialEnergyCredit":		[""],
+	"RetirementSavingsCredit":		[""],
+	"OtherNonrefundableCredits":	[""],
+
+	// Refundable Credits
+	"AmericanOppCreditRefundable":	[""],
+	"CreditForOtherDependents":		[""],
+	"EarnedIncomeCredit":			[""],
+	"PremiumTaxCredit":				[""],
+	"OtherRefundableCredits":		[""],
+
+	// Payments
+	"Withholding":					[""],
+	"EstimatedTaxPaid":				[""],
+};
 
 // This variable needs to be global so it can be accessed by the save handler.
 let inputs = {};
@@ -23,12 +109,7 @@ function changeHandler(event) {
 	// whole return (not just the field tha was changed).
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-		TaxFormObj.reset();
-		Taxpayer.reset();
-
+		resetAll();
 		TaxTable.getTaxTable(HTML.getUserInput("tax-year"));// Initialize tax tables
 		inputs = getInputs();								// Get inputs from the web page
 		createTaxpayer(inputs);								// Initialize taxpayer
@@ -38,10 +119,7 @@ function changeHandler(event) {
 		putOutputs();										// Put results on web page
 		Debug.turnOn();										// Put debug info on web page
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Ensure.processError(error);
 	}
 }
 
@@ -133,6 +211,26 @@ function createTaxpayer(inputs) {
 	taxpayer.spouses_birthday		= inputs.spouses_birthday;
 
 	return taxpayer;
+}
+
+function getInputsNew() {
+	//
+	// This function will not work as long as the element ID are not in kebab case.
+	//
+	// Copy values from the web page.
+	//
+	// The return parameter is an object that contains the name-value pairs for all the
+	// fields copied from the web page.
+	//
+	const values = {};
+
+	for (const element_id of Object.keys(FIELD_INFO)) {
+		const key_name		= element_id.replace(/-/g, "_");
+		const value_type	= FIELD_INFO[element_id][0];
+		values[key_name]	= HTML.getUserInput(element_id, value_type);
+	}
+
+	return values;
 }
 
 function getInputs() {
@@ -405,193 +503,14 @@ function putOutputs() {
 	HTML.putUserOutput("EstimatedTax",			estimated_tax);
 }
 
-function restoreDataHandler(data) {
+function resetAll() {
 	//
-	// This function is called when the user restores the input fields from a file.
-	// The data that was copied from the file is passed a parameter.
+	// Reset static (global) variables to erase information from a previous calculation.
 	//
-	let inputs;
-
-	// There are currently 2 formats in use; select which one this is.
-	if (data.input_data) {
-		HTML.putElementValue("tax-year", data.tax_year);
-		inputs = data.input_data;
-	} else {
-		inputs = data;
-	}
-
-	// Taxpayer Information
-	HTML.putElementValue("TaxpayersName",
-						 inputs.taxpayers_name);
-	HTML.putElementValue("FilingStatus",
-						 inputs.filing_status);
-	HTML.putElementValue("TaxpayersBirthday",
-						 inputs.taxpayers_birthday);
-	HTML.putElementValue("SpousesBirthday",
-						 inputs.spouses_birthday);
-
-	// Income
-	HTML.putElementValue("TaxExemptInterest",
-						 inputs.tax_exempt_interest);
-	HTML.putElementValue("Wages",
-						 inputs.wages);
-	HTML.putElementValue("TaxableInterest",
-						 inputs.taxable_interest);
-	HTML.putElementValue("QualifiedDividends",
-						 inputs.qualified_dividends);
-	HTML.putElementValue("OrdinaryDividends",
-						 inputs.ordinary_dividends);
-	HTML.putElementValue("RetirementAccounts",
-						 inputs.retirement_accounts);
-	HTML.putElementValue("SocialSecurity",
-						 inputs.social_security);
-	HTML.putElementValue("CapitalGains",
-						 inputs.capital_gains);
-	HTML.putElementValue("SelfEmploymentIncome",
-						 inputs.self_employment_income);
-	HTML.putElementValue("OtherIncome",
-						 inputs.other_income);
-
-	// Other Taxes
-	HTML.putElementValue("SelfEmploymentTax",
-						 inputs.self_employment_tax);
-	HTML.putElementValue("EarlyWithdrawalTax",
-						 inputs.early_withdrawal_tax);
-	HTML.putElementValue("OtherTaxes",
-						 inputs.other_taxes);
-
-	// Adjustments
-	HTML.putElementValue("EducatorExpenses",
-						 inputs.educator_expenses);
-	HTML.putElementValue("HealthSavingsAccount",
-						 inputs.health_savings_account);
-	HTML.putElementValue("SelfEmploymentTaxAdjustment",
-						 inputs.self_employment_tax_adjustment);
-	HTML.putElementValue("SelfEmployedHealthInsurance",
-						 inputs.self_employed_health_insurance);
-	HTML.putElementValue("EarlyWithdrawalPenalty",
-						 inputs.early_withdrawal_penalty);
-	HTML.putElementValue("AlimonyPaid",
-						 inputs.alimony_paid);
-	HTML.putElementValue("IRAContributions",
-						 inputs.ira_contributions);
-	HTML.putElementValue("StudentLoanInterest",
-						 inputs.student_loan_interest);
-	HTML.putElementValue("OtherAdjustments",
-						 inputs.other_adjustments);
-
-	// Deductions (non-itemized)
-	HTML.putElementValue("QualifiedBusinessIncomeDeduction",
-						 inputs.qualified_business_income_deduction);
-	HTML.putElementValue("QualifiedTipsDeduction",
-						 inputs.qualified_tips_deduction);
-	HTML.putElementValue("QualifiedOvertimeDeduction",
-						 inputs.qualified_overtime_deduction);
-	HTML.putElementValue("CarLoanInterestDeduction",
-						 inputs.car_loan_interest_deduction);
-	HTML.putElementValue("SeniorDeduction",
-						 inputs.senior_deduction);
-
-	// Deductions (itemized)
-	HTML.putElementValue("MedicalInsurance",
-						 inputs.medical_insurance);
-	HTML.putElementValue("DoctorVisits",
-						 inputs.doctor_visits);
-	HTML.putElementValue("PrescriptionDrugs",
-						 inputs.prescription_drugs);
-	HTML.putElementValue("MedicalAids",
-						 inputs.medical_aids);
-	HTML.putElementValue("LTCTaxpayer",
-						 inputs.ltc_taxpayer);
-	HTML.putElementValue("LTCSpouse",
-						 inputs.ltc_spouse);
-	HTML.putElementValue("MedicalMiles",
-						 inputs.medical_miles);
-	HTML.putElementValue("OtherMedicalExpenses",
-						 inputs.other_medical_expenses);
-	HTML.putElementValue("StateIncomeTax",
-						 inputs.state_income_tax);
-	HTML.putElementValue("SalesTax",
-						 inputs.sales_tax);
-	HTML.putElementValue("RealEstatePropertyTax",
-						 inputs.real_estate_property_tax);
-	HTML.putElementValue("PersonalPropertyTax",
-						 inputs.personal_property_tax);
-	HTML.putElementValue("MortgageInterest",
-						 inputs.mortgage_interest);
-	HTML.putElementValue("CashGiftsToCharity",
-						 inputs.cash_gifts_to_charity);
-	HTML.putElementValue("NoncashGiftsToCharity",
-						 inputs.noncash_gifts_to_charity);
-	HTML.putElementValue("QualifiedCharitableDistribution",
-						 inputs.qualified_charitable_distribution);
-
-	// Non-refundable Credits
-	HTML.putElementValue("AmericanOppCreditNoRefund",
-						 inputs.american_opp_credit_no_refund);
-	HTML.putElementValue("ChildCareCredit",
-						 inputs.child_care_credit);
-	HTML.putElementValue("ChildTaxCredit",
-						 inputs.child_tax_credit);
-	HTML.putElementValue("ForeignTaxCredit",
-						 inputs.foreign_tax_credit);
-	HTML.putElementValue("LifetimeLearningCredit",
-						 inputs.lifetime_learning_credit);
-	HTML.putElementValue("ResidentialEnergyCredit",
-
-						 inputs.residential_energy_credit);
-	HTML.putElementValue("RetirementSavingsCredit",
-						 inputs.retirement_savings_credit);
-	HTML.putElementValue("OtherNonrefundableCredits",
-						 inputs.other_nonrefundable_credits);
-
-	// Refundable Credits
-	HTML.putElementValue("AmericanOppCreditRefundable",
-						 inputs.american_opp_credit_refundable);
-	HTML.putElementValue("CreditForOtherDependents",
-						 inputs.credit_for_other_dependents);
-	HTML.putElementValue("EarnedIncomeCredit",
-						 inputs.earned_income_credit);
-	HTML.putElementValue("PremiumTaxCredit",
-						 inputs.premium_tax_credit);
-	HTML.putElementValue("OtherRefundableCredits",
-						 inputs.other_refundable_credits);
-
-	// Payments
-	HTML.putElementValue("Withholding",
-						 inputs.withholding);
-	HTML.putElementValue("EstimatedTaxPaid",
-						 inputs.estimated_tax_paid);
-
-	changeHandler();
-}
-
-function restoreUserData(event) {
-	//
-	// The file selection dialog gets a list of files, but only one should be passed
-	// in our case; select the first file and ignore the rest.
-	//
-	const filename = event.target.files[0];
-	if (!filename) {
-		throw new Error("No file selected.");
-		return;
-	}
-
-	File.restoreFromFile(filename, restoreDataHandler);
-}
-
-function saveUserData(event) {
-	//
-	// This function is called when the user wants to save the input fields to a file.
-	//
-	const data = {
-		version:		HTML.getUserInput("tax-tools-version", "text"),
-		todays_date:	new Date().toLocaleDateString(),
-		tax_year:		HTML.getUserInput("tax-year", "text"),
-		input_data:		inputs,
-	};
-
-	File.saveToFile(data, ESTIMATED_TAX_SAVE_FILE);
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -603,8 +522,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Listen for changes to the input data.
 	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
-	HTML.addListener("SaveButton",		"click",  saveUserData);
-	HTML.addListener("InputFile",		"change", restoreUserData);
+
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
 	// focus but display the page without scrolling to that element.

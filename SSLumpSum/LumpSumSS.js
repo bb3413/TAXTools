@@ -1,13 +1,43 @@
 
-import { TAXTOOL_CONTAINER } from "../Library/TAXTools/TAXTools.js";
-
 import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
 import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
+
+import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }		from "../Library/TAXTools/TAXTools.js";
+import { SS_LUMP_SUM_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+
+const SAVE_FILE		= SS_LUMP_SUM_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name						Value Type
+	"FilingStatus-0":					["text"],
+	"SocialSecurity-0":					[""],
+	"Income-0":							[""],
+	"TaxExemptInterest-0":				[""],
+	"Adjustments-0":					[""],
+
+	// Lump Sum Payment #1
+	"FilingStatus-1":					["text"],
+	"LumpSum-1":						[""],
+	"AGI-1":							[""],
+	"TaxExemptInterest-1":				[""],
+	"SocialSecurityReceivedReported-1":	[""],
+	"SocialSecurityTaxableReported-1":	[""],
+
+	// Lump Sum Payment #2
+	"FilingStatus-2":					["text"],
+	"LumpSum-2":						[""],
+	"AGI-2":							[""],
+	"TaxExemptInterest-2":				[""],
+	"SocialSecurityReceivedReported-2":	[""],
+	"SocialSecurityTaxableReported-2":	[""],
+};
+
 
 function calculateTax(inputs) {
 	const outputs = {};
@@ -84,22 +114,14 @@ function changeHandler(event) {
 	// whole deduction (not just the field tha was changed).
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-		TaxFormObj.reset();
-		Taxpayer.reset();
-
+		resetAll();
 		const inputs = getInputs();							// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);				// Initialize tax tables
 		const outputs = calculateTax(inputs);
 		putOutputs(inputs, outputs);						// Put results on web page
 		Debug.turnOn();										// Put debug info on web page
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Ensure.processError(error);
 	}
 }
 
@@ -173,10 +195,22 @@ function putOutputs(inputs, outputs) {
 	HTML.putUserOutput("TaxablePercentAlt",				taxable_percent + "%", "text");
 }
 
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
 	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
 	HTML.hideElement("debug-container");
+
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 });

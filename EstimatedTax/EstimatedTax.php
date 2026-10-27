@@ -8,6 +8,7 @@
 
 	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
 	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>
+	<script type="module" src="../Library/Modules/SaveRestore.js"></script>
 	<script type="module" src="../Version/Version.js"></script>
 
 	<link rel="stylesheet" href="EstimatedTax.css" />
@@ -38,13 +39,13 @@
 
 		<div class="save-restore-container">
 			<!-- Save Button -->
-			<input type="button" id="SaveButton" class="trigger button save-button"
-				value="Save" tooltipid="#SaveButtonTT" />
+			<input type="button" id="save-button" class="trigger button save-button"
+				value="Save" tooltipid="#save-button-tt" />
 
 			<!-- Restore Button -->
-			<input type="file" id="InputFile" accept=".txt" style="display: none;" />
-			<label for="InputFile" class="trigger button restore-button"
-				tooltipid="#RestoreButtonTT">Restore</label>
+			<input type="file" id="input-file" accept=".txt" style="display: none;" />
+			<label for="input-file" class="trigger button restore-button"
+				tooltipid="#restore-button-tt">Restore</label>
 		</div>
 
 		<div class="taxpayer-info-box">

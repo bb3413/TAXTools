@@ -3,9 +3,51 @@ import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
 import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
+
+import { ERROR_MESSAGE_OUTPUT }	from "../Library/TAXTools/TAXTools.js";
+import { SS_TAXABLE_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+
+const SAVE_FILE		= SS_TAXABLE_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name					Value Type
+	"FilingStatus":					["text"],
+	"LivedWithSpouseContainer":		[""],
+	"LivedWithSpouse":				[""],
+	"SocialSecurity":				[""],
+	"Income":						[""],
+	"TaxExemptInterest":			[""],
+	"Adjustments":					[""],
+
+	// Income Fields
+	"Wages":						[""],
+	"TaxableInterest":				[""],
+	"OrdinaryDividends":			[""],
+	"RetirementAccounts":			[""],
+	"PensionsAndAnnuities":			[""],
+	"CapitalGains":					[""],
+	"SelfEmploymentIncome":			[""],
+	"OtherIncome":					[""],
+
+	// Adjustment Fields
+	"EducatorExpenses":				[""],
+	"HealthSavingsAccount":			[""],
+	"SelfEmploymentTaxAdjustment":	[""],
+	"SelfEmployedHealthInsurance":	[""],
+	"EarlyWithdrawalPenalty":		[""],
+	"AlimonyPaid":					[""],
+	"IRAContributions":				[""],
+	"StudentLoanInterest":			[""],
+	"OtherAdjustments":				[""],
+	"error-message-container":		[""],
+	"error-message-output":			[""],
+	"debug-container":				[""],
+	"debug-output":					[""],
+};
+
 
 let input_color				= "";
 let output_color			= "";
@@ -115,23 +157,15 @@ function changeHandler(event) {
 	// whole deduction (not just the field tha was changed).
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-		TaxFormObj.reset();
-		Taxpayer.reset();
-
-		const inputs	= getInputs();					// Get inputs from the web page
+		resetAll();
+		const inputs = getInputs();						// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);			// Initialize tax tables
 		createTaxpayer(inputs);							// Initialize taxpayer
 		const outputs	= calculateTax(inputs);
 		putOutputs(inputs, outputs);					// Put results on web page
 		Debug.turnOn();									// Put debug info on web page
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Ensure.processError(error);
 	}
 }
 
@@ -180,6 +214,16 @@ function putOutputs(inputs, outputs) {
 	HTML.putUserOutput("TaxablePercent",		taxable_percent + "%", "text");
 }
 
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
@@ -220,6 +264,8 @@ document.addEventListener("DOMContentLoaded", () => {
 					 "change", changeAdjustmentComponentHandler);
 	HTML.addListener("OtherAdjustments",
 					 "change", changeAdjustmentComponentHandler);
+
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
 	output_color	= HTML.getCSSGlobalVariable("--output-color");
 	input_color		= HTML.getCSSGlobalVariable("--input-color");

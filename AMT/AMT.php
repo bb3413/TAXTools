@@ -5,12 +5,13 @@
 	<link rel="stylesheet" href="../Library/CSS/TAXTools.css" />
 	<link rel="stylesheet" href="../Library/CSS/Tooltips.css" />
 	<link rel="stylesheet" href="../Library/CSS/HTML.css" />
-	<link rel="stylesheet" href="AMT.css" />
 
 	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
 	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>
 	<script type="module" src="../Library/Modules/SaveRestore.js"></script>
 	<script type="module" src="../Version/Version.js"></script>
+
+	<link rel="stylesheet" href="AMT.css" />
 	<script type="module" src="AMT.js"></script>
 	<title>Alternative Minimum Tax Calculator</title>
 </head>

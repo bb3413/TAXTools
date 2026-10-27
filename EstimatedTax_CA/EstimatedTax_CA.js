@@ -4,14 +4,87 @@ import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
 import { File }			from "../Library/Modules/File.js";
 import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-import { ESTIMATED_TAX_CA_SAVE_FILE } from "../Library/TAXTools/TAXTools.js";
-import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
-import { strToFilingStatus }		from "../Library/TAXTools/TAXTools.js";
-import { filingStatusToStr }		from "../Library/TAXTools/TAXTools.js";
+import { ESTIMATED_TAX_CA_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
+import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
+
+const SAVE_FILE		= ESTIMATED_TAX_CA_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name					Value Type
+	"tax-year":						["text"],
+	"TaxpayersName":				["text"],
+	"FilingStatus":					["text"],
+	"TaxpayersBirthday":			["text"],
+	"SpousesBirthday":				["text"],
+
+	"FederalAGI":					[""],
+	"NumberOfDependents":			[""],
+
+	// Subtractions
+	"USTreasuryObligations":		[""],
+	"MilitaryRetirementIncome":		[""],
+	"TaxableSocialSecurity":		[""],
+	"StateTaxRefund":				[""],
+	"UnemploymentIncome":			[""],
+	"CaliforniaLotteryWinnings":	[""],
+	"NonqualifiedHSADistributions":	[""],
+	"AlimonyPaid":					[""],
+	"OtherSubtractions":			[""],
+
+	// Additions
+	"HSAEmployerContributions":		[""],
+	"AlimonyReceived":				[""],
+	"HomeLoanDebtCancellation":		[""],
+	"EmployerPaidStudentLoanPayments":	[""],
+	"EducatorExpenses":				[""],
+	"HSAContributions":				[""],
+	"IRAContributions":				[""],
+	"OtherAdditions":				[""],
+
+	// Itemized Deductions
+	"FederalItemizedDeductions":	[""],
+	"StateIncomeTax":				[""],
+	"QualifiedHSADistributions":	[""],
+	"SALTLimitExcess":				[""],
+	"HomeMortgageInterestLimit":	[""],
+	"TaxPreparationFee":			[""],
+	"SafeDepositBox":				[""],
+	"InvestmentFee":				[""],
+	"OtherDeductions":				[""],
+
+	// Other Taxes, Interest, and Penalties
+	"SharedResponsibilityPenalty":	[""],
+	"InterestAndPenalties":			[""],
+	"UnderpaymentOfEstimatedTax":	[""],
+	"UseTax":						[""],
+	"MiscellaneousTaxes":			[""],
+
+	// Non-refundable Credits
+	"ChildCareCredit":				[""],
+	"RentersCredit":				[""],
+	"OtherNonrefundableCredits":	[""],
+
+	// Refundable Credits
+	"EITC":							[""],
+	"YoungChildTaxCredit":			[""],
+	"FosterYouthTaxCredit":			[""],
+	"OtherRefundableCredits":		[""],
+
+	// Payments
+	"Withholding":					[""],
+	"EstimatedPayments":			[""],
+	"OtherPayments":				[""],
+
+	// Contributions
+	"Contributions":				[""],
+};
 
 // This variable needs to be global so it can be accessed by the save and restore handlers.
 let inputs = {};
@@ -22,13 +95,7 @@ function changeHandler(event) {
 	// whole return (not just the field tha was changed).
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-		TaxFormObj.reset();
-		Taxpayer.reset();
-
-
+		resetAll();
 		TaxTable.getTaxTable(HTML.getUserInput("tax-year"));// Initialize tax tables.
 		inputs = getInputs();								// Get inputs from the web page
 		const taxpayer = createTaxpayer(inputs);			// Initialize taxpayer
@@ -37,10 +104,7 @@ function changeHandler(event) {
 		putOutputs(taxpayer);								// Put results on web page
 		Debug.turnOn();										// Put debug info on web page
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Ensure.processError(error);
 	}
 }
 
@@ -54,6 +118,26 @@ function createTaxpayer(inputs) {
 	taxpayer.number_of_dependents	= inputs.number_of_dependents;
 
 	return taxpayer;
+}
+
+function getInputsNew() {
+	//
+	// This function will not work as long as the element ID are not in kebab case.
+	//
+	// Copy values from the web page.
+	//
+	// The return parameter is an object that contains the name-value pairs for all the
+	// fields copied from the web page.
+	//
+	const values = {};
+
+	for (const element_id of Object.keys(FIELD_INFO)) {
+		const key_name		= element_id.replace(/-/g, "_");
+		const value_type	= FIELD_INFO[element_id][0];
+		values[key_name]	= HTML.getUserInput(element_id, value_type);
+	}
+
+	return values;
 }
 
 function getInputs() {
@@ -293,171 +377,15 @@ function putOutputs(taxpayer) {
 	HTML.putUserOutput("JanuaryPayment",		Math.round(estimated_tax_due * 0.30));
 }
 
-function restoreDataHandler(data) {
+function resetAll() {
 	//
-	// This function is called when the user restores the input fields from a file.
-	// The data that was copied from the file is passed a parameter.
+	// Reset static (global) variables to erase information from a previous calculation.
 	//
-	let inputs;
-
-	// There are currently 2 formats in use; select which one this is.
-	if (data.input_data) {
-		HTML.putElementValue("tax-year", data.tax_year);
-		inputs = data.input_data;
-	} else {
-		inputs = data;
-	}
-
-	// Taxpayer information
-	HTML.putElementValue("TaxpayersName",
-						 inputs.taxpayers_name);
-	HTML.putElementValue("FilingStatus",
-						 inputs.filing_status);
-	HTML.putElementValue("TaxpayersBirthday",
-						 inputs.taxpayers_birthday);
-	HTML.putElementValue("SpousesBirthday",
-						 inputs.spouses_birthday);
-
-	// Input Data
-	HTML.putElementValue("FederalAGI",
-						 inputs.federal_agi);
-	HTML.putElementValue("NumberOfDependents",
-						 inputs.number_of_dependents);
-
-	// Subtractions
-	HTML.putElementValue("USTreasuryObligations",
-						 inputs.us_treasury_obligations);
-	HTML.putElementValue("MilitaryRetirementIncome",
-						 inputs.military_retirement_income);
-	HTML.putElementValue("TaxableSocialSecurity",
-						 inputs.taxable_social_security);
-	HTML.putElementValue("StateTaxRefund",
-						 inputs.state_tax_refund	);
-	HTML.putElementValue("UnemploymentIncome",
-						 inputs.unemployment_income);
-	HTML.putElementValue("CaliforniaLotteryWinnings",
-						 inputs.california_lottery_winnings);
-	HTML.putElementValue("NonqualifiedHSADistributions",
-						 inputs.nonqualified_hsa_distributions);
-	HTML.putElementValue("AlimonyPaid",
-						 inputs.alimony_paid);
-	HTML.putElementValue("OtherSubtractions",
-						 inputs.other_subtractions);
-
-	// Additions
-	HTML.putElementValue("HSAEmployerContributions",
-						 inputs.hsa_employer_contributions);
-	HTML.putElementValue("AlimonyReceived",
-						 inputs.alimony_received);
-	HTML.putElementValue("HomeLoanDebtCancellation",
-						 inputs.home_loan_debt_cancellation);
-	HTML.putElementValue("EmployerPaidStudentLoanPayments",
-						 inputs.employer_paid_student_loan_payments);
-	HTML.putElementValue("EducatorExpenses",
-						 inputs.educator_expenses);
-	HTML.putElementValue("HSAContributions",
-						 inputs.hsa_contributions);
-	HTML.putElementValue("IRAContributions",
-						 inputs.ira_contributions);
-	HTML.putElementValue("OtherAdditions",
-						 inputs.other_additions);
-
-	// Itemized Deductions
-	HTML.putElementValue("FederalItemizedDeductions",
-						 inputs.federal_itemized_deductions);
-	HTML.putElementValue("StateIncomeTax",
-						 inputs.state_income_tax);
-	HTML.putElementValue("QualifiedHSADistributions",
-						 inputs.qualified_hsa_distributions);
-	HTML.putElementValue("SALTLimitExcess",
-						 inputs.salt_limit_excess);
-	HTML.putElementValue("HomeMortgageInterestLimit",
-						 inputs.home_mortgage_interest_limit);
-	HTML.putElementValue("TaxPreparationFee",
-						 inputs.tax_preparation_fee);
-	HTML.putElementValue("SafeDepositBox",
-						 inputs.safe_deposit_box);
-	HTML.putElementValue("InvestmentFee",
-						 inputs.investment_fee);
-	HTML.putElementValue("OtherDeductions",
-						 inputs.other_deductions);
-
-	// Other Taxes, Interest, and Penalties
-
-	HTML.putElementValue("SharedResponsibilityPenalty",
-						 inputs.shared_responsibility_penalty);
-	HTML.putElementValue("InterestAndPenalties",
-						 inputs.interest_and_penalties);
-	HTML.putElementValue("UnderpaymentOfEstimatedTax",
-						 inputs.underpayment_of_estimated_tax);
-	HTML.putElementValue("UseTax",
-						 inputs.use_tax);
-	HTML.putElementValue("MiscellaneousTaxes",
-						 inputs.miscellaneous_taxes);
-
-	// Non-refundable Credits
-	HTML.putElementValue("ChildCareCredit",
-						 inputs.child_care_credit);
-	HTML.putElementValue("RentersCredit",
-						 inputs.renters_credit);
-	HTML.putElementValue("OtherNonrefundableCredits",
-						 inputs.other_nonrefundable_credits);
-
-	// Refundable Credits
-	HTML.putElementValue("EITC",
-						 inputs.eitc);
-	HTML.putElementValue("YoungChildTaxCredit",
-						 inputs.young_child_tax_credit);
-	HTML.putElementValue("FosterYouthTaxCredit",
-						 inputs.foster_youth_tax_credit);
-	HTML.putElementValue("FosterYouthTaxCredit",
-						 inputs.other_refundable_credits);
-
-	// Payments
-	HTML.putElementValue("Withholding",
-						 inputs.withholding);
-	HTML.putElementValue("EstimatedPayments",
-						 inputs.estimated_payments);
-	HTML.putElementValue("OtherPayments",
-						 inputs.other_payments);
-
-	// Contributions
-	HTML.putElementValue("Contributions",
-						 inputs.contributions);
-
-	changeHandler();
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
 }
-
-function restoreUserData(event) {
-	//
-	// The file selection dialog gets a list of files, but only one should be passed
-	// in our case; select the first file and ignore the rest.
-	//
-	const filename = event.target.files[0];
-	if (!filename) {
-		throw new Error("No file selected.");
-		return;
-	}
-
-	File.restoreFromFile(filename, restoreDataHandler);
-}
-
-function saveUserData(event) {
-	//
-	// This function is called when the user wants to save the input fields to a file.
-	//
-	const FILENAME = "EstimatedTax_CA.txt";
-
-	const data = {
-		version:		HTML.getUserInput("tax-tools-version", "text"),
-		todays_date:	new Date().toLocaleDateString(),
-		tax_year:		HTML.getUserInput("tax-year", "text"),
-		input_data:		inputs,
-	};
-
-	File.saveToFile(data, ESTIMATED_TAX_CA_SAVE_FILE);
-}
-
 
 document.addEventListener("DOMContentLoaded", () => {
 	//
@@ -468,8 +396,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Listen for changes to the input data.
 	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
-	HTML.addListener("SaveButton",		"click",  saveUserData);
-	HTML.addListener("InputFile",		"change", restoreUserData);
+
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
 	// focus but display the page without scrolling to that element.
@@ -481,5 +409,3 @@ document.addEventListener("DOMContentLoaded", () => {
 	HTML.putUserOutput("tax-year", Dates.getTaxYear(), "text");		// Default tax year.
 	HTML.hideElement("debug-container");
 });
-
-export { changeHandler };

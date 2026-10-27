@@ -5,8 +5,8 @@
 // to be saved/restored, and a reference to a function that will reset the tool to its
 // original state.
 //
-// In addition the fields "tax-tools-version", "title", and ERROR_MESSAGE_OUTPUT need to
-// exist in the HTML file.
+// In addition the fields "tax-tools-version", "title", TAXTOOLS_CONTAINER, and
+// ERROR_MESSAGE_OUTPUT need to exist in the HTML file.
 //
 // You should also add tooltips for "save-button-tt" and "restore-button-tt".
 //
@@ -19,6 +19,7 @@ import { Ensure }	from "../Modules/Ensure.js";
 import { File }		from "../Modules/File.js";
 import { HTML }		from "../Modules/HTML.js";
 
+import { TAXTOOL_CONTAINER } 	from "../TAXTools/TAXTools.js";
 import { ERROR_MESSAGE_OUTPUT } from "../TAXTools/TAXTools.js";
 
 let error_log	= [];
@@ -83,10 +84,11 @@ function restoreData(data) {
 				"It cannot be restored by this tool.");
 		}
 
-		reset_func();	// Start over, reset everything.
-		putValues(data.values);
+		reset_func();										// Start over, reset everything.
+		putValues(data.values);								// Put the new values
+		HTML.dispatchEvent(TAXTOOL_CONTAINER, "change");	// Update the calculation
 
-		if (error_log !== []) {
+		if (error_log.length !== 0) {
 			HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error_log.join("\n"));
 			HTML.scrollTo(ERROR_MESSAGE_OUTPUT);
 		}
@@ -118,7 +120,7 @@ function saveDataHandler(event) {
 		const data = {
 			"tool_name":		HTML.getUserInput("title", "text"),
 			"version":			HTML.getUserInput("tax-tools-version", "text"),
-			"todays_date":		new Date().toLocaleDateString(),
+			"creation_date":	new Date().toLocaleDateString(),
 			"values":			getValues(),
 		};
 

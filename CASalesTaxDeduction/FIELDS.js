@@ -1,0 +1,20 @@
+const FIELD_INFO = {
+	// Field Name				Value Type
+	"tax-year":					["text"],
+	"StreetAddress":			["text"],
+	"City":						["text"],
+	"State":					["text"],
+	"ZipCode":					["text"],
+	"FamilySize":				[""],
+	"ExtraSalesTax":			[""],
+	"Wages":					[""],
+	"TaxExemptInterest":		[""],
+	"TaxableInterest":			[""],
+	"QualifiedDividends":		[""],
+	"OrdinaryDividends":		[""],
+	"RetirementAccounts":		[""],
+	"SocialSecurity":			[""],
+	"CapitalGains":				[""],
+	"SelfEmploymentIncome":		[""],
+	"OtherIncome":				[""],
+};

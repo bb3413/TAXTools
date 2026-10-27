@@ -8,6 +8,7 @@
 
 	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
 	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>
+	<script type="module" src="../Library/Modules/SaveRestore.js"></script>
 	<script type="module" src="../Version/Version.js"></script>
 
 	<link rel="stylesheet" href="CASalesTaxDeduction.css" />
@@ -52,9 +53,18 @@
 		large purchase, you can add the sales tax from that purchase into the calculation for
 		the sales tax deduction.</p>
 
-		<div class="table-1">
-			<p class="span-three">&nbsp;</p>
+		<div class="save-restore-container">
+			<!-- Save Button -->
+			<input type="button" id="save-button" class="trigger button save-button"
+				value="Save" tooltipid="#save-button-tt" />
 
+			<!-- Restore Button -->
+			<input type="file" id="input-file" accept=".txt" style="display: none;" />
+			<label for="input-file" class="trigger button restore-button"
+				tooltipid="#restore-button-tt">Restore</label>
+		</div>
+
+		<div class="table-1">
 			<p>Tax Year</p>
 			<select class="trigger input-field left" id="tax-year" tooltipid="#tax-year-tt">
 				<option value="2026">2026</option>

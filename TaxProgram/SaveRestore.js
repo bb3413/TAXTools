@@ -82,7 +82,7 @@ function restoreData(data) {
 		restoreAssetsaleItems(data.assetsale_items);
 		restoreInputForms(data.input_forms);
 
-		if (error_log !== []) {
+		if (error_log.length !== 0) {
 			HTML.putElementValue(ERROR_MESSAGE_OUTPUT, error_log.join("\n"));
 			HTML.scrollTo(ERROR_MESSAGE_OUTPUT);
 		}

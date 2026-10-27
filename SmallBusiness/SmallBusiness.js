@@ -1,12 +1,49 @@
 
-import { TAXTOOL_CONTAINER } from "../Library/TAXTools/TAXTools.js";
-
 import { Dates }		from "../Library/Modules/Dates.js";
 import { Debug }		from "../Library/Modules/Debug.js";
 import { Ensure }		from "../Library/Modules/Ensure.js";
 import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
 import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
+
+import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }		from "../Library/TAXTools/TAXTools.js";
+import { SMALL_BUSINESS_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+
+const SAVE_FILE		= SMALL_BUSINESS_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name				Value Type
+	"Sales":					[""],
+	"Returns":					[""],
+	"Cost":						[""],
+	"OtherIncome":				[""],
+	"HomeOfficeExpense":		[""],
+
+	// Expenses
+	"MedicalInsurance":			[""],
+	"Advertising":				[""],
+	"CarAndTruck":				[""],
+	"CarAndTruckMiles":			[""],
+	"CommissionsAndFees":		[""],
+	"ContractLabor":			[""],
+	"Depletion":				[""],
+	"Depreciation":				[""],
+	"EmployeeBenefitPrograms":	[""],
+	"Insurance":				[""],
+	"Interest":					[""],
+	"ProfessionalServices":		[""],
+	"OfficeExpenses":			[""],
+	"PensionPlan":				[""],
+	"Rent":						[""],
+	"Repairs":					[""],
+	"Supplies":					[""],
+	"TaxesAndLicenses":			[""],
+	"Travel":					[""],
+	"Utilities":				[""],
+	"Wages":					[""],
+	"OtherExpenses":			[""],
+};
 
 function changeHandler(event) {
 	//
@@ -14,21 +51,14 @@ function changeHandler(event) {
 	// whole deduction (not just the field tha was changed).
 	//
 	try {
-		// Reset static (global) variables to erase information from a previous calculation.
-		HTML.putElementValue("error-message-output", "");
-		Debug.reset();
-		TaxFormObj.reset();
-
+		resetAll();
 		const inputs = getInputs();							// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);				// Initialize tax tables
 		mapInputValues(inputs);								// Map input values to tax forms
 		putOutputs(inputs);									// Put results on web page
 		Debug.turnOn();										// Put debug info on web page
 	} catch (error) {
-		HTML.putElementValue("error-message-output", error);
-		console.log("Stack trace:", error.stack);
-		document.getElementById("error-message-output")
-			.scrollIntoView({behavior: 'smooth', block: 'start'});
+		Ensure.processError(error);
 	}
 }
 
@@ -153,11 +183,22 @@ function putOutputs(inputs) {
 						TaxFormObj.getValue("F1040SC", "28"));
 }
 
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 	//
 	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
+
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
 	// focus but display the page without scrolling to that element.

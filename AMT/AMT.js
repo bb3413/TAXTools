@@ -9,14 +9,13 @@ import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
 import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
-import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
 import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
 import { AMT_SAVE_FILE }				from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 
-export { resetAll };
-export const FILENAME	= AMT_SAVE_FILE;
-export const FIELD_INFO	= {
+const SAVE_FILE		= AMT_SAVE_FILE;
+const FIELD_INFO	= {
 	// Field Name					Value Type
 	"tax-year":						["text"],
 	"FilingStatus":					["text"],
@@ -188,7 +187,7 @@ function resetAll() {
 	//
 	// Reset static (global) variables to erase information from a previous calculation.
 	//
-	HTML.putElementValue("error-message-output", "");
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
 	Debug.reset();
 	TaxFormObj.reset();
 	Taxpayer.reset();
@@ -204,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Listen for changes to the input data.
 	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
 
-	SaveRestore.initialize(AMT_SAVE_FILE, FIELD_INFO, resetAll);
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
 	HTML.hideElement("SpouseContainer");
 	HTML.hideElement("debug-container");

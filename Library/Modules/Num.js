@@ -33,7 +33,7 @@ function limit(value, min_val = null, max_val = null) {
 		value = Math.max(value, min_val);
 	}
 	if (isNum(max_val)) {
-		value = Math.max(value, max_val);
+		value = Math.min(value, max_val);
 	}
 
 	return value;

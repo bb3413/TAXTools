@@ -1,12 +1,4 @@
 
-import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
-import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
-import { DEBUG_CONTAINER }				from "../Library/TAXTools/TAXTools.js";
-import { ERROR_MESSAGE_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
-import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
-import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
-import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
-
 // Classes
 import { HTMLMgr }						from "../Library/Classes/HTMLMgr.js";
 import { Taxpayer }						from "../Library/Classes/Taxpayer.js";
@@ -30,10 +22,14 @@ import { Dependent }					from "../Library/InputWorksheets/Dependent.js";
 import { Expenses }						from "../Library/InputWorksheets/Expenses.js";
 import { Income }						from "../Library/InputWorksheets/Income.js";
 
-export {
-	addInputForm,
-	resetAll,
-};
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { DEBUG_CONTAINER }				from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { TAX_PROGRAM_SAVE_FILE }		from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
+import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
 
 // HTML containers for dynamic content.
 export const DEPENDENTS_CONTAINER		= "dependents-container";
@@ -43,8 +39,12 @@ export const ASSETSALES_CONTAINER		= "assetsales-container";
 export const INPUT_TAXFORMS_CONTAINER	= "input-taxforms-container";
 export const OUTPUT_TAXFORMS_CONTAINER	= "output-taxforms-container";
 
-
 let sales_tax = 0;		// Global variable because it is initialized asynchronously.
+
+export {
+	addInputForm,
+	resetAll,
+};
 
 function addAssetSaleHandler(event) {
 	//

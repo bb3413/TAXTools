@@ -1,0 +1,32 @@
+const FIELD_INFO = {
+	// Field Name				Value Type
+	"Sales":					[""],
+	"Returns":					[""],
+	"Cost":						[""],
+	"OtherIncome":				[""],
+	"HomeOfficeExpense":		[""],
+
+	// Expenses
+	"MedicalInsurance":			[""],
+	"Advertising":				[""],
+	"CarAndTruck":				[""],
+	"CarAndTruckMiles":			[""],
+	"CommissionsAndFees":		[""],
+	"ContractLabor":			[""],
+	"Depletion":				[""],
+	"Depreciation":				[""],
+	"EmployeeBenefitPrograms":	[""],
+	"Insurance":				[""],
+	"Interest":					[""],
+	"ProfessionalServices":		[""],
+	"OfficeExpenses":			[""],
+	"PensionPlan":				[""],
+	"Rent":						[""],
+	"Repairs":					[""],
+	"Supplies":					[""],
+	"TaxesAndLicenses":			[""],
+	"Travel":					[""],
+	"Utilities":				[""],
+	"Wages":					[""],
+	"OtherExpenses":			[""],
+};

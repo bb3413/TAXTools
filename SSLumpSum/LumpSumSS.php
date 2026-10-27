@@ -8,6 +8,7 @@
 
 	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
 	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>
+	<script type="module" src="../Library/Modules/SaveRestore.js"></script>
 	<script type="module" src="../Version/Version.js"></script>
 
 	<link rel="stylesheet" href="LumpSumSS.css" />
@@ -32,6 +33,17 @@
 
 		<p>Click <a href="LumpSumSS-Help.html">this link</a> for more help with this
 		tool.</p>
+
+		<div class="save-restore-container">
+			<!-- Save Button -->
+			<input type="button" id="save-button" class="trigger button save-button"
+				value="Save" tooltipid="#save-button-tt" />
+
+			<!-- Restore Button -->
+			<input type="file" id="input-file" accept=".txt" style="display: none;" />
+			<label for="input-file" class="trigger button restore-button"
+				tooltipid="#restore-button-tt">Restore</label>
+		</div>
 
 		<div class="calculations">
 			<h2>Social Security Current Year</h2>

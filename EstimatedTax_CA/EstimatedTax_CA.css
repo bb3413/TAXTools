@@ -15,6 +15,7 @@ h1, h2, h3 {
 .taxpayer-info-box {
 	border:					1px solid var(--border-color);
 	padding:				0.5rem;
+	margin-top:				5px;
 }
 
 .taxpayer-info-container {
