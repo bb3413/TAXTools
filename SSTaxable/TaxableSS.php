@@ -2,26 +2,45 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<?php include "../Library/TaxTools/IncludeFiles.html"; ?>
-	<link rel="stylesheet" href="TaxableSS.css" />
-	<script defer src="TaxableSS.js"></script>
+	<link rel="stylesheet" href="../Library/CSS/TAXTools.css" />
+	<link rel="stylesheet" href="../Library/CSS/Tooltips.css" />
+	<link rel="stylesheet" href="../Library/CSS/HTML.css" />
 
+	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
+	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>
+	<script type="module" src="../Library/Modules/SaveRestore.js"></script>
+	<script type="module" src="../Version/Version.js"></script>
+
+	<link rel="stylesheet" href="TaxableSS.css" />
+	<script type="module" src="TaxableSS.js"></script>
 	<title>Taxable Social Security Calculator</title>
 </head>
 
 <body>
-	<div class="tool-container">
+	<div class="taxtool-container" id="taxtool-container">
 		<p class="version-number">Version: <a href="../Version/Version.html">
-			<span id="TaxToolsVersion"></span></a></p>
+			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Taxable Social Security Calculator</h1>
+		<h1 class="title" id="title">Taxable Social Security Calculator</h1>
 
 		<p>This tool calculates the amount of Social Security that is taxable.
 		Click <a href="TaxableSS-Help.html">this link</a> for more help with this tool.</p>
 
+		<div class="save-restore-container">
+			<!-- Save Button -->
+			<input type="button" id="save-button" class="trigger button save-button"
+				value="Save" tooltipid="#save-button-tt" />
+
+			<!-- Restore Button -->
+			<input type="file" id="input-file" accept=".txt" style="display: none;" />
+			<label for="input-file" class="trigger button restore-button"
+				tooltipid="#restore-button-tt">Restore</label>
+		</div>
+
 		<div class="table-3x">
 			<p class="description-field-right">Filing Status</p>
-			<select class="trigger input-field" id="FilingStatus" tooltipid="#FilingStatusTT">
+			<select class="trigger input-field" id="FilingStatus"
+					tooltipid="#FilingStatusTT">
 				<option value="Single">Single</option>
 				<option value="HoH">HoH</option>
 				<option value="MFJ">MFJ</option>
@@ -69,8 +88,9 @@
 		</div>
 
 		<h3>Income Fields</h3>
-		<p>Rather than entering taxable income in the Income field above, you can enter individual
-		income values here. The sum of the fields entered here will replace the Income field above.</p>
+		<p>Rather than entering taxable income in the Income field above, you can enter
+		individual income values here. The sum of the fields entered here will replace the
+		Income field above.</p>
 
 		<div class="table-2x">
 			<p class="description-field">Wages</p>
@@ -107,9 +127,9 @@
 		</div>
 
 		<h3>Adjustments Fields</h3>
-		<p>Rather than entering total adjustments in the Adjustments field above, you can enter
-		individual adjustment values here. The sum of the fields entered here will replace the
-		Adjustments field above.</p>
+		<p>Rather than entering total adjustments in the Adjustments field above, you can
+		enter individual adjustment values here. The sum of the fields entered here will
+		replace the Adjustments field above.</p>
 
 		<div class="table-2x">
 			<p class="description-field">Educator Expenses</p>
@@ -149,9 +169,19 @@
 			   	placeholder="0" tooltipid="#OtherAdjustmentsTT" size="10" />
 		</div>
 
-		<?php include "TaxableSS-Debug.html"; ?> 									<!-- Debugging Fields -->
-		<?php include "../Library/SocialSecurity/SocialSecurity-Debug.html"; ?> 	<!-- Debugging Fields -->
-		<?php include "TaxableSS-HelpInput.html"; ?> 								<!-- Tooltips -->
+		<!-- Display area for error messages. -->
+		<div id="error-message-container">
+			<p id="error-message-output"></p>
+		</div>
+
+		<!-- Display area for debugging information. -->
+		<div id="debug-container">
+			<h3>Debugging Output</h3>
+			<pre id="debug-output"></pre>
+		</div>
+
+		<!-- Tooltips -->
+		<?php include "TaxableSS-HelpInput.html"; ?>
 
 	</div>
 </body>

@@ -2,27 +2,35 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<?php include "../Library/TaxTools/IncludeFiles.html"; ?>
-	<link rel="stylesheet" href="CASalesTaxDeduction.css" />
-	<script defer src="CASalesTaxDeduction.js"></script>
+	<link rel="stylesheet" href="../Library/CSS/TAXTools.css" />
+	<link rel="stylesheet" href="../Library/CSS/Tooltips.css" />
+	<link rel="stylesheet" href="../Library/CSS/HTML.css" />
 
+	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
+	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>
+	<script type="module" src="../Library/Modules/SaveRestore.js"></script>
+	<script type="module" src="../Version/Version.js"></script>
+
+	<link rel="stylesheet" href="CASalesTaxDeduction.css" />
+	<script type="module" src="CASalesTaxDeduction.js"></script>
 	<title>California Sales Tax Deduction Calculator</title>
 </head>
 
 <body>
-	<div class="tool-container">
+	<div class="taxtool-container" id="taxtool-container">
 		<p class="version-number">Version: <a href="../Version/Version.html">
-			<span id="TaxToolsVersion"></span></a></p>
+			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">California Sales Tax Deduction Calculator</h1>
+		<h1 class="title" id="title">California Sales Tax Deduction Calculator</h1>
 
-		<p>This tool calculates the amount of the sales tax deduction you are allowed. On Schedule A,
-		Itemized Deduction, you have a choice of taking a deduction for the state and local taxes you
-		paid (for example, state income tax withheld from wages) or an estimate of the total sales tax
-		you paid throughout the year, whichever is greater.</p>
+		<p>This tool calculates the amount of the sales tax deduction you are allowed. On
+		Schedule A, Itemized Deductions, you have a choice of taking a deduction for the
+		state and local taxes you paid (for example, state income tax withheld from wages)
+		or an estimate of the total sales tax you paid throughout the year, whichever is
+		greater.</p>
 
-		<p>The amount of the sales tax deduction you are allowed is estimated based on the following
-		four values.</p>
+		<p>The amount of the sales tax deduction you are allowed is estimated based on the
+		following four values.</p>
 		<ul>
 			<li>Where you live</li>
 			<li>Amount of spendable income</li>
@@ -30,10 +38,10 @@
 			<li>Sales tax paid on large purchases</li>
 		</ul>
 
-		<p>Where you live determines the sales tax rate that you pay. Some states do not have any
-		sales tax, while others have as much as 10%. In addition, many counties and cities add an
-		additional amount to the sales tax. Note: this tool can only calculate the sales tax
-		deduction for taxpayers living in California.</p>
+		<p>Where you live determines the sales tax rate that you pay. Some states do not
+		have any sales tax, while others have as much as 10%. In addition, many counties and
+		cities add an additional amount to the sales tax. Note: this tool can only calculate
+		the sales tax deduction for taxpayers living in California.</p>
 
 		<p>Your spendable income is based on your total income, not just your taxable income.
 		The more spendable income you have, the more you are likely to spend. Therefore, the
@@ -45,35 +53,50 @@
 		large purchase, you can add the sales tax from that purchase into the calculation for
 		the sales tax deduction.</p>
 
-		<div class="table-1">
-			<p class="span-three">&nbsp;</p>
+		<div class="save-restore-container">
+			<!-- Save Button -->
+			<input type="button" id="save-button" class="trigger button save-button"
+				value="Save" tooltipid="#save-button-tt" />
 
+			<!-- Restore Button -->
+			<input type="file" id="input-file" accept=".txt" style="display: none;" />
+			<label for="input-file" class="trigger button restore-button"
+				tooltipid="#restore-button-tt">Restore</label>
+		</div>
+
+		<div class="table-1">
 			<p>Tax Year</p>
-			<select class="trigger input-field left" id="TaxYear" tooltipid="#TaxYearTT">
+			<select class="trigger input-field left" id="tax-year" tooltipid="#tax-year-tt">
 				<option value="2026">2026</option>
 				<option value="2025">2025</option>
 				<option value="2024">2024</option>
 			</select>
 			<p>&nbsp;</p>
 
-	   		<p class="input-label">Street Address</p>
-			<input class="input-field left span-two" type="text" autofocus id="StreetAddress" />
+	   		<p>Street Address</p>
+			<input class="input-field left span-two" type="text" autofocus
+				id="StreetAddress" />
 
-			<p class="input-label">City</p>
+			<p>City</p>
 			<input class="input-field left span-two" type="text" id="City" />
+			
+			<p>State</p>
+			<input class="input-field left" type="text" id="State"
+				placeholder="California" readonly />
+			<p>&nbsp;</p>
 
-			<p class="input-label">Zip Code</p>
+			<p>Zip Code</p>
 			<input class="input-field left" type="text" id="ZipCode"  />
 			<p>&nbsp;</p>
 
 			<p>Family Size</p>
-			<input class="trigger input-field left" type="text" id="FamilySize"
-				tooltipid="#FamilySizeTT" />
+			<input class="trigger input-field" type="text" id="FamilySize"
+				tooltipid="#FamilySizeTT" placeholder="1" />
 			<p>&nbsp;</p>
 
 			<p>Extra Sales Tax</p>
-			<input class="trigger input-field left" type="text" id="ExtraSalesTax"
-				tooltipid="#ExtraSalesTaxTT" />
+			<input class="trigger input-field" type="text" id="ExtraSalesTax"
+				tooltipid="#ExtraSalesTaxTT" placeholder="0" />
 			<p>&nbsp;</p>
 		</div>
 
@@ -141,7 +164,19 @@
 				tooltipid="#SalesTaxDeductionTT">0</p>
 		</div>
 
-		<?php include "CASalesTaxDeduction-Debug.html"; ?>		<!-- Debugging Fields -->
+		<!-- Display area for error messages. -->
+		<div id="error-message-container">
+			<p id="error-message-output"></p>
+		</div>
+
+		<!-- Display area for debugging information. -->
+		<div id="debug-container">
+			<h3>Debugging Output</h3>
+			<pre id="debug-output"></pre>
+		</div>
+
+		<!-- Tooltips -->
+		<?php include "CASalesTaxDeduction-Debug.html"; ?>
 	</div>
 </body>
 </html>

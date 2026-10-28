@@ -3,7 +3,7 @@ h1, h2, h3, h4 {
 	margin-bottom:			0;
 }
 
-#TaxYear {
+#tax-year {
 	background:				var(--input-color);
 	color:					var(--text-color);
 	box-shadow: 			0px 1px 4px var(--shadow-color);
@@ -12,28 +12,10 @@ h1, h2, h3, h4 {
 	font-weight:			700;
 }
 
-.save-restore {
-	display:				flex;
-	justify-content:		flex-end;	/* Align the div block to the right. */
-	align-items:			flex-end;	/* Align buttons on bottom edge. */
-	gap:					5px;		/* Optional: adds space between buttons */
-	margin-bottom:			3px;
-}
-
-.save-button {
-	padding-bottom:			3px;
-}
-
-.restore-button {
-	display: 				inline-block;
-	cursor:					pointer;
-	padding-left:			6px;
-	padding-right:			6px;
-}
-
 .taxpayer-info-box {
 	border:					1px solid var(--border-color);
 	padding:				0.5rem;
+	margin-top:				5px;
 }
 
 .taxpayer-info-container {
@@ -57,12 +39,12 @@ h1, h2, h3, h4 {
 	margin-bottom:			0;
 }
 
-.taxpayer-data-container {
+.data-line {
 	display:				grid;
 	grid-template-columns:	.6fr 2fr .5fr;
 }
 
-.taxpayer-data-container p {
+.data-line p {
 	margin-top:				0;
 	margin-bottom:			0;
 }

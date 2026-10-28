@@ -1,110 +1,174 @@
 
 	<h2>Tax Planning Tools</h2>
-	<p>The Tax Planning Tools are a collection of web-based tools for calculating income tax information.
-	This sections contains information that applies to all of the tools. The current set of tools is:</p>
+	<p>The Tax Planning Tools are a collection of web-based tools for calculating income tax
+	information. This section contains information that applies to all of the tools. The
+	current set of tools is:</p>
 	<ul>
 		<li>Age Calculator</li>
 		<li>Alternative Minimum Tax (AMT) Calculator</li>
 		<li>California Sales Tax Calculator</li>
 		<li>California Sales Tax Deduction Calculator</li>
 		<li>Estimated Tax Calculator (federal)</li>
-		
+
 		<li>Estimated Tax Calculator (California)</li>
 		<li>Required Minimum Distribution (RMD) Calculator</li>
 		<li>Senior Deduction Calculator</li>
 		<li>Simple Math Calculator</li>
 		<li>Small Business Tax Calculator</li>
-		
+
 		<li>Social Security - Taxable Benefit Calculator</li>
 		<li>Social Security - Lump Sum Calculator</li>
 		<li>State Income Tax Refund Calculator</li>
+		<li>Tax Return Calculator</li>
 	</ul>
-		
-	<p>You can access the latest version of the Tax Planning Tools on the web using the following URL:</p>
+
+	<p>You can access the latest version of the Tax Planning Tools on the web using the
+	following URL:</p>
 	<ul style="list-style-type: none;">
 		<li><a href="https://www.bruceblinn.com/6-OtherStuff/Taxes/index.html">
 			bruceblinn.com/6-OtherStuff/Taxes/index.html</a></li>
 	</ul>
-	
-	<h3>Interface</h3>
-	<p>Each tool contains a brief description of its purpose and how to use it. The more complicated tools
-	have a link to a separate page with more detailed information about the tool.</p>
 
-	<p>There is a lot of shared code between the tools, which gives them a similar appearance and behavior.
-	For example, input fields are always green, and the fields that display the values that are calculated
-	by the tools are always blue.</p>
-	
-	<p>The tools are intended to be used in a browser (e.g., not on a phone). The display of each tool is
-	restricted to 7.5 inches to make it easier to print the pages.</p>
-	
+	<h3>Interface</h3>
+	<p>Each tool contains a brief description of its purpose and how to use it. The more
+	complicated tools have a link to a separate page with more detailed information about the
+	tool.</p>
+
+	<p>There is a lot of shared code between the tools, which gives them a similar appearance
+	and behavior. For example, input fields are always green, and the fields that display the
+	values that are calculated by the tools are always blue.</p>
+
+	<p>The tools are intended to be used in a browser (e.g., not on a phone). The display of
+	each tool is restricted to 7.5 inches to make it easier to print the pages.</p>
+
 	<h3>Tooltips</h3>
-	<p>Most of the tools provide tooltips. These are small popup displays that show up when you move the
-	mouse over one of the fields. They provide a short explanation of the purpose of the fields. When
-	available, tooltips are provided for input fields to help you enter the correct information and for
-	output fields to explain what the information means.</p>
+	<p>Several of the tools provide tooltips. These are small popup displays that show up
+	when you move the mouse over one of the fields. They provide a short explanation of the
+	purpose of the fields. When available, tooltips are provided for input fields to help
+	you enter the correct information and for output fields to explain what the information
+	means.</p>
 
 	<h3>Numeric Input</h3>
-	<p>For any input field where a numeric value is expected, dollar signs ($) and commas (,) are ignored.
-	This allows you to enter a number as, for example, "$40,000", "$40000", or "40000". In addition, numeric
-	fields can contain simple arithmetic expressions. For example, you can enter "($40,000 + 4,000) * 0.075"
-	to enter 7.5% of 44000. All numeric input will be rounded to the nearest whole number. The expression
+	<p>For any input field where a numeric value is expected, dollar signs ($) and
+	commas (,) are ignored. This allows you to enter a number as, for example, "$40,000",
+	"$40000", or "40000". In addition, numeric fields can contain simple arithmetic
+	expressions. For example, you can enter "($40,000 + 4,000) * 0.075" to enter 7.5% of
+	44000. All numeric input will be rounded to the nearest whole number. The expression
 	evaluator supports the following operators:</p>
 	<ul>
 		<li>Numbers with decimal points</li>
-		<li>Operators for addition (+), subtraction (-), multiplication (*), and division (/)</li>
+		<li>Operators for addition (+), subtraction (-), multiplication (*),
+			and division (/)</li>
 		<li>Unary minus operator (-)</li>
 		<li>Parentheses</li>
-		<li>Operator precedence for parentheses, unary minus, and for doing multiplication and
-		division before addition and subtraction.</li>
+		<li>Operator precedence for parentheses, unary minus, and for doing multiplication
+		and division before addition and subtraction.</li>
 	</ul>
 
 	<h3>Debugging Information</h3>
-	<p>Some of the tools can display additional information that shows internal calculations and
-	intermediate results. Enter any of the following keywords in any input field to see this
-	information. The keywords are not case-sensitive and can be entered in any order. Separate the
+	<p>Some of the tools can display additional information that shows internal calculations.
+	To see the additional information you can enter one of several keywords in any input
+	field. The keywords are not case-sensitive and can be entered in any order. Separate the
 	input value and one or more keywords using commas or whitespace.</p>
+
+	<p>The keywords are the name of a form, worksheet, or one of the following special
+	keywords.</p>
+	<dl>
+		<dt>Debug</dt><dd>Display debug information for all forms.</dd>
+		<dt>Taxpayer</dt><dd>Print information about the taxpayer.</dd>
+		<dt>Trace</dt><dd>Print entry and exit information for key functions to the
+		console log.</dd>
+	</dl>
+
+	<h4>Form Names</h4>
+	<p>Only the lines in a tax form or worksheet with non-zero values are printed. The
+	current set of tax forms and worksheets that are implement is always changing, but to
+	give you an idea, the following forms have been implemented and can be entered as
+	keywords. However, only forms needed by the current calculation will be shown.</p>
+
+	<h5>Input Tax Forms</h5>
 	<ul>
-		<li>Debug - Display intermediate results for the current tool.</li>
-		<li>IncTax - Show the worksheet results for the federal income tax calculation.</li>
-		<li>SEHI - Show the worksheet results for the self-employment health insurance calculation.</li>
-		<li>SETax - Show the worksheet results for the self-employment tax calculation.</li>
-		<li>SSTax - Show the worksheet results for the amount of Social Security that is taxable
-		calculation.</li>
-		<li>Trace - Logs function entry and exit to the console log.</li>
+		<li>F1098E</li>
+		<li>F1098VLI</li>
+		<li>F1099C</li>
+		<li>F1099DIV</li>
+		<li>F1099G</li>
+		<li>F1099INT</li>
+		<li>F1099K</li>
+		<li>F1099MISC</li>
+		<li>F1099NEC</li>
+		<li>F1099OID</li>
+		<li>F1099R</li>
+		<li>F1099S</li>
+		<li>SSA1099</li>
+		<li>W2</li>
+	</ul>
+
+	<h5>Output Tax Forms</h5>
+	<ul>
+		<li>F1040</li>
+		<li>F1040S1</li>
+		<li>F1040S1A</li>
+		<li>F1040S2</li>
+		<li>F1040S3</li>
+		<li>F1040SA</li>
+		<li>F1040SC</li>
+		<li>F1040SD</li>
+		<li>F1040SSE</li>
+		<li>F540</li>
+		<li>F540CA</li>
+		<li>F6251</li>
+		<li>F7206</li>
+		<li>F8880</li>
+	</ul>
+
+	<h5>Worksheets</h5>
+	<ul>
+		<li>CA_HiIncDeductions</li>
+		<li>CA_HiIncExemptions</li>
+		<li>IncTax</li>
+		<li>IRADeduction</li>
+		<li>Refund</li>
+		<li>SalesTax</li>
+		<li>Simple</li>
+		<li>SSTax</li>
+		<li>StudentLoan</li>
 	</ul>
 
 	<h3>Version Number</h3>
-	<p>There is a single version number for all of the tax planning tools because there so much shared
-	code between the tools. The version number is a 3-part number, but only the first two parts are
-	usually present in released versions of the Tax Planning Tools.</p>
-	
-	<p>The first part of the version number corresponds to the current tax year. Sometime between
-	April 15 and early Fall, the first part of the version number is changed to the current year, and
-	it will not be changed again until after the end of the tax season. When the first part of the
-	version number is incremented, the other parts are reset.</p>
-	
-	<p>The second part of the version number is the incremented each time a new version of the Tax Planning
-	Tools is released. There are always two versions of the tools: the released version and a development
-	version. The second part of the version number starts at 00 for the released version and 01 for the
-	development version. Whenever the development version is merged into the released version, the
-	second part of the version number is incremented by two in both versions. Thus, the second part of
-	the version number in a released version is always and even number, and in the development version,
+	<p>There is a single version number for all of the tax analysis tools because there so
+	much shared code between the tools. The version number is a 3-part number, but only the
+	first two parts are usually present in released versions of the Tax Planning Tools.</p>
+
+	<p>The first part of the version number corresponds to the current tax year. Sometime
+	between April 15 and early Fall, the first part of the version number is changed to the
+	current year, and it will not be changed again until after the end of the tax season.
+	When the first part of the version number is incremented, the other parts are reset.</p>
+
+	<p>The second part of the version number is the incremented each time a new version of
+	the Tax Planning Tools is released. There are always two versions of the tools: the
+	released version and a development version. The second part of the version number starts
+	at 00 for the released version and 01 for the development version. Whenever the
+	development version is merged into the released version, the second part of the version
+	number is incremented by two in both versions. Thus, the second part of the version
+	number in a released version is always and even number, and in the development version,
 	it is an odd number that is one greater than the released version.</p>
-	
-	<p>The third part of the version number starts at 000 and is incremented for each change. This part
-	of the version number is rarely used in the released version of the Tax Planning Tools.</p>
-	
+
+	<p>The third part of the version number starts at 000 and is incremented for each change.
+	This part of the version number is rarely used in the released version of the Tax
+	Planning Tools.</p>
+
 	<p>In summary:</p>
 	<ul>
 		<li>The first part of the version number is incremented each tax year.</li>
-		<li>The second part of the version number is incremented whenever the development version is
-		merged into the released version.</li>
+		<li>The second part of the version number is incremented whenever the development
+		version is merged into the released version.</li>
 		<li>And, the third part is incremented whenever the source code is changed.</li>
 	</ul>
-	
-	<p>The version number of the development version is always appended with an at sign (@) to call attention
-	to the fact that that version is under development and not ready to be used.</p>
-	
-	<p>Whenever the version number is shown in one of the tools, it is a link that you can click on to
-	show the version history information.</p>
-</a>
+
+	<p>The version number of the development version is always appended with an at sign (@)
+	to call attention to the fact that that version is under development and not ready to be
+	used.</p>
+
+	<p>Whenever the version number is shown in one of the tools, it is a link that you can
+	click on to show the version history information.</p>

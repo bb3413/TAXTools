@@ -1,508 +1,411 @@
 
-// This is the current user data that was copied from or will be copied to the HTML elements.
-let ud = {
-	tax_year:							0,
-	taxpayers_name:						"",
-	tax_tools_version:					"",
-	filing_status:						"",
-	todays_date:						"",
-	taxpayers_birthday:					"",
-	taxpayers_age:						0,
-	spouses_birthday:					"",
-	spouses_age:						0,
+import { Dates }		from "../Library/Modules/Dates.js";
+import { Debug }		from "../Library/Modules/Debug.js";
+import { Ensure }		from "../Library/Modules/Ensure.js";
+import { File }			from "../Library/Modules/File.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
+import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
+import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
+import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-	// Estimated Tax
-	exemptions:							0,
-	subtractions:						0,
-	additions:							0,
-	deductions:							0,
-	nonrefundable_credits:				0,
-	refundable_credits:					0,
-	other_taxes:						0,
-	payments:							0,
-	state_agi:							0,
-	taxable_income:						0,
-	income_tax:							0,
-	total_tax:							0,
-	refund_amount_due:					0,
-	april_payment:						0,
-	june_payment:						0,
-	september_payment:					0,
-	january_payment:					0,
+import { ESTIMATED_TAX_CA_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
+import { filingStatusToStr }			from "../Library/TAXTools/TAXTools.js";
 
-	// Input Data
-	federal_agi:						0,
-	number_of_dependents:				0,
+const SAVE_FILE		= ESTIMATED_TAX_CA_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name					Value Type
+	"tax-year":						["text"],
+	"TaxpayersName":				["text"],
+	"FilingStatus":					["text"],
+	"TaxpayersBirthday":			["text"],
+	"SpousesBirthday":				["text"],
+
+	"FederalAGI":					[""],
+	"NumberOfDependents":			[""],
 
 	// Subtractions
-	us_treasury_obligations:			0,
-	military_retirement_income:			0,
-	taxable_social_security:			0,
-	state_tax_refund:					0,
-	unemployment_income:				0,
-	california_lottery_winnings:		0,
-	nonqualified_hsa_distributions:		0,
-	alimony_paid:						0,
-	other_subtractions:					0,
+	"USTreasuryObligations":		[""],
+	"MilitaryRetirementIncome":		[""],
+	"TaxableSocialSecurity":		[""],
+	"StateTaxRefund":				[""],
+	"UnemploymentIncome":			[""],
+	"CaliforniaLotteryWinnings":	[""],
+	"NonqualifiedHSADistributions":	[""],
+	"AlimonyPaid":					[""],
+	"OtherSubtractions":			[""],
 
 	// Additions
-	hsa_employer_contributions:			0,
-	alimony_received:					0,
-	home_loan_debt_cancellation:		0,
-	employer_paid_student_loan_payments:0,
-	educator_expenses:					0,
-	hsa_contributions:					0,
-	ira_contributions:					0,
-	other_additions:					0,
+	"HSAEmployerContributions":		[""],
+	"AlimonyReceived":				[""],
+	"HomeLoanDebtCancellation":		[""],
+	"EmployerPaidStudentLoanPayments":	[""],
+	"EducatorExpenses":				[""],
+	"HSAContributions":				[""],
+	"IRAContributions":				[""],
+	"OtherAdditions":				[""],
 
 	// Itemized Deductions
-	federal_itemized_deductions:		0,
-	state_income_tax:					0,
-	qualified_hsa_distributions:		0,
-	salt_limit_excess:					0,
-	home_mortgage_interest_limit:		0,
-	tax_preparation_fee:				0,
-	safe_deposit_box:					0,
-	investment_fee:						0,
-	other_deductions:					0,
+	"FederalItemizedDeductions":	[""],
+	"StateIncomeTax":				[""],
+	"QualifiedHSADistributions":	[""],
+	"SALTLimitExcess":				[""],
+	"HomeMortgageInterestLimit":	[""],
+	"TaxPreparationFee":			[""],
+	"SafeDepositBox":				[""],
+	"InvestmentFee":				[""],
+	"OtherDeductions":				[""],
 
 	// Other Taxes, Interest, and Penalties
-	shared_responsibility_penalty:		0,
-	interest_and_penalties:				0,
-	underepayment_of_estimated_tax:		0,
-	use_tax:							0,
-	miscellaneous_taxes:				0,
+	"SharedResponsibilityPenalty":	[""],
+	"InterestAndPenalties":			[""],
+	"UnderpaymentOfEstimatedTax":	[""],
+	"UseTax":						[""],
+	"MiscellaneousTaxes":			[""],
 
 	// Non-refundable Credits
-	child_care_credit:					0,
-	renters_credit:						0,
-	other_nonrefundable_credits:		0,
+	"ChildCareCredit":				[""],
+	"RentersCredit":				[""],
+	"OtherNonrefundableCredits":	[""],
 
 	// Refundable Credits
-	eitc:								0,
-	young_child_tax_credit:				0,
-	foster_youth_tax_credit:			0,
-	other_refundable_credits:			0,
+	"EITC":							[""],
+	"YoungChildTaxCredit":			[""],
+	"FosterYouthTaxCredit":			[""],
+	"OtherRefundableCredits":		[""],
 
 	// Payments
-	withholding:						0,
-	estimated_payments:					0,
-	other_payments:						0,
+	"Withholding":					[""],
+	"EstimatedPayments":			[""],
+	"OtherPayments":				[""],
 
 	// Contributions
-	contributions:						0,
-
-	// Debug Informstion
-	standard_deduction:					0,
-	itemized_deductions:				0,
-	payment_balance:					0,
-	use_tax_balance:					0,
-	payments_after_srp:					0,
-	srp_balance:						0,
-	overpaid_tax:						0,
-	tax_due:							0,
-	amount_you_owe:						0,
-	refund:								0,
+	"Contributions":				[""],
 };
 
-function GetItemizedDeductions() {
-	const misc_deductions	= GetMiscellaneousDeductions();
-	const subtractions		= ud.state_income_tax +
-								ud.qualified_hsa_distributions +
-								ud.other_deductions;
-	const additions			= ud.salt_limit_excess +
-								ud.home_mortgage_interest_limit +
-								misc_deductions;
+// This variable needs to be global so it can be accessed by the save and restore handlers.
+let inputs = {};
 
-	return Max(0, ud.federal_itemized_deductions - subtractions + additions);
-}
-
-function GetMiscellaneousDeductions() {
-	const agi_percent		= Round(ud.federal_agi * 0.02);
-	const misc_deductions	=
-			ud.tax_preparation_fee +
-			ud.safe_deposit_box +
-			ud.investment_fee;
-
-	return Max(0, misc_deductions - agi_percent);
-}
-
-function GetSubtractions() {
-	// The way the "subtractions" are calculated on the Calitornia tax return may not be intuitive.
-	// First, it adds together the items that are taxed on the federal tax return, but not the
-	// California tax return (form CA 540, sections 1A and 1B). These will be subtracted from the
-	// federal AGI, as you would expect. Then, it adds together the federal adjustments (above the
-	// line deductions, form CA 540, section 1C) that are not allowed by California. These are then
-	// subtracted from the subtractions (rather than adding them as additions to the federal AGI).
-
-	const subtractions =
-		ud.us_treasury_obligations +
-		ud.military_retirement_income +
-		ud.taxable_social_security +
-		ud.state_tax_refund +
-		ud.unemployment_income +
-		ud.california_lottery_winnings +
-		ud.nonqualified_hsa_distributions +
-		ud.other_subtractions;
-
-	const adjustments_to_subtractions =
-		ud.educator_expenses +
-		ud.hsa_contributions +
-		ud.ira_contributions;
-
-	return subtractions - adjustments_to_subtractions;
-}
-
-function GetAdditions() {
-	// The way the "additions" are calculated on the Calitornia tax return is the opposite of
-	// the subtractions. The items that are not taxed on the federal tax return, but are taxed on
-	// the California tax return are added together (form CA 540, sections 1A and 1B) to form the
-	// basis of the additions. Then, the federal adjustments (above the line deductions, form CA
-	// 540, section 1C) that are allowed by California are added together. These are then subtracted
-	// from the additions (rather than subtracting them as subtractions from the federal AGI).
-
-	const additions =
-		ud.hsa_employer_contributions +
-		ud.alimony_received +
-		ud.home_loan_debt_cancellation +
-		ud.employer_paid_student_loan_payments +
-		ud.other_additions;
-
-	const adjustments_to_additions =
-		ud.alimony_paid;
-
-
-	return additions - adjustments_to_additions;
-}
-
-function GetRefundableCredits() {
-	return (
-		ud.eitc +
-		ud.young_child_tax_credit +
-		ud.foster_youth_tax_credit +
-		ud.other_refundable_credits);
-}
-
-function GetNonrefundableCredits() {
-	return (
-		ud.child_care_credit +
-		ud.renters_credit +
-		ud.other_nonrefundable_credits);
-}
-
-function GetOtherTaxes() {
-	return (
-		ud.miscellaneous_taxes);
-}
-
-function GetPayments() {
-	return (
-		ud.withholding +
-		ud.estimated_payments +
-		ud.other_payments);
-}
-
-function CalculateTax() {
-	InitializeTaxTables(ud.filing_status, ud.tax_year);
-
-	todays_date					= new Date().toLocaleDateString();
-	const end_of_year			= new Date("12/31/" + ud.tax_year);
-	ud.taxpayers_age			= Age(ud.taxpayers_birthday, end_of_year);
-	if (strCaseEqual(ud.filing_status, "MFJ")) {
-		ud.spouses_age			= Age(ud.spouses_birthday, end_of_year);
+function changeHandler(event) {
+	//
+	// This function is called when any input field is changed. It calculates the
+	// whole return (not just the field tha was changed).
+	//
+	try {
+		resetAll();
+		TaxTable.getTaxTable(HTML.getUserInput("tax-year"));// Initialize tax tables.
+		inputs = getInputs();								// Get inputs from the web page
+		const taxpayer = createTaxpayer(inputs);			// Initialize taxpayer
+		mapInputValues(inputs);								// Map input values to tax forms
+		TaxFormObj.getForm("F540").calculate();				// Calculate the tax forms
+		putOutputs(taxpayer);								// Put results on web page
+		Debug.turnOn();										// Put debug info on web page
+	} catch (error) {
+		Ensure.processError(error);
 	}
-	ud.standard_deduction		= get_CA_StandardDeduction(ud.filing_status, ud.taxpayers_age, ud.spouses_age);
-	ud.itemized_deductions		= GetItemizedDeductions();
+}
 
-	ud.exemptions				= get_CA_Exemption(ud.filing_status, ud.taxpayers_age, ud.spouses_age,
-									false, false, ud.number_of_dependents);
-	ud.subtractions				= GetSubtractions();
-	ud.additions				= GetAdditions();
-	ud.deductions				= Max(ud.standard_deduction, ud.itemized_deductions);
-	ud.nonrefundable_credits	= GetNonrefundableCredits();
-	ud.refundable_credits		= GetRefundableCredits();
-	ud.other_taxes				= GetOtherTaxes();
-	ud.payments					= GetPayments();
+function createTaxpayer(inputs) {
+	const taxpayer					= new Taxpayer();
 
-	ud.state_agi				= Max(0, ud.federal_agi - ud.subtractions + ud.additions);
-	ud.taxable_income			= Max(0, ud.state_agi - ud.deductions);
-	ud.income_tax				= get_CA_IncomeTax(ud.filing_status, ud.taxable_income);
+	taxpayer.taxpayers_name			= inputs.taxpayers_name;
+	taxpayer.filing_status			= inputs.filing_status;
+	taxpayer.taxpayers_birthday		= inputs.taxpayers_birthday;
+	taxpayer.spouses_birthday		= inputs.spouses_birthday;
+	taxpayer.number_of_dependents	= inputs.number_of_dependents;
 
-	ud.total_tax				= Max(0, ud.income_tax - ud.exemptions);
-	ud.total_tax				= Max(0, ud.total_tax - ud.nonrefundable_credits);
-	ud.total_tax				+= ud.other_taxes;
+	return taxpayer;
+}
 
-	if (ud.payments > ud.use_tax)
-		ud.payment_balance = ud.payments - ud.use_tax;
+function getInputsNew() {
+	//
+	// This function will not work as long as the element ID are not in kebab case.
+	//
+	// Copy values from the web page.
+	//
+	// The return parameter is an object that contains the name-value pairs for all the
+	// fields copied from the web page.
+	//
+	const values = {};
 
-	if (ud.use_tax > ud.Payments)
-		ud.use_tax_balance = ud.use_tax - ud.payments;
-
-	if (ud.payment_balance > ud.shared_responsibility_penalty)
-		ud.payments_after_srp = ud.payment_balance - ud.shared_responsibility_penalty;
-
-	if (ud.shared_responsibility_penalty > ud.payment_balance)
-		ud.srp_balance = ud.shared_responsibility_penalty - ud.payment_balance;
-
-	if (ud.payments_after_srp > ud.total_tax)
-		ud.overpaid_tax = ud.payments_after_srp - ud.total_tax
-
-	if (ud.payments_after_srp < ud.total_tax)
-		ud.tax_due = ud.total_tax - ud.payments_after_srp;
-
-	if (ud.overpaid_tax > 0) {
-		ud.refund = ud.overpaid_tax -
-			(ud.contributions + ud.interest_and_penalties + ud.underepayment_of_estimated_tax);
-		ud.refund_amount_due = ud.refund;
-	} else {
-		ud.amount_you_owe = ud.use_tax_balance + ud.srp_balance + ud.tax_due + ud.contributions;
-		ud.refund_amount_due = -ud.amount_you_owe;
+	for (const element_id of Object.keys(FIELD_INFO)) {
+		const key_name		= element_id.replace(/-/g, "_");
+		const value_type	= FIELD_INFO[element_id][0];
+		values[key_name]	= HTML.getUserInput(element_id, value_type);
 	}
 
-	const estimated_taxes = Max(0, ud.estimated_payments - ud.refund_amount_due);
-	ud.april_payment		= Round(estimated_taxes * 0.30);
-	ud.june_payment			= Round(estimated_taxes * 0.40);
-	ud.september_payment	= 0;
-	ud.january_payment		= Round(estimated_taxes * 0.30);
+	return values;
 }
 
-function GetInputValues() {
-	// Copy input data from web page to local variables.
-	ud.tax_year								= getUserInput("TaxYear");
+function getInputs() {
+	//
+	// Get the values from the web page. Put them in an object literal so the values
+	// can be accessed by name. This program recalculates the entire tax return when
+	// a values is changed, not just the value that was changed. This does not seem
+	// to be a performance problem and it prevents needing to know what is dependent
+	// on each value.
+	//
+	const inputs = {};
 
 	// Taxpayer information
-	ud.taxpayers_name						= getUserInput("TaxpayersName",		"text");
-	ud.filing_status						= getUserInput("FilingStatus",		"text");
-	ud.taxpayers_birthday					= getUserInput("TaxpayersBirthday",	"text");
-	ud.spouses_birthday						= getUserInput("SpousesBirthday",	"text");
-
-	// Estimated Tax
-	ud.exemptions							= 0;
-	ud.subtractions							= 0;
-	ud.additions							= 0;
-	ud.deductions							= 0;
-	ud.nonrefundable_credits				= 0;
-	ud.refundable_credits					= 0;
-	ud.other_taxes							= 0;
-	ud.payments								= 0;
-	ud.state_agi							= 0;
-	ud.taxable_income						= 0;
-	ud.income_tax							= 0;
-	ud.total_tax							= 0;
-	ud.refund_amount_due					= 0;
-	ud.april_payment						= 0;
-	ud.june_payment							= 0;
-	ud.september_payment					= 0;
-	ud.january_payment						= 0;
+	inputs.taxpayers_name =
+		HTML.getUserInput("TaxpayersName", "text");
+	inputs.filing_status =
+		strToFilingStatus(HTML.getUserInput("FilingStatus", "text"));
+	inputs.taxpayers_birthday =
+		HTML.getUserInput("TaxpayersBirthday", "text");
+	inputs.spouses_birthday =
+		HTML.getUserInput("SpousesBirthday", "text");
 
 	// Input Data
-	ud.federal_agi							= getUserInput("FederalAGI");
-	ud.number_of_dependents					= getUserInput("NumberOfDependents");
+	inputs.federal_agi =
+		HTML.getUserInput("FederalAGI");
+	inputs.number_of_dependents =
+		HTML.getUserInput("NumberOfDependents");
 
 	// Subtractions
-	ud.us_treasury_obligations				= getUserInput("USTreasuryObligations");
-	ud.military_retirement_income			= getUserInput("MilitaryRetirementIncome");
-	ud.taxable_social_security				= getUserInput("TaxableSocialSecurity");
-	ud.state_tax_refund						= getUserInput("StateTaxRefund");
-	ud.unemployment_income					= getUserInput("UnemploymentIncome");
-	ud.california_lottery_winnings			= getUserInput("CaliforniaLotteryWinnings");
-	ud.nonqualified_hsa_distributions		= getUserInput("NonqualifiedHSADistributions");
-	ud.alimony_paid							= getUserInput("AlimonyPaid");
-	ud.other_subtractions					= getUserInput("OtherSubtractions");
+	inputs.us_treasury_obligations =
+		HTML.getUserInput("USTreasuryObligations");
+	inputs.military_retirement_income =
+		HTML.getUserInput("MilitaryRetirementIncome");
+	inputs.taxable_social_security =
+		HTML.getUserInput("TaxableSocialSecurity");
+	inputs.state_tax_refund =
+		HTML.getUserInput("StateTaxRefund");
+	inputs.unemployment_income =
+		HTML.getUserInput("UnemploymentIncome");
+	inputs.california_lottery_winnings =
+		HTML.getUserInput("CaliforniaLotteryWinnings");
+	inputs.nonqualified_hsa_distributions =
+		HTML.getUserInput("NonqualifiedHSADistributions");
+	inputs.alimony_paid	 =
+		HTML.getUserInput("AlimonyPaid");
+	inputs.other_subtractions =
+		HTML.getUserInput("OtherSubtractions");
 
 	// Additions
-	ud.hsa_employer_contributions			= getUserInput("HSAEmployerContributions");
-	ud.alimony_received						= getUserInput("AlimonyReceived");
-	ud.home_loan_debt_cancellation			= getUserInput("HomeLoanDebtCancellation");
-	ud.employer_paid_student_loan_payments	= getUserInput("EmployerPaidStudentLoanPayments");
-	ud.educator_expenses					= getUserInput("EducatorExpenses");
-	ud.hsa_contributions					= getUserInput("HSAContributions");
-	ud.ira_contributions					= getUserInput("IRAContributions");
-	ud.other_additions						= getUserInput("OtherAdditions");
+	inputs.hsa_employer_contributions =
+		HTML.getUserInput("HSAEmployerContributions");
+	inputs.alimony_received =
+		HTML.getUserInput("AlimonyReceived");
+	inputs.home_loan_debt_cancellation =
+		HTML.getUserInput("HomeLoanDebtCancellation");
+	inputs.employer_paid_student_loan_payments =
+		HTML.getUserInput("EmployerPaidStudentLoanPayments");
+	inputs.educator_expenses =
+		HTML.getUserInput("EducatorExpenses");
+	inputs.hsa_contributions =
+		HTML.getUserInput("HSAContributions");
+	inputs.ira_contributions =
+		HTML.getUserInput("IRAContributions");
+	inputs.other_additions =
+		HTML.getUserInput("OtherAdditions");
 
 	// Itemized Deductions
-	ud.federal_itemized_deductions			= getUserInput("FederalItemizedDeductions");
-	ud.state_income_tax						= getUserInput("StateIncomeTax");
-	ud.qualified_hsa_distributions			= getUserInput("QualifiedHSADistributions");
-	ud.salt_limit_excess					= getUserInput("SALTLimitExcess");
-	ud.home_mortgage_interest_limit			= getUserInput("HomeMortgageInterestLimit");
-	ud.tax_preparation_fee					= getUserInput("TaxPreparationFee");
-	ud.safe_deposit_box						= getUserInput("SafeDepositBox");
-	ud.investment_fee						= getUserInput("InvestmentFee");
-	ud.other_deductions						= getUserInput("OtherDeductions");
+	inputs.federal_itemized_deductions =
+		HTML.getUserInput("FederalItemizedDeductions");
+	inputs.state_income_tax =
+		HTML.getUserInput("StateIncomeTax");
+	inputs.qualified_hsa_distributions =
+		HTML.getUserInput("QualifiedHSADistributions");
+	inputs.salt_limit_excess =
+		HTML.getUserInput("SALTLimitExcess");
+	inputs.home_mortgage_interest_limit =
+		HTML.getUserInput("HomeMortgageInterestLimit");
+	inputs.tax_preparation_fee =
+		HTML.getUserInput("TaxPreparationFee");
+	inputs.safe_deposit_box =
+		HTML.getUserInput("SafeDepositBox");
+	inputs.investment_fee =
+		HTML.getUserInput("InvestmentFee");
+	inputs.other_deductions =
+		HTML.getUserInput("OtherDeductions");
 
 	// Other Taxes, Interest, and Penalties
 
-	ud.shared_responsibility_penalty		= getUserInput("SharedResponsibilityPenalty");
-	ud.interest_and_penalties				= getUserInput("InterestAndPenalties");
-	ud.underepayment_of_estimated_tax		= getUserInput("UnderepaymentOfEstimatedTax");
-	ud.use_tax								= getUserInput("UseTax");
-	ud.miscellaneous_taxes					= getUserInput("MiscellaneousTaxes");
+	inputs.shared_responsibility_penalty =
+		HTML.getUserInput("SharedResponsibilityPenalty");
+	inputs.interest_and_penalties =
+		HTML.getUserInput("InterestAndPenalties");
+	inputs.underpayment_of_estimated_tax =
+		HTML.getUserInput("UnderpaymentOfEstimatedTax");
+	inputs.use_tax =
+		HTML.getUserInput("UseTax");
+	inputs.miscellaneous_taxes =
+		HTML.getUserInput("MiscellaneousTaxes");
 
 	// Non-refundable Credits
-	ud.child_care_credit					= getUserInput("ChildCareCredit");
-	ud.renters_credit						= getUserInput("RentersCredit");
-	ud.other_nonrefundable_credits			= getUserInput("OtherNonrefundableCredits");
+	inputs.child_care_credit =
+		HTML.getUserInput("ChildCareCredit");
+	inputs.renters_credit =
+		HTML.getUserInput("RentersCredit");
+	inputs.other_nonrefundable_credits =
+		HTML.getUserInput("OtherNonrefundableCredits");
 
 	// Refundable Credits
-	ud.eitc									= getUserInput("EITC");
-	ud.young_child_tax_credit				= getUserInput("YoungChildTaxCredit");
-	ud.foster_youth_tax_credit				= getUserInput("FosterYouthTaxCredit");
-	ud.other_refundable_credits				= getUserInput("OtherRefundableCredits");
+	inputs.eitc =
+		HTML.getUserInput("EITC");
+	inputs.young_child_tax_credit =
+		HTML.getUserInput("YoungChildTaxCredit");
+	inputs.foster_youth_tax_credit =
+		HTML.getUserInput("FosterYouthTaxCredit");
+	inputs.other_refundable_credits =
+		HTML.getUserInput("OtherRefundableCredits");
 
 	// Payments
-	ud.withholding							= getUserInput("Withholding");
-	ud.estimated_payments					= getUserInput("EstimatedPayments");
-	ud.other_payments						= getUserInput("OtherPayments");
+	inputs.withholding =
+		HTML.getUserInput("Withholding");
+	inputs.estimated_payments =
+		HTML.getUserInput("EstimatedPayments");
+	inputs.other_payments =
+		HTML.getUserInput("OtherPayments");
 
 	// Contributions
-	ud.contributions						= getUserInput("Contributions");
+	inputs.contributions =
+		HTML.getUserInput("Contributions");
 
-	// Debug Informstion
-	ud.standard_deduction					= 0;
-	ud.itemized_deductions					= 0;
-	ud.payment_balance						= 0;
-	ud.use_tax_balance						= 0;
-	ud.payments_after_srp					= 0;
-	ud.srp_balance							= 0;
-	ud.overpaid_tax							= 0;
-	ud.tax_due								= 0;
-	ud.amount_you_owe						= 0;
-	ud.interest_and_penalties				= 0;
-	ud.underepayment_of_estimated_tax		= 0;
-	ud.refund								= 0;
+	return inputs;
 }
 
-function PutResults() {
-	
-	putUserOutput("TodaysDate",				todays_date, "text");
-	putUserOutput("TaxpayersAge",			ud.taxpayers_age);
-	putUserOutput("SpousesAge",				ud.spouses_age);
+function mapInputValues(inputs) {
+	const tt		= TaxTable.getTaxTable();
+	const tp		= Taxpayer.getTaxpayer();
+	const f540		= TaxFormObj.createForm("F540");
+	const f540CA	= TaxFormObj.createForm("F540CA");
+
+	f540.lines["013"].user_value	= inputs.federal_agi;
+
+	// Subtractions
+	f540CA.lines["A-02bB"].user_value	= inputs.us_treasury_obligations;
+	f540CA.lines["A-05bB"].user_value	= inputs.military_retirement_income;
+	f540CA.lines["A-06bB"].user_value	= inputs.taxable_social_security;
+	f540CA.lines["B-01B" ].user_value	= inputs.state_tax_refund;
+	f540CA.lines["B-07B" ].user_value	= inputs.unemployment_income;
+	f540CA.lines["B-08bB"].user_value	= inputs.california_lottery_winnings;
+	f540CA.lines["B-08fB"].user_value	= inputs.nonqualified_hsa_distributions;
+	f540CA.lines["C-19aB"].user_value	= inputs.alimony_paid;
+	f540CA.lines["C-24zB"].user_value	= inputs.other_subtractions;
+
+	// Additions
+	f540CA.lines["A-01hC"].user_value	= inputs.hsa_employer_contributions;
+	f540CA.lines["B-02aC"].user_value	= inputs.alimony_received;
+	f540CA.lines["B-08cC"].user_value	= inputs.home_loan_debt_cancellation +
+											inputs.employer_paid_student_loan_payments;
+	f540CA.lines["C-11C" ].user_value	= inputs.educator_expenses;
+	f540CA.lines["C-13C" ].user_value	= inputs.hsa_contributions;
+	f540CA.lines["C-20C" ].user_value	= inputs.ira_contributions;
+	f540CA.lines["C-24zC"].user_value	= inputs.other_additions;
+
+	// Itemized Deductions
+	f540CA.lines["D-17A" ].user_value	= inputs.federal_itemized_deductions;
+	f540CA.lines["D-05aB"].user_value	= inputs.state_income_tax;
+	f540CA.lines["D-04C" ].user_value	= inputs.qualified_hsa_distributions;
+	f540CA.lines["D-05aC"].user_value	= inputs.salt_limit_excess;
+	f540CA.lines["D-05aC"].user_value	= inputs.home_mortgage_interest_limit;
+	f540CA.lines["D-20"  ].user_value	= inputs.tax_preparation_fee;
+	f540CA.lines["D-21"  ].user_value	= inputs.safe_deposit_box + inputs.investment_fee;
+	f540CA.lines["D-16C" ].user_value	= inputs.other_deductions;
+
+	// Other Taxes, Interest, and Penalties
+	f540.lines[	"092"].user_value	= inputs.shared_responsibility_penalty;
+	f540.lines[	"112"].user_value	= inputs.interest_and_penalties;
+	f540.lines[	"113"].user_value	= inputs.underpayment_of_estimated_tax;
+	f540.lines[	"091"].user_value	= inputs.use_tax;
+	f540.lines[	"063"].user_value	= inputs.miscellaneous_taxes;
+
+	// Non-refundable Credits
+	f540.lines[	"040"].user_value	= inputs.child_care_credit;
+	f540.lines[	"046"].user_value	= inputs.renters_credit;
+	f540.lines[	"045"].user_value	= inputs.other_nonrefundable_credits;
+
+	// Refundable Credits
+	f540.lines[	"075"].user_value	= inputs.eitc;
+	f540.lines[	"076"].user_value	= inputs.young_child_tax_credit;
+	f540.lines[	"077"].user_value	= inputs.foster_youth_tax_credit;
+	f540.lines[	"078"].user_value	= inputs.other_refundable_credits;
+
+	// Payments
+	f540.lines[	"071"].user_value	= inputs.withholding;
+	f540.lines[	"072"].user_value	= inputs.estimated_payments;
+	f540.lines[	"078"].user_value	= inputs.other_payments;
+
+	// Contributions
+	f540.lines[	"110"].user_value	= inputs.contributions;
+}
+
+function putOutputs(taxpayer) {
+	//
+	// Get the information we are interested in and write them to the web page.
+	//
+	const todays_date			= new Date().toLocaleDateString();
+	const payments_and_credits	= TaxFormObj.getValue("F540", "078");
+	const estimated_payments	= TaxFormObj.getValue("F540", "072");
+	const refund				= TaxFormObj.getValue("F540", "097");
+	let amount_due				= TaxFormObj.getValue("F540", "100");
+
+	amount_due =
+		(amount_due !== 0) ? -amount_due : refund;
+	const estimated_tax_due =
+		Math.max(0, payments_and_credits - estimated_payments - amount_due);
+
+	HTML.putUserOutput("TodaysDate",			todays_date, "text");
+	HTML.putUserOutput("TaxpayersAge",			taxpayer.taxpayers_age);
+	HTML.putUserOutput("SpousesAge",			taxpayer.spouses_age);
 
 	// Estimated Tax
-	putUserOutput("Exemptions",				ud.exemptions);
-	putUserOutput("Subtractions",			ud.subtractions);
-	putUserOutput("Additions",				ud.additions);
-	putUserOutput("Deductions",				ud.deductions);
-	putUserOutput("NonrefundableCredits",	ud.nonrefundable_credits);
-	putUserOutput("RefundableCredits",		ud.refundable_credits);
-	putUserOutput("OtherTaxes",				ud.other_taxes);
-	putUserOutput("Payments",				ud.payments);
-	putUserOutput("StateAGI",				ud.state_agi);
-	putUserOutput("TaxableIncome",			ud.taxable_income);
-	putUserOutput("IncomeTax",				ud.income_tax);
-	putUserOutput("TotalTax",				ud.total_tax);
-	putUserOutput("RefundAmountDue",		ud.refund_amount_due);
-	putUserOutput("AprilPayment",			ud.april_payment);
-	putUserOutput("JunePayment",			ud.june_payment);
-	putUserOutput("SeptemberPayment",		ud.september_payment);
-	putUserOutput("JanuaryPayment",			ud.january_payment);
-
-	putDebugOutput("Debug01", ud.standard_deduction,	" ",					"Standard Deduction");
-	putDebugOutput("Debug02", ud.itemized_deductions,	"CA 540 p2, line 30",	"Itemized Deductions");
-	putDebugOutput("Debug03", ud.payment_balance,		"540, line 93",			"Payment Balance");
-	putDebugOutput("Debug04", ud.use_tax_balance,		"540, line 94",			"Use Tax Balance");
-	putDebugOutput("Debug05", ud.payments_after_srp,	"540, line 95",			"Payments After SRP Penalty");
-	putDebugOutput("Debug06", ud.srp_balance,			"540, line 96",			"SRP Balance");
-	putDebugOutput("Debug07", ud.overpaid_tax,			"540, line 99",			"Overpaid Tax");
-	putDebugOutput("Debug08", ud.tax_due,				"540, line 100",		"Tax Due");
-	putDebugOutput("Debug09", ud.amount_you_owe,		"540, line 111",		"Amount You Owe");
-	putDebugOutput("Debug10", ud.refund,				"540, line 115",		"Refund");
+	HTML.putUserOutput("Exemptions",			TaxFormObj.getValue("F540", "011"));
+	HTML.putUserOutput("Subtractions",			TaxFormObj.getValue("F540", "014"));
+	HTML.putUserOutput("Additions",				TaxFormObj.getValue("F540", "016"));
+	HTML.putUserOutput("Deductions",			TaxFormObj.getValue("F540", "018"));
+	HTML.putUserOutput("NonrefundableCredits",	TaxFormObj.getValue("F540", "047"));
+	HTML.putUserOutput("RefundableCredits",
+					   TaxFormObj.getValue("F540", "074", "075", "076", "077"));
+	HTML.putUserOutput("OtherTaxes",
+					   TaxFormObj.getValue("F540", "061","062","063"));
+	HTML.putUserOutput("Payments",				TaxFormObj.getValue("F540", "078"));
+	HTML.putUserOutput("StateAGI",				TaxFormObj.getValue("F540", "017"));
+	HTML.putUserOutput("TaxableIncome",			TaxFormObj.getValue("F540", "019"));
+	HTML.putUserOutput("IncomeTax",				TaxFormObj.getValue("F540", "031"));
+	HTML.putUserOutput("TotalTax",				TaxFormObj.getValue("F540", "035"));
+	HTML.putUserOutput("RefundAmountDue",		amount_due);
+	HTML.putUserOutput("AprilPayment",			Math.round(estimated_tax_due * 0.30));
+	HTML.putUserOutput("JunePayment",			Math.round(estimated_tax_due * 0.40));
+	HTML.putUserOutput("SeptemberPayment",		0);
+	HTML.putUserOutput("JanuaryPayment",		Math.round(estimated_tax_due * 0.30));
 }
 
-function ChangeHandler(event) {
-	// This is the function that is called if any input field is changed.
-	TurnOffDebug();
-	GetInputValues();
-	CalculateTax();
-	PutResults();
-	TurnOnDebug();
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
+	// All the listeners for the data fields use the same handler so when any field
+	// is changed the whole calculation is redone.
+	//
 
-	addListener("TaxYear",						"change", ChangeHandler);
-	addListener("SaveButton",					"click", SaveUserData);
-	addListener("InputFile",					"change", RestoreUserData);
+	// Listen for changes to the input data.
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
 
-	// Taxpayer Information
-	addListener("TaxpayersName",				"change", ChangeHandler);
-	addListener("FilingStatus",					"change", ChangeHandler);
-	addListener("TaxpayersBirthday",			"change", ChangeHandler);
-	addListener("SpousesBirthday",				"change", ChangeHandler);
-
-	// Input Data
-	addListener("FederalAGI",					"change", ChangeHandler);
-	addListener("NumberOfDependents",			"change", ChangeHandler);
-
-	// Subtractions
-	addListener("USTreasuryObligations",		"change", ChangeHandler);
-	addListener("MilitaryRetirementIncome",		"change", ChangeHandler);
-	addListener("TaxableSocialSecurity",		"change", ChangeHandler);
-	addListener("StateTaxRefund",				"change", ChangeHandler);
-	addListener("UnemploymentIncome",			"change", ChangeHandler);
-	addListener("CaliforniaLotteryWinnings",	"change", ChangeHandler);
-	addListener("NonqualifiedHSADistributions",	"change", ChangeHandler);
-	addListener("AlimonyPaid",					"change", ChangeHandler);
-	addListener("OtherSubtractions",			"change", ChangeHandler);
-
-	// Additions
-	addListener("HSAEmployerContributions",		"change", ChangeHandler);
-	addListener("AlimonyReceived",				"change", ChangeHandler);
-	addListener("HomeLoanDebtCancellation",		"change", ChangeHandler);
-	addListener("EmployerPaidStudentLoanPayments",		"change", ChangeHandler);
-	addListener("EducatorExpenses",				"change", ChangeHandler);
-	addListener("HSAContributions",				"change", ChangeHandler);
-	addListener("IRAContributions",				"change", ChangeHandler);
-	addListener("OtherAdditions",				"change", ChangeHandler);
-
-	// Itemized Deductions
-	addListener("FederalItemizedDeductions",	"change", ChangeHandler);
-	addListener("StateIncomeTax",				"change", ChangeHandler);
-	addListener("QualifiedHSADistributions",	"change", ChangeHandler);
-	addListener("SALTLimitExcess",				"change", ChangeHandler);
-	addListener("HomeMortgageInterestLimit",	"change", ChangeHandler);
-	addListener("TaxPreparationFee",			"change", ChangeHandler);
-	addListener("SafeDepositBox",				"change", ChangeHandler);
-	addListener("InvestmentFee",				"change", ChangeHandler);
-	addListener("OtherDeductions",				"change", ChangeHandler);
-
-	// Other Taxes, Interest, and Penalties
-	addListener("SharedResponsibilityPenalty",	"change", ChangeHandler);
-	addListener("InterestAndPenalties",			"change", ChangeHandler);
-	addListener("UnderepaymentOfEstimatedTax",	"change", ChangeHandler);
-	addListener("UseTax",						"change", ChangeHandler);
-	addListener("MiscellaneousTaxes",			"change", ChangeHandler);
-
-	// Non-refundable Credits
-	addListener("ChildCareCredit",				"change", ChangeHandler);
-	addListener("RentersCredit",				"change", ChangeHandler);
-	addListener("OtherNonrefundableCredits",	"change", ChangeHandler);
-
-	// Refundable Credits
-	addListener("EITC",							"change", ChangeHandler);
-	addListener("YoungChildTaxCredit",			"change", ChangeHandler);
-	addListener("FosterYouthTaxCredit",			"change", ChangeHandler);
-	addListener("OtherRefundableCredits",		"change", ChangeHandler);
-
-	// Payments
-	addListener("Withholding",					"change", ChangeHandler);
-	addListener("EstimatedPayments",			"change", ChangeHandler);
-	addListener("OtherPayments",				"change", ChangeHandler);
-
-	// Contributions
-	addListener("Contributions",				"change", ChangeHandler);
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
 	// Using autofocus attribute scrolls the page to that element; this will move the
-	// focus but display the page without sccrolling to that element.
+	// focus but display the page without scrolling to that element.
 	const TaxpayersName = document.getElementById('TaxpayersName');
 	TaxpayersName.focus({
 		preventScroll: true
 	});
 
-	tax_year = getTaxYear();	// Default tax year.
-	putUserOutput("TaxYear", tax_year, "text");
-	ChangeHandler();
+	HTML.putUserOutput("tax-year", Dates.getTaxYear(), "text");		// Default tax year.
+	HTML.hideElement("debug-container");
 });
-

@@ -1,58 +1,95 @@
 
-function CalculategetTaxableSocialSecurity() {
-	const filing_status				= getUserInput("FilingStatus", "text");
-	const lived_with_spouse			= getUserInput("LivedWithSpouse");
-	const social_security			= getUserInput("SocialSecurity");
-	const income					= getUserInput("Income");
-	const tax_exempt_interest		= getUserInput("TaxExemptInterest");
-	const adjustments				= getUserInput("Adjustments");
-	let taxable_ss					= 0;
-	let taxable_percent				= 0;
+import { Dates }		from "../Library/Modules/Dates.js";
+import { Debug }		from "../Library/Modules/Debug.js";
+import { Ensure }		from "../Library/Modules/Ensure.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
+import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
+import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
+import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-	InitializeTaxTables(filing_status);
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { SS_TAXABLE_SAVE_FILE }			from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 
-	if (strCaseEqual(filing_status, "MFS")) {
-		showElement("LivedWithSpouseContainer");
-	} else {
-		hideElement("LivedWithSpouseContainer");
-	}
+const SAVE_FILE		= SS_TAXABLE_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name					Value Type
+	"FilingStatus":					["text"],
+	"LivedWithSpouse":				[""],
+	"SocialSecurity":				[""],
+	"Income":						[""],
+	"TaxExemptInterest":			[""],
+	"Adjustments":					[""],
 
-	taxable_ss = getTaxableSocialSecurity(
-					filing_status,
-					social_security,
-					income,
-					tax_exempt_interest,
-					adjustments,
-					lived_with_spouse);
+	// Income Fields
+	"Wages":						[""],
+	"TaxableInterest":				[""],
+	"OrdinaryDividends":			[""],
+	"RetirementAccounts":			[""],
+	"PensionsAndAnnuities":			[""],
+	"CapitalGains":					[""],
+	"SelfEmploymentIncome":			[""],
+	"OtherIncome":					[""],
 
-	taxable_percent = (social_security === 0) ? 0 : Round(taxable_ss / social_security * 100);
+	// Adjustment Fields
+	"EducatorExpenses":				[""],
+	"HealthSavingsAccount":			[""],
+	"SelfEmploymentTaxAdjustment":	[""],
+	"SelfEmployedHealthInsurance":	[""],
+	"EarlyWithdrawalPenalty":		[""],
+	"AlimonyPaid":					[""],
+	"IRAContributions":				[""],
+	"StudentLoanInterest":			[""],
+	"OtherAdjustments":				[""],
+};
 
-	putUserOutput("TaxableSocialSecurity",	taxable_ss);
-	putUserOutput("TaxablePercent",			taxable_percent + "%", "text");
+
+let input_color				= "";
+let output_color			= "";
+
+function calculateTax(inputs) {
+	const outputs = {};
+
+	const ss_tax = TaxFormObj.createForm("SSTax");
+	outputs.taxable_ss = ss_tax.calculate(
+		inputs.filing_status,
+		inputs.social_security,			// Total SS received from 1040, line 6a
+		inputs.income,					// Income without taxable SS
+		inputs.tax_exempt_interest,		// Tax exempt interest from 1040, line 2a
+		0,								// Student loan interest from 1040S1, line 21
+		inputs.adjustments,				// Adjustments from 1040
+		inputs.lived_with_spouse);		// Lived with spouse
+
+	return outputs;
 }
 
-function ChangeIncomeHandler(event) {
-	Wages.value					= 0;
-	TaxableInterest.value		= 0;
-	OrdinaryDividends.value		= 0;
-	RetirementAccounts.value	= 0;
-	PensionsAndAnnuities.value	= 0;
-	CapitalGains.value			= 0;
-	SelfEmploymentIncome.value	= 0;
-	OtherIncome.value			= 0;
+function changeIncomeHandler(event) {
+	HTML.putUserOutput("Wages",					0);
+	HTML.putUserOutput("TaxableInterest",		0);
+	HTML.putUserOutput("OrdinaryDividends",		0);
+	HTML.putUserOutput("RetirementAccounts",	0);
+	HTML.putUserOutput("PensionsAndAnnuities",	0);
+	HTML.putUserOutput("CapitalGains",			0);
+	HTML.putUserOutput("SelfEmploymentIncome",	0);
+	HTML.putUserOutput("OtherIncome",			0);
 
-	ChangeHandler(event);
+	HTML.changeBackgroundColor("Income", input_color);
+
+	changeHandler(event);
 }
 
-function ChangeIncomeComponentHandler(event) {
-	const wages					= getUserInput("Wages");
-	const taxable_interest		= getUserInput("TaxableInterest");
-	const ordinary_dividends	= getUserInput("OrdinaryDividends");
-	const retirement_accounts	= getUserInput("RetirementAccounts");
-	const pensions_and_annuities= getUserInput("PensionsAndAnnuities");
-	const capital_gains			= getUserInput("CapitalGains");
-	const self_employment_income= getUserInput("SelfEmploymentIncome");
-	const other_income			= getUserInput("OtherIncome");
+function changeIncomeComponentHandler(event) {
+	const wages						= HTML.getUserInput("Wages");
+	const taxable_interest			= HTML.getUserInput("TaxableInterest");
+	const ordinary_dividends		= HTML.getUserInput("OrdinaryDividends");
+	const retirement_accounts		= HTML.getUserInput("RetirementAccounts");
+	const pensions_and_annuities	= HTML.getUserInput("PensionsAndAnnuities");
+	const capital_gains				= HTML.getUserInput("CapitalGains");
+	const self_employment_income	= HTML.getUserInput("SelfEmploymentIncome");
+	const other_income				= HTML.getUserInput("OtherIncome");
 
 	const total_income				= wages +
 										taxable_interest +
@@ -63,34 +100,38 @@ function ChangeIncomeComponentHandler(event) {
 										self_employment_income +
 										other_income;
 
-	putUserOutput("Income", total_income);
-	ChangeHandler(event);
+	HTML.putUserOutput("Income", total_income);
+	HTML.changeBackgroundColor("Income", output_color);
+
+	changeHandler(event);
 }
 
-function ChangeAdjustmentsHandler(event) {
-	EducatorExpenses.value				= 0;
-	HealthSavingsAccount.value			= 0;
-	SelfEmploymentTaxAdjustment.value	= 0;
-	SelfEmployedHealthInsurance.value	= 0;
-	EarlyWithdrawalPenalty.value		= 0;
-	AlimonyPaid.value					= 0;
-	IRAContributions.value				= 0;
-	StudentLoanInterest.value			= 0;
-	OtherAdjustments.value				= 0;
+function changeAdjustmentsHandler(event) {
+	HTML.putUserOutput("EducatorExpenses",				0);
+	HTML.putUserOutput("HealthSavingsAccount",			0);
+	HTML.putUserOutput("SelfEmploymentTaxAdjustment",	0);
+	HTML.putUserOutput("SelfEmployedHealthInsurance",	0);
+	HTML.putUserOutput("EarlyWithdrawalPenalty",		0);
+	HTML.putUserOutput("AlimonyPaid",					0);
+	HTML.putUserOutput("IRAContributions",				0);
+	HTML.putUserOutput("StudentLoanInterest",			0);
+	HTML.putUserOutput("OtherAdjustments",				0);
 
-	ChangeHandler(event);
+	HTML.changeBackgroundColor("Adjustments", input_color);
+
+	changeHandler(event);
 }
 
-function ChangeAdjustmentComponentHandler(event) {
-	const educator_expenses				= getUserInput("EducatorExpenses");
-	const health_savings_account		= getUserInput("HealthSavingsAccount");
-	const self_employment_tax_adjustment= getUserInput("SelfEmploymentTaxAdjustment");
-	const self_employed_health_insurance= getUserInput("SelfEmployedHealthInsurance");
-	const early_withdrawal_penalty		= getUserInput("EarlyWithdrawalPenalty");
-	const alimony_paid					= getUserInput("AlimonyPaid");
-	const ira_contributions				= getUserInput("IRAContributions");
-	const student_loan_interest			= getUserInput("StudentLoanInterest");
-	const other_adjustments				= getUserInput("OtherAdjustments");
+function changeAdjustmentComponentHandler(event) {
+	const educator_expenses				= HTML.getUserInput("EducatorExpenses");
+	const health_savings_account		= HTML.getUserInput("HealthSavingsAccount");
+	const self_employment_tax_adjustment= HTML.getUserInput("SelfEmploymentTaxAdjustment");
+	const self_employed_health_insurance= HTML.getUserInput("SelfEmployedHealthInsurance");
+	const early_withdrawal_penalty		= HTML.getUserInput("EarlyWithdrawalPenalty");
+	const alimony_paid					= HTML.getUserInput("AlimonyPaid");
+	const ira_contributions				= HTML.getUserInput("IRAContributions");
+	const student_loan_interest			= HTML.getUserInput("StudentLoanInterest");
+	const other_adjustments				= HTML.getUserInput("OtherAdjustments");
 
 	const total_adjustments				= educator_expenses +
 											health_savings_account +
@@ -102,47 +143,135 @@ function ChangeAdjustmentComponentHandler(event) {
 											// student_loan_interest +
 											other_adjustments;
 
-	putUserOutput("Adjustments", total_adjustmentsw);
-	ChangeHandler(event);
+	HTML.putUserOutput("Adjustments", total_adjustments);
+	HTML.changeBackgroundColor("Adjustments", output_color);
+
+	changeHandler(event);
 }
 
-function ChangeHandler(event) {
-	// This is the function that is called if any input field is changed.
-	TurnOffDebug();
-	CalculategetTaxableSocialSecurity();
-	TurnOnDebug();
+function changeHandler(event) {
+	//
+	// This function is called when any input field is changed. It calculates the
+	// whole deduction (not just the field tha was changed).
+	//
+	try {
+		resetAll();
+		const inputs = getInputs();						// Get inputs from the web page
+		TaxTable.getTaxTable(inputs.tax_year);			// Initialize tax tables
+		createTaxpayer(inputs);							// Initialize taxpayer
+		const outputs = calculateTax(inputs);
+		putOutputs(inputs, outputs);					// Put results on web page
+		Debug.turnOn();									// Put debug info on web page
+	} catch (error) {
+		Ensure.processError(error);
+	}
+}
+
+function createTaxpayer(inputs) {
+	const taxpayer = new Taxpayer();
+
+	taxpayer.filing_status		= inputs.filing_status;
+	taxpayer.lived_with_spouse	= inputs.lived_with_spouse;
+
+	return taxpayer;
+}
+
+function getInputs() {
+	//
+	// Get the values from the web page. Put them in an object literal so the values
+	// can be accessed by name.
+	//
+	const inputs = {};
+
+	inputs.tax_year					= Dates.getTaxYear();
+
+	inputs.filing_status = strToFilingStatus(HTML.getUserInput("FilingStatus", "text"));
+	inputs.lived_with_spouse		= HTML.getUserInput("LivedWithSpouse");
+	inputs.social_security			= HTML.getUserInput("SocialSecurity");
+	inputs.income					= HTML.getUserInput("Income");
+	inputs.tax_exempt_interest		= HTML.getUserInput("TaxExemptInterest");
+	inputs.adjustments				= HTML.getUserInput("Adjustments");
+
+	return inputs;
+}
+
+function putOutputs(inputs, outputs) {
+	//
+	// Get the information we are interested in and write them to the web page.
+	//
+	const tp = Taxpayer.getTaxpayer();
+	let taxable_percent = 0;
+
+	if (tp.filing_status === MFS) {
+		HTML.showElement("LivedWithSpouseContainer");
+	} else {
+		HTML.hideElement("LivedWithSpouseContainer");
+	}
+
+	taxable_percent =
+		(inputs.social_security === 0) ?
+			0 : Math.round(outputs.taxable_ss / inputs.social_security * 100);
+	HTML.putUserOutput("TaxableSocialSecurity",	outputs.taxable_ss);
+	HTML.putUserOutput("TaxablePercent",		taxable_percent + "%", "text");
+}
+
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
-
-	addListener("FilingStatus",					"change", ChangeHandler);
-	addListener("LivedWithSpouse",				"change", ChangeHandler);
-	addListener("SocialSecurity",				"change", ChangeHandler);
-	addListener("Income",						"change", ChangeIncomeHandler);
-	addListener("TaxExemptInterest",			"change", ChangeHandler);
-	addListener("Adjustments",					"change", ChangeAdjustmentsHandler);
+	//
+	HTML.addListener(TAXTOOL_CONTAINER,				"change", changeHandler);
+	// HTML.addListener("FilingStatus",				"change", changeHandler);
+	// HTML.addListener("LivedWithSpouse",			"change", changeHandler);
+	// HTML.addListener("SocialSecurity",			"change", changeHandler);
+	HTML.addListener("Income",						"change", changeIncomeHandler);
+	// HTML.addListener("TaxExemptInterest",		"change", changeHandler);
+	HTML.addListener("Adjustments",					"change", changeAdjustmentsHandler);
 
 	// Income
-	addListener("Wages",						"change", ChangeIncomeComponentHandler);
-	addListener("TaxableInterest",				"change", ChangeIncomeComponentHandler);
-	addListener("OrdinaryDividends",			"change", ChangeIncomeComponentHandler);
-	addListener("RetirementAccounts",			"change", ChangeIncomeComponentHandler);
-	addListener("PensionsAndAnnuities",			"change", ChangeIncomeComponentHandler);
-	addListener("CapitalGains",					"change", ChangeIncomeComponentHandler);
-	addListener("SelfEmploymentIncome",			"change", ChangeIncomeComponentHandler);
-	addListener("OtherIncome",					"change", ChangeIncomeComponentHandler);
+	HTML.addListener("Wages",						"change", changeIncomeComponentHandler);
+	HTML.addListener("TaxableInterest",				"change", changeIncomeComponentHandler);
+	HTML.addListener("OrdinaryDividends",			"change", changeIncomeComponentHandler);
+	HTML.addListener("RetirementAccounts",			"change", changeIncomeComponentHandler);
+	HTML.addListener("PensionsAndAnnuities",		"change", changeIncomeComponentHandler);
+	HTML.addListener("CapitalGains",				"change", changeIncomeComponentHandler);
+	HTML.addListener("SelfEmploymentIncome",		"change", changeIncomeComponentHandler);
+	HTML.addListener("OtherIncome",					"change", changeIncomeComponentHandler);
 
 	// Adjustments
-	addListener("EducatorExpenses",				"change", ChangeAdjustmentComponentHandler);
-	addListener("HealthSavingsAccount",			"change", ChangeAdjustmentComponentHandler);
-	addListener("SelfEmploymentTaxAdjustment",	"change", ChangeAdjustmentComponentHandler);
-	addListener("SelfEmployedHealthInsurance",	"change", ChangeAdjustmentComponentHandler);
-	addListener("EarlyWithdrawalPenalty",		"change", ChangeAdjustmentComponentHandler);
-	addListener("AlimonyPaid",					"change", ChangeAdjustmentComponentHandler);
-	addListener("IRAContributions",				"change", ChangeAdjustmentComponentHandler);
-	addListener("StudentLoanInterest",			"change", ChangeAdjustmentComponentHandler);;
-	addListener("OtherAdjustments",				"change", ChangeAdjustmentComponentHandler);
+	HTML.addListener("EducatorExpenses",
+					 "change", changeAdjustmentComponentHandler);
+	HTML.addListener("HealthSavingsAccount",
+					 "change", changeAdjustmentComponentHandler);
+	HTML.addListener("SelfEmploymentTaxAdjustment",
+					 "change", changeAdjustmentComponentHandler);
+	HTML.addListener("SelfEmployedHealthInsurance",
+					 "change", changeAdjustmentComponentHandler);
+	HTML.addListener("EarlyWithdrawalPenalty",
+					 "change", changeAdjustmentComponentHandler);
+	HTML.addListener("AlimonyPaid",
+					 "change", changeAdjustmentComponentHandler);
+	HTML.addListener("IRAContributions",
+					 "change", changeAdjustmentComponentHandler);
+	HTML.addListener("StudentLoanInterest",
+					 "change", changeAdjustmentComponentHandler);
+	HTML.addListener("OtherAdjustments",
+					 "change", changeAdjustmentComponentHandler);
 
-	ChangeHandler();
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
+
+	output_color	= HTML.getCSSGlobalVariable("--output-color");
+	input_color		= HTML.getCSSGlobalVariable("--input-color");
+
+	HTML.hideElement("LivedWithSpouseContainer");
+	HTML.hideElement("debug-container");
 });

@@ -9,21 +9,37 @@
 	-->
 
 	<div class="help-fields">
+		<div class="tooltip" id="save-button-tt">
+			<h4>Save Button</h4>
+			<p>Pressing the "Save" button will save the data that has been entered to a
+			text file in your Downloads folder. This data can be reloaded by pressing the
+			"Restore" button.</p>
+		</div>
+
+		<div class="tooltip" id="restore-button-tt">
+			<h4>Restore Button</h4>
+			<p>Pressing the "Restore" button will reload the data from a file into the
+			tool. This will replace any data that is already there. The file must have been
+			previously saved by this tool.</p>
+		</div>
+
 		<div class="tooltip" id="FilingStatus-0-TT">
 			<h4>Filing Status</h4>
-			<p>The current filing status. The amount of Social Security that is taxable is the same
-			for all filing statuses except married filing jointly (MFJ).</p>
+			<p>The current filing status. The amount of Social Security that is taxable is
+			the same for all filing statuses except married filing jointly (MFJ).</p>
 		</div>
+
 		<div class="tooltip" id="SocialSecurity-0-TT">
 			<h4>Social Security</h4>
-			<p>Enter the amount of Social Security payments you (and your spouse) received this year.
-			This amount is on form SSA-1099, box 5. It includes the amount paid for this year's benefits
-			plus any lump sum payments listed in box 3.</p>
+			<p>Enter the amount of Social Security payments you (and your spouse) received
+			this year. This amount is on form SSA-1099, box 5. It includes the amount paid
+			for this year's benefits plus any lump sum payments listed in box 3.</p>
 		</div>
+
 		<div class="tooltip" id="Income-0-TT">
 			<h4>Income</h4>
-			<p>Enter the total amount of taxable income, except qualified dividends and Social
-			Security. It is the sum of the following fields from form 1040.</p>
+			<p>Enter the total amount of taxable income, except qualified dividends and
+			Social Security. It is the sum of the following fields from form 1040.</p>
 			<ul>
 				<li>1040, line 1z Wages</li>
 				<li>1040, line 2b Taxable Interest</li>
@@ -32,21 +48,23 @@
 				<li>1040, line 5b Pensions and Annuities (taxable amount)</li>
 				<li>1040, line 7 Capital Gains</li>
 			</ul>
-			<p>This amount should be the same as Total Income from form 1040, line 9, except with taxable
-			Social Security subtracted out.</p>
+			<p>This amount should be the same as Total Income from form 1040, line 9, except
+			with taxable Social Security subtracted out.</p>
 		</div>
+
 		<div class="tooltip" id="TaxExemptInterest-0-TT">
 			<h4>Tax-Exempt Interest</h4>
-			<p>Enter the amount of tax-exempt interest. Even though it is not taxable, it is used
-			to determine how much of Social Security is taxable. The tax-exempt interest is on
-			form 1040, line 2a</p>
+			<p>Enter the amount of tax-exempt interest. Even though it is not taxable, it is
+			used to determine how much of Social Security is taxable. The tax-exempt interest
+			is on form 1040, line 2a</p>
 		</div>
+
 		<div class="tooltip" id="Adjustments-0-TT">
 			<h4>Adjustments</h4>
 			<p>Enter the amount of adjustments here. Adjustments are expenses that can be
-			deducted from taxable income even if you do not itemize deductions. Adjustments are
-			listed on form 1040, schedule 1, part II, and the total is on form 1040, line 10. Do not
-			include the following adjustments.</p>
+			deducted from taxable income even if you do not itemize deductions. Adjustments
+			are listed on form 1040, schedule 1, part II, and the total is on form 1040,
+			line 10. Do not include the following adjustments.</p>
 			<ul>
 				<li>Student Loan Interest</li>
 				<li>Foreign Earned Income Exclusion, form 2555, form 4563</li>
@@ -54,67 +72,80 @@
 				<li>U.S. Bond Interest Exclusion, form 8815</li>
 			</ul>
 		</div>
+
 		<div class="tooltip" id="TaxableSocialSecurity-0-TT">
 			<h4>Taxable Social Security</h4>
-			<p>This value is computed by the tool. It is the amount of Social Security that is taxable
-			if you use the standard method for calculating the taxable amount.</p>
-		</div>
-		<div class="tooltip" id="TaxablePercent-0-TT">
-			<h4>Taxable Percent</h4>
-			<p>This value is computed by the tool. It is the percentage of Social Security that is taxable
-			if you use the standard method for calculating the taxable amount.</p>
-		</div>
-		<div class="tooltip" id="TaxableSocialSecurityAlt-TT">
-			<h4>Alternate Calculation Method</h4>
-			<p>This value is computed by the tool. It is the amount of Social Security that is taxable if
-			you use the alternate method for calculating the taxable amount.</p>
-		</div>
-		<div class="tooltip" id="TaxablePercentAlt-TT">
-			<h4>Alternate Taxable Percent</h4>
-			<p>This value is computed by the tool. It is the percentage of Social Security that is taxable
-			if you use the alternate method for calculating the taxable amount.</p>
+			<p>This value is computed by the tool. It is the amount of Social Security that
+			is taxable if you use the standard method for calculating the taxable amount.</p>
 		</div>
 
+		<div class="tooltip" id="TaxablePercent-0-TT">
+			<h4>Taxable Percent</h4>
+			<p>This value is computed by the tool. It is the percentage of Social Security
+			that is taxable if you use the standard method for calculating the taxable
+			amount.</p>
+		</div>
+
+		<div class="tooltip" id="TaxableSocialSecurityAlt-TT">
+			<h4>Alternate Calculation Method</h4>
+			<p>This value is computed by the tool. It is the amount of Social Security that
+			is taxable if you use the alternate method for calculating the taxable
+			amount.</p>
+		</div>
+
+		<div class="tooltip" id="TaxablePercentAlt-TT">
+			<h4>Alternate Taxable Percent</h4>
+			<p>This value is computed by the tool. It is the percentage of Social Security
+			that is taxable if you use the alternate method for calculating the taxable
+			amount.</p>
+		</div>
 
 		<h3>Lump Sum Payments</h3>
 		<div class="tooltip" id="FilingStatus-1-TT">
 			<h4>Filing Status</h4>
 			<p>This is the filing status from the year of the lump sum.</p>
 		</div>
+
 		<div class="tooltip" id="LumpSum-1-TT">
 			<h4>Lump Sum Payment Amount</h4>
-			<p>This is the amount of the lump sum payment from SSA-1099, box 3 for a previous year. If
-			there is a lump sum payment for the current year, it is already included in the benefits for
-			the current year and should not be entered here.</p>
+			<p>This is the amount of the lump sum payment from SSA-1099, box 3 for a previous
+			year. If there is a lump sum payment for the current year, it is already included
+			in the benefits for the current year and should not be entered here.</p>
 		</div>
+
 		<div class="tooltip" id="AGI-1-TT">
 			<h4>Adjusted Gross Income from Previous Year</h4>
 			<p>This is the adjusted gross income from the previous tax year. it is form 1040,
 			line 11.</p>
 		</div>
+
 		<div class="tooltip" id="TaxExemptInterest-1-TT">
 			<h4>Tax-Exempt Interest from Previous Year</h4>
 			<p>This is the Tax-Exempt Interest from the previous tax year. it is form 1040,
 			line 2a.</p>
 		</div>
+
 		<div class="tooltip" id="SocialSecurityReceivedReported-1-TT">
 			<h4>Total Social Security from Previous Year</h4>
 			<p>This is the total Social Security from the previous tax year. it is form 1040,
 			line 6a.</p>
 		</div>
+
 		<div class="tooltip" id="SocialSecurityTaxableReported-1-TT">
 			<h4>Taxable Social Security from Previous Year</h4>
-			<p>This is the Taxable Social Security from the previous tax year. it is form 1040,
-			line 6b.</p>
+			<p>This is the Taxable Social Security from the previous tax year. it is form
+			1040, line 6b.</p>
 		</div>
+
 		<div class="tooltip" id="TaxableSocialSecurityNew-1-TT">
 			<h4>Taxable Social Security New</h4>
-			<p>This value is computed by the tool. It is the amount of the lump sum payment that would
-			have been taxable in the year it was intended for.</p>
+			<p>This value is computed by the tool. It is the amount of the lump sum payment
+			that would have been taxable in the year it was intended for.</p>
 		</div>
+
 		<div class="tooltip" id="TaxablePercent-1-TT">
 			<h4>Taxable Percent</h4>
-			<p>This value is computed by the tool. It is the percentage of the lump sum payment that would
-			have been taxable in the year it was intended for.</p>
+			<p>This value is computed by the tool. It is the percentage of the lump sum
+			payment that would have been taxable in the year it was intended for.</p>
 		</div>
 	</div>

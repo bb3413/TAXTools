@@ -1,0 +1,54 @@
+Qualifying Child
+----------------
+Child
+Step-child
+Foster child
+Adopted child
+Brother
+Sister
+Half-brother
+Half-sister
+Step-brother
+Step-sister
+Descendent of above
+
+Qualifying Relative
+-------------------
+Child
+Step-child
+Foster child
+Descendent of above
+
+Brother
+Sister
+Half-brother
+Half-sister
+Step-brother
+Step-sister
+Child of Sibling
+Child of half-sibling
+
+Father
+Mother
+Grandparent
+Other Ancestor
+Stepfather
+Stepmother
+
+Aunt
+Uncle
+
+In-Laws
+-------
+Son-in-law
+Daughter-in-law
+Father-in-law
+Mother-in-law
+Brother-in-law
+Sister-in-law
+
+Not Related
+-----------
+None
+Not related
+Foster parent

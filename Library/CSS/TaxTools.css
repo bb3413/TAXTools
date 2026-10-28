@@ -1,0 +1,248 @@
+
+/* This style sheet contains styles that are used by all of the tax tools to give them
+ * a consistent look and feel.
+ */
+:root {
+	/* Global variables
+	 *
+	 *		A global variable can be used in place of a value like this:
+	 *
+	 *			background-color: var(--background-color);
+	 */
+	--light-blue:				#E4EEFF;
+	--irs-green:				#DBFFFA;	/* Color on IRS form 1040 */
+	--background-color:			var(--irs-green);
+	--tool-background-color:	White;		/* FFFFFF */
+	--text-color:				Navy;
+	--error-text-color:			Red;
+	--light-text-color:			MediumBlue;
+	--input-color:				#F0FFF0;	/* Light green */
+	--output-color:				#DDEEFF;	/* Light blue */
+	--border-color:				var(--text-color);
+	--border-light:				#CCC;		/* Light gray */
+	--shadow-color:				#AAAAAA;	/* Gray */
+	--tooltip-bg-color:			Beige;
+	--taxform-background-color:	White;
+	--taxform-text-color:		Black;		/* 000000 */
+	--taxform-border-color:		Black;
+
+	/* Testing
+	--background-color:		white;
+	--text-color:			red;
+	--light-text-color:		green;
+	--input-color:			LightGreen;
+	--output-color:			LightBlue;
+	--border-color:			Blue;
+	--shadow-color:			Red;
+	*/
+}
+
+a {
+	/* text-decoration:	none;			/* No underline */
+}
+
+a:link {
+	color:					var(--text-color);
+}
+
+a:visited {
+	color:					var(--light-text-color);
+}
+
+input {
+	font-size:				13px;
+	padding:				2px;
+}
+
+input::placeholder {
+	/* color:				red; */
+	opacity:				0.5;
+}
+
+input[type="radio"] {
+	accent-color: var(--input-color);
+}
+
+body {
+	font-family:			Helvetica, Arial, sans-serif;
+	font-size:				14px;
+	line-height:			1.4;
+	background-color:		var(--background-color);
+	color:					var(--text-color);
+	padding:				0.2in;
+	max-width:				8.5in;
+}
+
+.taxtool-container {
+	background:				var(--tool-background-color);
+	padding-top:			1rem;
+	padding-bottom:			2rem;
+	padding-left:			2rem;
+	padding-right:			2rem;
+	border-radius:			8px;
+	box-shadow:				0 4px 6px var(--shadow-color);
+	width:					100%;
+	max-width:				7.5in;
+}
+
+.title {
+	text-align:				center;
+	margin-bottom:			0;
+}
+
+.subtitle {
+	text-align:				center;
+	margin-top:				0;
+	margin-bottom:			30px;
+}
+
+.version-number {
+	/* Used when printing the version number in the top right corner of an HTML page. */
+	text-align:				right;
+	font-size:				.8rem;
+}
+
+.input-field {
+	border:					1px solid var(--border-color);
+	padding-left:			4px;
+	padding-right:			4px;
+	background:				var(--input-color);
+	color:					var(--text-color);
+	text-align:				right;
+}
+
+.output-field {
+	border:					1px solid var(--border-color);
+	padding-left:			2px;
+	padding-right:			2px;
+	background:				var(--output-color);
+	color:					var(--text-color);
+	text-align:				right;
+}
+
+.button {
+	background:				var(--input-color);
+	color:					var(--text-color);
+	cursor:					pointer;
+	border:					1px solid var(--border-color);
+	box-shadow: 			0px 2px 4px var(--shadow-color);
+	border-radius:			3px;
+}
+
+.button:active {
+	box-shadow:				0px 1px 2px var(--shadow-color);	/* Lowering the shadow */
+	transform:				scale(0.95);						/* 0.95 of original size */
+/*	transform:				translateY(2px);					/* Or, move 2px to y-axis */
+}
+
+.checkbox {
+	appearance:				none;	/* Resets the default browser styling. */
+	margin-left:			0;
+
+	/* Sizing and shape of checkbox. */
+	width:					20px;
+	height:					20px;
+	border:					1px solid var(--border-color);
+	background-color:		var(--input-color);
+	position:				relative;
+}
+
+.checkbox:checked::after {
+	/* Create the check mark using a pseudo-element. */
+	content:				"";
+	position:				absolute;
+	left:					6px;
+	top:					2px;
+	width:					5px;
+	height:					10px;
+	border:					1px solid var(--border-color);
+	border-width:			0 1px 1px 0;
+	transform:				rotate(45deg);
+}
+
+.radio-button input[type="radio"] {
+    appearance:				none;				/* Hide native radio */
+	background-color:		var(--input-color);	/* Color when selected */
+    width:					1.15em;				/* Set width */
+    height:					1.15em;				/* Set height */
+    border-radius:			50%;				/* Make it circular */
+    border:					1px solid var(--border-color);	/* Outer ring */
+}
+
+.radio-button input[type="radio"]:checked {
+    background-color:		var(--text-color);			/* Color when selected */
+    box-shadow:				inset 0 0 0 0.15em white;	/* Inner dot */
+}
+
+/*
+ * Save and Restore buttons
+ */
+.save-restore-container {
+	display:				flex;
+	justify-content:		right;
+	align-items:			flex-end;	/* Align the buttons on bottom edge */
+	gap:					5px;		/* Space between buttons */
+}
+
+.save-button {
+	padding-bottom:			3px;
+}
+
+.restore-button {
+	font-size:				13px;	/* Use this with Helvetica */
+	display: 				inline-block;
+	padding-left:			6px;
+	padding-right:			6px;
+	padding-top:			1px;
+	padding-bottom:			1px;
+}
+
+/*
+ * If fields are auto-filled by the browser, the browser automatically changes the
+ * background color of the field to a blue tint. The following code uses a large, solid
+ * box-shadow inside the input box to cover up the browser's blue tint with the tool's
+ * input color. This should work in Chrome, Edge, Safari, and Firefox.
+ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+	-webkit-box-shadow: 0 0 0px 1000px var(--input-color) inset !important;
+	box-shadow: 0 0 0px 1000px var(--input-color) inset !important;
+	-webkit-text-fill-color: var(--text-color) !important;
+}
+
+#error-message-container {
+	color:					var(--error-text-color);
+}
+
+#debug-container {
+	background-color:		var(--output-color);
+}
+
+#debug-container pre {
+	font-family:			monospace, "courier new";
+	font-size:				16px;	/* Use this with Helvetica */
+	line-height:			1.4;
+}
+
+/*
+ * Overrides: put the after the class where you want to override the attribute.
+ */
+.box			{ border:				1px solid var(--border-color); }
+.noborder		{ border:				none !important; }
+.input-color	{ background-color:		var(--input-color); }
+.output-color	{ background-color:		var(--output-color); }
+.right			{ text-align:			right; }
+.left			{ text-align:			left; }
+.flex-right		{ justify-content:		right; }
+.flex-left		{ justify-content:		left; }
+.span-two		{ grid-column:			span 2; }
+.span-three		{ grid-column:			span 3; }
+.span-four		{ grid-column:			span 4; }
+.span-five		{ grid-column:			span 5; }
+.span-six		{ grid-column:			span 6; }
+.flex-right		{ justify-content:		right; }	/* Align elems in a flex-box to right. */
+.flex-center	{ justify-content:		center; }	/* Center the elements in a flex-box. */
+.bold			{ font-weight:			bold; }
+.center-text	{ text-align:			center; }
+.pointer		{ cursor:				pointer; }

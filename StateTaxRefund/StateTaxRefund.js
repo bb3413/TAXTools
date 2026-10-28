@@ -1,265 +1,178 @@
 
-let previous_tax_year			= 0;
-let filing_status				= 0;
-let taxpayers_birthday			= 0;
-let spouses_birthday			= 0;
-let taxpayer_is_blind			= false;
-let spouse_is_blind				= false;
-let state_tax_refund			= 0;
+import { Dates }		from "../Library/Modules/Dates.js";
+import { Debug }		from "../Library/Modules/Debug.js";
+import { Ensure }		from "../Library/Modules/Ensure.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
+import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
+import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
+import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-// Information from last year
-let state_income_tax			= 0;
-let sales_tax					= 0;
-let sales_tax_used				= 0;
-let real_estate_taxes			= 0;
-let personal_property_taxes 	= 0;
-let itemized_deductions			= 0;
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { TAXTOOL_CONTAINER }			from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { STATE_REFUND_SAVE_FILE }		from "../Library/TAXTools/TAXTools.js";
+import { strToFilingStatus }			from "../Library/TAXTools/TAXTools.js";
 
-// Output fields
-let taxable_amount				= 0;
-let explanation					= "";
+const SAVE_FILE		= STATE_REFUND_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name				Value Type
+	"tax-year":					["text"],
+	"FilingStatus":				["text"],
+	"TaxpayersBirthday":		["text"],
+	"TaxpayerIsBlind":			[""],
+	"SpousesBirthday":			["text"],
+	"SpouseIsBlind":			[""],
+	"StateTaxRefund":			[""],
+	"StateIncomeTax":			[""],
+	"SalesTax":					[""],
+	"SalesTaxUsed":				[""],
+	"RealEstateTaxes":			[""],
+	"PersonalPropertyTaxes":	[""],
+	"ItemizedDeductions":		[""],
+};
 
-// Debugging fields
-let standard_deduction			= 0;
-let line_5d						= 0;
-let line_5e						= 0;
-let line_1						= 0;
-let line_2						= 0;
-let line_3						= 0;
-let line_4						= 0;
-let line_5						= 0;
-let line_6						= 0;
-let line_7						= 0;
-let line_8						= 0;
-let line_9						= 0;
+function calculateTaxableAmount(inputs) {
 
-function CalculateTaxableAmount() {
-	let end_of_year				= 0;
-	let taxpayers_age			= 0;
-	let spouses_age				= 0;
-	let max_salt				= 0;
+	const tp = Taxpayer.getTaxpayer();
 
-	if (strCaseEqual(filing_status, "MFJ")) {
-		showElement("SpouseContainer");
+	const outputs = {};
+
+	if (inputs.state_tax_refund === 0) {
+		outputs.taxable_amount		= 0;
+		outputs.explanation			= "Tax refund is $0.";
+
+	} else if (inputs.prev_state_income_tax === 0) {
+		outputs.taxable_amount		= 0;
+		outputs.explanation			= "State income tax is $0; state income tax was " +
+										"not used as a deduction.";
+
+	} else if (inputs.sales_tax_used) {
+		outputs.taxable_amount		= 0;
+		outputs.explanation			= "State income tax was not used as a deduction; " +
+										"sales tax was used instead.";
+
+	} else if (inputs.sales_tax >= inputs.state_income_tax) {
+		outputs.taxable_amount		= 0;
+		outputs.explanation			= "Sales tax is greater that state income tax; sales "+
+										"tax could have used instead of state income tax " +
+										"for the same or better result.";
 	} else {
-		hideElement("SpouseContainer");
+		outputs.taxable_amount	= TaxFormObj.getValue("F1040S1", "01");
+		const f1099g			= TaxFormObj.getForm("F1099G");
+		outputs.explanation		= f1099g.refund.explanation;
 	}
 
-	InitializeTaxTables(filing_status, previous_tax_year);
-
-	end_of_year				= new Date("12/31/" + previous_tax_year);
-	taxpayers_age			= Age(taxpayers_birthday, end_of_year);
-	spouses_age				= Age(spouses_birthday, end_of_year);
-	max_salt				= getTaxValue("MaxSALT");
-
-	standard_deduction		= getStandardDeduction(
-									filing_status,
-									taxpayers_age, spouses_age,
-									taxpayer_is_blind, spouse_is_blind);
-
-	if (state_tax_refund === 0) {
-		taxable_amount		= 0;
-		explanation			= "Tax refund is $0.";
-		return;
-	}
-
-	if (state_income_tax === 0) {
-		taxable_amount		= 0;
-		explanation			= "State income tax is $0; state income tax was not used as a deduction.";
-		return;
-	}
-
-	if (sales_tax_used) {
-		taxable_amount		= 0;
-		explanation			= "State income tax was not used as a deduction.";
-		return;
-	}
-
-	if (sales_tax >= state_income_tax) {
-		taxable_amount		= 0;
-		explanation			= "Sales tax is greater that state income tax; sales tax could have " +
-								"used instead of state income tax for the same or better result.";
-		return;
-	}
-
-	line_5d		= state_income_tax + real_estate_taxes + personal_property_taxes;
-	line_5e		= Min(line_5d, max_salt);
-
-	Worksheet(
-		filing_status,
-		taxpayers_age,
-		spouses_age,
-		taxpayer_is_blind,
-		spouse_is_blind,
-		state_tax_refund,
-		line_5d,
-		line_5e,
-		itemized_deductions);
-
-	return;
+	return outputs;
 }
 
-function Worksheet(
-	filing_status,
-	taxpayers_age,
-	spouses_age,
-	taxpayer_is_blind,
-	spouse_is_blind,
-	refund,
-	sched_a_5d,		// Total SALT
-	sched_a_5e,		// Limited by SALT cap
-	itemized_deductions) {
-
+function changeHandler(event) {
 	//
-	// Compute the taxable portion of the state income tax refund.
+	// This function is called when any input field is changed. It calculates the
+	// whole AMT (not just the field tha was changed).
 	//
-	// IRS Publication: 1040 Instructions, see section Additional Income, Line 1.
-	// State and Local Income Tax Refund Worksheet—Schedule 1, Line 1
-	//
-
-	// When filing MFS, if one spouse itemizes then the other spouse is required to itemize as well. Since
-	// it is only necessary to determine if a tax refund is taxable if the taxpayer itemized, we can assume
-	// that if the filing status is MFS, the taxpayer is required to itemize.
-	let spouse_itemized = true;
-
-	line_1 = refund;						// Income tax refund from 1099-G
-	if (sched_a_5d > sched_a_5e) {			// Total taxes > Taxes limited by SALT cap
-		// Limited by SALT cap
-		line_2 = sched_a_5d - sched_a_5e;	// Amount of taxes limited by SALT cap
-
-		if (line_1 > line_2) {
-			line_3	= line_1 - line_2;		// Amount of refund not covered by excess SALT.
-			explanation			= "Part of refund is less than the amount of the state and local taxes " +
-									"that are over the SALT cap. The remainder of the refund is taxable.";
-		} else {
-			taxable_amount		= 0;
-			explanation			= "All of refund is less than the amount of state and local taxes " +
-									"that are over the SALT cap. The refund is not taxable.";
-			return;
-		}
-	} else {
-		// Not limited by SALT cap
-		line_3 = line_1;
-		explanation				= "The state and local taxes are not limited by the SALT cap. " +
-									"The refund is taxable.";
+	try {
+		resetAll();
+		const inputs = getInputs();							// Get inputs from  web page
+		TaxTable.getTaxTable(inputs.tax_year);				// Initialize tax tables
+		const taxpayer = createTaxpayer(inputs);			// Initialize taxpayer
+		mapInputValues(inputs);								// Map input values to forms
+		const outputs = calculateTaxableAmount(inputs);
+		putOutputs(outputs);								// Put results on web page
+		Debug.turnOn();										// Put debug info on web page
+	} catch (error) {
+		Ensure.processError(error);
 	}
-
-	line_4 = itemized_deductions;
-	if (strCaseEqual(filing_status, "MFS") && spouse_itemized) {
-		line_8 = line_4;
-	} else {
-		line_5	= 0;	// Get base standard deduction
-		line_6	= 0;	// Get extra standard deduction
-		line_7	= getStandardDeduction(filing_status,
-							taxpayers_age, spouses_age,
-							taxpayer_is_blind, spouse_is_blind);
-		if (line_7 < line_4) {
-			line_8	= line_4 - line_7;	// Itemized deductions - standard deduction
-		} else {
-			taxable_amount		= 0;
-			explanation			= "Itemized deductions were less than the standard deduction. The " +
-									"taxpayer could have used the standard deduction.";
-			return;
-		}
-	}
-
-	if (line_8 < line_3) {	// Itemized deductions - standard deduction < taxable part of refund?
-		line_9 = line_8;
-		explanation			= "Taxable part of refund was greater than the difference between itemized " +
-								"and standard deductions, so taxable amount is limited to that difference.";
-	} else {
-		line_9 = line_3;
-		// Line =_3 explanation was set above.
-	}
-
-	taxable_amount = line_9;
-	return;
 }
 
-function GetInputValues() {
-	previous_tax_year					= getUserInput("PreviousTaxYear");
-	filing_status						= getUserInput("FilingStatus",		"text");
-	taxpayers_birthday					= getUserInput("TaxpayersBirthday",	"text");
-	taxpayer_is_blind					= getUserInput("TaxpayerIsBlind");
-	state_tax_refund					= getUserInput("StateTaxRefund");
-	spouses_birthday					= getUserInput("SpousesBirthday",	"text");
-	spouse_is_blind						= getUserInput("SpouseIsBlind");
+function createTaxpayer(inputs) {
+	const taxpayer					= new Taxpayer();
+
+	taxpayer.tax_year				= inputs.tax_year;
+	taxpayer.filing_status			= inputs.filing_status;
+	taxpayer.taxpayers_birthday		= inputs.taxpayers_birthday;
+	taxpayer.spouses_birthday		= inputs.spouses_birthday;
+	taxpayer.is_taxpayer_blind		= inputs.is_taxpayer_blind;
+	taxpayer.is_spouse_blind		= inputs.is_spouse_blind;
+
+	return taxpayer;
+}
+
+function getInputs() {
+	//
+	// Get the values from the web page. Put them in an object literal so the values
+	// can be accessed by name.
+	//
+	const inputs = {};
+
+	// Input fields
+	inputs.tax_year							= 	HTML.getUserInput("tax-year");
+	inputs.filing_status =
+		strToFilingStatus(HTML.getUserInput("FilingStatus", "text"));
+	inputs.taxpayers_birthday				= HTML.getUserInput("TaxpayersBirthday", "text");
+	inputs.is_taxpayer_blind				= HTML.getUserInput("TaxpayerIsBlind");
+	inputs.spouses_birthday					= HTML.getUserInput("SpousesBirthday", "text");
+	inputs.is_spouse_blind					= HTML.getUserInput("SpouseIsBlind");
+	inputs.state_tax_refund					= HTML.getUserInput("StateTaxRefund");
 
 	// Information from last year
-	state_income_tax					= getUserInput("StateIncomeTax");
-	sales_tax							= getUserInput("SalesTax");
-	sales_tax_used						= getUserInput("SalesTaxUsed");
-	real_estate_taxes					= getUserInput("RealEstateTaxes");
-	personal_property_taxes 			= getUserInput("PersonalPropertyTaxes");
-	itemized_deductions					= getUserInput("ItemizedDeductions");
+	inputs.prev_state_income_tax			= HTML.getUserInput("StateIncomeTax");
+	inputs.prev_sales_tax					= HTML.getUserInput("SalesTax");
+	inputs.prev_sales_tax_used				= HTML.getUserInput("SalesTaxUsed");
+	inputs.prev_real_estate_taxes			= HTML.getUserInput("RealEstateTaxes");
+	inputs.prev_personal_property_taxes 	= HTML.getUserInput("PersonalPropertyTaxes");
+	inputs.prev_itemized_deductions			= HTML.getUserInput("ItemizedDeductions");
 
-	// Output fields
-	taxable_amount						= 0;
-	explanation							= "";
-
-	// Debugging fields
-	standard_deduction					= 0;
-	line_5d								= 0;
-	line_5e								= 0;
-	line_1								= 0;
-	line_2								= 0;
-	line_3								= 0;
-	line_4								= 0;
-	line_5								= 0;
-	line_6								= 0;
-	line_7								= 0;
-	line_8								= 0;
-	line_9								= 0;
+	return inputs;
 }
 
-function PutResults() {
-	putUserOutput("TaxableAmount",	taxable_amount);
-	putUserOutput("Explanation",	explanation,	"text");
+function mapInputValues(inputs) {
+	const tt		= TaxTable.getTaxTable();
+	const max_salt	= tt.getTaxValue("MaxSALT");
+	const line_5d	= inputs.prev_state_income_tax +
+						inputs.prev_real_estate_taxes +
+						inputs.prev_personal_property_taxes;
+	const line_5e	= Math.min(line_5d, max_salt);
 
-	putDebugOutput("Debug01", standard_deduction, 	"Standard Deduction");
-	putDebugOutput("Debug02", line_5d,				"Line 5d");
-	putDebugOutput("Debug03", line_5e,				"Line 5e");
-	putDebugOutput("Debug04", line_1,				"Line 1");
-	putDebugOutput("Debug05", line_2,				"Line 2");
-	putDebugOutput("Debug06", line_3,				"Line 3");
-	putDebugOutput("Debug07", line_4,				"Line 4");
-	putDebugOutput("Debug08", line_5,				"Line 5");
-	putDebugOutput("Debug09", line_6,				"Line 6");
-	putDebugOutput("Debug10", line_7,				"Line 7");
-	putDebugOutput("Debug11", line_8,				"Line 8");
-	putDebugOutput("Debug12", line_9,				"Line 9");
+	const f1099g	= TaxFormObj.createForm("F1099G");
+	f1099g.lines["02"].user_value	= inputs.state_tax_refund;
+	f1099g["prev_5d"]				= line_5d;
+	f1099g["prev_5e"]				= line_5e;
+	f1099g["prev_itemized"]			= inputs.prev_itemized_deductions;
 }
 
-function ChangeHandler(event) {
-	// This is the function that is called if any input field is changed.
-	TurnOffDebug();
-	GetInputValues();
-	CalculateTaxableAmount();
-	PutResults();
-	TurnOnDebug();
+function putOutputs(outputs) {
+	const tp = Taxpayer.getTaxpayer();
+
+	if (tp.filing_status === MFJ) {
+		HTML.showElement("SpouseContainer");
+	} else {
+		HTML.hideElement("SpouseContainer");
+	}
+
+	HTML.putUserOutput("TaxableAmount",	outputs.taxable_amount);
+	HTML.putUserOutput("Explanation",	outputs.explanation,	"text");
+}
+
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
+	//
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
 
-	addListener("PreviousTaxYear",			"change", ChangeHandler);
-	addListener("FilingStatus",				"change", ChangeHandler);
-	addListener("TaxpayersBirthday",		"change", ChangeHandler);
-	addListener("SpousesBirthday",			"change", ChangeHandler);
-	addListener("TaxpayerIsBlind",			"change", ChangeHandler);
-	addListener("SpouseIsBlind",			"change", ChangeHandler);
-	addListener("StateTaxRefund",			"change", ChangeHandler);
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
-	// Information from last year
-	addListener("StateIncomeTax",			"change", ChangeHandler);
-	addListener("SalesTax",					"change", ChangeHandler);
-	addListener("SalesTaxUsed",				"change", ChangeHandler);
-	addListener("RealEstateTaxes",			"change", ChangeHandler);
-	addListener("PersonalPropertyTaxes",	"change", ChangeHandler);
-	addListener("ItemizedDeductions",		"change", ChangeHandler);
-
-	previous_tax_year = getTaxYear() - 1;	// Default tax year.
-	putUserOutput("PreviousTaxYear", previous_tax_year, "text");
-
-	ChangeHandler();
+	HTML.putUserOutput("tax-year", Dates.getTaxYear(), "text");
+	HTML.hideElement("SpouseContainer");
+	HTML.hideElement("debug-container");
 });

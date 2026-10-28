@@ -1,108 +1,48 @@
 
-let tax_year				= 0;
-let family_size				= 0;
-let extra_sales_tax			= 0;
-let total_sales_tax			= 0;	// Lookup on web.
-let sales_tax_deduction		= 0;
+import { Alert }				from "../Library/Modules/Alert.js";
+import { Dates }				from "../Library/Modules/Dates.js";
+import { Debug }				from "../Library/Modules/Debug.js";
+import { Ensure }				from "../Library/Modules/Ensure.js";
+import { fetchSalesTaxRate }	from "../Library/Modules/SalesTaxFromCDTFA.js";
+import { HTML }					from "../Library/Modules/HTML.js";
+import { SaveRestore }			from "../Library/Modules/SaveRestore.js";
+import { TaxFormObj }			from "../Library/Modules/TaxFormObj.js";
+import { Taxpayer }				from "../Library/Classes/Taxpayer.js";
+import { TaxTable }				from "../Library/Modules/TaxTable.js";
 
-async function calculateAmount() {
-	let base_sales_tax		= 0;
-	let local_sales_tax		= 0;
-	let spendable_income	= 0;
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }			from "../Library/TAXTools/TAXTools.js";
+import { CA_SALES_TAX_SAVE_FILE }		from "../Library/TAXTools/TAXTools.js";
 
-	InitializeTaxTables("single", tax_year);
+const SAVE_FILE		= CA_SALES_TAX_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name				Value Type
+	"tax-year":					["text"],
+	"StreetAddress":			["text"],
+	"City":						["text"],
+	"State":					["text"],
+	"ZipCode":					["text"],
+	"FamilySize":				[""],
+	"ExtraSalesTax":			[""],
+	"Wages":					[""],
+	"TaxExemptInterest":		[""],
+	"TaxableInterest":			[""],
+	"QualifiedDividends":		[""],
+	"OrdinaryDividends":		[""],
+	"RetirementAccounts":		[""],
+	"SocialSecurity":			[""],
+	"CapitalGains":				[""],
+	"SelfEmploymentIncome":		[""],
+	"OtherIncome":				[""],
+};
 
-	family_size			= Limit(family_size, 1, 6);
-	spendable_income	= getSpendableIncome();
-	base_sales_tax		= getTaxValue("CA_BaseSalesTax");
-	if (total_sales_tax > 0) {
-		local_sales_tax = Max(total_sales_tax - base_sales_tax, 0);
-	}
-
-	sales_tax_deduction = salesTaxWorksheet(
-								spendable_income,
-								family_size,
-								local_sales_tax,
-								base_sales_tax,
-								extra_sales_tax);
-
-	putUserOutput("TotalSpendableIncome",	spendable_income);
-	putUserOutput("SalesTaxDeduction",		sales_tax_deduction);
-
-	putDebugOutput("Debug01", total_sales_tax,	"Total Sales Tax");
-	putDebugOutput("Debug02", base_sales_tax,	"Base Sales Tax");
-	putDebugOutput("Debug03", local_sales_tax,	"Local Sales Tax");
-	putDebugOutput("Debug04", family_size,		"Family Size");
-}
-
-function getInputValues() {
-	tax_year			= getUserInput("TaxYear");
-	family_size			= getUserInput("FamilySize");
-	extra_sales_tax		= getUserInput("ExtraSalesTax");
-}
-
-function getSpendableIncome() {
-	return getUserInput("Wages") +
-		getUserInput("TaxExemptInterest") +
-		getUserInput("TaxableInterest") +
-		getUserInput("QualifiedDividends") +
-		getUserInput("OrdinaryDividends") +
-		getUserInput("RetirementAccounts") +
-		getUserInput("SocialSecurity") +
-		getUserInput("CapitalGains") +
-		getUserInput("SelfEmploymentIncome") +
-		getUserInput("OtherIncome");
-}
-
-function salesTaxWorksheet(
-	spendable_income,
-	family_size,
-	local_sales_tax,
-	base_sales_tax,
-	extra_sales_tax)
-{
-	let line_1 = 0;
-	let line_2 = 0;
-	let line_3 = 0;
-	let line_4 = 0;
-	let line_5 = 0;
-	let line_6 = 0;
-	let line_7 = 0;
-	let line_8 = 0;
-
-	line_1	= getSalesTaxDeduction(spendable_income, family_size);
-	line_2	= 0;	// 0 for California
-	if (local_sales_tax === 0) {
-		line_6 = 0;
-	} else {
-		line_3	= local_sales_tax;
-		if (line_2 === 0) {
-			line_4	= base_sales_tax;
-			line_5	= line_3 / line_4;
-			line_6	= Round(line_1 * line_5);
-		} else {
-			line_6 = line_2 * line_3;
-		}
-	}
-	line_7	= extra_sales_tax;
-	line_8	= Round(line_1 + line_6 + line_7);
-
-	putDebugOutput("Debug05", line_1,	"Line 1");
-	putDebugOutput("Debug06", line_2,	"Line 2");
-	putDebugOutput("Debug07", line_3,	"Line 3");
-	putDebugOutput("Debug08", line_4,	"Line 4");
-	putDebugOutput("Debug09", line_5,	"Line 5");
-	putDebugOutput("Debug10", line_6,	"Line 6");
-	putDebugOutput("Debug11", line_7,	"Line 7");
-	putDebugOutput("Debug12", line_8,	"Line 8");
-
-	return line_8;
-}
+let total_sales_tax			= 0;
+let total_spendable_income	= 0;
 
 async function changeAddressHandler(event) {
-	const street_address	= getUserInput("StreetAddress",	"text");
-	const city				= getUserInput("City",			"text");
-	const zip_code			= getUserInput("ZipCode",		"text");
+	const street_address	= HTML.getUserInput("StreetAddress",	"text");
+	const city				= HTML.getUserInput("City",				"text");
+	const zip_code			= HTML.getUserInput("ZipCode",			"text");
 
 	total_sales_tax = 0;
 	if (street_address && city && zip_code) {
@@ -113,32 +53,116 @@ async function changeAddressHandler(event) {
 }
 
 function changeHandler(event) {
-	TurnOffDebug();
-	getInputValues();
-	calculateAmount();
-	TurnOnDebug();
+	//
+	// This function is called when any input field is changed. It calculates the
+	// whole deduction (not just the field tha was changed).
+	//
+	try {
+		resetAll();
+		const inputs = getInputs();					// Get inputs from the web page
+		TaxTable.getTaxTable(inputs.tax_year);		// Initialize tax tables
+		mapInputValues(inputs);						// Map input values to tax forms
+		TaxFormObj.getForm("SalesTax").calculate(total_sales_tax);	// Calculate the tax
+		putOutputs();								// Put results on web page
+		Debug.turnOn();								// Put debug info on web page if enabled
+	} catch (error) {
+		Ensure.processError(error);
+	}
+}
+
+function getInputs() {
+	//
+	// Get the values from the web page. Put them in an object literal so the values
+	// can be accessed by name.
+	//
+	const inputs = {};
+
+	inputs.tax_year					= HTML.getUserInput("tax-year");
+	inputs.family_size				= HTML.getUserInput("FamilySize");
+	inputs.extra_sales_tax			= HTML.getUserInput("ExtraSalesTax");
+
+	inputs.wages					= HTML.getUserInput("Wages");
+	inputs.tax_exempt_interest		= HTML.getUserInput("TaxExemptInterest");
+	inputs.taxable_interest			= HTML.getUserInput("TaxableInterest");
+	inputs.qualified_dividends		= HTML.getUserInput("QualifiedDividends");
+	inputs.ordinary_dividends		= HTML.getUserInput("OrdinaryDividends");
+	inputs.retirement_accounts		= HTML.getUserInput("RetirementAccounts");
+	inputs.social_security			= HTML.getUserInput("SocialSecurity");
+	inputs.capital_gains			= HTML.getUserInput("CapitalGains");
+	inputs.self_employment_income	= HTML.getUserInput("SelfEmploymentIncome");
+	inputs.other_income				= HTML.getUserInput("OtherIncome");
+
+	total_spendable_income =		// Save for output.
+		inputs.wages +
+		inputs.tax_exempt_interest +
+		inputs.taxable_interest +
+		inputs.qualified_dividends +
+		inputs.ordinary_dividends +
+		inputs.retirement_accounts +
+		inputs.social_security +
+		inputs.capital_gains +
+		inputs.self_employment_income +
+		inputs.other_income;
+
+	return inputs;
+}
+
+function mapInputValues(inputs) {
+	const f1040		= TaxFormObj.createForm("F1040");
+	const salestax	= TaxFormObj.createForm("SalesTax");
+
+	salestax.family_size			= inputs.family_size;
+	salestax.lines["07"].user_value	= inputs.extra_sales_tax;
+
+	f1040.lines["01z"].user_value	= inputs.wages;
+	f1040.lines["02a"].user_value	= inputs.tax_exempt_interest;
+	f1040.lines["02b"].user_value	= inputs.taxable_interest;
+	f1040.lines["03a"].user_value	= inputs.qualified_dividends;
+	f1040.lines["03b"].user_value	= inputs.ordinary_dividends;
+	f1040.lines["04a"].user_value	= inputs.retirement_accounts;
+	f1040.lines["06a"].user_value	= inputs.social_security;
+	f1040.lines["07a"].user_value	= inputs.capital_gains;
+	f1040.lines["08" ].user_value	= inputs.self_employment_income + inputs.other_income;
+}
+
+function putOutputs() {
+	HTML.putUserOutput("TotalSpendableIncome",	total_spendable_income);
+	HTML.putUserOutput("SalesTaxDeduction",		TaxFormObj.getValue("SalesTax", "08"));
+}
+
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
+	//
+	HTML.addListener("tax-year",				"change", changeHandler);
+	HTML.addListener("StreetAddress",			"change", changeAddressHandler);
+	HTML.addListener("City",					"change", changeAddressHandler);
+	HTML.addListener("ZipCode",					"change", changeAddressHandler);
+	HTML.addListener("FamilySize",				"change", changeHandler);
+	HTML.addListener("ExtraSalesTax",			"change", changeHandler);
 
-	addListener("TaxYear",					"change", changeHandler);
-	addListener("StreetAddress",			"change", changeAddressHandler);
-	addListener("City",						"change", changeAddressHandler);
-	addListener("ZipCode",					"change", changeAddressHandler);
-	addListener("FamilySize",				"change", changeHandler);
-	addListener("ExtraSalesTax",			"change", changeHandler);
+	HTML.addListener("Wages",					"change", changeHandler);
+	HTML.addListener("TaxExemptInterest",		"change", changeHandler);
+	HTML.addListener("TaxableInterest",			"change", changeHandler);
+	HTML.addListener("QualifiedDividends",		"change", changeHandler);
+	HTML.addListener("OrdinaryDividends",		"change", changeHandler);
+	HTML.addListener("RetirementAccounts",		"change", changeHandler);
+	HTML.addListener("SocialSecurity",			"change", changeHandler);
+	HTML.addListener("CapitalGains",			"change", changeHandler);
+	HTML.addListener("SelfEmploymentIncome",	"change", changeHandler);
+	HTML.addListener("OtherIncome",				"change", changeHandler);
 
-	addListener("Wages",					"change", changeHandler);
-	addListener("TaxExemptInterest",		"change", changeHandler);
-	addListener("TaxableInterest",			"change", changeHandler);
-	addListener("QualifiedDividends",		"change", changeHandler);
-	addListener("OrdinaryDividends",		"change", changeHandler);
-	addListener("RetirementAccounts",		"change", changeHandler);
-	addListener("SocialSecurity",			"change", changeHandler);
-	addListener("CapitalGains",				"change", changeHandler);
-	addListener("SelfEmploymentIncome",		"change", changeHandler);
-	addListener("OtherIncome",				"change", changeHandler);
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 
-	TurnOffDebug();
+	HTML.hideElement("debug-container");
 });

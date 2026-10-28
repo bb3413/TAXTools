@@ -1,142 +1,101 @@
 
-let tax_year				= 0;
-let ira_total				= 0;
-let taxpayers_birthday		= "";
-let taxpayers_age			= 0;
-let rmd						= 0;
-let input_color				= "";
-let output_color			= "";
+import { Dates }		from "../Library/Modules/Dates.js";
+import { Debug }		from "../Library/Modules/Debug.js";
+import { Ensure }		from "../Library/Modules/Ensure.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-const RMD_Table_III = [	// Uniform Lifetime Table
-	//			Distribution
-	// 	Age		Period
-	[	72,		27.4,	],
-	[	73,		26.5,	],
-	[	74,		25.5,	],
-	[	75,		24.6,	],
-	[	76,		23.7,	],
-	[	77,		22.9,	],
-	[	78,		22.0,	],
-	[	79,		21.1,	],
-	[	80,		20.2,	],
-	[	81,		19.4,	],
-	[	82,		18.5,	],
-	[	83,		17.7,	],
-	[	84,		16.8,	],
-	[	85,		11.6,	],
-	[	86,		15.2,	],
-	[	87,		14.4,	],
-	[	88,		13.7,	],
-	[	89,		12.9,	],
-	[	90,		12.2,	],
-	[	91,		11.5,	],
-	[	92,		10.8,	],
-	[	93,		10.1,	],
-	[	94,		9.5,	],
-	[	95,		8.9,	],
-	[	96,		8.4,	],
-	[	97,		7.8,	],
-	[	98,		7.3,	],
-	[	99,		6.8,	],
-	[	100,	6.4,	],
-	[	101,	6.0,	],
-	[	102,	5.6,	],
-	[	103,	5.2,	],
-	[	104,	4.9,	],
-	[	105,	4.6,	],
-	[	106,	4.3,	],
-	[	107,	4.1,	],
-	[	108,	3.9,	],
-	[	109,	3.7,	],
-	[	110,	3.5,	],
-	[	111,	3.4,	],
-	[	112,	3.3,	],
-	[	113,	3.1,	],
-	[	114,	3.0,	],
-	[	115,	2.9,	],
-	[	116,	2.9,	],
-	[	117,	2.7,	],
-	[	118,	2.5,	],
-	[	119,	2.3,	],
-	[	120,	2.0,	],
-];
+import { ERROR_MESSAGE_OUTPUT }	from "../Library/TAXTools/TAXTools.js";
 
-function CalculateRMD() {
-	let end_of_year				= "";
-	let period					= 0;
+let input_color			= "";
+let output_color		= "";
 
-	if (tax_year === 0) {
-		tax_year = getTaxYear();
-		putUserOutput("TaxYear", tax_year, "text");
-	}
+function calculateRMD(inputs) {
+	const tt		= TaxTable.getTaxTable(inputs.tax_year);
+	const outputs	= {};
 
-	if (taxpayers_birthday !== "") {
-		end_of_year				= new Date("12/31/" + tax_year).toLocaleDateString();
-		taxpayers_age			= Age(taxpayers_birthday, end_of_year);
-		changeBackgroundColor("TaxpayersAge", output_color);
+	if (inputs.taxpayers_birthday !== "") {
+		outputs.taxpayers_age =
+			Dates.getEndOfYearAge(inputs.taxpayers_birthday, inputs.tax_year);
+		HTML.changeBackgroundColor("TaxpayersAge", output_color);
 	} else {
-		changeBackgroundColor("TaxpayersAge", input_color);
+		outputs.taxpayers_age = inputs.taxpayers_age;
+		HTML.changeBackgroundColor("TaxpayersAge", input_color);
 	}
 
-	if (taxpayers_age < 73) {
-		rmd = 0;
+	if (outputs.taxpayers_age < 73) {
+		outputs.rmd = 0;
 	} else {
-		if (taxpayers_age > 120) {
-			period = 2;
-		} else {
-			for (let row = 0; row < RMD_Table_III.length; row++) {
-				if (taxpayers_age === RMD_Table_III[row][0]) {
-					period = RMD_Table_III[row][1];
-					break;
-				}
-			}
-		}
-
-		rmd = Math.round(ira_total / period);
+		outputs.rmd = Math.round(inputs.ira_total / tt.getRMDPeriod(outputs.taxpayers_age));
 	}
+
+	return outputs;
 }
 
-function PutOutput() {
-	putUserOutput("TaxpayersAge",	taxpayers_age);
-	putUserOutput("RMD",			rmd);
-}
-
-function GetInput() {
-	tax_year				= getUserInput("TaxYear");
-	ira_total				= getUserInput("IRATotal");
-	taxpayers_birthday		= getUserInput("TaxpayersBirthday",	"text");
-	taxpayers_age			= getUserInput("TaxpayersAge");
-
-	rmd						= 0;
-}
-
-function ChangedAge(event) {
-	const age = getUserInput("TaxpayersAge");
+function changeAge(event) {
+	const age = HTML.getUserInput("TaxpayersAge");
 	if (age !== 0)
-		putUserOutput("TaxpayersBirthday", "");
+		HTML.putUserOutput("TaxpayersBirthday", "");
 
-	ChangeHandler(event);
+	changeHandler(event);
 }
 
-function ChangeHandler(event) {
-	// This is the function that is called if any input field is changed.
-	TurnOffDebug();
-	GetInput();
-	CalculateRMD();
-	PutOutput();
-	TurnOnDebug();
+function changeHandler(event) {
+	//
+	// This function is called when any input field is changed.
+	//
+	try {
+		resetAll();
+		const inputs	= getInputs();						// Get inputs from the web page
+		const outputs	= calculateRMD(inputs);
+		putOutputs(outputs);								// Put results on web page
+		Debug.turnOn();										// Put debug info on web page
+	} catch (error) {
+		Ensure.processError(error);
+	}
+}
+
+function getInputs() {
+	//
+	// Get the values from the web page. Put them in an object literal so the values
+	// can be accessed by name.
+	//
+	const inputs = {};
+
+	// Input fields
+	inputs.tax_year					= HTML.getUserInput("tax-year");
+	inputs.ira_total				= HTML.getUserInput("IRATotal");
+	inputs.taxpayers_birthday		= HTML.getUserInput("TaxpayersBirthday", "text");
+	inputs.taxpayers_age			= HTML.getUserInput("TaxpayersAge");
+
+	return inputs;
+}
+
+function putOutputs(outputs) {
+	HTML.putUserOutput("TaxpayersAge",	outputs.taxpayers_age);
+	HTML.putUserOutput("RMD",			outputs.rmd);
+}
+
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
+	//
+	HTML.addListener("tax-year",			"change", changeHandler);
+	HTML.addListener("IRATotal",			"change", changeHandler);
+	HTML.addListener("TaxpayersBirthday",	"change", changeHandler);
+	HTML.addListener("TaxpayersAge",		"change", changeAge);
 
-	addListener("TaxYear",				"change", ChangeHandler);
-	addListener("IRATotal",				"change", ChangeHandler);
-	addListener("TaxpayersBirthday",	"change", ChangeHandler);
-	addListener("TaxpayersAge",			"change", ChangedAge);
+	output_color	= HTML.getCSSGlobalVariable("--output-color");
+	input_color		= HTML.getCSSGlobalVariable("--input-color");
 
-	output_color	= getCSSGlobalVariable("--output-color");
-	input_color		= getCSSGlobalVariable("--input-color");
-
-	ChangeHandler();
+	HTML.putUserOutput("tax-year", Dates.getTaxYear(), "text");		// Default tax year.
+	HTML.hideElement("debug-container");
 });

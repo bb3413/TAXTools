@@ -1,45 +1,11 @@
+
+import { Eval } from "../Library/Modules/Eval.js";
+
 let currentInput = "";
 const display = document.getElementById("display");
 
-// This function processes input from the keyboard.
-display.addEventListener("input", (e) => {
-	let val = e.target.value;
-
-	// Handle the leading zero logic for keyboard typing
-	if (/^0[0-9]/.test(val)) {
-		val = val.substring(1);
-	} else if (val === "0-") {
-		val = "-";
-	}
-
-	currentInput = val.replace(/[^0-9+\-*/().,]/g, "");
-	updateDisplay(e.target.selectionStart);
-});
-
-// --- UI & Cursor Logic ---
-function updateDisplay(newCursorPos = null) {
-	display.value = currentInput || "0";
-
-	let position;
-	if (newCursorPos !== null) {
-		position = newCursorPos;
-	} else {
-		position = display.value.length;
-	}
-
-	// Force cursor to the right of the placeholder "0"
-	if (display.value === "0" && position === 0) {
-		position = 1;
-	}
-
-	setTimeout(() => {
-		display.focus();
-		display.setSelectionRange(position, position);
-	}, 0);
-}
-
-// This function processes input from the calculator buttons.
 function appendToDisplay(value) {
+	// This function processes input from the calculator buttons.
 	const start = display.selectionStart;
 	const end = display.selectionEnd;
 
@@ -72,6 +38,33 @@ function appendToDisplay(value) {
 	updateDisplay(start + value.length);
 }
 
+function calculateResult() {
+	if (!currentInput) return;
+	try {
+		const cleanInput = currentInput.replace(/,/g, "");
+		let result = Eval.expression(cleanInput);	// Use the TAXTools version of solve().
+
+		// Overflow check: cap at 12 digits or Handle Infinity
+		if (!isFinite(result) || Math.abs(result) > 999999999999) {
+			display.value = "Overflow Error";
+			currentInput = "";
+			return;
+		}
+
+		// Precision handling: convert to 12 sig figs then back to string
+		currentInput = Number(parseFloat(result.toPrecision(12)).toString()).toString();
+		updateDisplay(currentInput.length);
+	} catch (error) {
+		display.value = "Error";
+		currentInput = "";
+	}
+}
+
+function clearDisplay() {
+	currentInput = "";
+	updateDisplay();
+}
+
 function deleteAtCursor() {
 	const start = display.selectionStart;
 	const end = display.selectionEnd;
@@ -86,66 +79,17 @@ function deleteAtCursor() {
 	}
 }
 
-function clearDisplay() {
-	currentInput = "";
-	updateDisplay();
-}
-
-function calculateResult() {
-	if (!currentInput) return;
-	try {
-		const cleanInput = currentInput.replace(/,/g, "");
-		let result = evalExpression(cleanInput);	// Use the TaxTools version of solve().
-
-		// Overflow check: cap at 12 digits or Handle Infinity
-		if (!isFinite(result) || Math.abs(result) > 999999999999) {
-			display.value = "Overflow Error";
-			currentInput = "";
-			return;
-		}
-
-		// Precision handling: convert to 12 sig figs then back to string
-		currentInput = Number(parseFloat(result.toPrecision(12)).toString()).toString();
-		updateDisplay(currentInput.length);
-	} catch (e) {
-		display.value = "Error";
-		currentInput = "";
-	}
-}
-
-// --- Keyboard Hooks ---
-document.addEventListener("keydown", (e) => {
-	if (e.key === "Backspace") {
-		e.preventDefault();
-		deleteAtCursor();
-	}
-	if (e.key === "Enter" || e.key === "=") {
-		e.preventDefault();
-		calculateResult();
-	}
-	if (e.key === "Escape") {
-		e.preventDefault();
-		clearDisplay();
-	}
-});
-
-// --- Initialization ---
-window.onload = () => {
-	currentInput = "";
-	updateDisplay(1);
-};
-
-// --- Shunting-yard Engine ---
 function solve(input) {
+	// --- Shunting-yard Engine ---
 	const tokens = input.match(/\d*\.?\d+|[+\-*/()]/g);
 	if (!tokens) return 0;
 
 	const ops = {
-		"+": { prec: 1, assoc: "L", exec: (a, b) => a + b },
-		"-": { prec: 1, assoc: "L", exec: (a, b) => a - b },
-		"*": { prec: 2, assoc: "L", exec: (a, b) => a * b },
-		"/": { prec: 2, assoc: "L", exec: (a, b) => a / b },
-		"u-": { prec: 3, assoc: "R", exec: (a) => -a }
+		"+": { precision: 1, assoc: "L", exec: (a, b) => a + b },
+		"-": { precision: 1, assoc: "L", exec: (a, b) => a - b },
+		"*": { precision: 2, assoc: "L", exec: (a, b) => a * b },
+		"/": { precision: 2, assoc: "L", exec: (a, b) => a / b },
+		"u-": { precision: 3, assoc: "R", exec: (a) => -a }
 	};
 
 	const queue = [];
@@ -161,12 +105,14 @@ function solve(input) {
 			stack.pop();
 		} else {
 			let type = token;
-			if (token === "-" && (i === 0 || (isNaN(tokens[i - 1]) && tokens[i - 1] !== ")"))) {
+			if (token === "-" &&
+				(i === 0 || (isNaN(tokens[i - 1]) && tokens[i - 1] !== ")"))) {
 				type = "u-";
 			}
 			while (stack.length && stack[stack.length - 1] !== "(") {
 				const top = stack[stack.length - 1];
-				if (ops[type].prec < ops[top].prec || (ops[type].prec === ops[top].prec && ops[type].assoc === "L")) {
+				if (ops[type].precision < ops[top].precision ||
+					(ops[type].precision === ops[top].precision && ops[type].assoc === "L")) {
 					queue.push(stack.pop());
 				} else break;
 			}
@@ -188,3 +134,77 @@ function solve(input) {
 	});
 	return evalStack[0] || 0;
 }
+
+function updateDisplay(newCursorPos = null) {
+	// --- UI & Cursor Logic ---
+	display.value = currentInput || "0";
+
+	let position;
+	if (newCursorPos !== null) {
+		position = newCursorPos;
+	} else {
+		position = display.value.length;
+	}
+
+	// Force cursor to the right of the placeholder "0"
+	if (display.value === "0" && position === 0) {
+		position = 1;
+	}
+
+	setTimeout(() => {
+		display.focus();
+		display.setSelectionRange(position, position);
+	}, 0);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	document.querySelector('.buttons').addEventListener('click', (event) => {
+		const button = event.target;
+		if (!button.matches('button')) return;
+
+		const action = button.dataset.action;
+		const val = button.dataset.val;
+
+		if (action === 'clear') clearDisplay();
+		else if (action === 'delete') deleteAtCursor();
+		else if (action === 'calculate') calculateResult();
+		else if (val) appendToDisplay(val);
+	});
+
+	display.addEventListener("input", (e) => {
+		// This function processes input from the keyboard.
+		let val = e.target.value;
+
+		// Handle the leading zero logic for keyboard typing
+		if (/^0[0-9]/.test(val)) {
+			val = val.substring(1);
+		} else if (val === "0-") {
+			val = "-";
+		}
+
+		currentInput = val.replace(/[^0-9+\-*/().,]/g, "");
+		updateDisplay(e.target.selectionStart);
+	});
+
+	document.addEventListener("keydown", (e) => {
+		// --- Keyboard Hooks ---
+		if (e.key === "Backspace") {
+			e.preventDefault();
+			deleteAtCursor();
+		}
+		if (e.key === "Enter" || e.key === "=") {
+			e.preventDefault();
+			calculateResult();
+		}
+		if (e.key === "Escape") {
+			e.preventDefault();
+			clearDisplay();
+		}
+	});
+});
+
+window.onload = () => {
+	// --- Initialization ---
+	currentInput = "";
+	updateDisplay(1);
+};

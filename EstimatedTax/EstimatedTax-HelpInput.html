@@ -1,41 +1,42 @@
 
 	<!--
-	This file may be included in other files. It contains information that is used
-	for both tooltips and help page information.
+	This file contains information that is used for both tooltips and help page information.
 
 	The entire block of HTML code is enclosed in a DIV section with a style named
 	"help-fields". This can be used to define sub-styles that only affect the
 	elements in this section.
+
 	-->
 
 	<div class="help-fields">
-		<div class="tooltip" id="TaxYearTT">
+		<div class="tooltip" id="tax-year-tt">
 			<h4>Tax Year</h4>
-			<p>Selecting a year from this drop-down list will change the estimated tax
-			calculator to use the tax tables for that year. It will continue to use the data
-			that has already been entered.</p>
+			<p>Selecting a year from this drop-down list will change the tool to use the
+			tax tables for that year. Any tax information that you have already entered
+			will not be affected by changing the tax year.</p>
 		</div>
 
-		<div class="tooltip" id="SaveButtonTT">
+		<div class="tooltip" id="save-button-tt">
 			<h4>Save Button</h4>
-			<p>Pressing the "Save" button will save the data in the estimated tax calculator
-			to a text file named "EstimatedTax.txt" in your Downloads folder. This data can be
-			reloaded by pressing the "Restore" button.</p>
+			<p>Pressing the "Save" button will save the data that has been entered to a
+			text file in your Downloads folder. This data can be reloaded by pressing the
+			"Restore" button.</p>
 		</div>
 
-		<div class="tooltip" id="RestoreButtonTT">
+		<div class="tooltip" id="restore-button-tt">
 			<h4>Restore Button</h4>
-			<p>Pressing the "Restore" button will reload the estimated tax calculator with
-			information that was previously saved.</p>
+			<p>Pressing the "Restore" button will reload the data from a file into the
+			tool. This will replace any data that is already there. The file must have been
+			previously saved by this tool.</p>
 		</div>
 
-		<!-----  Taxpayer Information  ------------------------------------------------------>
+		<!-----  Taxpayer Information  ----------------------------------------------------->
 		<h3>Taxpayer Information</h3>
 		<div class="tooltip" id="TaxpayersNameTT">
 			<h4>Taxpayer's Name</h4>
-			<p>This is the name of the taxpayer. It is only used to identify the taxpayer that
-			the information belongs to. This may be useful if the information is saved or
-			printed.</p>
+			<p>This is the name of the taxpayer. It is only used to identify the taxpayer
+			that the information belongs to. This may be useful if the information is saved
+			or printed.</p>
 		</div>
 
 		<div class="tooltip" id="FilingStatusTT">
@@ -48,16 +49,18 @@
 		<div class="tooltip" id="TaxpayersBirthdayTT">
 			<h4>Taxpayer's Birthday</h4>
 			<p>This is used to determine if the taxpayer will be 65 or older at the end of
-			the tax year.</p>
+			the tax year, which is necessary to qualify for some tax benefits for seniors,
+			such as an increased standard deduction.</p>
 		</div>
 
 		<div class="tooltip" id="SpousesBirthdayTT">
 			<h4>Spouse's Birthday</h4>
-			<p>This is used to determine if the spouse will be 65 or older at the end of the
-			tax year.</p>
+			<p>This is used to determine if the spouse will be 65 or older at the end of
+			the tax year, which is necessary to qualify for some tax benefits for seniors,
+			such as an increased standard deduction.</p>
 		</div>
 
-		<div class="tooltip" id="TaxToolsVersionTT">
+		<div class="tooltip" id="tax-tools-version-tt">
 			<h4>Version</h4>
 			<p>This is the current version of the tax tools. The version number is actually a
 			link that you can click on to see the version history log.</p>
@@ -65,7 +68,8 @@
 
 		<div class="tooltip" id="TodaysDateTT">
 			<h4>Today's Date</h4>
-			<p>This is only used to help identify the information if it is saved or printed.</p>
+			<p>This is only used to help identify the information if it is saved or
+			printed.</p>
 		</div>
 
 		<div class="tooltip" id="TaxpayersAgeTT">
@@ -78,7 +82,7 @@
 			<p>This is the age the spouse will be at the end of the tax year.</p>
 		</div>
 
-		<!-----  Estimated Tax Calculation  ------------------------------------------------->
+		<!-----  Estimated Tax Calculation  ------------------------------------------------>
 		<h3>Estimated Tax Calculation</h3>
 		<div class="tooltip" id="TotalIncomeTT">
 			<h4>Total Income</h4>
@@ -103,9 +107,10 @@
 		<div class="tooltip" id="DeductionsTT">
 			<h4>Deductions</h4>
 			<p>This is an amount that can be subtracted from your taxable income before the
-			tax is computed. It is usually either the standard deduction or the sum of your itemized
-			deductions, whichever is larger. However, there are some deductions that are allowed
-			even if you do not itemize your deductions, which are also added to this amount.</p>
+			tax is computed. It is usually either the standard deduction or the sum of your
+			itemized deductions, whichever is larger. However, there are some deductions that
+			are allowed even if you do not itemize your deductions, which are also added to
+			this amount.</p>
 		</div>
 
 		<div class="tooltip" id="TaxableIncomeTT">
@@ -122,15 +127,15 @@
 
 		<div class="tooltip" id="TotalOtherTaxesTT">
 			<h4>Other Taxes</h4>
-			<p>These are other less common taxes, such as self-employment tax or the extra tax
-			on the early distribution from a retirement account.</p>
+			<p>These are other less common taxes, such as self-employment tax or the extra
+			tax on the early distribution from a retirement account.</p>
 		</div>
 
 		<div class="tooltip" id="NonrefundableCreditsTT">
 			<h4>Non-refundable Credits</h4>
-			<p>Credits are amounts that are subtracted from your tax (as compared to deductions, which are
-			amounts that are subtracted from your taxable income). At most, non-refundable credits can reduce
-			your tax to $0.</p>
+			<p>Credits are amounts that are subtracted from your tax (as compared to
+			deductions, which are amounts that are subtracted from your taxable income).
+			At most, non-refundable credits can reduce your tax to $0.</p>
 		</div>
 
 		<div class="tooltip" id="TotalTaxTT">
@@ -159,18 +164,18 @@
 
 		<div class="tooltip" id="EstimatedTaxTT">
 			<h4>Estimated Quarterly Payments</h4>
-			<p>The estimated payments are calculated as the amount you owe plus the amount of estimated
-			taxes you paid. If the amount is less than $1,000, estimated payments are not required;
-			otherwise, they need to be paid in four quarterly payments.</p>
+			<p>The estimated payments are calculated as the amount you owe plus the amount of
+			estimated taxes you paid. If the amount is less than $1,000, estimated payments
+			are not required; otherwise, they need to be paid in four quarterly payments.</p>
 		</div>
 
-		<!-----  Income  -------------------------------------------------------------------->
+		<!-----  Income  ------------------------------------------------------------------->
 		<h3>Income</h3>
 		<div class="tooltip" id="WagesTT">
 			<h4>Wages</h4>
 			<p>Wages includes all earned income (payments for work). The tool does not have a
-			separate entry for small business income, so you need to add net profit from a small
-			business (income minus expenses) to wages.</p>
+			separate entry for small business income, so you need to add net profit from a
+			small business (income minus expenses) to wages.</p>
 		</div>
 
 		<div class="tooltip" id="TaxExemptInterestTT">
@@ -226,46 +231,52 @@
 
 		<div class="tooltip" id="SelfEmploymentIncomeTT">
 			<h4>Self-employment Income</h4>
-			<p>Self-employment income is the net profit from a small business, which is the amount of
-			money a business has left after subtracting all its expenses from its total income.</p>
+			<p>Self-employment income is the net profit from a small business, which is the
+			amount of money a business has left after subtracting all its expenses from its
+			total income.</p>
 		</div>
 
 		<div class="tooltip" id="OtherIncomeTT">
 			<h4>Other Income</h4>
-			<p>This is a catch all field for income not covered in one of the other fields.</p>
+			<p>This is a catch all field for income not covered in one of the other
+			fields.</p>
 		</div>
 
-		<!-----  Other Taxes  --------------------------------------------------------------->
+		<!-----  Other Taxes  -------------------------------------------------------------->
 		<h3>Other Taxes</h3>
 		<div class="tooltip" id="SelfEmploymentTaxTT">
 			<h4>Self-employment Tax</h4>
-			<p>A tax that self-employed individuals must pay to fund Social Security and Medicare.
-			This tax applies to net profit from self-employment that exceed $400 in a year. The self-employment
-			tax rate is 15.3%, which is 12.4% for Social Security plus 2.9% for Medicare.</p>
+			<p>A tax that self-employed individuals must pay to fund Social Security and
+			Medicare. This tax applies to net profit from self-employment that exceed $400
+			in a year. The self-employment tax rate is 15.3%, which is 12.4% for Social
+			Security plus 2.9% for Medicare.</p>
 		</div>
 		<div class="tooltip" id="EarlyWithdrawalTaxTT">
 			<h4>Early Withdrawal Tax</h4>
-			<p>If you make an early withdrawal from a tax advantaged account, there is often a 10% or 20%
-			additional tax on the withdrawal amount.</p>
+			<p>If you make an early withdrawal from a tax advantaged account, there is often
+			a 10% or 20% additional tax on the withdrawal amount.</p>
 		</div>
 		<div class="tooltip" id="OtherTaxesTT">
 			<h4>Other Taxes</h4>
-			<p>This is a catch all field for taxes not covered in one of the other fields.</p>
+			<p>This is a catch all field for taxes not covered in one of the other
+			fields.</p>
 		</div>
 
-		<!-----  Adjustments  --------------------------------------------------------------->
+		<!-----  Adjustments  -------------------------------------------------------------->
 		<h3>Adjustments</h3>
 		<div class="tooltip" id="EducatorExpensesTT">
 			<h4>Educator Expenses</h4>
-			<p>Educators can deduct up to $300 each for the taxpayer and spouse for unreimbursed
-			classroom expenses. Educators may be a teacher, counselor, principal, or aide that
-			worked at least 900 hours in a K-12 school during the tax year.</p>
+			<p>Educators can deduct up to $350 each for the taxpayer and spouse for
+			un-reimbursed classroom expenses. Educators may be a teacher, counselor,
+			principal, or aide that worked at least 900 hours in a K-12 school during
+			the tax year.</p>
 		</div>
 
 		<div class="tooltip" id="HealthSavingsAccountTT">
 			<h4>Health Savings Account Contributions</h4>
-			<p>After tax contributions to Health Savings Accounts (HSA"s) may be deductible from
-			income. The total contributions to an HSA are limited to a yearly amount.</p>
+			<p>After tax contributions to Health Savings Accounts (HSA"s) may be deductible
+			from income. The total contributions to an HSA are limited to a yearly
+			amount.</p>
 		</div>
 
 		<div class="tooltip" id="SelfEmploymentTaxAdjustmentTT">
@@ -275,10 +286,11 @@
 
 		<div class="tooltip" id="SelfEmployedHealthInsuranceTT">
 			<h4>Self-employed Health Insurance</h4>
-			<p>Self-employed taxpayers can deduct their health insurance premiums for medical (including
-			Medicare), dental, and long-term care coverage for themselves, their spouses, and their
-			dependents. The amount of this deduction is limited to the net profit from the business; any
-			excess premiums can be deducted as an itemized deduction.</p>
+			<p>Self-employed taxpayers can deduct their health insurance premiums for medical
+			(including Medicare), dental, and long-term care coverage for themselves, their
+			spouses, and their dependents. The amount of this deduction is limited to the net
+			profit from the business; any excess premiums can be deducted as an itemized
+			deduction.</p>
 		</div>
 
 		<div class="tooltip" id="EarlyWithdrawalPenaltyTT">
@@ -288,43 +300,47 @@
 
 		<div class="tooltip" id="AlimonyPaidTT">
 			<h4>Alimony Paid</h4>
-			<p>If you were divorced before 2018 and are required to pay alimony, enter the amount you
-			paid during the tax year.</p>
+			<p>If you were divorced before 12/31/2018 and required to pay alimony, the amount
+			of alimony you paid can be deducted on your federal and California tax returns.
+			If you were divorced after 12/31/2018, the amount of alimony you paid can only be
+			deducted on your California tax return.</p>
 		</div>
 
 		<div class="tooltip" id="IRAContributionsTT">
 			<h4>IRA Contributions</h4>
-			<p>After tax contributions to Traditional IRAs, SEP-IRAs, SIMPLE IRAs may be deductible
-			from income. The total contributions to an IRA are limited to a yearly amount and limited
-			by income.</p>
+			<p>After tax contributions to Traditional IRAs, SEP-IRAs, SIMPLE IRAs may be
+			deductible from income. The total contributions to an IRA are limited to a yearly
+			amount and limited by income.</p>
 		</div>
 
 		<div class="tooltip" id="StudentLoanInterestTT">
 			<h4>Student Loan Interest</h4>
-			<p>You can deduct up to $2,500 for student loan interest you paid during the tax year.
-			The same limit applies whether you are single or MFJ.</p>
+			<p>You can deduct up to $2,500 for student loan interest you paid during the tax
+			year. The same limit applies whether you are single or MFJ.</p>
 		</div>
 
 		<div class="tooltip" id="OtherAdjustmentsTT">
 			<h4>Other Adjustments</h4>
-			<p>This is a catch all field for adjustments not covered in one of the other fields.</p>
+			<p>This is a catch all field for adjustments not covered in one of the other
+			fields.</p>
 		</div>
 
-		<!-----  Deduction (non-itemized)  ------------------------------------------------------>
+		<!-----  Deduction (non-itemized)  ------------------------------------------------->
 		<h3>Deductions (non-itemized)</h3>
 		<div class="tooltip" id="QualifiedBusinessIncomeDeductionTT">
 			<h4>Qualified Business Income</h4>
-			<p>Qualified Business Income (QBI) refers to income from a qualified business. It is used
-			to determine the Qualified Business Income Deduction, which is a deduction of up to 20% of
-			QBI. Taxpayers without a business may have qualified business income from dividends paid
-			out by a REIT. This deduction is available even if you do not itemize deductions.</p>
+			<p>Qualified Business Income (QBI) refers to income from a qualified business.
+			It is used to determine the Qualified Business Income Deduction, which is a
+			deduction of up to 20% of QBI. Taxpayers without a business may have qualified
+			business income from dividends paid out by a REIT. This deduction is available
+			even if you do not itemize deductions.</p>
 		</div>
 		<div class="tooltip" id="QualifiedTipsDeductionTT">
 			<h4>Qualified Tips</h4>
-			<p>Up to $25,000 of qualified tips can be deducted. The limit is the same for both
-			single and joint filers. The tips are reported on W-2, box 5. The deduction phases
-			out when MAGI is $150,000-$300,000 for all filers. This deduction is available even if you
-			do not itemize deductions.</p>
+			<p>Up to $25,000 of qualified tips can be deducted. The limit is the same for
+			both single and joint filers. The tips are reported on W-2, box 5. The deduction
+			phases out when MAGI is $150,000-$300,000 for all filers. This deduction is
+			available even if you do not itemize deductions.</p>
 		</div>
 
 		<div class="tooltip" id="QualifiedOvertimeDeductionTT">
@@ -334,8 +350,8 @@
 			Standards Act is eligible. Overtime pay earned under state laws, collective
 			bargaining agreements, or employers" compensation plans isn"t eligible.
 			The deduction starts to phase out at a rate of $100 per $1,000 of income over
-			a MAGI of $150,000 for a single filer and $300,000 for joint filers. This deduction
-			is available even if you do not itemize deductions.</p>
+			a MAGI of $150,000 for a single filer and $300,000 for joint filers. This
+			deduction is available even if you do not itemize deductions.</p>
 		</div>
 
 		<div class="tooltip" id="CarLoanInterestDeductionTT">
@@ -348,13 +364,13 @@
 
 		<div class="tooltip" id="SeniorDeductionTT">
 			<h4>Enhanced Deduction for Seniors</h4>
-			<p>$6,000 deduction each for the taxpayer and spouse if they are 65 or older. The
-			deduction phases out when MAGI is $75,000-$175,000 for single filers and
-			$150,000-$250,000 for joint filers. This deduction is available even if you do not
-			itemize deductions.</p>
+			<p>$6,000 deduction each for the taxpayer and spouse if they are 65 or older.
+			The deduction phases out when MAGI is $75,000-$175,000 for single filers and
+			$150,000-$250,000 for joint filers. This deduction is available even if you do
+			not itemize deductions.</p>
 		</div>
 
-		<!-----  Deduction  ----------------------------------------------------------------->
+		<!-----  Deduction  ---------------------------------------------------------------->
 		<h3>Deductions</h3>
 		<div class="tooltip" id="MedicalInsuranceTT">
 			<h4>Medical Insurance</h4>
@@ -430,9 +446,10 @@
 
 		<div class="tooltip" id="RealEstatePropertyTaxTT">
 			<h4>Real Estate Property Tax</h4>
-			<p>Real estate property tax is typically paid in two installments, one in December
-			and another one in April of the next year. The real estate property tax you can
-			deduct is the sum of any installments that were paid during the tax year.</p>
+			<p>Real estate property tax is typically paid in two installments, one in
+			December and another one in April of the next year. The real estate property tax
+			you can deduct is the sum of any installments that were paid during the tax
+			year.</p>
 		</div>
 
 		<div class="tooltip" id="PersonalPropertyTaxTT">
@@ -461,22 +478,22 @@
 
 		<div class="tooltip" id="QualifiedCharitableDistributionTT">
 			<h4>Qualified Charitable Distribution</h4>
-			<p>A qualified charitable distribution (QCD) is a direct transfer of money from an
-			IRA to a charity. This allows a taxpayer that is 70 1/2 or older to make a cash gift
-			without having to pay taxes on the withdrawal.</p>
+			<p>A qualified charitable distribution (QCD) is a direct transfer of money from
+			an IRA to a charity. This allows a taxpayer that is 70 1/2 or older to make a
+			cash gift without having to pay taxes on the withdrawal.</p>
 
 			<p>If you enter a value here for a QCD, instead of being added as a deduction, it
-			will be subtracted from the amount you enter for "Retirement Accounts" in the income
-			section above.</p>
+			will be subtracted from the amount you enter for "Retirement Accounts" in the
+			income section above.</p>
 		</div>
 
-		<!-----  Non-rfefundable Credits  --------------------------------------------------->
+		<!-----  Non-refundable Credits  -------------------------------------------------->
 		<h3>Non-refundable Credits</h3>
 		<div class="tooltip" id="AmericanOppCreditNoRefundTT">
 			<h4>American Opportunity Credit (non-refundable part)</h4>
-			<p>The American Opportunity Credit may be available to pay up to $2000 per student of
-			education expenses for the taxpayer, spouse, and dependents. An additional $500 may be
-			available as a refundable credit.</p>
+			<p>The American Opportunity Credit may be available to pay up to $2000 per
+			student of education expenses for the taxpayer, spouse, and dependents. An
+			additional $500 may be available as a refundable credit.</p>
 		</div>
 
 		<div class="tooltip" id="ChildCareCreditTT">
@@ -502,8 +519,8 @@
 
 		<div class="tooltip" id="LifetimeLearningCreditTT">
 			<h4>Lifetime Learning Credit</h4>
-			<p>The Lifetime Learning Credit may be available to help pay for education expenses
-			for the taxpayer, spouse, and dependents up to $2000 per tax return.</p>
+			<p>The Lifetime Learning Credit may be available to help pay for education
+			expenses for the taxpayer, spouse, and dependents up to $2000 per tax return.</p>
 		</div>
 
 		<div class="tooltip" id="ResidentialEnergyCreditTT">
@@ -524,13 +541,13 @@
 			other fields.</p>
 		</div>
 
-		<!-----  Refundable Credits  -------------------------------------------------------->
+		<!-----  Refundable Credits  ------------------------------------------------------->
 		<h3>Refundable Credits</h3>
 		<div class="tooltip" id="AmericanOppCreditRefundableTT">
 			<h4>American Opportunity Credit (non-refundable part)</h4>
-			<p>The American Opportunity Credit may be available to pay up to $2000 per student of
-			education expenses for the taxpayer, spouse, and dependents. An additional $500 may be
-			available as a refundable credit.</p>
+			<p>The American Opportunity Credit may be available to pay up to $2000 per
+			student of education expenses for the taxpayer, spouse, and dependents. An
+			additional $500 may be available as a refundable credit.</p>
 		</div>
 
 		<div class="tooltip" id="CreditForOtherDependentsTT">
@@ -541,15 +558,16 @@
 
 		<div class="tooltip" id="EarnedIncomeCreditTT">
 			<h4>Earned Income Credit</h4>
-			<p>The Earned Income Credit (EIC) is a credit to help low-income families. The taxpayer must
-			have earned income and cannot have more than $11,600 of unearned income. The credit is based
-			on income and number of qualifying children. The maximum abmount of the credit is $8,046.</p>
+			<p>The Earned Income Credit (EIC) is a credit to help low-income families. The
+			taxpayer must have earned income and cannot have more than $11,600 of unearned
+			income. The credit is based on income and number of qualifying children. The
+			maximum amount of the credit is $8,046.</p>
 		</div>
 
 		<div class="tooltip" id="PremiumTaxCreditTT">
 			<h4>Premium Tax Credit</h4>
-			<p>This credit is part of the Affordable Care Act that is available to help pay the
-			cost of medical insurance for taxpayers and their dependents.</p>
+			<p>This credit is part of the Affordable Care Act that is available to help pay
+			the cost of medical insurance for taxpayers and their dependents.</p>
 		</div>
 
 		<div class="tooltip" id="OtherRefundableCreditsTT">
@@ -558,7 +576,7 @@
 			other fields.</p>
 		</div>
 
-		<!-----  Payments  ------------------------------------------------------------------>
+		<!-----  Payments  ----------------------------------------------------------------->
 		<h3>Payments</h3>
 		<div class="tooltip" id="WithholdingTT">
 			<h4>Withholding</h4>

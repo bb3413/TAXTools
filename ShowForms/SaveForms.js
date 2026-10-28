@@ -1,0 +1,65 @@
+
+import { Classes }		from "../Library/Modules/Classes.js";
+import { Ensure }		from "../Library/Modules/Ensure.js";
+import { File }			from "../Library/Modules/File.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
+
+const header = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href=
+		"https://www.bruceblinn.com/6-OtherStuff/Taxes/TAXToolsDev/Library/CSS/TAXTools.css" />
+	<link rel="stylesheet" href=
+		"https://www.bruceblinn.com/6-OtherStuff/Taxes/TAXToolsDev/Library/CSS/TaxForms.css" />
+	<link rel="stylesheet" href=
+		"https://www.bruceblinn.com/6-OtherStuff/Taxes/TAXToolsDev/Library/CSS/F1099.css" />
+	<title>Save Tax Forms</title>
+</head>
+
+<body>
+	<div class="taxtool-container">
+	<!---------------------------------------------------------------------------->
+`;
+
+const trailer = `
+	<!---------------------------------------------------------------------------->
+	</div>
+</body>
+</html>
+`;
+
+async function saveInputForm(formname) {
+	let [ form_id, html ] = Classes.getHTML(formname, 1);
+	let page = header + html.replace(/<details /g, "<details open ") + trailer;
+	await File.saveToFile(page, `${formname}.html`, false);
+}
+
+async function saveOutputForm(formname) {
+	let form = TaxFormObj.getOrCreateForm(formname);
+	let [ form_id, html ] = form.getHTML(1);
+	let page = header + html.replace(/<details /g, "<details open ") + trailer;
+	await File.saveToFile(page, `${formname}.html`, false);
+}
+
+async function saveHandler(event) {
+	try {
+		for (const formname of Classes.listAllForms()) {
+			if (Classes.isInputForm(formname)) {
+				await saveInputForm(formname);
+			}
+
+			if (Classes.isOutputForm(formname)) {
+				await saveOutputForm(formname);
+			}
+		}
+	} catch (error) {
+		Ensure.processError(error);
+	}
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	document.getElementById("save-button").addEventListener("click", saveHandler);
+});

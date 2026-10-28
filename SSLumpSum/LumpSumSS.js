@@ -1,146 +1,223 @@
 
-function CalculategetTaxableSocialSecurity(event) {
-	// Current year
-	const filing_status_0			= getUserInput("FilingStatus-0", "text");
-	const ss_received_0				= getUserInput("SocialSecurity-0");
-	const ss_income_0				= getUserInput("Income-0");
-	const tax_exempt_interest_0		= getUserInput("TaxExemptInterest-0");
-	const adjustments_0				= getUserInput("Adjustments-0");
-	let ss_taxable_0				= 0;
-	let ss_received_alt				= 0;
-	let ss_taxable_alt				= 0;
+import { Dates }		from "../Library/Modules/Dates.js";
+import { Debug }		from "../Library/Modules/Debug.js";
+import { Ensure }		from "../Library/Modules/Ensure.js";
+import { HTML }			from "../Library/Modules/HTML.js";
+import { SaveRestore }	from "../Library/Modules/SaveRestore.js";
+import { TaxFormObj }	from "../Library/Modules/TaxFormObj.js";
+import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
+import { TaxTable }		from "../Library/Modules/TaxTable.js";
 
-	// Previous year 1
-	const filing_status_1			= getUserInput("FilingStatus-1", "text");
-	const lump_sum_1				= getUserInput("LumpSum-1");
-	const agi_1						= getUserInput("AGI-1");
-	const tax_exempt_interest_1		= getUserInput("TaxExemptInterest-1");
-	const ss_received_reported_1	= getUserInput("SocialSecurityReceivedReported-1");
-	const ss_taxable_reported_1		= getUserInput("SocialSecurityTaxableReported-1");
-	let ss_taxable_new_1			= 0;
+import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
+import { ERROR_MESSAGE_OUTPUT }		from "../Library/TAXTools/TAXTools.js";
+import { SS_LUMP_SUM_SAVE_FILE }	from "../Library/TAXTools/TAXTools.js";
 
-	// Previous year 2
-	const filing_status_2			= getUserInput("FilingStatus-2", "text");
-	const lump_sum_2				= getUserInput("LumpSum-2");
-	const agi_2						= getUserInput("AGI-2");
-	const tax_exempt_interest_2		= getUserInput("TaxExemptInterest-2");
-	const ss_received_reported_2	= getUserInput("SocialSecurityReceivedReported-2");
-	const ss_taxable_reported_2		= getUserInput("SocialSecurityTaxableReported-2");
-	let ss_taxable_new_2			= 0;
+const SAVE_FILE		= SS_LUMP_SUM_SAVE_FILE;
+const FIELD_INFO	= {
+	// Field Name						Value Type
+	"FilingStatus-0":					["text"],
+	"SocialSecurity-0":					[""],
+	"Income-0":							[""],
+	"TaxExemptInterest-0":				[""],
+	"Adjustments-0":					[""],
 
-	let taxable_percent				= 0;
+	// Lump Sum Payment #1
+	"FilingStatus-1":					["text"],
+	"LumpSum-1":						[""],
+	"AGI-1":							[""],
+	"TaxExemptInterest-1":				[""],
+	"SocialSecurityReceivedReported-1":	[""],
+	"SocialSecurityTaxableReported-1":	[""],
 
-	putUserOutput("TaxableSocialSecurity-0",	0);
-	putUserOutput("TaxablePercent-0",			"0%", "text");
-	putUserOutput("TaxableSocialSecurityAlt",	0);
-	putUserOutput("TaxablePercentAlt",			"0%", "text");
-	putUserOutput("TaxableSocialSecurityNew-1",	0);
-	putUserOutput("TaxablePercent-1",			"0%", "text");
-	putUserOutput("TaxableSocialSecurityNew-2",	0);
-	putUserOutput("TaxablePercent-2",			"0%", "text");
-	if (ss_received_0 === 0) {
-		return;
+	// Lump Sum Payment #2
+	"FilingStatus-2":					["text"],
+	"LumpSum-2":						[""],
+	"AGI-2":							[""],
+	"TaxExemptInterest-2":				[""],
+	"SocialSecurityReceivedReported-2":	[""],
+	"SocialSecurityTaxableReported-2":	[""],
+};
+
+
+function calculateTax(inputs) {
+	const outputs				= {};
+	outputs.ss_taxable_0		= 0;
+	outputs.ss_taxable_alt		= 0;
+	outputs.ss_taxable_new_1	= 0;
+	outputs.ss_taxable_new_2	= 0;
+
+	const ss_tax_0		= TaxFormObj.createForm("SSTax");
+	const ss_tax_alt	= TaxFormObj.createForm("SSTax");
+	const ss_tax_1		= TaxFormObj.createForm("SSTax");
+	const ss_tax_2		= TaxFormObj.createForm("SSTax")
+
+	if (inputs.ss_received_0 < inputs.lump_sum_1 + inputs.lump_sum_2) {
+		throw new Error(
+			"Sum of lump sum payments cannot be greater that the total benefits received.");
 	}
 
-	InitializeTaxTables(filing_status_0);
-
-
 	// Current year - Standard Method
-	ss_taxable_0 = getTaxableSocialSecurity(
-							filing_status_0,
-							ss_received_0,
-							ss_income_0,
-							tax_exempt_interest_0,
-							adjustments_0);
-
-	taxable_percent = Round(ss_taxable_0 / ss_received_0 * 100);
-	putUserOutput("TaxableSocialSecurity-0",	ss_taxable_0);
-	putUserOutput("TaxablePercent-0",			taxable_percent + "%",	"text");
-
+	outputs.ss_taxable_0 = ss_tax_0.calculate(
+		inputs.filing_status_0,
+		inputs.ss_received_0,			// Total SS received from 1040, line 6a
+		inputs.ss_income_0,				// Income without taxable SS
+		inputs.tax_exempt_interest_0,	// Tax exempt interest from 1040, line 2a
+		0,								// Student loan interest from 1040S1, line 21
+		inputs.adjustments_0,			// Adjustments from 1040
+		false);							// Lived with spouse
 
 	// Current year - Alternate Method
-	ss_received_alt = ss_received_0 - lump_sum_1 - lump_sum_2;
+	let ss_received_alt = inputs.ss_received_0 - inputs.lump_sum_1 - inputs.lump_sum_2;
 	if (ss_received_alt !== 0) {
-		ss_taxable_alt		= getTaxableSocialSecurity(
-								filing_status_0,
-								ss_received_alt,
-								ss_income_0,
-								tax_exempt_interest_0,
-								adjustments_0);
+		outputs.ss_taxable_alt = ss_tax_alt.calculate(
+			inputs.filing_status_0,
+			ss_received_alt,
+			inputs.ss_income_0,				// Income without taxable SS
+			inputs.tax_exempt_interest_0,	// Tax exempt interest from 1040, line 2a
+			0,								// Student loan interest from 1040S1, line 21
+			inputs.adjustments_0,			// Adjustments from 1040
+			false);							// Lived with spouse
 	}
 
 	// Previous Year 1
-	if (lump_sum_1 !== 0) {
-		ss_taxable_new_1	= getTaxableSocialSecurity(
-								filing_status_1,
-								ss_received_reported_1 + lump_sum_1,
-								agi_1 - ss_taxable_reported_1,
-								tax_exempt_interest_1,
-								0);
+	if (inputs.lump_sum_1 !== 0) {
+		outputs.ss_taxable_new_1 = ss_tax_1.calculate(
+			inputs.filing_status_1,
+			inputs.ss_received_reported_1 + inputs.lump_sum_1,	// Total SS received
+			inputs.agi_1 - inputs.ss_taxable_reported_1,		// Income without taxable SS
+			inputs.tax_exempt_interest_1,						// Tax exempt interest
+			0,													// Student loan interest
+			0,													// Adjustments
+			false);												// Lived with spouse
 
-		ss_taxable_new_1	-= ss_taxable_reported_1;
+		outputs.ss_taxable_new_1	-= inputs.ss_taxable_reported_1;
+		outputs.ss_taxable_alt		+= outputs.ss_taxable_new_1;
 	}
-	taxable_percent	= (lump_sum_1 === 0) ? 0 : Round(ss_taxable_new_1 / lump_sum_1 * 100);
-	ss_taxable_alt							+= ss_taxable_new_1;
-	putUserOutput("TaxableSocialSecurityNew-1",		ss_taxable_new_1);
-	putUserOutput("TaxablePercent-1",				taxable_percent + "%", "text");
-
 
 	// Previous Year 2
-	if (lump_sum_2 !== 0) {
-		ss_taxable_new_2	= getTaxableSocialSecurity(
-								filing_status_2,
-								ss_received_reported_2 + lump_sum_2,
-								agi_2 - ss_taxable_reported_2,
-								tax_exempt_interest_2,
-								0);
+	if (inputs.lump_sum_2 !== 0) {
+		outputs.ss_taxable_new_2 = ss_tax_2.calculate(
+			inputs.filing_status_2,
+			inputs.ss_received_reported_2 + inputs.lump_sum_2,	// Total SS received
+			inputs.agi_2 - inputs.ss_taxable_reported_2,		// Income without taxable SS
+			inputs.tax_exempt_interest_2,						// Tax exempt interest
+			0,													// Student loan interest
+			0,													// Adjustments
+			false);												// Lived with spouse
 
-		ss_taxable_new_2	-= ss_taxable_reported_2;
+		outputs.ss_taxable_new_2	-= inputs.ss_taxable_reported_2;
+		outputs.ss_taxable_alt		+= outputs.ss_taxable_new_2;
 	}
-	taxable_percent	= (lump_sum_2 === 0) ? 0 : Round(ss_taxable_new_2 / lump_sum_2 * 100);
-	ss_taxable_alt							+= ss_taxable_new_2;
-	putUserOutput("TaxableSocialSecurityNew-2",		ss_taxable_new_2);
-	putUserOutput("TaxablePercent-2",				taxable_percent + "%", "text");
 
-
-	// Alternate taxable amount
-	taxable_percent = Round(ss_taxable_alt / ss_received_0 * 100);
-	putUserOutput("TaxableSocialSecurityAlt",		ss_taxable_alt);
-	putUserOutput("TaxablePercentAlt",				taxable_percent + "%", "text");
+	return outputs;
 }
 
-function ChangeHandler(event) {
-	// This is the function that is called if any input field is changed.
-	TurnOffDebug();
-	CalculategetTaxableSocialSecurity();
-	TurnOnDebug();
+function changeHandler(event) {
+	//
+	// This function is called when any input field is changed. It calculates the
+	// whole deduction (not just the field tha was changed).
+	//
+	try {
+		resetAll();
+		const inputs = getInputs();							// Get inputs from the web page
+		TaxTable.getTaxTable(inputs.tax_year);				// Initialize tax tables
+		const outputs = calculateTax(inputs);
+		putOutputs(inputs, outputs);						// Put results on web page
+		Debug.turnOn();										// Put debug info on web page
+	} catch (error) {
+		Ensure.processError(error);
+	}
+}
+
+function getInputs() {
+	//
+	// Get the values from the web page. Put them in an object literal so the values
+	// can be accessed by name.
+	//
+	const inputs = {};
+
+	inputs.tax_year					= Dates.getTaxYear();
+
+	// Current year
+	inputs.filing_status_0 =
+		HTML.getUserInput("FilingStatus-0", "text").toUpperCase();
+	inputs.ss_received_0			= HTML.getUserInput("SocialSecurity-0");
+	inputs.ss_income_0				= HTML.getUserInput("Income-0");
+	inputs.tax_exempt_interest_0	= HTML.getUserInput("TaxExemptInterest-0");
+	inputs.adjustments_0			= HTML.getUserInput("Adjustments-0");
+
+	// Previous year 1
+	inputs.filing_status_1 =
+		HTML.getUserInput("FilingStatus-1", "text").toUpperCase();
+	inputs.lump_sum_1				= HTML.getUserInput("LumpSum-1");
+	inputs.agi_1					= HTML.getUserInput("AGI-1");
+	inputs.tax_exempt_interest_1	= HTML.getUserInput("TaxExemptInterest-1");
+	inputs.ss_received_reported_1	= HTML.getUserInput("SocialSecurityReceivedReported-1");
+	inputs.ss_taxable_reported_1	= HTML.getUserInput("SocialSecurityTaxableReported-1");
+
+	// Previous year 2
+	inputs.filing_status_2 =
+		HTML.getUserInput("FilingStatus-2", "text").toUpperCase();
+	inputs.lump_sum_2				= HTML.getUserInput("LumpSum-2");
+	inputs.agi_2					= HTML.getUserInput("AGI-2");
+	inputs.tax_exempt_interest_2	= HTML.getUserInput("TaxExemptInterest-2");
+	inputs.ss_received_reported_2	= HTML.getUserInput("SocialSecurityReceivedReported-2");
+	inputs.ss_taxable_reported_2	= HTML.getUserInput("SocialSecurityTaxableReported-2");
+
+	return inputs;
+}
+
+function putOutputs(inputs, outputs) {
+	//
+	// Get the information we are interested in and write them to the web page.
+	//
+	let taxable_percent = 0;
+
+	// Current year - Standard Method
+	taxable_percent	=
+		(inputs.ss_received_0 === 0) ?
+			0 : Math.round(outputs.ss_taxable_0 / inputs.ss_received_0 * 100);
+	HTML.putUserOutput("TaxableSocialSecurity-0",		outputs.ss_taxable_0);
+	HTML.putUserOutput("TaxablePercent-0",				taxable_percent + "%", "text");
+
+	// Previous Year 1
+	taxable_percent	=
+		(inputs.lump_sum_1 === 0) ?
+			0 : Math.round(outputs.ss_taxable_new_1 / inputs.lump_sum_1 * 100);
+	HTML.putUserOutput("TaxableSocialSecurityNew-1",	outputs.ss_taxable_new_1);
+	HTML.putUserOutput("TaxablePercent-1",				taxable_percent + "%", "text");
+
+	// Previous Year 2
+	taxable_percent	=
+		(inputs.lump_sum_2 === 0) ?
+			0 : Math.round(outputs.ss_taxable_new_2 / inputs.lump_sum_2 * 100);
+	HTML.putUserOutput("TaxableSocialSecurityNew-2",	outputs.ss_taxable_new_2);
+	HTML.putUserOutput("TaxablePercent-2",				taxable_percent + "%", "text");
+
+	// Alternate taxable amount
+	taxable_percent	=
+		(inputs.ss_received_0 === 0) ?
+			0 : Math.round(outputs.ss_taxable_alt / inputs.ss_received_0 * 100);
+	HTML.putUserOutput("TaxableSocialSecurityAlt",		outputs.ss_taxable_alt);
+	HTML.putUserOutput("TaxablePercentAlt",				taxable_percent + "%", "text");
+}
+
+function resetAll() {
+	//
+	// Reset static (global) variables to erase information from a previous calculation.
+	//
+	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
+	Debug.reset();
+	TaxFormObj.reset();
+	Taxpayer.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	//
 	// Wait for the DOM to be fully loaded before trying to access any elements.
+	//
+	HTML.addListener(TAXTOOL_CONTAINER,	"change", changeHandler);
+	HTML.hideElement("debug-container");
 
-	addListener("FilingStatus-0",					"change", ChangeHandler);
-	addListener("SocialSecurity-0",					"change", ChangeHandler);
-	addListener("Income-0",							"change", ChangeHandler);
-	addListener("TaxExemptInterest-0",				"change", ChangeHandler);
-	addListener("Adjustments-0",					"change", ChangeHandler);
-
-	addListener("SocialSecurity-0",					"change", ChangeHandler);
-	addListener("TaxableSocialSecurity-0",			"change", ChangeHandler)
-
-	addListener("FilingStatus-1",					"change", ChangeHandler);
-	addListener("LumpSum-1",						"change", ChangeHandler);
-	addListener("AGI-1",							"change", ChangeHandler);
-	addListener("TaxExemptInterest-1",				"change", ChangeHandler);
-	addListener("SocialSecurityReceivedReported-2",	"change", ChangeHandler);
-	addListener("SocialSecurityTaxableReported-2",	"change", ChangeHandler);
-
-	addListener("FilingStatus-2",					"change", ChangeHandler);
-	addListener("LumpSum-2",						"change", ChangeHandler);
-	addListener("AGI-2",							"change", ChangeHandler);
-	addListener("TaxExemptInterest-2",				"change", ChangeHandler);
-	addListener("SocialSecurityReceivedReported-2",	"change", ChangeHandler);
-	addListener("SocialSecurityTaxableReported-2",	"change", ChangeHandler);
-
-	TurnOffDebug();
+	SaveRestore.initialize(SAVE_FILE, FIELD_INFO, resetAll);
 });

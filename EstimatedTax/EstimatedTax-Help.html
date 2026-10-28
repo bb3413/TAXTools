@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<link rel="stylesheet" href="../Library/TaxTools/TaxTools.css" />
-	<link rel="stylesheet" href="../Library/TaxTools/HelpFields.css" />
-	<script src="../Library/IncludeFile.js"></script>
+	<link rel="stylesheet" href="../Library/CSS/TAXTools.css" />
+	<link rel="stylesheet" href="../Library/CSS/HelpFields.css" />
+	<script type="module" src="../Library/Modules/IncludeFile.js"></script>
 	<title>Federal Estimated Tax Calculator Help</title>
 </head>
 
 <body>
-	<div class="tool-container">
+	<div class="taxtool-container">
 		<h1 class="title">Federal Estimated Tax Calculator Help</h1>
 
 		<p>This is a tool for estimating federal income tax. It is intended to help you
-		determine how much federal income tax you would owe given the information you provide.
-		Unlike programs for doing your taxes, this tool does very few calculations. The
-		following list shows the calculations that are performed. Beyond these calculations,
-		the tool just uses information you enter, which can be from a previous tax return
-		and adjusted based on your changing situation.</p>
+		determine how much federal income tax you would owe given the information you
+		provide. Unlike programs for doing your taxes, this tool does very few calculations.
+		The following list shows the calculations that are performed. Beyond these
+		calculations, the tool just uses information you enter, which can be from a previous
+		tax return and adjusted based on your changing situation.</p>
 		<ul>
 			<li>Standard deduction</li>
 			<li>Itemized deductions</li>
@@ -25,11 +25,12 @@
 			<li>Income tax</li>
 		</ul>
 
-		<p>There is also very little checking so you can enter whatever you like and see how it affects
-		your taxes. For example, you can see the effect of selling a stock (capital gains), or whether
-		you have enough deductions to itemize deductions. However, some inputs will be restricted to
-		values based on limits in the tax law. This won"t cause an error, but internally, the value will
-		be replaced with its maximum value. The following list shows the current limits that are imposed.</p>
+		<p>There is also very little checking so you can enter whatever you like and see
+		how it affects your taxes. For example, you can see the effect of selling a stock
+		(capital gains), or whether you have enough deductions to itemize deductions.
+		However, some inputs will be restricted to values based on limits in the tax law.
+		This won"t cause an error, but internally, the value will be replaced with its
+		maximum value. The following list shows the current limits that are imposed.</p>
 		<ul>
 			<li>Educator expenses are limited to $300 per taxpayer.</li>
 			<li>If capital gains is a loss, the loss is limited to -$3,000.</li>
@@ -41,18 +42,18 @@
 			<li>Several fields are limited when the filing status is MFS.</li>
 		</ul>
 
-		<p>The formula for calculating the federal income tax is also provided to show, at a high level,
-		how the tax is calculated. The value of each item in the tax formula is shown in the "Estimated
-		Tax Calculation" section.</p>
+		<p>The formula for calculating the federal income tax is also provided to show, at a
+		high level, how the tax is calculated. The value of each item in the tax formula is
+		shown in the "Estimated Tax Calculation" section.</p>
 
 		<!-- Generic tax tools help information. -->
-		<div include-file="../Library/TaxTools/TaxTools-Help.html"></div>
+		<div include-file="../Library/TAXTools/TAXTools-Help.html"></div>
 
 		<h2>Description of Input Fields</h2>
-		<p>The remainder of this document describes the fields that are computed (blue) and the
-		fields where you can enter data (green). The fields are listed in the same order as they
-		appear in the tool. This is also the same information that is displayed in the tool
-		tips.</p>
+		<p>The remainder of this document describes the fields that are computed (blue) and
+		the fields where you can enter data (green). The fields are listed in the same order
+		as they appear in the tool. This is also the same information that is displayed in
+		the tool tips.</p>
 
 		<div include-file="EstimatedTax-HelpInput.html"></div>
 		<p>&nbsp;</p>

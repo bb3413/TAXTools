@@ -9,41 +9,34 @@
 	-->
 
 	<div class="help-fields">
-		<div class="tooltip" id="TaxYearTT">
+		<div class="tooltip" id="tax-year-tt">
 			<h4>Tax Year</h4>
-			<p>Selecting a year from this drop-down list will change the estimated tax
-			calculator to use the tax tables for that year. It will continue to use the data
-			that has already been entered.</p>
+			<p>Selecting a year from this drop-down list will change the tool to use the
+			tax tables for that year. Any tax information that you have already entered
+			will not be affected by changing the tax year.</p>
 		</div>
 
-		<div class="tooltip" id="SaveButtonTT">
+		<div class="tooltip" id="save-button-tt">
 			<h4>Save Button</h4>
-			<p>Pressing the "Save" button will save the data in the estimated tax calculator
-			to a text file named "EstimatedTax_CA.txt" in your Downloads folder. This data can be
-			reloaded by pressing the "Restore" button.</p>
+			<p>Pressing the "Save" button will save the data that has been entered to a
+			text file in your Downloads folder. This data can be reloaded by pressing the
+			"Restore" button.</p>
 		</div>
 
-		<div class="tooltip" id="RestoreButtonTT">
+		<div class="tooltip" id="restore-button-tt">
 			<h4>Restore Button</h4>
-			<p>Pressing the "Restore" button will reload the estimated tax calculator with
-			information that was previously saved.</p>
-		</div>
-		<div class="tooltip" id="DebugCheckboxTT">
-			<h4>Debugging Checkbox</h4>
-			<p>This is a button that causes additional internal (debugging) data values to be
-			displayed. When the information is displayed, it is located at the bottom of the page.
-			The symbol on the button is a ladybug. When the ladybug is black and white, the
-			debugging information is hidden; when the ladybug is red, the debugging information is
-			displayed.</p>
+			<p>Pressing the "Restore" button will reload the data from a file into the
+			tool. This will replace any data that is already there. The file must have been
+			previously saved by this tool.</p>
 		</div>
 
-		<!-----  Taxpayer Information  ------------------------------------------------------>
+		<!-----  Taxpayer Information  ----------------------------------------------------->
 		<h3>Taxpayer Information</h3>
 		<div class="tooltip" id="TaxpayersNameTT">
 			<h4>Taxpayer's Name</h4>
-			<p>This is the name of the taxpayer. It is only used to identify the taxpayer that
-			the information belongs to. This may be useful if the information is saved or
-			printed.</p>
+			<p>This is the name of the taxpayer. It is only used to identify the taxpayer
+			that the information belongs to. This may be useful if the information is saved
+			or printed.</p>
 		</div>
 
 		<div class="tooltip" id="FilingStatusTT">
@@ -56,16 +49,18 @@
 		<div class="tooltip" id="TaxpayersBirthdayTT">
 			<h4>Taxpayer's Birthday</h4>
 			<p>This is used to determine if the taxpayer will be 65 or older at the end of
-			the tax year.</p>
+			the tax year, which is necessary to qualify for some tax benefits for seniors,
+			such as an increased standard deduction.</p>
 		</div>
 
 		<div class="tooltip" id="SpousesBirthdayTT">
 			<h4>Spouse's Birthday</h4>
-			<p>This is used to determine if the spouse will be 65 or older at the end of the
-			tax year.</p>
+			<p>This is used to determine if the spouse will be 65 or older at the end of
+			the tax year, which is necessary to qualify for some tax benefits for seniors,
+			such as an increased standard deduction.</p>
 		</div>
 
-		<div class="tooltip" id="TaxToolsVersionTT">
+		<div class="tooltip" id="tax-tools-version-tt">
 			<h4>Version</h4>
 			<p>This is the current version of the tax tools. The version number is actually a
 			link that you can click on to see the version history log.</p>
@@ -73,128 +68,148 @@
 
 		<div class="tooltip" id="TodaysDateTT">
 			<h4>Today's Date</h4>
-			<p>This is only used to help identify the information if it is saved or printed.</p>
+			<p>This is only used to help identify the information if it is saved or
+			printed.</p>
 		</div>
 
 		<div class="tooltip" id="TaxpayersAgeTT">
 			<h4>Taxpayer's Age</h4>
-			<p>This is the age the taxpayer will be at the end of the tax year. It is used to determine
-			the number of exemptions the taxpayer will receive.</p>
+			<p>This is the age the taxpayer will be at the end of the tax year. It is used
+			to determine the number of exemptions the taxpayer will receive.</p>
 		</div>
 
 		<div class="tooltip" id="SpousesAgeTT">
 			<h4>Spouse's Age</h4>
-			<p>This is the age the spouse will be at the end of the tax year. It is used to determine
-			the number of exemptions the taxpayer will receive.</p>
+			<p>This is the age the spouse will be at the end of the tax year. It is used to
+			determine the number of exemptions the taxpayer will receive.</p>
 		</div>
 
 		<!-----  Estimated Tax Calculation  ----->
 		<h3>Estimated Tax Calculation</h3>
 		<div class="tooltip" id="ExemptionsTT">
 			<h4>Exemptions</h4>
-			<p>Exemptions are the personal exemption for the taxpayer and spouse and the dependent
-			exemption for each dependent. The taxpayer and spouse also get an additional exemptions
-			if they are 65 or older and if they are blind. The number of exemptions is multiplied by
-			the amount of the corresponding personal exemption and dependent exemption to arrive at
-			the total amount of the exemptions.</p>
+			<p>Exemptions are the personal exemption for the taxpayer and spouse and the
+			dependent exemption for each dependent. The taxpayer and spouse also get an
+			additional exemptions if they are 65 or older and if they are blind. The number
+			of exemptions is multiplied by the amount of the corresponding personal exemption
+			and dependent exemption to arrive at the total amount of the exemptions.</p>
 		</div>
+
 		<div class="tooltip" id="SubtractionsTT">
 			<h4>Subtractions</h4>
-			<p>The way the "subtractions" are calculated on the Calitornia tax return may not be intuitive.
-			First, it adds together the items that are taxed on the federal tax return but not the
-			California tax return (form CA 540, sections 1A and 1B). These will be subtracted from the
-			federal AGI, as you would expect. Then, it adds together the federal adjustments (above the
-			line deductions, form CA 540, section 1C) that are not allowed by California. These are then
-			subtracted from the subtractions (rather than adding them as additions).</p>
+			<p>The way the "subtractions" are calculated on the California tax return may not
+			be intuitive. First, it adds together the items that are taxed on the federal tax
+			return but not the California tax return (form CA 540, sections 1A and 1B). These
+			will be subtracted from the federal AGI, as you would expect. Then, it adds
+			together the federal adjustments (above the line deductions, form CA 540,
+			section 1C) that are not allowed by California. These are then subtracted from
+			the subtractions (rather than adding them as additions).</p>
 		</div>
+
 		<div class="tooltip" id="AdditionsTT">
 			<h4>Additions</h4>
-			<p>The way the "additions" are calculated on the Calitornia tax return is the opposite of
-			the subtractions. The items that are not taxed on the federal tax return but are taxed on
-			the California tax return are added together (form CA 540, sections 1A and 1B). These will be
-			added to the federal AGI. Then, the federal adjustments (above the line deductions, form CA
-			540, section 1C) that are allowed by California are added together. These are then subtracted
-			from the additions (rather than subtracting them as subtractions).</p>
+			<p>The way the "additions" are calculated on the California tax return is the
+			opposite of the subtractions. The items that are not taxed on the federal tax
+			return but are taxed on the California tax return are added together (form
+			CA 540, sections 1A and 1B). These will be added to the federal AGI. Then, the
+			federal adjustments (above the line deductions, form CA 540, section 1C) that are
+			allowed by California are added together. These are then subtracted from the
+			additions (rather than subtracting them as subtractions).</p>
 		</div>
+
 		<div class="tooltip" id="DeductionsTT">
 			<h4>Deductions</h4>
-			<p>This is an amount that can be subtracted from the state AGI before the tax is computed.
-			It is either the standard deduction or the sum of your itemized deductions, whichever is
-			larger. State itemized deductions are derived from the federal itemized deductions with
-			adjustments to account for the differences between the federal and state tax laws.</p>
+			<p>This is an amount that can be subtracted from the state AGI before the tax is
+			computed. It is either the standard deduction or the sum of your itemized
+			deductions, whichever is larger. State itemized deductions are derived from the
+			federal itemized deductions with adjustments to account for the differences
+			between the federal and state tax laws.</p>
 		</div>
+
 		<div class="tooltip" id="NonrefundableCreditsTT">
 			<h4>Non-refundable Credits</h4>
-			<p>Credits are amounts that are subtracted from your tax (as compared to deductions, which
-			are subtracted from your taxable income). At most, non-refundable credits can reduce your
-			tax to $0.</p>
+			<p>Credits are amounts that are subtracted from your tax (as compared to
+			deductions, which are subtracted from your taxable income). At most,
+			non-refundable credits can reduce your tax to $0.</p>
 		</div>
+
 		<div class="tooltip" id="RefundableCreditsTT">
 			<h4>Refundable Credits</h4>
-			<p>While non-refundable credits can reduce your tax to $0, refundable credits can reduce your
-			tax below $0, which results in you receiving money back.</p>
+			<p>While non-refundable credits can reduce your tax to $0, refundable credits can
+			reduce your tax below $0, which results in you receiving money back.</p>
 		</div>
+
 		<div class="tooltip" id="OtherTaxesTT">
 			<h4>Other Taxes</h4>
-			<p>These are other uncommon taxes, such as the Alternative Minimum Tax (AMT) or the Behavior
-			Health Services Tax.</p>
+			<p>These are other uncommon taxes, such as the Alternative Minimum Tax (AMT) or
+			the Behavior Health Services Tax.</p>
 		</div>
+
 		<div class="tooltip" id="PaymentsTT">
 			<h4>Payments</h4>
-			<p>This is the amount of tax you already paid during the tax year; for example, withholding or
-			estimated payments.</p>
+			<p>This is the amount of tax you already paid during the tax year; for example,
+			withholding or estimated payments.</p>
 		</div>
 
 		<div class="tooltip" id="StateAGITT">
 			<h4>State AGI</h4>
-			<p>The federal AGI is used as the starting point for the state AGI, but first, the federal AGI
-			must be adjusted to account for the differences between the federal and state tax laws.</p>
+			<p>The federal AGI is used as the starting point for the state AGI, but first,
+			the federal AGI must be adjusted to account for the differences between the
+			federal and state tax laws.</p>
 		</div>
+
 		<div class="tooltip" id="TaxableIncomeTT">
 			<h4>Taxable Income</h4>
-			<p>Taxable income is the state SGI minus deductions. The state allows you to use either the
-			standard deduction or itemized deduction regardless of which was used on the federal tax
-			return. Since the state standard deduction is much lower than the federal standard deduction,
-			it may be beneficial to itemize deductions for the state even if the standard deduction is
-			more beneficial on the federal tax return.</p>
+			<p>Taxable income is the state SGI minus deductions. The state allows you to use
+			either the standard deduction or itemized deduction regardless of which was used
+			on the federal tax return. Since the state standard deduction is much lower than
+			the federal standard deduction, it may be beneficial to itemize deductions for
+			the state even if the standard deduction is more beneficial on the federal tax
+			return.</p>
 		</div>
+
 		<div class="tooltip" id="IncomeTaxTT">
 			<h4>Income Tax</h4>
 			<p>This is the amount of tax due from the taxable income.</p>
 		</div>
+
 		<div class="tooltip" id="TotalTaxTT">
 			<h4>Total Tax</h4>
-			<p>This is the tax on your taxable income plus any other taxes and with the non-refundable
-			credits subtracted.</p>
+			<p>This is the tax on your taxable income plus any other taxes and with the
+			non-refundable credits subtracted.</p>
 		</div>
+
 		<div class="tooltip" id="RefundAmountDueTT">
 			<h4>Refund / Amount Due</h4>
-			<p>This is the amount of tax that is owed. If it is positive, it is the tax due. If it is
-			negative, it is the amount overpaid (refund).</p>
+			<p>This is the amount of tax that is owed. If it is positive, it is the tax due.
+			If it is negative, it is the amount overpaid (refund).</p>
 		</div>
+
 		<div class="tooltip" id="EstimatedPaymentsTT">
 			<h4>Estimated Payments</h4>
-			<p>The estimated payments are calculated as the amount you owe plus the amount of estimated
-			taxes you paid. If the amount is less than $500, estimated payments are not required;
-			otherwise, they need to be paid in four unequal quarterly payments. The first and fourth
-			payments should be 30% of the total, the second payment should be 40% of the total, and the
-			third payment is not needed.</p>
+			<p>The estimated payments are calculated as the amount you owe plus the amount of
+			estimated taxes you paid. If the amount is less than $500, estimated payments are
+			not required; otherwise, they need to be paid in four unequal quarterly payments.
+			The first and fourth payments should be 30% of the total, the second payment
+			should be 40% of the total, and the third payment is not needed.</p>
 		</div>
 
 		<!-----  Input Data  ----->
 		<h3>Input Data</h3>
 		<div class="tooltip" id="NumberOfDependentsTT">
 			<h4>Number of Dependents</h4>
-			<p>This is the number of dependents that you are claiming (the taxpayer and spouse are not
-			dependents).</p>
+			<p>This is the number of dependents that you are claiming (the taxpayer and
+			spouse are not dependents).</p>
 		</div>
+
 		<div class="tooltip" id="FederalAGITT">
 			<h4>Federal AGI</h4>
-			<p>This is the amount of the Adjusted Gross Income (AGI) from the federal tax return. This
-			is used at the basis for the state income tax calculation with adjustments (additions and
-			subtractions) to this amount to account for the differences between the federal and state
-			tax laws.</p>
+			<p>This is the amount of the Adjusted Gross Income (AGI) from the federal tax
+			return. This is used at the basis for the state income tax calculation with
+			adjustments (additions and subtractions) to this amount to account for the
+			differences between the federal and state tax laws.</p>
 		</div>
+
 		<div class="tooltip" id="FederalItemizedDeductionsTT">
 			<h4>Federal Itemized Deductions</h4>
 			<p>This is the amount of the itemized deductions from the federal tax return.</p>
@@ -204,249 +219,300 @@
 		<h3>Subtractions from Federal AGI</h3>
 		<div class="tooltip" id="USTreasuryObligationsTT">
 			<h4>U. S. Treasury Obligations</h4>
-			<p>Enter the amount of interest from U. S. Treasury obligations. U. S. Treasury obligations,
-			including treasury bills, notes, and bonds, are taxable on the federal tax return, but not
-			taxable on the California tax return.</p>
+			<p>Enter the amount of interest from U. S. Treasury obligations. U. S. Treasury
+			obligations, including treasury bills, notes, and bonds, are taxable on the
+			federal tax return, but not taxable on the California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="MilitaryRetirementIncomeTT">
 			<h4>Military Retirement Income</h4>
-			<p>Enter the amount of military retirement income from the Defense Finance Accounting Service
-			(DFAS) up to $20,000. For tax years 2025 to 2029, up to $20,000 of military retirement income
-			from the DFAS (EIN 34-0727612) is not taxed on the California tax return. The taxpayer or spouse
-			(or surviving spouse or either) must have been uniformed military, not civilian, receiving a
+			<p>Enter the amount of military retirement income from the Defense Finance
+			Accounting Service (DFAS) up to $20,000. For tax years 2025 to 2029, up to
+			$20,000 of military retirement income from the DFAS (EIN 34-0727612) is not
+			taxed on the California tax return. The taxpayer or spouse (or surviving spouse
+			or either) must have been uniformed military, not civilian, receiving a
 			pension from the DFAS.</p>
 		</div>
+
 		<div class="tooltip" id="TaxableSocialSecurityTT">
 			<h4>Taxable Social Security</h4>
-			<p>Enter the amount of Social Security benefits that are taxed on the federal tax return.
-			Social Security benefits are partially taxed on the federal return but are not taxed at all by
-			California.</p>
+			<p>Enter the amount of Social Security benefits that are taxed on the federal tax
+			return. Social Security benefits are partially taxed on the federal return but
+			are not taxed at all by California.</p>
 		</div>
+
 		<div class="tooltip" id="StateTaxRefundTT">
 			<h4>State Tax Refund</h4>
-			<p>If a refund was receeived from last year's California tax return, enter the amount that is
-			taxable on the federal tax return. A state tax refund may be taxable on the federal tax return
-			if the state income tax used as a deduction on the previous year's federal tax return. The state
-			tax refund is not taxable on the California tax return.</p>
+			<p>If a refund was received from last year's California tax return, enter the
+			amount that is taxable on the federal tax return. A state tax refund may be
+			taxable on the federal tax return if the state income tax used as a deduction on
+			the previous year's federal tax return. The state tax refund is not taxable on
+			the California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="UnemploymentIncomeTT">
 			<h4>Unemployment Income</h4>
-			<p>Enter the amount of unemployment income you received. This is taxable on the federal tax return,
-			but is not on the California tax return.</p>
+			<p>Enter the amount of unemployment income you received. This is taxable on the
+			federal tax return, but is not on the California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="CaliforniaLotteryWinningsTT">
 			<h4>California Lottery Winnings</h4>
-			<p>Enter the amount of winnings from the California Lottery. Gambling winnings are taxed on both
-			the federal and California tax returns; however, California does not tax winnings from the
-			California Lottery. Since you can deduct gambling losses up to the amount of gambling winnings,
-			you may need to adjust the amount deducted as well.</p>
+			<p>Enter the amount of winnings from the California Lottery. Gambling winnings
+			are taxed on both the federal and California tax returns; however, California
+			does not tax winnings from the California Lottery. Since you can deduct gambling
+			losses up to the amount of gambling winnings, you may need to adjust the amount
+			deducted as well.</p>
 		</div>
+
 		<div class="tooltip" id="NonqualifiedHSADistributionsTT">
 			<h4>Non-Qualified HSA Distributions</h4>
-			<p>Enter the amount of distributions from an HSA that were not spent on qualified medecial
-			expenses. These distributions are taxable on the federal tax return, but California does not exempt
-			contributions to an HSA from taxes, so it does not tax the distributions.</p>
+			<p>Enter the amount of distributions from an HSA that were not spent on qualified
+			medical expenses. These distributions are taxable on the federal tax return, but
+			California does not exempt contributions to an HSA from taxes, so it does not tax
+			the distributions.</p>
 		</div>
+
 		<div class="tooltip" id="AlimonyPaidTT">
 			<h4>Alimony Paid</h4>
-			<p>Enter the amount of alimony you paid this year if you were divorced after 2018. If you were
-			divorced after 2018 and paid alimony, the alimony is not deductible on the federal tax return, but
-			it is deductible on the California tax return. For a divorce that was settled in 2018 or earlier,
-			alimony paid can be deducted on both the federal and California tax returns, so no adjustment is
-			needed.</p>
+			<p>If you were divorced before 12/31/2018 and required to pay alimony, the amount
+			of alimony you paid can be deducted on your federal and California tax returns.
+			If you were divorced after 12/31/2018, the amount of alimony you paid can only be
+			deducted on your California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="OtherSubtractionsTT">
 			<h4>Other Subtractions</h4>
-			<p>This is a catch all field for other items that need to be subtracted from the federal
-			AGI and are not covered in one of the other fields.</p>
+			<p>This is a catch all field for other items that need to be subtracted from the
+			federal AGI and are not covered in one of the other fields.</p>
 		</div>
 
 		<!-----  Additions to Federal AGI  ----->
 		<h3>Additions to Federal AGI</h3>
 		<div class="tooltip" id="HSAEmployerContributionsTT">
 			<h4>HSA Employer Contributions</h4>
-			<p>Enter the amount your employer contributed to your HSA. Employer contributions to your HSA are
-			shown on your W-2 form, box 12, code W. This income not taxed on the federal tax return, but
-			California does not exempt contributions to an HSA from taxes, so it is taxable income on the
-			California tax return.</p>
+			<p>Enter the amount your employer contributed to your HSA. Employer contributions
+			to your HSA are shown on your W-2 form, box 12, code W. This income not taxed on
+			the federal tax return, but California does not exempt contributions to an HSA
+			from taxes, so it is taxable income on the California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="AlimonyReceivedTT">
 			<h4>Alimony Received</h4>
-			<p>Enter the amount of alimony you received this year if you were divorced after 2018. If you were
-			divorced after 2018 and received alimony, the alimony is not taxable on the federal tax return, but it
-			is taxable on the California tax return. For a divorce that was settled in 2018 or earlier, alimony
-			received can be taxed on both the federal and California tax returns, so no adjustment is needed.</p>
+			<p>If you were divorced before 12/31/2018 and received alimony payments, the
+			amount you received is taxable on your federal and California tax returns.
+			If you were divorced after 12/31/2018, the amount of alimony you received is only
+			taxable on your California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="HomeLoanDebtCancellationTT">
 			<h4>Home Loan Debt Cancellation</h4>
-			<p>If you had a home loan canceled, enter the amount of the loan. California law does not conform to
-			federal law regarding the exclusion of income from the cancellation of a loan on your principle
-			residence occurring after 2017.</p>
+			<p>If you had a home loan canceled, enter the amount of the loan. California law
+			does not conform to federal law regarding the exclusion of income from the
+			cancellation of a loan on your principle residence occurring after 2017.</p>
 		</div>
+
 		<div class="tooltip" id="EmployerPaidStudentLoanPaymentsTT">
 			<h4>Employer Paid Student Loan Payments</h4>
-			<p>Enter the amount of student loan payments made by your employer. California does not conform to
-			the CARES Act regarding the exclusion of student loan payments made on behalf of an employee by an
-			employer.</p>
+			<p>Enter the amount of student loan payments made by your employer. California
+			does not conform to the CARES Act regarding the exclusion of student loan
+			payments made on behalf of an employee by an employer.</p>
 		</div>
+
 		<div class="tooltip" id="EducatorExpensesTT">
 			<h4>Educator Expenses</h4>
-			<p>Enter the amount of educator expenses excluded from income on the federal tax return. On the
-			federal return, educators can deduct up to $300 each for the taxpayer and spouse for unreimbursed
-			classroom expenses. The state does not allow this federal adjustment.</p>
+			<p>Enter the amount of educator expenses excluded from income on the federal tax
+			return. On the federal return, educators can deduct up to $350 each for the
+			taxpayer and spouse for un-reimbursed classroom expenses. The state does not allow
+			this federal adjustment.</p>
 		</div>
+
 		<div class="tooltip" id="HSAContributionsTT">
 			<h4>HSA Contributions</h4>
-			<p>Enter the amount of HSA contributions you made. Federal law allows a deduction for contributions to
-			an HSA, but the state does not allow this deduction.</p>
+			<p>Enter the amount of HSA contributions you made. Federal law allows a deduction
+			for contributions to an HSA, but the state does not allow this deduction.</p>
 		</div>
+
 		<div class="tooltip" id="IRAContributionsTT">
 			<h4>IRA Contributions</h4>
-			<p>The age limit for making a tax deferred contribution to an IRA was removed from the federal tax
-			return, but the age limit is still 70 1/2 for the state. If you made a tax deferred contribution to
-			your IRA and you are over 70 1/2, that contribution is taxable on the California tax return.</p>
+			<p>The age limit for making a tax deferred contribution to an IRA was removed
+			from the federal tax return, but the age limit is still 70 1/2 for the state. If
+			you made a tax deferred contribution to your IRA and you are over 70 1/2, that
+			contribution is taxable on the California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="OtherAdditionsTT">
 			<h4>Other Additions</h4>
-			<p>This is a catch all field for other items that need to be added to the federal AGI and are
-			not covered in one of the other fields.</p>
+			<p>This is a catch all field for other items that need to be added to the
+			federal AGI and are not covered in one of the other fields.</p>
 		</div>
 
 		<!-----  Itemized Deductions  ----->
 		<h3>Itemized Deductions</h3>
 		<div class="tooltip" id="StateIncomeTaxTT">
 			<h4>State Income Tax or Sates Tax</h4>
-			<p>The state income tax or sales tax is not deductible on the California tax return.</p>
+			<p>The state income tax or sales tax is not deductible on the California tax
+			return.</p>
 		</div>
+
 		<div class="tooltip" id="QualifiedHSADistributionsTT">
 			<h4>Qualified HSA Distributions</h4>
-			<p>Since contributions to an HSA are not tax deferred on the California tax return, qualified
-			distributions from an HSA are qualified medical deductions on the California tax return if they
-			exceed 7.5% of the federal AGI.</p>
+			<p>Since contributions to an HSA are not tax deferred on the California tax
+			return, qualified distributions from an HSA are qualified medical deductions on
+			the California tax return if they exceed 7.5% of the federal AGI.</p>
 		</div>
+
 		<div class="tooltip" id="SALTLimitTT">
 			<h4>SALT Limit Excess</h4>
-			<p>The deduction for state and local taxes (SALT) is limited on the federal tax return but not
-			the California tax return. If your state and local tax deduction minus the state income tax
-			exceeds this limit, enter the excess amount here.</p>
+			<p>The deduction for state and local taxes (SALT) is limited on the federal tax
+			return but not the California tax return. If your state and local tax deduction
+			minus the state income tax exceeds this limit, enter the excess amount here.</p>
 		</div>
+
 		<div class="tooltip" id="HomeMortgageInterestLimitTT">
 			<h4>Home Mortgage Interest Limit</h4>
-			<p>Federal law limits the deduction for home mortgage interest to a $750,000 loan. The state
-			limit is 1,000,000. If your home loan is over $750,000, enter the additional interest deduction
-			here.</p>
+			<p>Federal law limits the deduction for home mortgage interest to a $750,000
+			loan. The state limit is 1,000,000. If your home loan is over $750,000, enter the
+			additional interest deduction here.</p>
 		</div>
+
 		<div class="tooltip" id="TaxPreparationFeeTT">
 			<h4>Tax Preparation Fee</h4>
-			<p>Enter tax perperation fees. This is one of several miscellaneous deduction that are deductible
-			if they exceed 2% of federal AGI. The miscellaneous deduction are suspended on the federal tax
-			return, but not the California tax return.</p>
+			<p>Enter tax preparation fees. This is one of several miscellaneous deduction
+			that are deductible if they exceed 2% of federal AGI. The miscellaneous
+			deduction are suspended on the federal tax return, but not the California tax
+			return.</p>
 		</div>
+
 		<div class="tooltip" id="SafeDepositBoxTT">
 			<h4>Safe Deposit Box</h4>
-			<p>Enter the cost of a safe deposit box here. This is one of several miscellaneous deduction that are
-			deductible if they exceed 2% of federal AGI. The miscellaneous deduction are suspended on the federal
-			tax return, but not the California tax return.</p>
+			<p>Enter the cost of a safe deposit box here. This is one of several
+			miscellaneous deduction that are deductible if they exceed 2% of federal AGI.
+			The miscellaneous deduction are suspended on the federal tax return, but not the
+			California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="InvestmentFeeTT">
 			<h4>Investment Fee</h4>
-			<p>Enter investment and financial advisor fees here. This is one of several miscellaneous deduction
-			that re deductible if they exceed 2% of federal AGI. The miscellaneous deduction are suspended on the
-			federal tax return, but not the California tax return.</p>
+			<p>Enter investment and financial advisor fees here. This is one of several
+			miscellaneous deduction that re deductible if they exceed 2% of federal AGI.
+			The miscellaneous deduction are suspended on the federal tax return, but not
+			the California tax return.</p>
 		</div>
+
 		<div class="tooltip" id="OtherDeductionsTT">
 			<h4>Other Deductions</h4>
-			<p>This is a catch all field for other deductions that need to be deducted from the state AGI
-			and are not covered in one of the other fields.</p>
+			<p>This is a catch all field for other deductions that need to be deducted from
+			the state AGI and are not covered in one of the other fields.</p>
 		</div>
 
 		<!-----  Other Taxes, Interest, and Penalties  ----->
 		<h3>Other Taxes, Interest, and Penalties</h3>
 		<div class="tooltip" id="SharedResponsibilityPenaltyTT">
 			<h4>Shared Responsibility Penalty</h4>
-			<p>If you and your household did not have full-year health care coverage and you do not qualify for an
-			exemption, you may be required to play a penalty. This is either a flat penalty of $950 per adult and
-			$450 per child or 2.5% of gross income that exceeds the filing threshold requirement.</p>
+			<p>If you and your household did not have full-year health care coverage and you
+			do not qualify for an exemption, you may be required to play a penalty. This is
+			either a flat penalty of $950 per adult and $450 per child or 2.5% of gross
+			income that exceeds the filing threshold requirement.</p>
 		</div>
+
 		<div class="tooltip" id="InterestAndPenaltiesTT">
 			<h4>Interest and Penalties</h4>
-			<p>Interest and penalties may be charged, for example, for late filing or late payment.</p>
+			<p>Interest and penalties may be charged, for example, for late filing or late
+			payment.</p>
 		</div>
-		<div class="tooltip" id="UnderepaymentOfEstimatedTaxTT">
-			<h4>Underepayment of Estimated Tax</h4>
-			<p>There may be a penalty for underpayment of taxes if, for example, payments are less than 90% of
-			your current tax liability.</p>
+
+		<div class="tooltip" id="UnderpaymentOfEstimatedTaxTT">
+			<h4>Under-payment of Estimated Tax</h4>
+			<p>There may be a penalty for underpayment of taxes if, for example, payments are
+			less than 90% of your current tax liability.</p>
 		</div>
+
 		<div class="tooltip" id="UseTaxTT">
 			<h4>Use Tax</h4>
-			<p>Use tax is a tax imposed on goods and services that were purchased without paying sales tax.</p>
+			<p>Use tax is a tax imposed on goods and services that were purchased without
+			paying sales tax.</p>
 		</div>
+
 		<div class="tooltip" id="MiscellaneousTaxesTT">
 			<h4>Other Taxes</h4>
-			<p>This is a catch all field for other taxes that need to be added to the state AGI and are not
-			covered in one of the other fields.</p>
+			<p>This is a catch all field for other taxes that need to be added to the state
+			AGI and are not covered in one of the other fields.</p>
 		</div>
 
 		<!-----  Non-refundable Credits  ----->
 		<h3>Non-refundable Credits</h3>
 		<div class="tooltip" id="ChildCareCreditTT">
 			<h4>Child and Dependent Care Credit</h4>
-			<p>You may be able for this credit if you paid someone to care for your dependent that is under age
-			13 or a dependent who is incapable of caring for themself. To qualify for this credit, your federal
-			AGI must be less than $100,000.</p>
+			<p>You may be able for this credit if you paid someone to care for your dependent
+			that is under age 13 or a dependent who is incapable of caring for themself. To
+			qualify for this credit, your federal AGI must be less than $100,000.</p>
 		</div>
+
 		<div class="tooltip" id="RentersCreditTT">
 			<h4>Renter's Credit</h4>
-			<p>You may qualify for this credit if you paid rent for at least six months during the year on your
-			principal residence located in California.</p>
+			<p>You may qualify for this credit if you paid rent for at least six months
+			during the year on your principal residence located in California.</p>
 		</div>
+
 		<div class="tooltip" id="OtherNonrefundableCreditsTT">
 			<h4>Other Non-refundable Credits</h4>
-			<p>This is a catch all field for non-refundable credits not covered in one of the other fields.</p>
+			<p>This is a catch all field for non-refundable credits not covered in one of the
+			other fields.</p>
 		</div>
 
 		<!-----  Refundable Credits  ----->
 		<h3>Refundable Credits</h3>
 		<div class="tooltip" id="EITCTT">
 			<h4>Earned Income Tax Credit (EITC)</h4>
-			<p>Working families making up to $32,900 may qualify for the earned income tax credit (EITC). </p>
+			<p>Working families making up to $32,900 may qualify for the earned income tax
+			credit (EITC). </p>
 		</div>
+
 		<div class="tooltip" id="YoungChildTaxCreditTT">
 			<h4>Young Child Tax Credit</h4>
 			<p>Blah blah blah.</p>
 		</div>
+
 		<div class="tooltip" id="FosterYouthTaxCreditTT">
 			<h4>Foster Youth Tax Credit</h4>
-			<p>A taxpayer who qualifies for the Earned Income Tax Credit or would been, but has no earned income,
-			and has a qualifying child under six years old, may qualify for this credit. The maximum credit is
-			$1,189 and your AGI must be less than $32,901.</p>
+			<p>A taxpayer who qualifies for the Earned Income Tax Credit or would been, but
+			has no earned income, and has a qualifying child under six years old, may qualify
+			for this credit. The maximum credit is $1,189 and your AGI must be less than
+			$32,901.</p>
 		</div>
+
 		<div class="tooltip" id="OtherRefundableCreditsTT">
 			<h4>Other Refundable Credits</h4>
-			<p>This is a catch all field for refundable credits not covered in one of the other fields.</p>
+			<p>This is a catch all field for refundable credits not covered in one of the
+			other fields.</p>
 		</div>
 
 		<!-----  Payments  ----->
 		<h3>Payments</h3>
 		<div class="tooltip" id="WithholdingTT">
 			<h4>Withholding</h4>
-			<p>This is the amount of California tax that was withheld, for example, from your paycheck
-			(see W-2 form) during the year.</p>
+			<p>This is the amount of California tax that was withheld, for example, from your
+			paycheck (see W-2 form) during the year.</p>
 		</div>
+
 		<div class="tooltip" id="EstimatedPaymentsTT">
 			<h4>Estimated Payments</h4>
-			<p>This is the amount of estimated taxes that you paid quarterly during the year.</p>
+			<p>This is the amount of estimated taxes that you paid quarterly during the
+			year.</p>
 		</div>
+
 		<div class="tooltip" id="OtherPaymentsTT">
 			<h4>Other Payments</h4>
-			<p>This is a catch all field for other payments not covered in one of the other fields.</p>
+			<p>This is a catch all field for other payments not covered in one of the other
+			fields.</p>
 		</div>
 
 		<!-----  Contributions  ----->
 		<h3>Contributions</h3>
 		<div class="tooltip" id="ContributionsTT">
 			<h4>Contributions</h4>
-			<p>Contributions are voluntary contributions to various causes that can be made through the
-			California tax return.</p>
+			<p>Contributions are voluntary contributions to various causes that can be made
+			through the California tax return.</p>
 		</div>
 	</div>

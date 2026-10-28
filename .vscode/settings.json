@@ -1,0 +1,14 @@
+{
+	"editor.insertSpaces": false,
+	"files.insertFinalNewline": true,
+	"files.trimTrailingWhitespace": true,
+	"cSpell.words": [
+		"apos",
+		"assetitem",
+		"formname",
+		"taxform",
+		"taxtool",
+		"tooltipid",
+		"USOC"
+	]
+}

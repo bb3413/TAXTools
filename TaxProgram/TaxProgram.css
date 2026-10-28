@@ -1,0 +1,102 @@
+
+.button {
+	/* Override defintion in TAXTools.css */
+	background:				var(--tool-background-color);
+}
+
+/*****  Title Container  *******************************************************************/
+.title-container {
+}
+
+.tax-year {
+	font-size:				18px;
+	font-weight:			600;
+}
+
+/*****  Taxpayer Container  ****************************************************************/
+.taxpayer-container {
+}
+
+.save-restore-container {
+	display:				flex;
+	justify-content:		right;
+	align-items:			flex-end;	/* Align the buttons on bottom edge */
+	gap:					5px;		/* Space between buttons */
+}
+
+.save-button {
+	padding-bottom:			3px;
+}
+
+.restore-button {
+	font-size:				13px;	/* Use this with Helvetica */
+	display: 				inline-block;
+	padding-left:			6px;
+	padding-right:			6px;
+	padding-top:			1px;
+	padding-bottom:			1px;
+}
+
+.spouse-container {
+	margin-top:				15px;
+}
+
+.dependent-container {
+	margin-top:				15px;
+}
+
+/*****  Input Container  *******************************************************************/
+input-container {
+}
+
+.input-header {
+	display:				flex;
+	align-items:			flex-end;	/* Align buttons on bottom edge. */
+	gap:					20px;		/* Optional: adds space between buttons */
+}
+
+.input-form-button {
+	margin-bottom:			24px;
+	padding:				2px;
+}
+
+.add-assetsale-button {
+	margin-top:				2px;
+	margin-bottom:			5px;
+	margin-left:			10px;
+}
+
+/*****  Output Container  ******************************************************************/
+.output-container {
+}
+
+.calculate-button-container {
+	display:				flex;
+	justify-content:		center;
+}
+
+.calculate-button {
+	font-size:				18px;
+	font-weight:			700;
+	padding-top:			5px;
+	padding-bottom:			5px;
+	padding-left:			10px;
+	padding-right:			10px;
+	border-radius:			5px;
+	margin-top:				20px;
+}
+
+/*****  Error Messages, Debugging  *********************************************************/
+.error-message-container {
+}
+
+.debug-container {
+}
+
+.border {
+	/* border:				1px solid var(--border-color); */
+}
+
+.help-fields h3 {
+	display: 				none;
+}

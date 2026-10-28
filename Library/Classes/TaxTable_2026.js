@@ -1,0 +1,347 @@
+
+import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
+import { MAX_DOLLAR, MIN_DOLLAR }		from "../TAXTools/TAXTools.js";
+import { TaxTableTmpl }					from "../Classes/TaxTableTmpl.js";
+
+export class TaxTable_2026 extends TaxTableTmpl {
+	//
+	// Tax Tables for the Tax Year 2026
+	//
+	// This file contain tax information that is specific to the tax year 2026. Symbolic
+	// names in this file begin with "TY26" so the names do not conflict with corresponding
+	// symbols used for other tax years.
+	//
+	// This file contains the following tax tables. They are listed in the order they are
+	// declared in this file:
+	//
+	//	TYxx_values					Table of miscellaneous constant values
+	//	TYxx_amt_tax				AMT tax brackets
+	//	TYxx_income_tax_table		Income tax brackets
+	//	TYxx_ltc_table				LTCinsurance deduction amounts
+	//	TYxx_sales_tax_table		Sales tax deduction amounts
+	//	TYxx_ca_income_tax_table	California income tax brackets
+	//
+
+	tax_year = 2026;
+
+	//
+	// This table contains constant tax values.
+	//
+	values = {
+		// 	Name						SINGLE			HOH			MFJ			QSS			MFS
+		"BusinessMileage":				[ 0.725,		0.725,		0.725,		0.725,		0.725		],
+		"CharityMileage":				[ 0.14,			0.14,		0.14,		0.14,		0.14		],
+		"MedicalMileage":				[ 0.205,		0.205,		0.205,		0.205,		0.21		],
+
+		"MaxCapitalLoss":				[ 3000,			3000,		3000,		3000,		1500		],
+		"MaxEducatorExpenses":			[ 350,			350,		350,		350,		350			],	// Per taxpayer
+		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],	// TY25
+		"MaxSALT":						[ 40400,		40400,		40400,		40400,		20200		],
+		"MaxStudentLoanInterest":		[ 2500,			2500,		2500,		2500,		0			],	// TY25
+		"StudentLoanPhaseOut":			[ 85000,		85000,		175000,		85000,		0			],
+
+		// OBBA deductions				SINGLE			HOH			MFJ			QSS			MFS
+		"MaxCarLoanInterestDeduction":	[ 10000,		10000,		10000,		10000,		10000		],	// TY25
+		"CarLoanInterestPhaseOut":		[ 100000,		100000,		200000,		100000,		100000		],	// TY25
+		"MaxOvertimeDeduction":			[ 12500,		12500,		25000,		12500,		0			],	// TY25
+		"OvertimeDeductionPhaseOut":	[ 150000,		150000,		300000,		150000,		150000		],	// TY25
+		"MaxTipsDeduction":				[ 25000,		25000,		25000,		25000,		0			],	// TY25
+		"TipsDeductionPhaseOut":		[ 150000,		150000,		300000,		150000,		150000		],	// TY25
+		"MaxSeniorDeduction":			[ 6000,			6000,		6000,		6000,		0			],	// TY25
+		"SeniorDeductionPhaseOut":		[ 75000,		75000,		150000,		75000,		75000		],	// TY25
+
+		// Non-refundable credits		SINGLE			HOH			MFJ			QSS			MFS
+		"MaxAmericanOppCreditNoRefund":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
+		"MaxChildAndDependentCareCredit":[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
+		"MaxChildTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
+		"MaxForeignTaxCredit":			[ 300,			300,		600,		300,		300			],	// TY25
+		"MaxLifetimeLearningCredit":	[ 2000,			2000,		2000,		2000,		0			],	// TY25
+		"MaxResidentialEnergyCredit":	[ 0,			0,			0,			0,			0			],
+		"MaxRetirementSavingsCredit":	[ 1000,			1000,		2000,		1000,		1000		],	// TY25
+
+		// Refundable credits			SINGLE			HOH			MFJ			QSS			MFS
+		"MaxAmericanOppCreditRefundable":[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
+		"MaxCreditForOtherDependents":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
+		"MaxEarnedIncomeCredit":		[ 61555,		61555,		68675,		61555,		0			],	// TY25
+		"MaxPremiumTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
+
+		// IRA Contributions
+		"MaxIRAContribution":			[ 7500,			7500,		7500,		7500,		7500,		],
+		"IRAContributionOver50":		[ 1100,			1100,		1100,		1100,		1100,		],
+		"IRA_AGILimit":					[ 91000,		91000,		149000,		149000,		91000,		],
+		"IRA_AGILimitNoPlan":			[ 89000,		89000,		252000,		152000,		89000,		],	// TY25
+
+		// Dependents
+		"MaxDependentGrossIncome":		[ 5300,			5300,		5300,		5300,		5300,		],
+
+		// AMT							SINGLE			HOH			MFJ			QSS			MFS
+		"AMT_Exemption":				[ 90100,		90100,		140200,		140200,		70100		],
+		"AMT_ExemptionPhaseOut":		[ 500000,		500000,		1000000,	1000000,	500000		],
+
+		// Capital gains ranges			SINGLE			HOH			MFJ			QSS			MFS
+		"CG_15PercentRangeStart":		[ 49450,		66200,		98900,		98900,		49450		],
+		"CG_20PercentRangeStart":		[ 545500,		579600,		613700,		613700,		306850		],
+
+		// Social Security 50% range	SINGLE			HOH			MFJ			QSS			MFS
+		"SS_50PercentRangeStart":		[ 25000,		25000,		32000,		25000,		25000		],	// TY25
+		"SS_50PercentRangeEnd":			[ 34000,		34000,		44000,		34000,		34000		],	// TY25
+		"SS_50PercentRangeLength":		[ 9000,			9000,		12000,		9000,		9000		],	// TY25
+
+		// Standard deduction
+		"StandardDeduction":			[ 16100,		24150,		32200,		32200,		16100		],
+		"StandardDeductionExtra":		[ 2050,			2050,		1650,		1650,		1650		],
+
+		// California constants			SINGLE			HOH			MFJ			QSS			MFS
+		"CA_PersonalExemption":			[ 153,			153,		153,		153,		153			],	// TY25
+		"CA_DependentExemption":		[ 475,			475,		475,		475,		475			],	// TY25
+		"CA_StandardDeduction":			[ 5706,			11412,		11412,		11412,		5706		],	// TY25
+		"CA_BaseSalesTax":				[ 7.25,			7.25,		7.25,		7.25,		7.25		],	// TY25
+		"CA_RentersCredit":				[ 60,			120,		120,		120,		60			],	// TY25
+		"CA_HiIncPhaseout":				[ 252203,		378310,		504411,		504411,		252203		],	// TY25
+	};
+
+	//
+	// Alternative Minimum Tax (AMT)
+	//
+	amt_tax = [
+		//			Start of	End of		Subtract	Rate
+		//			Bracket		Bracket					Percent
+		[ SINGLE,	0,			239100,		0,			26	],		// TY25
+		[ SINGLE,	239100,		MAX_DOLLAR,	4782,		28	],		// TY25
+
+		[ HOH,		0,			239100,		0,			26	],		// TY25
+		[ HOH,		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
+
+		[ MFJ,		0,			239100,		0,			26	],		// TY25
+		[ MFJ,		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
+
+		[ QSS,		0,			239100,		0,			26	],		// TY25
+		[ QSS,		239100,		MAX_DOLLAR,	4782,		28	],		// TY25
+
+		[ MFS,		0,			119550,		0,			26	],		// TY25
+		[ MFS,		119550,		MAX_DOLLAR,	2391,		28	],		// TY25
+	];
+
+	//
+	// Income Tax Table
+	//
+	// The income tax is computed by finding the bracket where the filing status
+	// matches and the income is within the bracket. The tax is computed by
+	// subtracting the start of the bracket from the income to determine the amount
+	// of income within the bracket. Multiply that amount by the tax rate and add
+	// the cumulative tax.
+	//
+	// The cumulative tax is the cumulative amount of tax from each of the previous
+	// brackets.
+	//
+	income_tax_table = [
+		// Filing	Start of	End of		Rate
+		// Status	Bracket		Bracket		Percent
+		[ SINGLE,	0,			12400,		10 ],
+		[ SINGLE,	12400,		50400,		12 ],
+		[ SINGLE,	50400,		105700,		22 ],
+		[ SINGLE,	105700,		201775,		24 ],
+		[ SINGLE,	201775,		256225,		32 ],
+		[ SINGLE,	256225,		640600,		35 ],
+		[ SINGLE,	640600,		MAX_DOLLAR,	37 ],
+
+		[ HOH,		0,			17700,		10 ],
+		[ HOH,		17700,		67450,		12 ],
+		[ HOH,		67450,		105700,		22 ],
+		[ HOH,		105700,		201775,		24 ],
+		[ HOH,		201775,		256200,		32 ],
+		[ HOH,		256200,		640600,		35 ],
+		[ HOH,		640600,		MAX_DOLLAR,	37 ],
+
+		[ MFJ,		0,			24800,		10 ],
+		[ MFJ,		24800,		100800,		12 ],
+		[ MFJ,		100800,		211400,		22 ],
+		[ MFJ,		211400,		403550,		24 ],
+		[ MFJ,		403550,		512450,		32 ],
+		[ MFJ,		512450,		768700,		35 ],
+		[ MFJ,		768700,		MAX_DOLLAR,	37 ],
+
+		[ QSS,		0,			24800,		10 ],
+		[ QSS,		24800,		100800,		12 ],
+		[ QSS,		100800,		211400,		22 ],
+		[ QSS,		211400,		403550,		24 ],
+		[ QSS,		403550,		512450,		32 ],
+		[ QSS,		512450,		768700,		35 ],
+		[ QSS,		768700,		MAX_DOLLAR,	37 ],
+
+		[ MFS,		0,			12400,		10 ],
+		[ MFS,		12400,		50400,		12 ],
+		[ MFS,		50400,		105700,		22 ],
+		[ MFS,		105700,		201775,		24 ],
+		[ MFS,		201775,		256225,		32 ],
+		[ MFS,		256225,		384350,		35 ],
+		[ MFS,		384350,		MAX_DOLLAR,	37 ],
+	];
+
+	//
+	// Long Term Care Premiums
+	//
+	// The amount of the deduction for long term care (LTC) insurance premiums
+	// is limited by the age of the person.
+	//
+	ltc_table = [
+		// 			Maximum
+		// Age		Premium
+		[	71,		6200	],
+		[	61,		4960	],
+		[	51,		1860	],
+		[	41,		930		],
+		[	0,		500		],
+	];
+
+	//
+	// Table of RMD periods
+	//
+	// RMD Table III - Uniform Lifetime Table
+	//
+	rmd_period_table = [
+		//			Distribution
+		// 	Age		Period
+		[	72,		27.4,	],
+		[	73,		26.5,	],
+		[	74,		25.5,	],
+		[	75,		24.6,	],
+		[	76,		23.7,	],
+		[	77,		22.9,	],
+		[	78,		22.0,	],
+		[	79,		21.1,	],
+		[	80,		20.2,	],
+		[	81,		19.4,	],
+		[	82,		18.5,	],
+		[	83,		17.7,	],
+		[	84,		16.8,	],
+		[	85,		11.6,	],
+		[	86,		15.2,	],
+		[	87,		14.4,	],
+		[	88,		13.7,	],
+		[	89,		12.9,	],
+		[	90,		12.2,	],
+		[	91,		11.5,	],
+		[	92,		10.8,	],
+		[	93,		10.1,	],
+		[	94,		9.5,	],
+		[	95,		8.9,	],
+		[	96,		8.4,	],
+		[	97,		7.8,	],
+		[	98,		7.3,	],
+		[	99,		6.8,	],
+		[	100,	6.4,	],
+		[	101,	6.0,	],
+		[	102,	5.6,	],
+		[	103,	5.2,	],
+		[	104,	4.9,	],
+		[	105,	4.6,	],
+		[	106,	4.3,	],
+		[	107,	4.1,	],
+		[	108,	3.9,	],
+		[	109,	3.7,	],
+		[	110,	3.5,	],
+		[	111,	3.4,	],
+		[	112,	3.3,	],
+		[	113,	3.1,	],
+		[	114,	3.0,	],
+		[	115,	2.9,	],
+		[	116,	2.9,	],
+		[	117,	2.7,	],
+		[	118,	2.5,	],
+		[	119,	2.3,	],
+		[	120,	2.0,	],
+	];
+
+	//
+	// Sales Tax Table
+	//
+	// This is the IRS table for determining the sales tax deduction for California.
+	//
+	// The information in this table comes from the instructions for schedule A at
+	// https://www.irs.gov/pub/irs-pdf/i1040sca.pdf.
+	//
+	sales_tax_table = [
+		//										Family Size
+		// Income Range			1		2		3		4		5		>5
+		[ 0,		20000,		412,	476,	519,	552,	580,	619		],		// TY25
+		[ 20000,	30000,		564,	650,	709,	754,	792,	845		],		// TY25
+		[ 30000,	40000,		637,	734,	801,	852,	895,	955		],		// TY25
+		[ 40000,	50000,		698,	805,	877,	934,	981,	1046	],		// TY25
+		[ 50000,	60000,		752,	866,	944,	1005,	1055,	1126	],		// TY25
+		[ 60000,	70000,		798,	921,	1003,	1067,	1121,	1196	],		// TY25
+		[ 70000,	80000,		841,	970,	1057,	1124,	1181,	1259	],		// TY25
+		[ 80000,	90000,		879,	1015,	1106,	1176,	1235,	1318	],		// TY25
+		[ 90000,	100000,		915,	1056,	1151,	1225,	1286,	1372	],		// TY25
+		[ 100000,	120000,		963,	1110,	1211,	1288,	1352,	1442	],		// TY25
+		[ 120000,	140000,		1023,	1180,	1286,	1368,	1437,	1532	],		// TY25
+		[ 140000,	160000,		1079,	1243,	1355,	1442,	1514,	1615	],		// TY25
+		[ 160000,	180000,		1128,	1301,	1418,	1508,	1584,	1690	],		// TY25
+		[ 180000,	200000,		1175,	1355,	1477,	1571,	1649,	1760	],		// TY25
+		[ 200000,	225000,		1223,	1410,	1537,	1635,	1716,	1831	],		// TY25
+		[ 225000,	250000,		1274,	1469,	1600,	1702,	1787,	1907	],		// TY25
+		[ 250000,	275000,		1320,	1522,	1659,	1765,	1853,	1977	],		// TY25
+		[ 275000,	300000,		1365,	1574,	1715,	1825,	1915,	2043	],		// TY25
+		[ 300000,	MAX_DOLLAR,	1619,	1867,	2034,	2164,	2272,	2423	],		// TY25
+	];
+
+	//
+	// Credit for Qualified Retirement Savings Contributions
+	//
+	// This is the table found on form 8880 to calculate the amount of the credit to allow
+	// based on income.
+	//
+	savings_credit_phase_out = [
+		// Start of		End of						Single
+		// Bracket		Bracket		MFJ		HoH		MFS, QSS
+		[	0,			23750,		0.5,	0.5,	0.5	],		// TY25
+		[	23750,		25500,		0.5,	0.5,	0.2	],		// TY25
+		[	25500,		35625,		0.5,	0.5,	0.1	],		// TY25
+		[	35625,		38250,		0.5,	0.2,	0.1	],		// TY25
+		[	38250,		39500,		0.5,	0.1,	0.1	],		// TY25
+		[	39500,		47500,		0.5,	0.1,	0.0	],		// TY25
+		[	47500,		51000,		0.2,	0.1,	0.0	],		// TY25
+		[	51000,		59250,		0.1,	0.1,	0.0	],		// TY25
+		[	59250,		79000,		0.1,	0.0,	0.0	],		// TY25
+		[	79000,		MAX_DOLLAR,	0.0,	0.0,	0.0	],		// TY25
+	];
+
+	//
+	// California Income Tax Table
+	//
+	// SINGLE and MFS are the same. MFJ and QSS are the same.
+	//
+	ca_income_tax_table = [
+		// Filing	Start of	End of		Rate
+		// Status	Bracket		Bracket		Percent
+		[ SINGLE,	0,			11079,		1.0		],		// TY25
+		[ SINGLE,	11079,		26264,		2.0		],		// TY25
+		[ SINGLE,	26264,		41452,		4.0		],		// TY25
+		[ SINGLE,	41452,		57542,		6.0		],		// TY25
+		[ SINGLE,	57542,		72724,		8.0		],		// TY25
+		[ SINGLE,	72724,		371479,		9.3		],		// TY25
+		[ SINGLE,	371479,		445771,		10.3	],		// TY25
+		[ SINGLE,	445771,		742953,		11.3	],		// TY25
+		[ SINGLE,	742953,		MAX_DOLLAR,	12.3	],		// TY25
+
+		[ HOH,		0,			22173,		.0		],		// TY25
+		[ HOH,		22173,		52530,		2.0		],		// TY25
+		[ HOH,		52530,		67716,		4.0		],		// TY25
+		[ HOH,		67716,		83805,		6.0		],		// TY25
+		[ HOH,		83805,		98990,		8.0		],		// TY25
+		[ HOH,		98990,		505208,		9.3		],		// TY25
+		[ HOH,		505208,		606251,		10.3	],		// TY25
+		[ HOH,		606251,		1010417,	11.3	],		// TY25
+		[ HOH,		1010417,	MAX_DOLLAR,	12.3	],		// TY25
+
+		[ MFJ,		0,			22158,		1.0		],		// TY25
+		[ MFJ,		22158,		52528,		2.0		],		// TY25
+		[ MFJ,		52528,		82904,		4.0		],		// TY25
+		[ MFJ,		82904,		115084,		6.0		],		// TY25
+		[ MFJ,		115084,		145448,		8.0		],		// TY25
+		[ MFJ,		145448,		742958,		9.3		],		// TY25
+		[ MFJ,		742958,		891542,		10.3	],		// TY25
+		[ MFJ,		891542,		1485906,	11.3	],		// TY25
+		[ MFJ,		1485906,	MAX_DOLLAR,	12.3	],		// TY25
+	];
+}

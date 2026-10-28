@@ -2,46 +2,67 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<?php include "../Library/TaxTools/IncludeFiles.html"; ?>
-	<link rel="stylesheet" href="AMT.css" />
-	<script defer src="AMT.js"></script>
+	<link rel="stylesheet" href="../Library/CSS/TAXTools.css" />
+	<link rel="stylesheet" href="../Library/CSS/Tooltips.css" />
+	<link rel="stylesheet" href="../Library/CSS/HTML.css" />
 
+	<script type="module" src="../Library/TAXTools/TAXTools.js"></script>
+	<script type="module" src="../Library/TAXTools/Tooltips.js"></script>
+	<script type="module" src="../Library/Modules/SaveRestore.js"></script>
+	<script type="module" src="../Version/Version.js"></script>
+
+	<link rel="stylesheet" href="AMT.css" />
+	<script type="module" src="AMT.js"></script>
 	<title>Alternative Minimum Tax Calculator</title>
 </head>
 
 <body>
-	<div class="tool-container">
+	<div class="taxtool-container" id="taxtool-container">
 		<p class="version-number">Version: <a href="../Version/Version.html">
-			<span id="TaxToolsVersion"></span></a></p>
+			<span id="tax-tools-version"></span></a></p>
 
-		<h1 class="title">Alternative Minimum Tax Calculator</h1>
+		<h1 class="title" id="title">Alternative Minimum Tax Calculator</h1>
 
-		<p>The Alternative Minimum Tax (AMT) is a separate tax calculation that is intended to prevent
-		high-income taxpayers from not paying their fair share of taxes through an excess use of deductions
-		and credits. Taxpayers with an AGI greater than the AMT exemption are required to calculate
-		their income tax using both the standard income tax calculation and the AMT calculation and pay
-		the higher amount.</p>
+		<p>The Alternative Minimum Tax (AMT) is a separate tax calculation that is intended
+		to prevent high-income taxpayers from not paying their fair share of taxes through
+		an excess use of deductions and credits. Taxpayers with an AGI greater than the AMT
+		exemption are required to calculate their income tax using both the standard income
+		tax calculation and the AMT calculation and pay the higher amount.</p>
 
-		<p>The AMT is calculated by starting with the adjusted gross income (AGI) from form 1040, line
-		11b, then adding back certain deductions and adding some additional income. This amount is the AMT
-		Income. Then, an AMT Exemption amount is determined based on the AMT Income. The AMT Income
-		minus the AMT Exemption is taxed at 26% or 28%, which is the amount of the AMT.</p>
+		<p>The AMT is calculated by starting with the adjusted gross income (AGI) from form
+		1040, line 11b, then adding back certain deductions and adding some additional
+		income. This amount is the AMT Income. Then, an AMT Exemption amount is determined
+		based on the AMT Income. The AMT Income minus the AMT Exemption is taxed at 26% or
+		28%, which is the amount of the AMT.</p>
 
-		<p>To calculate the AMT using this tool, enter information from the federal tax return in the green
-		fields. The amount of the AMT, if any, will be in the blue field at the bottom. Click
-		<a href="AMT-Help.html"> this link</a> for more help with this tool.</p>
+		<p>To calculate the AMT using this tool, enter information from the federal tax
+		return in the green fields. The amount of the AMT, if any, will be in the blue field
+		at the bottom. Click <a href="AMT-Help.html"> this link</a> for more help with this
+		tool.</p>
 
-		<h2>Taxpayer Information</h2>
+		<div class="save-restore-container">
+			<!-- Save Button -->
+			<input type="button" id="save-button" class="trigger button save-button"
+				value="Save" tooltipid="#save-button-tt" />
+
+			<!-- Restore Button -->
+			<input type="file" id="input-file" accept=".txt" style="display: none;" />
+			<label for="input-file" class="trigger button restore-button"
+				tooltipid="#restore-button-tt">Restore</label>
+		</div>
+
+		<h2 style="margin-top: 0;">Taxpayer Information</h2>
 		<div class="table-3">
 			<p>Tax Year</p>
-			<select class="trigger input-field" id="TaxYear" tooltipid="#TaxYearTT">
+			<select class="trigger input-field" id="tax-year" tooltipid="#tax-year-tt">
 				<option value="2026">2026</option>
 				<option value="2025">2025</option>
 				<option value="2024">2024</option>
 			</select>
 
 			<p>Filing Status</p>
-			<select class="trigger input-field" id="FilingStatus" tooltipid="#FilingStatusTT">
+			<select class="trigger input-field" id="FilingStatus"
+					tooltipid="#FilingStatusTT">
 				<option value="Single">Single</option>
 				<option value="HoH">HoH</option>
 				<option value="MFJ">MFJ</option>
@@ -178,9 +199,9 @@
 			<input class="trigger input-field" type="text" id="MiningCosts"
 				placeholder="0" tooltipid="#MiningCostsTT" />
 
-			<p>Reseach Costs</p>
-			<input class="trigger input-field" type="text" id="ReseachCosts"
-				placeholder="0" tooltipid="#ReseachCostsTT" />
+			<p>Research Costs</p>
+			<input class="trigger input-field" type="text" id="ResearchCosts"
+				placeholder="0" tooltipid="#ResearchCostsTT" />
 
 			<p>Installment Sales (subtraction)</p>
 			<input class="trigger input-field" type="text" id="InstallmentSales"
@@ -195,20 +216,34 @@
 				placeholder="0" tooltipid="#OtherIncomeTT" />
 		</div>
 
-		<h2>Alternative Mimimum Tax</h2>
+		<h2>Alternative Minimum Tax</h2>
 		<div class="table-2">
 			<p>AMT Income</p>
-			<p class="trigger output-field" id="AMTIncome" tooltipid="#AMTIncomeTT">0</p>
+			<p class="trigger output-field" id="AMTIncome"
+				tooltipid="#AMTIncomeTT">0</p>
 
 			<p>AMT Exemption</p>
-			<p class="trigger output-field" id="AMTExemption" tooltipid="#AMTExemptionTT">0</p>
+			<p class="trigger output-field" id="AMTExemption"
+				tooltipid="#AMTExemptionTT">0</p>
 
 			<p>Alternative Minimum Tax (AMT)</p>
-			<p class="trigger output-field" id="AMT" tooltipid="#AMTTT">0</p>
+			<p class="trigger output-field" id="AMT"
+				tooltipid="#AMTTT">0</p>
 		</div>
 
-		<?php include "AMT-Debug.html"; ?>				<!-- Debugging Fields -->
-		<?php include "AMT-HelpInput.html"; ?>			<!-- Tooltips -->
+		<!-- Display area for error messages. -->
+		<div id="error-message-container">
+			<p id="error-message-output"></p>
+		</div>
+
+		<!-- Display area for debugging information. -->
+		<div id="debug-container">
+			<h3>Debugging Output</h3>
+			<pre id="debug-output"></pre>
+		</div>
+
+		<!-- Tooltips -->
+		<?php include "AMT-HelpInput.html"; ?>
 	</div>
 </body>
 </html>

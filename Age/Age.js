@@ -1,17 +1,44 @@
 
+import { Dates }	from "../Library/Modules/Dates.js";
+import { Ensure }	from "../Library/Modules/Ensure.js";
+import { HTML }		from "../Library/Modules/HTML.js";
+import { Num }		from "../Library/Modules/Num.js";
+
+import { ERROR_MESSAGE_OUTPUT }	from "../Library/TAXTools/TAXTools.js";
+
 let start			= "";
 let end				= "";
 let age				= 0;
 let input_color		= "";
 let output_color	= "";
 
-function calculateAge(start, end) {
-	age = Age(start, end);
-	putUserOutput("Age", age);
+function ageHandler(event) {
+	try {
+		HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
 
-	changeBackgroundColor("Start",	input_color);
-	changeBackgroundColor("End",	input_color);
-	changeBackgroundColor("Age",	output_color);
+		age = HTML.getUserInput("Age", "text");
+		if (age === "")
+			return;
+
+		age = Num.toInteger(age);
+
+		if (start) {
+			calculateEndDate(start, age);
+		} else if (end) {
+			calculateStartDate(end, age);
+		}
+	} catch (error) {
+		Ensure.processError(error);
+	}
+}
+
+function calculateAge(start, end) {
+	age = Dates.getAge(start, end);
+	HTML.putUserOutput("Age", age);
+
+	HTML.changeBackgroundColor("Start",	input_color);
+	HTML.changeBackgroundColor("End",	input_color);
+	HTML.changeBackgroundColor("Age",	output_color);
 }
 
 function calculateEndDate(start, age) {
@@ -21,11 +48,11 @@ function calculateEndDate(start, age) {
 
 	end_date.setYear(start_year + age);
 	end = end_date.toLocaleDateString();
-	putUserOutput("End", end);
+	HTML.putUserOutput("End", end);
 
-	changeBackgroundColor("Start",	input_color);
-	changeBackgroundColor("End",	output_color);
-	changeBackgroundColor("Age",	input_color);
+	HTML.changeBackgroundColor("Start",	input_color);
+	HTML.changeBackgroundColor("End",	output_color);
+	HTML.changeBackgroundColor("Age",	input_color);
 }
 
 function calculateStartDate(end, age) {
@@ -35,69 +62,67 @@ function calculateStartDate(end, age) {
 
 	start_date.setYear(end_year - age);
 	start = start_date.toLocaleDateString();
-	putUserOutput("Start", start);
+	HTML.putUserOutput("Start", start);
 
-	changeBackgroundColor("Start",	output_color);
-	changeBackgroundColor("End",	input_color);
-	changeBackgroundColor("Age",	input_color);
-}
-
-function startHandler(event) {
-	start = getUserInput("Start", "text");
-	if (!getDateObject(start)) {
-		if (start) {
-			alert("Invalid date: " + start);
-		}
-		return;
-	}
-
-	if (end) {
-		calculateAge(start, end);
-	} else if (age) {
-		calculateEndDate(start, age);
-	}
+	HTML.changeBackgroundColor("Start",	output_color);
+	HTML.changeBackgroundColor("End",	input_color);
+	HTML.changeBackgroundColor("Age",	input_color);
 }
 
 function endHandler(event) {
-	end = getUserInput("End", "text");
-	if (!getDateObject(end)) {
-		if (end) {
-			alert("Invalid date: " + end);
-		}
-		return;
-	}
+	try {
+		HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
 
-	if (start) {
-		calculateAge(start, end);
-	} else if (age) {
-		calculateStartDate(end, age);
+		end = HTML.getUserInput("End", "text");
+		if (!Dates.getDateObject(end)) {
+			if (end) {
+				throw new Error("Invalid date: " + end);
+			}
+			return;
+		}
+
+		if (start) {
+			calculateAge(start, end);
+		} else if (age) {
+			calculateStartDate(end, age);
+		}
+	} catch (error) {
+		Ensure.processError(error);
 	}
 }
 
-function ageHandler(event) {
-	age = getUserInput("Age", "text");
-	if (age === "")
-		return;
+function startHandler(event) {
+	try {
+		HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
 
-	age = toInteger(age);
+		start = HTML.getUserInput("Start", "text");
+		if (!Dates.getDateObject(start)) {
+			if (start) {
+				throw new Error("Invalid date: " + start);
+			}
+			return;
+		}
 
-	if (start) {
-		calculateEndDate(start, age);
-	} else if (end) {
-		calculateStartDate(end, age);
+		if (end) {
+			calculateAge(start, end);
+		} else if (age) {
+			calculateEndDate(start, age);
+		}
+	} catch (error) {
+		Ensure.processError(error);
 	}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 	// Wait for the DOM to be fully loaded before trying to access any elements.
 
-	addListener("Start",	"change",	startHandler);
-	addListener("End",		"change",	endHandler);
-	addListener("Age",		"change",	ageHandler);
+	HTML.addListener("Start",	"change",	startHandler);
+	HTML.addListener("End",		"change",	endHandler);
+	HTML.addListener("Age",		"change",	ageHandler);
 
-	output_color	= getCSSGlobalVariable("--output-color");
-	input_color		= getCSSGlobalVariable("--input-color");
+	output_color	= HTML.getCSSGlobalVariable("--output-color");
+	input_color		= HTML.getCSSGlobalVariable("--input-color");
 
 	end = new Date().toLocaleDateString();	// Today's date
-	putUserOutput("End", end);
+	HTML.putUserOutput("End", end);
 });

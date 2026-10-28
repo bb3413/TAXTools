@@ -1,0 +1,258 @@
+
+/*
+ * Styles specifically for the 1099 style of forms.
+ */
+.f1099-taxform-container {
+	box-sizing:				border-box;	/* Exclude padding/borders when calculating size. */
+	font-family:			Arial, Helvetica, sans-serif;
+	width:					700px;
+	margin:					0 auto;		/* Center in parent container. */
+	background:				var(--taxform-background-color);
+	color:					var(--taxform-text-color);
+	border:					2px solid var(--taxform-border-color);
+	padding:				2px;
+}
+
+/* Apply the box-sizing rule to everything in the taxform-container. */
+.f1099-taxform-container,
+.f1099-taxform-container * {
+	box-sizing:				border-box;
+}
+
+/* Header Section */
+.f1099-header-row {
+	display:				flex;
+	border-bottom:			2px solid var(--taxform-border-color);
+}
+
+.f1099-header-left {
+	flex:					1;
+	padding:				5px;
+	font-size:				10px;
+	border-right:			1px solid var(--taxform-border-color);
+}
+
+.f1099-header-center {
+	width:					180px;
+	text-align:				center;
+	padding:				5px;
+	border-right:			1px solid var(--taxform-border-color);
+}
+
+.f1099-header-center h1 {
+	margin:					0;
+	font-size:				20px;
+}
+
+.f1099-header-center h2 {
+	margin:					0;
+	font-size:				14px;
+}
+
+.f1099-header-right {
+	width:					220px;
+	padding:				5px;
+	font-size:				10px;
+}
+
+.f1099-header-right strong {
+	font-size:				12px;
+	display:				block;
+}
+
+/* Main Grid Structure */
+.f1099-main-grid {
+	display:				flex;
+}
+
+.f1099-col-left {
+	width:					50%;
+	border-right:			2px solid var(--taxform-border-color);
+}
+
+.f1099-col-right {
+	width:					50%;
+}
+
+/* Box & Form Control Formatting */
+.f1099-box {
+	border-bottom:			1px solid var(--taxform-border-color);
+	padding:				3px 5px;
+	min-height:				48px;
+	display:				flex;
+	flex-direction:			column;
+	justify-content:		space-between;
+}
+
+.f1099-box-label {
+	font-size:				8px;
+	font-weight:			bold;
+	text-transform:			uppercase;
+	display:				block;
+	margin-bottom:			2px;
+}
+
+.f1099-flex-row {
+	display:				flex;
+}
+
+.f1099-flex-row .f1099-box {
+	flex:					1;
+	border-right:			1px solid var(--taxform-border-color);
+}
+
+.f1099-flex-row .f1099-box:last-child {
+	border-right:			none;
+}
+
+.f1099-box-large {
+	min-height:				95px;
+}
+
+/* Styling Input Fields to fit seamlessly */
+.f1099-taxform-container input[type="text"],
+.f1099-taxform-container input[type="number"],
+.f1099-taxform-container textarea {
+	width:					100%;
+	border:					1px solid var(--border-light);
+	border-radius:			2px;
+	padding:				3px 4px;
+	font-size:				11px;
+	font-weight:			bold;
+	background-color:		inherit;
+}
+
+.f1099-taxform-container input[type="text"]:focus,
+.f1099-taxform-container input[type="number"]:focus,
+.f1099-taxform-container textarea:focus {
+	outline:				none;
+	border-color:			#0056b3;
+	background-color:		inherit;
+}
+
+.f1099-taxform-container textarea {
+	resize:					none;
+	height:					60px;
+}
+
+.f1099-checkbox-center {
+	display:				flex;
+	align-items:			center;
+	height:					100%;
+}
+
+/* Footer */
+.f1099-footer-note {
+	font-size:				12px;
+	padding:				4px;
+	padding-left:			8px;
+	color:					var(--taxform-text-color);
+}
+
+/*
+ * Used for entering fields below the form.
+ */
+.supplemental-line-150-400 {
+	display:				grid;
+	grid-template-columns:	150px 400px;
+}
+
+.supplemental-line-150-400 p {
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+.supplemental-line-400-40 {
+	display:				grid;
+	grid-template-columns:	400px 40px;
+}
+
+.supplemental-line-400-40 p {
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+/*
+ * Styles specifically for the SSA-1099 form.
+ */
+.ssa-header-left {
+	padding-left:			10px;
+	margin-top:				0;
+	padding-top:			0;
+}
+
+.ssa-header-left h1 {
+	font-size:				40px;
+	font-weight:			bold;
+	margin:					0 auto;
+	padding-top:			5px;
+}
+
+.ssa-header-right {
+	flex:					1;
+	padding:				5px;
+	font-size:				12px;
+	font-weight:			bold;
+	text-transform:			uppercase;
+}
+
+.ssa-row-1 {
+	display:				grid;
+	grid-template-columns:	2fr 1fr;
+}
+
+.ssa-row-2 {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.ssa-border-right {
+	border-right:			1px solid var(--taxform-border-color);
+}
+
+.ssa-outside-header {
+	font-size:				18px;
+	font-weight:			bold;
+	padding:				4px;
+	padding-left:			8px;
+	color:					var(--taxform-text-color);
+	text-transform:			uppercase;
+	text-align:				center;
+}
+
+.ssa-subheading {
+	font-size:				12px;
+	font-weight:			bold;
+	text-transform:			uppercase;
+	text-align:				center;
+	margin-top:				0;
+}
+
+.ssa-label-group {
+	display:			flex;
+	align-items:		center;		/* Aligns label text vertically with the input */
+	gap:				8px;        /* Adds space between the label and the input */
+}
+
+/*
+ * Styles specifically for the W-2 form.
+ */
+.w2-header-left {
+	width:					150px;
+	padding:				5px;
+	font-size:				10px;
+	border-right:			1px solid var(--taxform-border-color);
+}
+
+.w2-header-center {
+	width:					180px;
+	text-align:				center;
+	padding:				5px;
+	border-right:			1px solid var(--taxform-border-color);
+}
+
+.w2-header-right {
+	flex:					1;
+	padding:				5px;
+	font-size:				10px;
+}

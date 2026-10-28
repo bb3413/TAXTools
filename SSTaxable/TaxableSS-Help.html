@@ -2,23 +2,23 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<link rel="stylesheet" href="../Library/TaxTools/TaxTools.css" />
-	<link rel="stylesheet" href="../Library/TaxTools/HelpFields.css" />
-	<script src="../Library/IncludeFile.js"></script>
+	<link rel="stylesheet" href="../Library/CSS/TAXTools.css" />
+	<link rel="stylesheet" href="../Library/CSS/HelpFields.css" />
+	<script type="module" src="../Library/Modules/IncludeFile.js"></script>
 	<title>Taxable Social Security Calculator Help</title>
 </head>
 
 <body>
-	<div class="tool-container">
+	<div class="taxtool-container">
 		<h1 class="title">Taxable Social Security Calculator Help</h1>
 
 		<h2>Issues</h2>
 		<ul>
-			<li>See the description for the Adjustments field below. There are several adjustments
-			that may not be handled correctly by this tool.</li>
+			<li>See the description for the Adjustments field below. There are several
+			adjustments that may not be handled correctly by this tool.</li>
 
-			<li>If you are a non-resident alien, do not use this calculator; the taxable percentage
-			of your Social Security is 85%.</li>
+			<li>If you are a non-resident alien, do not use this calculator; the taxable
+			percentage of your Social Security is 85%.</li>
 		</ul>
 
 		<h2>Description of Input Fields</h2>
@@ -28,6 +28,7 @@
 		<p>The basic computation for determining the amount of taxable Social Security is
 		shown here.</p>
 
+		<!-- Use spaces inside <pre>; tabs work, but don't format as expected. -->
 		<pre>
         Combined Income          = Half of Social Security + AGI + Tax Exempt Interest
         Social Security Income   = Combined Income - Adjustments

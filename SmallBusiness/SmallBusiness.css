@@ -11,6 +11,7 @@ h1, h2, h3 {
 .tax-calculation-box {
 	border:					1px solid var(--border-color);
 	padding:				0.5rem;
+	margin-top:				5px;
 }
 
 .tax-calculation-box h3 {
