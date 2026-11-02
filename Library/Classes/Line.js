@@ -38,10 +38,6 @@ export class Line {
 		return this._value;
 	}
 
-	isUserSuppliedValue() {
-		return this._user_supplied_value;
-	}
-
 	set label(new_label) {
 		this._label = new_label;
 	}
@@ -74,7 +70,7 @@ export class Line {
 		// value supplied by the user.
 		this.initialized = true;
 		
-		if (this.isUserSuppliedValue()) {
+		if (this._user_supplied_value) {
 			// Ignore new value.
 			return;
 		}
