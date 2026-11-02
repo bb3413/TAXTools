@@ -100,7 +100,7 @@
 			mouse over the calculated value in the Estimated Tax Calculation.</p>
 
 			<div class="tax-formula-container">
-				<p>Total Income</p>
+				<p>Total Income (or Gross Income)</p>
 				<p>= Income from all sources - Non-taxable Income</p>
 				<p>Adjusted Gross Income</p>
 				<p>= Total Income - Adjustments</p>
