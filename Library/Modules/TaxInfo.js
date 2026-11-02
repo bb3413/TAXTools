@@ -6,7 +6,7 @@ export const TaxInfo = {
 	earnedIncome,
 	formsInPrintOrder,
 	getBusinessIncome,
-	getBusinessNames,
+	get1099BusinessNames,
 	getIRAValue,
 	getPensionValue,
 	getStateWithholding,
@@ -153,11 +153,9 @@ function getBusinessIncome(business_name) {
 	return sum;
 }
 
-function getBusinessNames() {
+function get1099BusinessNames() {
 	//
-	// This is a bad function because it does not include business names from
-	// Schedule Cs. That's because it is used to determine if a Schedule C needs to be
-	// created.  REDESIGN THIS.
+	// Find all the business names listed in 1099 forms.
 	//
 	let business_names = [];
 	let business_forms = TaxFormObj.getForms("F1099NEC")
@@ -171,7 +169,7 @@ function getBusinessNames() {
 
 		let business_name = "NO_NAME";
 		if (form.lines["business_name"]) {
-			business_name = form.lines["business_name"].toUpperCase;
+			business_name = Str.clean(form.lines["business_name"].toUpperCase());
 		}
 
 		if (!business_names.includes(business_name) ) {
