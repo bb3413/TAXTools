@@ -172,11 +172,6 @@ export class TaxTableTmpl {
 		return this.values[name][tp.filing_status]
 	}
 
-	getTaxYear() {
-		// This is implemented as both a static and instance method.
-		return this.tax_year;
-	}
-
 	get_AMT_Exemption(amt_income) {
 		Ensure.isNumber(amt_income);
 
