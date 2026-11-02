@@ -115,24 +115,28 @@ function addInputFormHandler(event) {
 function addInputForm(formname) {
 	Ensure.isNonEmptyString(formname);
 
-	const hm		= HTMLMgr.getMgr();
-	let block_name	= formname.toLowerCase();
-	let last_block	= hm.lastBlock(block_name);
-	let block		= undefined;
+	const hm			= HTMLMgr.getMgr();
+	let block_name		= formname.toLowerCase();
+	let last_block		= hm.lastBlock(block_name);
+	let block_class_name= undefined;
+	let parent_id		= undefined;
+	let where			= undefined;
 
-	if (last_block) {
-		block = hm.createAndAddBlock(
-						formname + "_HTML",
-						last_block.getID(),
-						"afterend");
+	if (formname === "Business") {
+		block_class_name = formname;
 	} else {
-		block = hm.createAndAddBlock(
-						formname + "_HTML",
-						"input-taxforms-container",
-						"beforeend");
+		block_class_name = formname + "_HTML";
 	}
 	
-	return block;
+	if (last_block) {
+		parent_id	= last_block.getID();
+		where		= "afterend";
+	} else {
+		parent_id	= "input-taxforms-container"
+		where		= "beforeend";
+	}
+	
+	return hm.createAndAddBlock(block_class_name, parent_id, where);
 }
 
 function addOutputForm(form) {
@@ -160,8 +164,8 @@ function calculateHandler(event) {
 		getInput();												// Get the tax data
 
 		// Calculate the Fed return
-		// There is a circular reference from 1040-S1, lines 20 and 21 to 1040, line 9,
-		// but to 1040, lines 8 and 10 reference 1040-S1, lines 8 and 26. Therefore, a
+		// There is a circular reference from 1040-S1, lines 20 and 21 to 1040, line 9.
+		// But 1040, lines 8 and 10 reference 1040-S1, lines 8 and 26. Therefore, a
 		// two-pass calculation is used which gets the correct calculation in most
 		// situations and very close in all situations.
 		TaxFormObj.getOrCreateForm("F1040").calculate();
@@ -260,16 +264,17 @@ function getBusinesses() {
 			continue;
 		}
 
-		const f1040sc = TaxFormObj.createForm("F1040SC");
-
 		let business_name = "NO_NAME";
 		if (values["name"]) {
-			business_name = values["name"];
+			business_name = Str.clean(values["name"].toUpperCase());
 		}
 		if (business_names.includes(business_name)) {
 			throw new Error(`Business names must be unique: ${business_name}`);
 		}
+		business_names.push(business_name);
 
+
+		const f1040sc = TaxFormObj.createForm("F1040SC");
 		f1040sc.cash_income = values["cash_income"];
 
 		f1040sc.lines["name"].user_value	= business_name;
@@ -290,7 +295,7 @@ function getBusinesses() {
 
 	// Make sure that Schedule Cs were created for all the businesses that have 1099-NECs
 	// and 1099-MISCs.
-	for (const name of TaxInfo.getBusinessNames()) {
+	for (const name of TaxInfo.get1099BusinessNames()) {
 		if (!business_names.includes(name)) {
 			const f1040sc = TaxFormObj.createForm("F1040SC");
 			f1040sc.lines["name"].user_value = name;
@@ -450,48 +455,6 @@ function initialize() {
 	HTML.hideElement(OUTPUT_TAXFORMS_CONTAINER);
 	HTML.hideElement(DEBUG_CONTAINER);
 	HTML.putElementValue(ERROR_MESSAGE_OUTPUT, "");
-}
-
-function listBusinessNames() {
-	const hm = HTMLMgr.getMgr();
-	const business_names = [];
-
-	for (const block of hm.getBlocks("business")) {
-		const values = block.getValues();
-		if (Objects.isEmpty(values)) {
-			continue;
-		}
-	
-		let business_name = values.name === "" ? "NO-NAME" : values.name;
-		if (business_names.includes(business_name)) {
-			throw new Error("listBusinesses: More than one business with " +
-				`the same name: ${business_name}`);
-		}
-		business_names.push(business_name);
-	}
-
-	// Search the 1099-NEC and 1099-MISC forms for business names.
-	for (const block of hm.getBlocks()) {
-		const values = block.getValues();
-		if (Objects.isEmpty(values)) {
-			continue;
-		}
-
-		
-		if (block.name === "f1099misc") {
-			let business_name = values.name === "" ? "NO-NAME" : values.name;
-		}
-
-		if (block.name === "f1099nec") {
-			let business_name = values.name === "" ? "NO-NAME" : values.name;
-		}
-	
-		if (business_name && !business_names.includes(business_name)) {
-			business_names.push(business_name);
-		}
-	}
-
-	return business_names;
 }
 
 function parseElementID(element_id) {
