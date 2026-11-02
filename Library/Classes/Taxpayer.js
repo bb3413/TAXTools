@@ -46,7 +46,7 @@ function initializeTaxpayer() {
 	//
 	// Create a new taxpayer and initialize it with information from the Web page.
 	//
-	const taxpayer = new Taxpayer();
+	new Taxpayer();
 		
 	// Initialize the fields from the web page.
 	for (const field_name of Object.keys(FIELD_INFO)) {
@@ -163,6 +163,9 @@ export class Taxpayer {
 	// ---------------- Constructor ----------------
 	//
 	constructor() {
+		if (taxpayer) {
+			throw new Error("Taxpayer is already initialized.");
+		}
 		taxpayer = this;
 
 		this._filing_status					= SINGLE;
@@ -280,14 +283,6 @@ export class Taxpayer {
 		return size;
 	}
 
-	isMarried() {
-		switch (this.filing_status) {
-			case MFJ:	return true;
-			case MFS:	return true;
-		}
-		return false;
-	}
-
 	fillIn1040() {
 		//
 		// Put the taxpayer information on the output form 1040.
@@ -326,6 +321,14 @@ export class Taxpayer {
 			this._is_taxpayer_blind ? "X" : "", "text");
 		HTML.putUserOutput(`${id}-spouse-is-blind`,
 			this._is_spouse_blind ? "X" : "", "text");
+	}
+
+	isMarried() {
+		switch (this.filing_status) {
+			case MFJ:	return true;
+			case MFS:	return true;
+		}
+		return false;
 	}
 
 	toString() {
