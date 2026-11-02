@@ -132,6 +132,21 @@ export class Dependent extends HTMLBlock {
 		this.uid		= HTMLMgr.getMgr().allocateUID(this.name);
 		this.html		= Dependent.getHTML(this.uid);
 		this.fields		= Dependent.getFieldInfo();
+
+		this.name					= "";
+		this.birthday				= "";
+		this.age					= 0;
+		this.relationship			= "";
+		this.months_lived_at_home	= 0;
+		this.gross_income			= 0;
+		this.fulltime_student		= false;
+		this.mfj					= false;
+		this.dependent_supported	= false;
+		this.taxpayer_supported		= false;
+		this.disabled				= false;
+		this.has_ssn				= false;
+		this.has_itin				= false;
+		this.has_atin				= false;
 	}
 
 	set birthday(birthday) {
@@ -201,8 +216,6 @@ export class Dependent extends HTMLBlock {
 		//		o	Income received by the child, but not spent on their own support is not
 		//			considered support.
 		if (this.dependent_supported) {
-			// OK
-		} else {
 			return false;
 		}
 
@@ -267,11 +280,11 @@ export class Dependent extends HTMLBlock {
 		// Support Test - The taxpayer must provide more than half of the relative's support
 		// for the year.
 		//		o	A scholarship is not considered support.
-		//		o	Income received by the relative, but not spent on their own support is not
-		//			considered support.
+		//		o	Income received by the relative, but not spent on their own support is
+		//			not considered support.
 		//		o	If two or more people could claim the person except for the support test,
-		//			and together they provide more than half the support, one of them can file
-		//			form 2120 Multiple Support Agreement and claim the person.
+		//			and together they provide more than half the support, one of them can
+		//			file form 2120 Multiple Support Agreement and claim the person.
 		if (!this.taxpayer_supported) {
 			return false;
 		}
