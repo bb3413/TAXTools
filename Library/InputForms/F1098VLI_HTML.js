@@ -14,18 +14,17 @@ const HTML_CODE = `
 			<summary class="taxform-summary">1098-VLI - Vehicle Loan Interest
 				Statement</summary>
 			<div>&nbsp;</div>
-			
-			<div class="taxform-owner">
-				<input type="radio" name="f1098vli-XX-owner"
-					id="f1098vli-XX-is-taxpayers" checked />
-				<label for="f1098vli-XX-is-taxpayers">
-					Taxpayer&apos;s Tax Form</label>
 
-				<input type="radio" name="f1098vli-XX-owner"
-					id="f1098vli-XX-is-spouses" />
-				<label for="f1098vli-XX-is-spouses">
-					Spouse&apos;s Tax Form</label>
-				</div>
+			<div class="taxform-owner">
+				<label class="radio-button">
+					<input type="radio" name="1099vli-XX-owner" id="1099vli-XX-is-taxpayers"
+						checked />
+					Taxpayer&apos;s Tax Form
+				</label>
+				<label class="radio-button">
+					<input type="radio" name="1099vli-XX-owner" id="1099vli-XX-is-spouses" />
+					Spouse&apos;s Tax Form
+				</label>
 			</div>
 
 			<div class="f1099-taxform-container">
