@@ -15,16 +15,15 @@ const HTML_CODE = `
 			<div>&nbsp;</div>
 
 			<div class="taxform-owner">
-				<input type="radio" name="w2-XX-owner"
-					id="w2-XX-is-taxpayers" checked />
-				<label for="w2-XX-is-taxpayers">
-					Taxpayer&apos;s Tax Form</label>
-
-				<input type="radio" name="w2-XX-owner"
-					id="w2-XX-is-spouses" />
-				<label for="w2-XX-is-spouses">
-					Spouse&apos;s Tax Form</label>
-				</div>
+				<label class="radio-button">
+					<input type="radio" name="w2-XX-owner" id="w2-XX-is-taxpayers"
+						checked />
+					Taxpayer&apos;s Tax Form
+				</label>
+				<label class="radio-button">
+					<input type="radio" name="w2-XX-owner" id="w2-XX-is-spouses" />
+					Spouse&apos;s Tax Form
+				</label>
 			</div>
 
 			<div class="f1099-taxform-container">
