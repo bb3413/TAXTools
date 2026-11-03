@@ -16,9 +16,11 @@ export const Dates = {
 import { Ensure } from "../Modules/Ensure.js";
 
 function getAge(start_date, end_date) {
-	// Determine the number of years between the start date and end date. Note; you turn one
-	// on the day before your birthday; hence the use of getPreviousDay().
-	const start_day	= getPreviousDay(start_date);
+	// Determine the number of years between the start date and end date.
+	// Note; you turn one on the day before your birthday; hence the use of
+	// getPreviousDay().
+	// const start_day	= getPreviousDay(start_date);
+	const start_day	= getDateObject(start_date);
 	const end_day	= getDateObject(end_date);
 
 	if (!isValid(start_day) || !isValid(end_day)) {
