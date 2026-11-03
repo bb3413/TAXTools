@@ -1,21 +1,24 @@
 
 export const Dates = {
 	getAge,
+	getDateObject,
 	getEndOfYearAge,
 	getLastYear,
+	getPreviousDay,
 	getTaxYear,
 	getThisYear,
 	getToday,
-	getDateObject,
 	isBefore,
+	isEqual,
 	isValid,
 };
 
 import { Ensure } from "../Modules/Ensure.js";
 
 function getAge(start_date, end_date) {
-	// Determine the number of years between the start date and end date.
-	const start_day	= getDateObject(start_date);
+	// Determine the number of years between the start date and end date. Note; you turn one
+	// on the day before your birthday; hence the use of getPreviousDay().
+	const start_day	= getPreviousDay(start_date);
 	const end_day	= getDateObject(end_date);
 
 	if (!isValid(start_day) || !isValid(end_day)) {
@@ -35,6 +38,11 @@ function getAge(start_date, end_date) {
 	return age;
 }
 
+function getDateObject(date) {
+	const d = date instanceof Date ? date : new Date(date);
+	return Number.isNaN(d.getTime()) ? null : d;
+}
+
 function getEndOfYearAge(birthday, year) {
 	if (!isValid(birthday)) {
 		return 0;
@@ -44,6 +52,14 @@ function getEndOfYearAge(birthday, year) {
 
 function getLastYear() {
 	return getThisYear() - 1;
+}
+
+function getPreviousDay(date) {
+	const day_before = getDateObject(date);
+	if (day_before) {
+		day_before.setDate(day_before.getDate() - 1);
+	}
+	return day_before;
 }
 
 function getTaxYear() {
@@ -65,11 +81,6 @@ function getToday() {
 	return new Date().toLocaleDateString();
 }
 
-function getDateObject(date) {
-	const d = date instanceof Date ? date : new Date(date);
-	return Number.isNaN(d.getTime()) ? null : d;
-}
-
 function isBefore(date1, date2) {
 	const d1 = getDateObject(date1);
 	const d2 = getDateObject(date2);
@@ -78,6 +89,16 @@ function isBefore(date1, date2) {
 		return false;
 	}
 	return d1.getTime() < d2.getTime();
+}
+
+function isEqual(date1, date2) {
+	const d1 = getDateObject(date1);
+	const d2 = getDateObject(date2);
+
+	if (!isValid(d1) || !isValid(d2)) {
+		return false;
+	}
+	return d1.getTime() === d2.getTime();
 }
 
 function isValid(date) {
