@@ -106,7 +106,7 @@ export class F1040 extends TaxForm {
 		this.lines["09"].value	= this.add("01z","02b","03b","04b","05b","06b","07a","08");
 		this.lines["11a"].value	= this.subtract("09", "10");	// AGI
 		this.lines["11b"].value	= this.line("11a");				// AGI
-		const [ deductions, cash_donations ] = _getDeductions();
+		const [ deductions, cash_donations ] = this._getDeductions();
 		this.lines["12e"].value	= deductions;		// Standard or itemized deductions
 		this.lines["12f"].value	= cash_donations;	// Cash donations for non-itemizers
 		this.lines["13a"].value	= getValue("F1040S1A", "44");	// Additional Deducts
@@ -157,12 +157,13 @@ export class F1040 extends TaxForm {
 	}
 
 	_getDeductions() {
+		const tt = TaxTable.getTaxTable();
 		const standard_deduction	= tt.getStandardDeduction();
-		const itemized_deduction	= getValue("F1040SA", "17");
-		const max_donation			= TaxTable.getTaxValue("MaxCashDonation");
-		const cash_donation			= Math.min(max_donation, getValue("F1040SA", "11"));
+		const itemized_deduction	= TaxFormObj.getValue("F1040SA", "17");
+		const max_donation			= tt.getTaxValue("MaxCashDonation");
+		const cash_donation			= Math.min(max_donation, TaxFormObj.getValue("F1040SA", "11"));
 
-		if (standard_deduction + cash_donation > itemized_deductions) {
+		if (standard_deduction + cash_donation > itemized_deduction) {
 			return [ standard_deduction, cash_donation ];
 		} else {
 			return [ itemized_deduction, 0 ];
