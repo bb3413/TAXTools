@@ -21,6 +21,7 @@ import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Str }			from "../Modules/Str.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxTable }		from "../Modules/TaxTable.js";
 
 // Which retirement plan
 const IRA		= 0;
@@ -244,13 +245,14 @@ function getW2RetirementContributions(who) {
 function getW2TipIncome() {
 	let tip_income = 0;
 	let form_list = TaxFormObj.getForms("W2");
+	let tax_year = TaxTable.getTaxYear();
 
 	if (form_list) {
 		for (const form of form_list) {
 			let tips = form.getTipIncome();
 			if (tips !== 0) {
 				tip_income += tips;
-			} else {
+			} else if (tax_year === 2025) {
 				tip_income += form.lines["07"].value;
 				tip_income += form.lines["08"].value;
 			}
