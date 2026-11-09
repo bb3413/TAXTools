@@ -106,10 +106,11 @@ export class F1040 extends TaxForm {
 		this.lines["09"].value	= this.add("01z","02b","03b","04b","05b","06b","07a","08");
 		this.lines["11a"].value	= this.subtract("09", "10");	// AGI
 		this.lines["11b"].value	= this.line("11a");				// AGI
-		this.lines["12e"].value	= Math.max(tt.getStandardDeduction(),
-										   getValue("F1040SA", "17"));
-		this.lines["13a"].value	= getValue("F8995", "15");		// QBI Deduction
-		this.lines["13b"].value	= getValue("F1040S1A", "38");	// Additional Deducts
+		const [ deductions, cash_donations ] = _getDeductions();
+		this.lines["12e"].value	= deductions;		// Standard or itemized deductions
+		this.lines["12f"].value	= cash_donations;	// Cash donations for non-itemizers
+		this.lines["13a"].value	= getValue("F1040S1A", "44");	// Additional Deducts
+		this.lines["13b"].value	= getValue("F8995", "15");		// QBI Deduction
 		this.lines["14"].value	= this.add("12e","13a","13b");	// Total Deductions
 		this.lines["15"].value	= Math.max(0, this.subtract("11b", "14"));	// Taxable Income
 		this.lines["16"].value	= this.inctax.calculate();		// Income Tax
@@ -120,7 +121,9 @@ export class F1040 extends TaxForm {
 		this.lines["21"].value	= this.add("19", "20");
 		this.lines["22"].value	= Math.max(0, this.subtract("18", "21"));	// Tax - Credits
 		this.lines["23"].value	= getValue("F1040S2", "21");	// Other Taxes
-		this.lines["24"].value	= this.add("22", "23");			// Total Tax
+		this.lines["24a"].value	= this.add("22", "23");			// Total Tax
+		this.lines["24b"].value	= getValue("F1062", "15");		// Gain from sale of farm
+		this.lines["24c"].value	= this.add("24a", "24b");		// Total Tax
 		this.lines["25a"].value	= getValue("W2", "02");			// W2 Withholding
 		this.lines["25b"].value	=								// 1099 Withholding
 			getValue("F1099INT", "04") +
@@ -142,14 +145,26 @@ export class F1040 extends TaxForm {
 		this.lines["31"].value	= getValue("F1040S3", "15");		// Other Refund Credits
 		this.lines["32"].value	= this.add("27a","28","29","30","31");	// Estimated Payments
 		this.lines["33"].value	= this.add("25d","26","32");		// Total Payments
-		if (this.line("33") > this.line("24")) {
-			this.lines["34"].value	= this.subtract("33", "24");	// Overpaid
+		if (this.line("33") > this.line("24c")) {
+			this.lines["34"].value	= this.subtract("33", "24c");	// Overpaid
 			this.lines["35a"].value	= this.subtract("34", "36");	// Refund
 			this.lines["36"].value	= 0;							// Apply to next year
 		} else {
-			this.lines["37"].value	= this.subtract("24", "33");	// Amount Owed
+			this.lines["37"].value	= this.subtract("24c", "33");	// Amount Owed
 			this.lines["38"].value	= getValue("Penalty", "xx");	// EstTax Penalty
 		}
 		Debug.exit("F1040.calculate()");
+	}
+
+	_getDeductions() {
+		const standard deduction	= tt.getStandardDeduction();
+		const itemized_deduction	= getValue("F1040SA", "17");
+		const cash_donations		= getValue("F1040SA", "11");
+
+		if (standard_deduction + cash_donations > itemized_deductions) {
+			return [ standard_deduction, cash_donations ];
+		} else {
+			return [ itemized_deduction, 0 ];
+		}
 	}
 }

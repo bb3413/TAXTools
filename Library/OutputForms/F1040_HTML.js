@@ -236,17 +236,24 @@ const HTML_CODE = `
 						id="f1040-XX-12e" size="10" placeholder="0" />
 				</div>
 				<div class="taxform-lno-desc-lno-value">
+					<p class="lineno">12f</p>
+					<p class="description">Charitable contribution deduction for non-itemizers</p>
+					<p class="lineno">12f</p>
+					<input class="output-field" readonly type="text"
+						id="f1040-XX-12f" size="10" placeholder="0" />
+				</div>
+				<div class="taxform-lno-desc-lno-value">
 					<p class="lineno">13a</p>
-					<p class="description">Qualified business income deduction from
-						Form 8995 or Form 8995-A</p>
+					<p class="description">Additional deductions from
+						Schedule 1-A, line 44</p>
 					<p class="lineno">13a</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-13a" size="10" placeholder="0" />
 				</div>
 				<div class="taxform-lno-desc-lno-value">
 					<p class="lineno">13b</p>
-					<p class="description">Additional deductions from
-						Schedule 1-A, line 38</p>
+					<p class="description">Qualified business income deduction from
+						Form 8995 or Form 8995-A</p>
 					<p class="lineno">13b</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-13b" size="10" placeholder="0" />
@@ -326,11 +333,25 @@ const HTML_CODE = `
 						id="f1040-XX-23" size="10" placeholder="0" />
 				</div>
 				<div class="taxform-lno-desc-lno-value">
-					<p class="lineno">24</p>
+					<p class="lineno">24a</p>
 					<p class="description">Add lines 22 and 23. This is your total tax</p>
-					<p class="lineno">24</p>
+					<p class="lineno">24a</p>
 					<input class="output-field" readonly type="text"
-						id="f1040-XX-24" size="10" placeholder="0" />
+						id="f1040-XX-24a" size="10" placeholder="0" />
+				</div>
+				<div class="taxform-lno-desc-lno-value">
+					<p class="lineno">24b</p>
+					<p class="description">Enter amount from Form 1062, line 15</p>
+					<p class="lineno">24b</p>
+					<input class="output-field" readonly type="text"
+						id="f1040-XX-24b" size="10" placeholder="0" />
+				</div>
+				<div class="taxform-lno-desc-lno-value">
+					<p class="lineno">24c</p>
+					<p class="description">Add lines 24a and 24b</p>
+					<p class="lineno">24c</p>
+					<input class="output-field" readonly type="text"
+						id="f1040-XX-24c" size="10" placeholder="0" />
 				</div>
 				<div class="taxform-lno-desc-lno-value-lno-value">
 					<p class="lineno">25a</p>
@@ -440,8 +461,8 @@ const HTML_CODE = `
 				</div>
 				<div class="taxform-lno-desc-lno-value">
 					<p class="lineno">34</p>
-					<p class="description">If line 33 is more than line 24,
-						subtract line 24 from line 33. This is the amount you overpaid</p>
+					<p class="description">If line 33 is more than line 24c,
+						subtract line 24c from line 33. This is the amount you overpaid</p>
 					<p class="lineno">34</p>
 					<input class="output-field" readonly type="text"
 						id="f1040-XX-34" size="10" placeholder="0" />
@@ -465,7 +486,7 @@ const HTML_CODE = `
 				</div>
 				<div class="taxform-lno-desc-lno-value">
 					<p class="lineno">37</p>
-					<p class="description">Subtract line 33 from line 24.
+					<p class="description">Subtract line 33 from line 24c.
 						This is the amount you owe</p>
 					<p class="lineno">37</p>
 					<input class="output-field" readonly type="text"
@@ -514,8 +535,9 @@ const FIELD_INFO = {
 	"11a":			["",		true,	"Adjusted Gross Income"],
 	"11b":			["",		true,	"Adjusted Gross Income"],
 	"12e":			["",		true,	"Deductions"],
-	"13a":			["",		true,	"QBI Deduction"],
-	"13b":			["",		true,	"Additional Deductions"],
+	"12f":			["",		true,	"Charitable contribution for non-itemizers"],
+	"13a":			["",		true,	"Additional Deductions"],
+	"13b":			["",		true,	"QBI Deduction"],
 	"14":			["",		true,	"Total Deductions"],
 	"15":			["",		true,	"Taxable Income"],
 	"16":			["",		true,	"Income Tax"],
@@ -526,7 +548,9 @@ const FIELD_INFO = {
 	"21":			["",		true,	"Total Nonrefundable Credits"],
 	"22":			["",		true,	"Tax Minus Nonrefundable Credits"],
 	"23":			["",		true,	"Other Taxes"],
-	"24":			["",		true,	"Total Tax"],
+	"24a":			["",		true,	"Total Tax"],
+	"24b":			["",		true,	"Amount from form 1062, line 15"],
+	"24c":			["",		true,	"Add lines 24a and 24b"],
 	"25a":			["",		true,	"Withholding From W2"],
 	"25b":			["",		true,	"Withholding From 1099"],
 	"25c":			["",		true,	"Other Withholding"],

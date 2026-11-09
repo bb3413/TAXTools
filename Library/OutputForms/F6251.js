@@ -105,7 +105,7 @@ export class F6251 extends TaxForm {
 		const taxable_income		= TaxFormObj.getValue("F1040",		"15");
 		const income_tax			= TaxFormObj.getValue("F1040",		"16");
 		const taxable_refund		= TaxFormObj.getValue("F1040S1",	"01");
-		const senior_deduction		= TaxFormObj.getValue("F1040S1A",	"37");
+		const senior_deduction		= TaxFormObj.getValue("F1040S1A",	"43");
 		const itemized_deductions	= TaxFormObj.getValue("F1040SA",	"17");
 		const taxes_paid_deduction	= TaxFormObj.getValue("F1040SA",	"07");
 		const standard_deduction	= tt.getStandardDeduction();
