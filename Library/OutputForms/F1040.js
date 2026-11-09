@@ -62,7 +62,7 @@ export class F1040 extends TaxForm {
 		this.lines["01f"].value	= getValue("F8839", "31");	// Adoption Benefits
 		this.lines["01g"].value	= getValue("F8919", "06");	// Wages from f8919
 		this.lines["01h"].value	= 0;					// Other Earned Inc
-		this.lines["01i"].value	= 0;					// Nontaxed Combat
+		this.lines["01i"].value	= 0;					// Non-taxed Combat
 		this.lines["01z"].value	= this.add("01a","01b","01c","01d","01e","01f","01g","01h");
 		this.lines["02a"].value	=						// Tax exempt interest =
 			getValue("F1099INT",	"08") +				// Tax-exempt interest
@@ -157,12 +157,13 @@ export class F1040 extends TaxForm {
 	}
 
 	_getDeductions() {
-		const standard deduction	= tt.getStandardDeduction();
+		const standard_deduction	= tt.getStandardDeduction();
 		const itemized_deduction	= getValue("F1040SA", "17");
-		const cash_donations		= getValue("F1040SA", "11");
+		const max_donation			= TaxTable.getTaxValue("MaxCashDonation");
+		const cash_donation			= Math.min(max_donation, getValue("F1040SA", "11"));
 
-		if (standard_deduction + cash_donations > itemized_deductions) {
-			return [ standard_deduction, cash_donations ];
+		if (standard_deduction + cash_donation > itemized_deductions) {
+			return [ standard_deduction, cash_donation ];
 		} else {
 			return [ itemized_deduction, 0 ];
 		}

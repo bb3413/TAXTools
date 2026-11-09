@@ -90,6 +90,7 @@ export class TaxTable_2024 extends TaxTableTmpl {
 		// Standard deduction
 		"StandardDeduction":			[ 14600,		21900,		29200,		29200,		14600		],
 		"StandardDeductionExtra":		[ 1950,			1950,		1550,		1550,		1550		],
+		"MaxCashDonation":				[ 0,			0,			0,			0,			0			],
 
 		// California constants			SINGLE			HOH			MFJ			QSS			MFS
 		"CA_PersonalExemption":			[ 149,			149,		149,		149,		149			],
