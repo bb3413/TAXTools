@@ -18,12 +18,12 @@ const HTML_CODE = `
 
 			<div class="taxform-owner">
 				<label class="radio-button">
-					<input type="radio" name="1099g-XX-owner" id="1099g-XX-is-taxpayers"
+					<input type="radio" name="1099g-XX-owner" id="f1099g-XX-is-taxpayers"
 						checked />
 					Taxpayer&apos;s Tax Form
 				</label>
 				<label class="radio-button">
-					<input type="radio" name="1099g-XX-owner" id="1099g-XX-is-spouses" />
+					<input type="radio" name="1099g-XX-owner" id="f1099g-XX-is-spouses" />
 					Spouse&apos;s Tax Form
 				</label>
 			</div>

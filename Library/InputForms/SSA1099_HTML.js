@@ -141,7 +141,7 @@ const HTML_CODE = `
 
 const FIELD_INFO = {
 	// Field Name		Value Type	Is Line	Description
-	"is-spouses":		["",		false,	""],
+	"is-spouses":		["",		false,	"Spouse's Tax Form"],
 	"01":				["text",	true,	""],
 	"02":				["text",	true,	""],
 	"03":				["",		true,	""],

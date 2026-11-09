@@ -17,12 +17,12 @@ const HTML_CODE = `
 
 			<div class="taxform-owner">
 				<label class="radio-button">
-					<input type="radio" name="1099vli-XX-owner" id="1099vli-XX-is-taxpayers"
+					<input type="radio" name="1098vli-XX-owner" id="f1098vli-XX-is-taxpayers"
 						checked />
 					Taxpayer&apos;s Tax Form
 				</label>
 				<label class="radio-button">
-					<input type="radio" name="1099vli-XX-owner" id="1099vli-XX-is-spouses" />
+					<input type="radio" name="1098vli-XX-owner" id="f1098vli-XX-is-spouses" />
 					Spouse&apos;s Tax Form
 				</label>
 			</div>
@@ -166,7 +166,7 @@ const HTML_CODE = `
 
 const FIELD_INFO = {
 	// Field Name		Value Type	Is Line	Description
-	"is-spouses":		["",		false,	""],
+	"is-spouses":		["",		false,	"Spouse's Tax Form"],
 	"lender":			["text",	true,	""],
 	"ein":				["text",	true,	""],
 	"ssn":				["text",	true,	""],
