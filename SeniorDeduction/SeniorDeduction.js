@@ -116,7 +116,7 @@ function putOutputs() {
 
 	HTML.putUserOutput("TaxpayersAge",			taxpayer.taxpayers_age);
 	HTML.putUserOutput("SpousesAge",			taxpayer.spouses_age);
-	HTML.putUserOutput("SeniorDeduction", 		TaxFormObj.getValue("F1040S1A", "37"));
+	HTML.putUserOutput("SeniorDeduction", 		TaxFormObj.getValue("F1040S1A", "43"));
 }
 
 function resetAll() {
