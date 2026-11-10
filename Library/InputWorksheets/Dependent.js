@@ -6,17 +6,18 @@ import { HTMLMgr }		from "../Classes/HTMLMgr.js";
 // Modules
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
+import { HTML }			from "../Modules/HTML.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
 const HTML_CODE = `
 		<details class="taxform-details" id="dependent-XX">
-			<summary class="taxform-summary">Dependent #-UID-</summary>
+			<summary class="taxform-summary">Dependent</summary>
 			<div class="input-worksheet-container">
 				<div class="taxpayer-info-150-400">
 					<p>Name</p>
 					<input class="trigger input-field left"
 						type="text" autofocus spellcheck="false" size="45"
-						id="dependent-XX-name" tooltipid="#dependent-name-tt" />
+						id="dependent-XX-dependent-name" tooltipid="#dependent-dependent-name-tt" />
 				</div>
 				<div class="taxpayer-info-150-400">
 					<p>Relationship</p>
@@ -79,29 +80,33 @@ const HTML_CODE = `
 						id="dependent-XX-disabled"
 						tooltipid="#dependent-disabled-tt" />
 				</div>
+
 				<div class="taxpayer-info-150-400">
 					<p>Has SSN</p>
 					<div>
-						<input type="radio" id="dependent-XX-has-ssn"
-							name="dependent-XX-has-ssn" checked />
-						<label for="dependent-XX-has-ssn">SSN</label>
-
-						<input type="radio" id="dependent-XX-has-itin"
-							name="dependent-XX-has-ssn" />
-						<label for="dependent-XX-has-itin">ITIN</label>
-
-						<input type="radio" id="dependent-XX-has-atin"
-							name="dependent-XX-has-ssn" />
-						<label for="dependent-XX-has-atin">ATIN</label>
+						<label class="radio-button">
+							<input type="radio" name="dependent-XX-has-ssn" id="dependent-XX-has-ssn"
+								checked />
+							SSN
+						</label>
+						<label class="radio-button">
+							<input type="radio" name="dependent-XX-has-ssn" id="dependent-XX-has-itin" />
+							ITIN
+						</label>
+						<label class="radio-button">
+							<input type="radio" name="dependent-XX-has-ssn" id="dependent-XX-has-atin" />
+							ATIN
+						</label>
 					</div>
 				</div>
+
 			</div>
 		</details>
 `;
 
 const FIELD_INFO = {
 	// Field Name			Value Type	Is Line	Description
-	"name":					["text",	false,	""],
+	"dependent-name":		["text",	false,	""],
 	"birthday":				["text",	false,	""],
 	"relationship":			["text",	false,	""],
 	"months-lived-at-home":	["",		false,	""],
@@ -133,9 +138,9 @@ export class Dependent extends HTMLBlock {
 		this.html		= Dependent.getHTML(this.uid);
 		this.fields		= Dependent.getFieldInfo();
 
-		this.name					= "";
-		this.birthday				= "";
-		this.age					= 0;
+		this.dependent_name			= "";
+		this._birthday				= "";
+		this._age					= 0;
 		this.relationship			= "";
 		this.months_lived_at_home	= 0;
 		this.gross_income			= 0;
@@ -149,18 +154,21 @@ export class Dependent extends HTMLBlock {
 		this.has_atin				= false;
 	}
 
+	get birthday() { return this._birthday };
+	get age() { return this._age };
+
 	set birthday(birthday) {
 		if (birthday === null || birthday === undefined) { return; }
-		this.birthday = birthday;
-		this.age =
+		this._birthday = birthday;
+		this._age =
 			Math.max(0, Dates.getEndOfYearAge(birthday, TaxTable.getTaxYear()));
 	}
 
 	set age(age) {
 		if (age === null || age === undefined) { return; }
-		if (age !== 0) {
-			this.birthday	= "";
-			this.age		= age;
+		if (age > 0) {
+			this._birthday	= "";
+			this._age		= age;
 		}
 	}
 

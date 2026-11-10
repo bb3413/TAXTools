@@ -26,6 +26,8 @@ import { addInputForm }	from "./TaxProgram.js";
 
 import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
 import { ERROR_MESSAGE_OUTPUT }		from "../Library/TAXTools/TAXTools.js";
+import { ASSETSALES_CONTAINER }		from "./TaxProgram.js";
+import { DEPENDENTS_CONTAINER }		from "./TaxProgram.js";
 
 // If RAW is true, user input will be copied without changing (debug keywords, expression
 // evaluation, etc. Set it to false to use normal processing of input.

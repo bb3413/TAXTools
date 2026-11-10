@@ -41,8 +41,12 @@
 	margin-top:				15px;
 }
 
-.dependent-container {
+.dependents-container {
 	margin-top:				15px;
+}
+
+.dependent-button {
+	margin-bottom:			5px;
 }
 
 /*****  Input Container  *******************************************************************/

@@ -168,7 +168,7 @@
 			</div>	<!-- spouse-container -->
 
 			<!----------  Dependents  ------------------------------------------------------>
-			<div class="border dependent-container">
+			<div  id="dependents-container" class="border dependents-container">
 				<input type="button" class="trigger button dependent-button"
 					id="dependent-button" value="Add Dependent"
 					tooltipid="#dependent-button-tt" />
