@@ -111,7 +111,7 @@ export class F1040 extends TaxForm {
 		this.lines["12f"].value	= cash_donations;	// Cash donations for non-itemizers
 		this.lines["13a"].value	= getValue("F1040S1A", "44");	// Additional Deducts
 		this.lines["13b"].value	= getValue("F8995", "15");		// QBI Deduction
-		this.lines["14"].value	= this.add("12e","13a","13b");	// Total Deductions
+		this.lines["14"].value	= this.add("12e", "12f","13a","13b");	// Total Deductions
 		this.lines["15"].value	= Math.max(0, this.subtract("11b", "14"));	// Taxable Income
 		this.lines["16"].value	= this.inctax.calculate();		// Income Tax
 		this.lines["17"].value	= getValue("F1040S2", "03");	// Additional Tax
