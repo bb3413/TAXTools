@@ -166,7 +166,7 @@ function getValue(formname, ...lineno) {
 		}
 	}
 	Debug.exit(`TaxFormObj.getValue(${sum})`);
-	return isNaN(sum) ? 0 : sum;
+	return sum;
 }
 
 function reset() {
