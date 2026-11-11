@@ -2,7 +2,7 @@
 //
 // Self-employment Health Insurance Deduction
 //
-// This is an implementation of form 7206..
+// This is an implementation of form 7206.
 //
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";

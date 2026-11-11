@@ -190,7 +190,7 @@ export class F1040S1A extends TaxForm {
 
 		this.lines["16a1"].value	= "";	// Employer Name
 		this.lines["16a2"].value	= "";	// EIN
-		this.lines["16a3"].value	= TaxInfo.getW2OvertimePay();;	// OT Pay from W-2, box 12, code TT
+		this.lines["16a3"].value	= TaxInfo.getW2OvertimePay();	// OT Pay from W-2, box 12, code TT
 		this.lines["17"].value		= this.line("16a3");	// Total Overtime Pay from W-2
 
 		this.lines["18a1"].value	= "";	// Business Name

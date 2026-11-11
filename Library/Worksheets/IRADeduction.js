@@ -93,7 +93,7 @@ export class IRADeduction extends TaxForm {
 		this.lines["09"].value	= 0;	// Earned income from small business
 		this.lines["10"].value	= TaxInfo.earnedIncome();
 		this.lines["11"].value	= contributions;
-		this.lines["12"].value	= this.min("07", "10", "11");;
+		this.lines["12"].value	= this.min("07", "10", "11");
 
 		Debug.exit("IRADeduction.calculate()");
 		return this.line("12");
