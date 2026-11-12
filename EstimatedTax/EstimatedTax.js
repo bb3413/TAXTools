@@ -131,74 +131,74 @@ function checkInputValues(inputs) {
 	const tt	= TaxTable.getTaxTable();
 	const tp	= Taxpayer.getTaxpayer();
 	const fs	= tp.filing_status;
-	const inp	= inputs;	// Shorthand
+
 	const max_educator_expenses = tt.getTaxValue("MaxEducatorExpenses");
 	if (fs === MFJ) {
 		max_educator_expenses *= 2;
 	}
 
-	inp.ltc_taxpayer =
-		Math.min(inp.ltc_taxpayer, tt.getMaxLTC(tp.taxpayers_age));
-	inp.ltc_spouse =
-		Math.min(inp.ltc_spouse, tt.getMaxLTC(tp.spouses_age));
+	inputs.ltc_taxpayer =
+		Math.min(inputs.ltc_taxpayer, tt.getMaxLTC(tp.taxpayers_age));
+	inputs.ltc_spouse =
+		Math.min(inputs.ltc_spouse, tt.getMaxLTC(tp.spouses_age));
 
-	inp.educator_expenses =
-		Math.min(inp.educator_expenses, max_educator_expenses);
-	inp.capital_gains =
-		Math.min(inp.capital_gains,
+	inputs.educator_expenses =
+		Math.min(inputs.educator_expenses, max_educator_expenses);
+	inputs.capital_gains =
+		Math.min(inputs.capital_gains,
 				 tt.getTaxValue("MaxCapitalLoss"));
-	inp.student_loan_interest =
-		Math.min(inp.student_loan_interest,
+	inputs.student_loan_interest =
+		Math.min(inputs.student_loan_interest,
 				 tt.getTaxValue("MaxStudentLoanInterest"));
 
 	// OBBA
-	inp.qualified_tips_deduction =
-		Math.min(inp.qualified_tips_deduction,
+	inputs.qualified_tips_deduction =
+		Math.min(inputs.qualified_tips_deduction,
 				 tt.getTaxValue("MaxTipsDeduction"));
-	inp.qualified_overtime_deduction =
-		Math.min(inp.qualified_overtime_deduction,
+	inputs.qualified_overtime_deduction =
+		Math.min(inputs.qualified_overtime_deduction,
 				 tt.getTaxValue("MaxOvertimeDeduction"));
-	inp.car_loan_interest_deduction =
-		Math.min(inp.car_loan_interest_deduction,
+	inputs.car_loan_interest_deduction =
+		Math.min(inputs.car_loan_interest_deduction,
 				 tt.getTaxValue("MaxCarLoanInterestDeduction"));
-	inp.senior_deduction =
-		Math.min(inp.senior_deduction, tt.getTaxValue("MaxSeniorDeduction"));
+	inputs.senior_deduction =
+		Math.min(inputs.senior_deduction, tt.getTaxValue("MaxSeniorDeduction"));
 
 	// Non-refundable Credits
-	inp.american_opp_credit_no_refund =
-		Math.min(inp.american_opp_credit_no_refund,
+	inputs.american_opp_credit_no_refund =
+		Math.min(inputs.american_opp_credit_no_refund,
 				 tt.getTaxValue("MaxAmericanOppCreditNoRefund"));
-	inp.child_care_credit =
-		Math.min(inp.child_care_credit,
+	inputs.child_care_credit =
+		Math.min(inputs.child_care_credit,
 				 tt.getTaxValue("MaxChildAndDependentCareCredit"));
-	inp.child_tax_credit =
-		Math.min(inp.child_tax_credit,
-				 tt.getTaxValue("MaxChildTaxCredit"));
-	inp.foreign_tax_credit =
-		Math.min(inp.foreign_tax_credit,
+	inputs.child_tax_credit =
+		Math.min(inputs.child_tax_credit,
+				 tt.getTaxValue("MaxChildTaxCredit") * 10);
+	inputs.foreign_tax_credit =
+		Math.min(inputs.foreign_tax_credit,
 				 tt.getTaxValue("MaxForeignTaxCredit"));
-	inp.lifetime_learning_credit =
-		Math.min(inp.lifetime_learning_credit,
+	inputs.lifetime_learning_credit =
+		Math.min(inputs.lifetime_learning_credit,
 				 tt.getTaxValue("MaxLifetimeLearningCredit"));
-	inp.residential_energy_credit =
-		Math.min(inp.residential_energy_credit,
+	inputs.residential_energy_credit =
+		Math.min(inputs.residential_energy_credit,
 				 tt.getTaxValue("MaxResidentialEnergyCredit"));
-	inp.retirement_savings_credit =
-		Math.min(inp.retirement_savings_credit,
+	inputs.retirement_savings_credit =
+		Math.min(inputs.retirement_savings_credit,
 				 tt.getTaxValue("MaxRetirementSavingsCredit"));
 
 	// Refundable Credits
-	inp.american_opp_credit_refundable =
-		Math.min(inp.american_opp_credit_refundable,
+	inputs.american_opp_credit_refundable =
+		Math.min(inputs.american_opp_credit_refundable,
 				 tt.getTaxValue("MaxAmericanOppCreditRefundable"));
-	inp.credit_for_other_dependents =
-		Math.min(inp.credit_for_other_dependents,
-				 tt.getTaxValue("MaxCreditForOtherDependents"));
-	inp.earned_income_credit =
-		Math.min(inp.earned_income_credit,
-				 tt.getTaxValue("MaxEarnedIncomeCredit"));
-	inp.premium_tax_credit =
-		Math.min(inp.premium_tax_credit,
+	inputs.credit_for_other_dependents =
+		Math.min(inputs.credit_for_other_dependents,
+				 tt.getTaxValue("MaxCreditForOtherDependents") * 10);
+	inputs.earned_income_credit =
+		Math.min(inputs.earned_income_credit,
+				 tt.getTaxValue("MaxEarnedIncomeCredit") * 3);
+	inputs.premium_tax_credit =
+		Math.min(inputs.premium_tax_credit,
 				 tt.getTaxValue("MaxPremiumTaxCredit"));
 }
 
