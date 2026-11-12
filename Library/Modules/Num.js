@@ -4,6 +4,8 @@ export const Num = {
 	isNum,
 	limit,
 	round2,
+	roundDown,
+	roundUp,
 	toInteger,
 };
 
@@ -43,6 +45,20 @@ function round2(num) {
 	// Round to a string with 2 decimal places, then convert back to a number.
 	Ensure.isNumber(value);
 	return parseFloat(num.toFixed(2));
+}
+
+function roundDown(value, index = 1) {
+	Ensure.isNumber(value);
+	Ensure.isNumber(value);
+
+	return Math.floor(value / index * index);
+}
+
+function roundUp(value, index = 1) {
+	Ensure.isNumber(value);
+	Ensure.isNumber(value);
+
+	return Math.ceil(value / index * index);
 }
 
 function toInteger(str) {
