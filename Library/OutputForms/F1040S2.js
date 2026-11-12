@@ -12,54 +12,13 @@ export class F1040S2 extends TaxForm {
 		super(formname);
 		this.title = `Schedule 2 - Additional Taxes`;
 
-		// Tax
-		this.lines["01a"]	= new Line("Repayment of Advanced PTC");
-		this.lines["01b"]	= new Line("Repayment of New Clean Vehicle Credit");
-		this.lines["01c"]	= new Line("Repayment of Used Clean Vehicle Credit");
-		this.lines["01d"]	= new Line("Repayment of EPE");
-		this.lines["01e"]	= new Line("Excess net EPE");
-		this.lines["01f"]	= new Line("20% of EP from Form 4255");
-		this.lines["01y"]	= new Line("Other Tax");
-		this.lines["01z"]	= new Line("Total additions to Tax");
-		this.lines["02"]	= new Line("AMT");
-		this.lines["03"]	= new Line("Total Extra Tax");
-
-		// Other Taxes
-		this.lines["04"]	= new Line("Self-employment Tax");	// Times 2 for MFJ
-		this.lines["05"]	= new Line("SS Tax on Unreported Income");
-		this.lines["06"]	= new Line("SS Tax Not Collected on Wages");
-		this.lines["07"]	= new Line("Total Additional SS Tax");
-		this.lines["08"]	= new Line("Additional Tax on IRAs");
-		this.lines["09"]	= new Line("Household Employment Tax");
-		this.lines["10"]	= new Line("Reserved for Future Use");
-		this.lines["11"]	= new Line("Additional Medicare Tax");
-		this.lines["12"]	= new Line("Investment Income Tax");
-		this.lines["13"]	= new Line("Uncollected SS Tax on Tips");
-		this.lines["14"]	= new Line("Interest on Tax Due");
-		this.lines["15"]	= new Line("Interest on Deferred Tax");
-		this.lines["16"]	= new Line("Repayment of Low-income Housing Credit");
-		this.lines["17a"]	= new Line("Other Additional Taxes");
-		this.lines["17b"]	= new Line("Repayment of Other Credits");
-		this.lines["17c"]	= new Line("Additional Tax on HSA Distributions");
-		this.lines["17d"]	= new Line("Additional Tax on HSA");
-		this.lines["17e"]	= new Line("Additional Tax on Archer MSA Distributions");
-		this.lines["17f"]	= new Line("Additional Tax on Advantage MSA Distributions");
-		this.lines["17g"]	= new Line("Repayment of Charitable Contribution Deduction");
-		this.lines["17h"]	= new Line("Income from Non-qualified 409A Plan");
-		this.lines["17i"]	= new Line("Income from Non-qualified 457A Plan");
-		this.lines["17j"]	= new Line("Section 72(m) Excess");
-		this.lines["17k"]	= new Line("Golden Parachute Payments");
-		this.lines["17l"]	= new Line("Tax on Accumulation Distribution of Trusts");
-		this.lines["17m"]	= new Line("Excess Tax on Stock Compensation");
-		this.lines["17n"]	= new Line("Look Back Interest");
-		this.lines["17o"]	= new Line("Tax on Non-resident Income");
-		this.lines["17p"]	= new Line("Interest from Form 8621, line 16f");
-		this.lines["17q"]	= new Line("Interest from Form 8621, line 24");
-		this.lines["17z"]	= new Line("Other Taxes");
-		this.lines["18"]	= new Line("Total Additional Taxes");
-		this.lines["19"]	= new Line("Repayment of EPE from Form 4255");
-		this.lines["20"]	= new Line("Tax from Form 965-A");
-		this.lines["21"]	= new Line("Total Other Taxes");
+		// Create the lines on the form.
+		let field_info = F1040S2_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F1040S2.Constructor()");
 	}

@@ -30,31 +30,13 @@ export class F1040SA extends TaxForm {
 		this.cash_donations			= 0;
 		this.noncash_donations		= 0;
 
-		this.lines["01"]	= new Line("Medical Expenses");
-		this.lines["02"]	= new Line("AGI");
-		this.lines["03"]	= new Line("7.5% or AGI");
-		this.lines["04"]	= new Line("Medical Deduction");
-		this.lines["05a"]	= new Line("State and Local Income Tax");
-		this.lines["05b"]	= new Line("Real Estate Tax");
-		this.lines["05c"]	= new Line("Personal Property Tax");
-		this.lines["05d"]	= new Line("Total State and Local Taxes");
-		this.lines["05e"]	= new Line("SALT after Limit");
-		this.lines["06"]	= new Line("Other Taxes");
-		this.lines["07"]	= new Line("Deduction for Taxes Paid");
-		this.lines["08a"]	= new Line("Mortgage Interest");
-		this.lines["08b"]	= new Line("Mortgage Interest Not from 1098");
-		this.lines["08c"]	= new Line("Mortgage Points Not from 1098");
-		this.lines["08d"]	= new Line("Reserved For Future Use");
-		this.lines["08e"]	= new Line("Mortgage Deduction");
-		this.lines["09"]	= new Line("Investment Interest");
-		this.lines["10"]	= new Line("Interest Deduction");
-		this.lines["11"]	= new Line("Cash Donations");
-		this.lines["12"]	= new Line("Non-cash Donations");
-		this.lines["13"]	= new Line("Carry-over Donations");
-		this.lines["14"]	= new Line("Donation Deduction");
-		this.lines["15"]	= new Line("Casualty and Theft Deduction");
-		this.lines["16"]	= new Line("Other Deduction");
-		this.lines["17"]	= new Line("Itemized Deductions");
+		// Create the lines on the form.
+		let field_info = F1040SA_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F1040SA.Constructor()");
 	}

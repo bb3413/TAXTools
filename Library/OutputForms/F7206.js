@@ -19,21 +19,13 @@ export class F7206 extends TaxForm {
 		super(formname);
 		this.title = `7206 - Self-Employed Health Insurance Deduction`;
 
-		this.lines["01"]	= new Line("Health Insurance");
-		this.lines["02"]	= new Line("LTC Insurance");		// Rounded down by age
-		this.lines["03"]	= new Line("Total Health Insurance");
-		this.lines["04"]	= new Line("Net Profit (business with Insurance");
-		this.lines["05"]	= new Line("Net Profit (all businesses)");
-		this.lines["06"]	= new Line("Profit Ratio");
-		this.lines["07"]	= new Line("Deductible Part of SE Tax");
-		this.lines["07x"]	= new Line("SE Tax * Profit Ratio");
-		this.lines["08"]	= new Line("Profit - SE Tax");
-		this.lines["09"]	= new Line("Retirement Plan Contributions, 1040S1, line 16");
-		this.lines["10"]	= new Line("Profit - Retirement");
-		this.lines["11"]	= new Line("Medicare Wages (W-2, box 5)");
-		this.lines["12"]	= new Line("Form 2555, line 45");
-		this.lines["13"]	= new Line("");
-		this.lines["14"]	= new Line("SEHI Deduction");
+		// Create the lines on the form.
+		let field_info = F7206_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F7206.Constructor()");
 	}

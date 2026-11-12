@@ -18,90 +18,13 @@ export class F540 extends TaxForm {
 		super(formname);
 		this.title = `540 - California Resident Income Tax Return`;
 
-		// Filing Status
-		this.lines["001"]	= new Line("Single");
-		this.lines["002"]	= new Line("MFJ");
-		this.lines["003"]	= new Line("MFS");
-		this.lines["004"]	= new Line("HoH");
-		this.lines["005"]	= new Line("QSS");
-		this.lines["006"]	= new Line("Can Be a Dependent");
-
-		// Exemptions
-		this.lines["007"]	= new Line("Personal Exemption");
-		this.lines["008"]	= new Line("Blind Exemption");
-		this.lines["009"]	= new Line("Senior Exemption");
-		this.lines["010"]	= new Line("Dependents Exemption");
-		this.lines["011"]	= new Line("Total Exemptions");
-
-		// Taxable Income
-		this.lines["012"]	= new Line("Wages");
-		this.lines["013"]	= new Line("Federal AGI");
-		this.lines["014"]	= new Line("CA Adjustments - Subtractions");
-		this.lines["015"]	= new Line("AGI - Subtractions");
-		this.lines["016"]	= new Line("CA Adjustments - Additions");
-		this.lines["017"]	= new Line("AGI + Additions = CA AGI");
-		this.lines["018"]	= new Line("Deductions");
-		this.lines["019"]	= new Line("Taxable Income");
-
-		// Tax
-		this.lines["031"]	= new Line("Tax");
-		this.lines["032"]	= new Line("Exemptions");
-		this.lines["033"]	= new Line("Tax - Exemptions");
-		this.lines["034"]	= new Line("Tax from Schedule G1, Form 5870A");
-		this.lines["035"]	= new Line("Total Tax");
-		this.lines["040"]	= new Line("Child and Dependent Care Credit");
-		this.lines["043"]	= new Line("Other Credit");
-		this.lines["044"]	= new Line("Other Credit");
-		this.lines["045"]	= new Line("Other Credit");
-		this.lines["046"]	= new Line("Renter's Credit");
-		this.lines["047"]	= new Line("Total Special Credits");
-		this.lines["048"]	= new Line("Updated Tax");
-
-		// Other taxes
-		this.lines["061"]	= new Line("AMT");
-		this.lines["062"]	= new Line("Mental Health Tax");
-		this.lines["063"]	= new Line("Tax and Credit Recapture");
-		this.lines["064"]	= new Line("Total Tax");
-
-		// Payments
-		this.lines["071"]	= new Line("Withholding");
-		this.lines["072"]	= new Line("Estimated Tax Payments");
-		this.lines["073"]	= new Line("Withholding from Forms 592-B and 593");
-		this.lines["074"]	= new Line("Excess SDI or VPDI");
-		this.lines["075"]	= new Line("Earned Income Tax Credit");
-		this.lines["076"]	= new Line("Young Child Tax Credit");
-		this.lines["077"]	= new Line("Foster Youth Tax Credit");
-		this.lines["078"]	= new Line("Total Payments");
-
-		// Use Tax
-		this.lines["091"]	= new Line("Use tax");
-
-		// ISR Penalty
-		this.lines["092"]	= new Line("Individual Shared Responsibility Penalty");
-
-		// Overpaid Tax / Tax Due
-		this.lines["093"]	= new Line("Payments Balance");
-		this.lines["094"]	= new Line("Use Tax Balance");
-		this.lines["095"]	= new Line("Payments - ISRP");
-		this.lines["096"]	= new Line("ISRP Balance");
-		this.lines["097"]	= new Line("Overpaid Tax");
-		this.lines["098"]	= new Line("Amount to Apply to Next Year");
-		this.lines["099"]	= new Line("Overpaid");
-		this.lines["100"]	= new Line("Tax Due");
-
-		// Contributions
-		this.lines["110"]	= new Line("Total Contributions");
-
-		// Amount You Owe
-		this.lines["111"]	= new Line("Amount You Owe");
-
-		// Interest and Penalties
-		this.lines["112"]	= new Line("Interest and Penalties");
-		this.lines["113"]	= new Line("Underpayment of Estimated Tax");
-		this.lines["114"]	= new Line("Amount Due");
-
-		// Refund
-		this.lines["115"]	= new Line("Refund");
+		// Create the lines on the form.
+		let field_info = F540_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F540.Constructor()");
 	}

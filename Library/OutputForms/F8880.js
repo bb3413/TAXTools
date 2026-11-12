@@ -22,27 +22,13 @@ export class F8880 extends TaxForm {
 		this.ira_contribution_taxpayer	= 0;
 		this.ira_contribution_spouse	= 0;
 
-		this.lines["01a"]	= new Line("Traditional and Roth IRA contributions");
-		this.lines["01b"]	= new Line("Traditional and Roth IRA contributions");
-		this.lines["02a"]	= new Line("Elective deferrals to a 401(k), employer plan");
-		this.lines["02b"]	= new Line("Elective deferrals to a 401(k), employer plan");
-		this.lines["03a"]	= new Line("Add lines 1 and 2");
-		this.lines["03b"]	= new Line("Add lines 1 and 2");
-		this.lines["04a"]	= new Line("Certain distributions received after 2022");
-		this.lines["04b"]	= new Line("Certain distributions received after 2022");
-		this.lines["05a"]	= new Line("Subtract line 4 from line 3");
-		this.lines["05b"]	= new Line("Subtract line 4 from line 3");
-		this.lines["06a"]	= new Line("Enter smaller of line 5 or $2,000");
-		this.lines["06b"]	= new Line("Enter smaller of line 5 or $2,000");
-		this.lines["07"]	= new Line("Add the amounts on line 6");
-		this.lines["08"]	= new Line("Enter the amount from Form 1040, line 11a");
-		this.lines["09"]	= new Line("Enter amount from the table");
-		this.lines["10"]	= new Line("Multiply line 7 by line 9");
-		this.lines["11"]	= new Line("Limitation based on tax liability");
-		this.lines["12"]	= new Line("Credit for retirement savings contributions");
-		this.lines["ws1"]	= new Line("Total tax");
-		this.lines["ws2"]	= new Line("Some credits from Schedule 3");
-		this.lines["ws3"]	= new Line("ws1 - ws2");
+		// Create the lines on the form.
+		let field_info = F8880_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F8880.Constructor()");
 	}

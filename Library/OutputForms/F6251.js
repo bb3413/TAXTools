@@ -17,71 +17,13 @@ export class F6251 extends TaxForm {
 		super(formname);
 		this.title = `6251 - Alternative Minimum Tax - Individuals`;
 
-		// Form 6251, Part I - AMT Income
-		this.lines["01a"]	= new Line("Total Deductions w/o Senior Deduction");
-		this.lines["01b"]	= new Line("AGI - Deductions");
-		this.lines["02a"]	= new Line("Deductions Allowed for AMT");
-		this.lines["02b"]	= new Line("Taxable Refund");
-		this.lines["02c"]	= new Line("Investment Interest Expense");
-		this.lines["02d"]	= new Line("Depletion");
-		this.lines["02e"]	= new Line("Net Operating Loss Deduction");
-		this.lines["02f"]	= new Line("Alternative Tax Net Operating Loss Deduction");
-		this.lines["02g"]	= new Line("Interest from Private Activity bonds");
-		this.lines["02h"]	= new Line("Qualified Small Business Stock");
-		this.lines["02i"]	= new Line("Exercise of Incentive Stock Options");
-		this.lines["02j"]	= new Line("Estates and Trusts");
-		this.lines["02k"]	= new Line("Disposition of Property");
-		this.lines["02l"]	= new Line("Post-1986 Depreciation");
-		this.lines["02m"]	= new Line("Passive Activities");
-		this.lines["02n"]	= new Line("Loss Limitations");
-		this.lines["02o"]	= new Line("Circulation Costs");
-		this.lines["02p"]	= new Line("Long-term Contracts");
-		this.lines["02q"]	= new Line("Mining Costs");
-		this.lines["02r"]	= new Line("Research and Experimental Costs");
-		this.lines["02s"]	= new Line("Installment Sales");
-		this.lines["02t"]	= new Line("Intangible Drilling Costs");
-		this.lines["03"]	= new Line("Other Income");
-		this.lines["04"]	= new Line("AMT Income");
-
-		// Form 6251, Part II - Alternative Minimum Tax
-		this.lines["05"]	= new Line("AMT Exemption");
-		this.lines["06"]	= new Line("AMT Income - Exemption");
-		this.lines["07"]	= new Line("Result from Form 6251, Part III");
-		this.lines["08"]	= new Line("AMT Foreign Tax Credit");
-		this.lines["09"]	= new Line("Tentative Minimum Tax");
-		this.lines["10"]	= new Line("Normal Income Tax (1040, line 13a)");
-		this.lines["11"]	= new Line("Alternative Minimum Tax");
-
-		// Form 6251, Part III
-		this.lines["12"]	= new Line("AMT Income - AMT Exemption");
-		this.lines["13"]	= new Line("Line 13");
-		this.lines["14"]	= new Line("Line 14");
-		this.lines["15"]	= new Line("Line 15");
-		this.lines["16"]	= new Line("Line 16");
-		this.lines["17"]	= new Line("Line 17");
-		this.lines["18"]	= new Line("Line 18");
-		this.lines["19"]	= new Line("Line 19");
-		this.lines["20"]	= new Line("Line 20");
-		this.lines["21"]	= new Line("Line 21");
-		this.lines["22"]	= new Line("Line 22");
-		this.lines["23"]	= new Line("Line 23");
-		this.lines["24"]	= new Line("Line 24");
-		this.lines["25"]	= new Line("Line 25");
-		this.lines["26"]	= new Line("Line 26");
-		this.lines["27"]	= new Line("Line 27");
-		this.lines["28"]	= new Line("Line 28");
-		this.lines["29"]	= new Line("Line 29");
-		this.lines["30"]	= new Line("Line 30");
-		this.lines["31"]	= new Line("Line 31");
-		this.lines["32"]	= new Line("Line 32");
-		this.lines["33"]	= new Line("Line 33");
-		this.lines["34"]	= new Line("Line 34");
-		this.lines["35"]	= new Line("Line 35");
-		this.lines["36"]	= new Line("Line 36");
-		this.lines["37"]	= new Line("Line 37");
-		this.lines["38"]	= new Line("Line 38");
-		this.lines["39"]	= new Line("Line 39");
-		this.lines["40"]	= new Line("Line 40");
+		// Create the lines on the form.
+		let field_info = F6251_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F6251.Constructor()");
 	}
