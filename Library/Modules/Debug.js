@@ -194,6 +194,9 @@ function turnOn() {
 		let tp = Taxpayer.getTaxpayer();
 		if (tp) {
 			output += tp.toString();
+			for (const dep of tp.dependents) {
+				output += dep.toString();
+			}
 		}
 	}
 

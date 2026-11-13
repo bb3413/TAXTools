@@ -11,6 +11,7 @@ import { HTMLMgr }		from "../Classes/HTMLMgr.js";
 import { Str }			from "../Modules/Str.js";
 import { Objects }		from "../Modules/Objects.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
+import { TaxpayerDependent }	from "../Classes/TaxpayerDependent.js";
 
 const FIELD_INFO = {
 	// Element ID			Value Type
@@ -209,6 +210,8 @@ export class Taxpayer {
 	get is_spouse_blind() {				return this._is_spouse_blind};
 	get spouse_has_ssn() {				return this._spouse_has_ssn};
 
+	get dependents() {					return this._dependents};
+
 	//
 	// ---------------- Setter Methods ----------------
 	//
@@ -263,7 +266,7 @@ export class Taxpayer {
 	//
 	addDependent(inputs) {
 		Ensure.isObject(inputs);
-		this._dependents.push(new Dependent(inputs));
+		this._dependents.push(new TaxpayerDependent(inputs));
 	}
 
 	clone() {
@@ -273,6 +276,7 @@ export class Taxpayer {
 	}
 
 	familySize() {
+		// Family size is used for sales tax calculation.
 		let size = 1;	// Taxpayer
 		if (this._filing_status === MFJ) {
 			size++;		// Spouse
@@ -329,6 +333,23 @@ export class Taxpayer {
 			case MFS:	return true;
 		}
 		return false;
+	}
+
+	numDependentsForCTC() {
+		let qualifying_children = 0;
+		let other_dependents = 0;
+		
+		for (const dep of this.dependents) {
+			if (!dep.has_ssn) {
+				continue;
+			}
+		
+			if (dep.isQualifiedChild() && (dep.age < 17)) {
+				qualifying_children++;
+			}
+		}
+
+		return [ qualifying_children, other_dependents ];
 	}
 
 	toString() {
