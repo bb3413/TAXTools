@@ -35,6 +35,7 @@ export const Ensure = {
 	isValidDate,
 	isValidElementID,
 	isValidNumber,
+	isValidRelationship,
 
 	expression,
 	isFalse,
@@ -189,6 +190,26 @@ function isValidNumber(num, msg="") {
 	}
 
 	return num;
+}
+
+function isValidRelationship(param, param_name="") {
+	isString(param, param_name);
+
+	switch (param) {
+		case "CHILD":
+		case "SIBLING":
+		case "PARENT":
+		case "STEP-PARENT":
+		case "AUNT-UNCLE":
+		case "IN-LAW":
+		case "NOT_RELATED":
+			break;
+		default:
+			param_name = param_name ? param_name : "value";
+			throw new TypeError(`Expected ${param_name} to be a type of relationship.`);
+	}
+
+	return param;
 }
 
 //

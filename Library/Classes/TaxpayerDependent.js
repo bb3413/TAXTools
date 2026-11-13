@@ -3,6 +3,7 @@ import { Debug }		from "../Modules/Debug.js";
 import { Dates }		from "../Modules/Dates.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Str }			from "../Modules/Str.js";
+import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
 import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
@@ -51,6 +52,8 @@ export class TaxpayerDependent {
 			}
 		}
 
+		Ensure.isValidRelationship(this.relationship);
+		
 		if (this.months_lived_at_home === "") {
 			this.months_lived_at_home = 12;
 		} else {
