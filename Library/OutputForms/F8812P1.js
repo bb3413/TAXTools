@@ -61,7 +61,7 @@ export class F8812P1 extends TaxForm {
 		this.lines["09"].value	= tt.getTaxValue("CTC_AGILimit");
 		this.lines["10"].value	= Num.roundUp(Math.max(0, this.subtract("03","09")), 1000);
 		this.lines["11"].value	= Math.round(this.line("10") * 0.05);	// 5%
-		if (this.line("08") > this.line("11")) {
+		if (this.line("08") <= this.line("11")) {
 			// No CTC, credit or other dependts, or ACTC
 			Debug.exit("F8812P1.calculate()");
 			return 0;
@@ -71,6 +71,6 @@ export class F8812P1 extends TaxForm {
 		this.lines["14"].value	= this.min("12", "13");		// Smaller of line 12 or 13
 
 		Debug.exit("F8812P1.calculate()");
-		return this.value("14");
+		return this.line("14");
 	}
 }

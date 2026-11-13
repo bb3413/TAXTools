@@ -48,7 +48,7 @@ export class F8812P2 extends TaxForm {
 		this.lines["16a"].value	= 
 			TaxFormObj.getValue("F8812P1", "12") -
 			TaxFormObj.getValue("F8812P1", "14");
-		if (this.value ("16a") <= 0) {
+		if (this.line("16a") <= 0) {
 			Debug.exit("F8812P2.calculate()");
 			return 0;
 		}
@@ -88,6 +88,6 @@ export class F8812P2 extends TaxForm {
 		}
 
 		Debug.exit("F8812P2.calculate()");
-		return this.value("27");
+		return this.line("27");
 	}
 }
