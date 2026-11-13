@@ -53,7 +53,6 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		// Non-refundable credits		SINGLE			HOH			MFJ			QSS			MFS
 		"MaxAmericanOppCreditNoRefund":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
 		"MaxChildAndDependentCareCredit":[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
-		"MaxChildTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
 		"MaxForeignTaxCredit":			[ 300,			300,		600,		300,		300			],	// TY25
 		"MaxLifetimeLearningCredit":	[ 2000,			2000,		2000,		2000,		0			],	// TY25
 		"MaxResidentialEnergyCredit":	[ 0,			0,			0,			0,			0			],
@@ -61,9 +60,16 @@ export class TaxTable_2026 extends TaxTableTmpl {
 
 		// Refundable credits			SINGLE			HOH			MFJ			QSS			MFS
 		"MaxAmericanOppCreditRefundable":[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
-		"MaxCreditForOtherDependents":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
 		"MaxEarnedIncomeCredit":		[ 61555,		61555,		68675,		61555,		0			],	// TY25
 		"MaxPremiumTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
+
+		// Child Tax Credit and Credit
+		"MaxChildTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
+		"MaxCreditForOtherDependents":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
+		"CTC_AGILimit":					[ 200000,		200000,		400000,		200000,		200000		],
+		"CTC_Amount":					[ 2200,			2200,		2200,		2200,		2200		],
+		"CTC_OtherDep":					[ 500,			500,		500,		500,		500			],
+		"AdditionalCTC":				[ 1700,			1700,		1700,		1700,		1700		],
 
 		// IRA Contributions
 		"MaxIRAContribution":			[ 7500,			7500,		7500,		7500,		7500,		],

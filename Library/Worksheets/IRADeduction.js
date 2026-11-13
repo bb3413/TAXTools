@@ -8,6 +8,7 @@ import { TAXPAYER, SPOUSE } from "../TAXTools/TAXTools.js";
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
+import { Num }			from "../Modules/Num.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxInfo }		from "../Modules/TaxInfo.js";
@@ -164,6 +165,6 @@ function doLine7(who) {
 	}
 
 	let line7 = this.line("06") * percent;
-	line7 = Math.min(200, roundup(tmp, 10));
+	line7 = Math.min(200, Num.roundUp(tmp, 10));
 	return line7;
 }

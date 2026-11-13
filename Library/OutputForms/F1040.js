@@ -116,7 +116,7 @@ export class F1040 extends TaxForm {
 		this.lines["16"].value	= this.inctax.calculate();		// Income Tax
 		this.lines["17"].value	= getValue("F1040S2", "03");	// Additional Tax
 		this.lines["18"].value	= this.add("16", "17");			// Total Tax
-		this.lines["19"].value	= getValue("F8812", "14");		// Child Tax Credit
+		this.lines["19"].value	= getValue("F8812P1", "14");	// Child Tax Credit
 		this.lines["20"].value	= getValue("F1040S3", "08");	// Non-refund Credits
 		this.lines["21"].value	= this.add("19", "20");
 		this.lines["22"].value	= Math.max(0, this.subtract("18", "21"));	// Tax - Credits
@@ -139,7 +139,7 @@ export class F1040 extends TaxForm {
 		this.lines["25d"].value	= this.add("25a", "25b", "25c");	// Total Withholding
 		this.lines["26"].value	= this.estimated_payments;			// Estimated payments
 		this.lines["27a"].value	= getValue("EIC", "xx");			// EIC
-		this.lines["28"].value	= getValue("F8812", "27");			// Additional CTC
+		this.lines["28"].value	= getValue("F8812P2", "27");		// Additional CTC
 		this.lines["29"].value	= getValue("F8863", "08");			// Amer Opp Cred
 		this.lines["30"].value	= getValue("F8839", "13");			// Refund Adopt Credit
 		this.lines["31"].value	= getValue("F1040S3", "15");		// Other Refund Credits
@@ -161,7 +161,8 @@ export class F1040 extends TaxForm {
 		const standard_deduction	= tt.getStandardDeduction();
 		const itemized_deduction	= TaxFormObj.getValue("F1040SA", "17");
 		const max_donation			= tt.getTaxValue("MaxCashDonation");
-		const cash_donation			= Math.min(max_donation, TaxFormObj.getValue("F1040SA", "11"));
+		const cash_donation			=
+			Math.min(max_donation, TaxFormObj.getValue("F1040SA", "11"));
 
 		if (standard_deduction + cash_donation > itemized_deduction) {
 			return [ standard_deduction, cash_donation ];

@@ -4,7 +4,7 @@ import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
-import { Num }			from "../Classes/Num.js";
+import { Num }			from "../Modules/Num.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxInfo }		from "../Modules/TaxInfo.js";

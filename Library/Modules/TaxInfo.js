@@ -89,12 +89,8 @@ function earnedIncome() {
 	return (
 		TaxFormObj.getValue("F1040",	"01z") +	// Earned income
 		TaxFormObj.getValue("F1040",	"01i") +	// Non-taxable combat pay
-		TaxFormObj.getValue("F1040S1",	"02a") +	// Alimony received
 		TaxFormObj.getValue("F1040S1",	"03")  +	// Business income
-		TaxFormObj.getValue("F1040S1",	"06")  +	// Farm income
-		TaxFormObj.getValue("F1040S1",	"08r") +	// Scholarships not on W-2
-		TaxFormObj.getValue("F1040S1",	"08t") +	// Pension from 457 plan
-		TaxFormObj.getValue("F1040S1",	"08u")		// Prison pay
+		TaxFormObj.getValue("F1040S1",	"06")		// Farm income
 	);
 }
 
