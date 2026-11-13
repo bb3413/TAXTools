@@ -173,7 +173,7 @@ function checkInputValues(inputs) {
 				 tt.getTaxValue("MaxChildAndDependentCareCredit"));
 	inputs.child_tax_credit =
 		Math.min(inputs.child_tax_credit,
-				 tt.getTaxValue("MaxChildTaxCredit") * 10);
+				 tt.getTaxValue("MaxChildTaxCredit"));
 	inputs.foreign_tax_credit =
 		Math.min(inputs.foreign_tax_credit,
 				 tt.getTaxValue("MaxForeignTaxCredit"));
@@ -193,10 +193,10 @@ function checkInputValues(inputs) {
 				 tt.getTaxValue("MaxAmericanOppCreditRefundable"));
 	inputs.credit_for_other_dependents =
 		Math.min(inputs.credit_for_other_dependents,
-				 tt.getTaxValue("MaxCreditForOtherDependents") * 10);
+				 tt.getTaxValue("MaxCreditForOtherDependents"));
 	inputs.earned_income_credit =
 		Math.min(inputs.earned_income_credit,
-				 tt.getTaxValue("MaxEarnedIncomeCredit") * 3);
+				 tt.getTaxValue("MaxEarnedIncomeCredit"));
 	inputs.premium_tax_credit =
 		Math.min(inputs.premium_tax_credit,
 				 tt.getTaxValue("MaxPremiumTaxCredit"));
