@@ -41,10 +41,10 @@ function limit(value, min_val = null, max_val = null) {
 	return value;
 }
 
-function round2(num) {
+function round2(value) {
 	// Round to a string with 2 decimal places, then convert back to a number.
 	Ensure.isNumber(value);
-	return parseFloat(num.toFixed(2));
+	return parseFloat(value.toFixed(2));
 }
 
 function roundDown(value, index = 1) {

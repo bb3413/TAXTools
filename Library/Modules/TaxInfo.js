@@ -21,6 +21,7 @@ import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Str }			from "../Modules/Str.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
 // Which retirement plan

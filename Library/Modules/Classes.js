@@ -42,6 +42,7 @@ import { F8880 }		from "../OutputForms/F8880.js";		// Retirement Credit
 import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
 import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
 import { CreditLimitA }		from "../Worksheets/CreditLimitA.js";
+import { EIC }				from "../Worksheets/EIC.js";
 import { IncTax }			from "../Worksheets/IncTax.js";
 import { IRADeduction }		from "../Worksheets/IRADeduction.js";
 import { Refund }			from "../Worksheets/Refund.js";
@@ -149,6 +150,7 @@ const form_info = {
     "CA_HiIncDeductions":	[ false,	true,	true,   true    ],
     "CA_HiIncExemptions":	[ false,	true,	true,   true    ],
 	"CreditLimitA":			[ false,	true,	true,   true    ],
+	"EIC":					[ false,	true,	true,   true    ],
     "IncTax":               [ false,	true,	true,   true    ],
     "IRADeduction":         [ false,	true,	false,  true    ],
     "Refund":               [ false,	true,	true,   true    ],
@@ -197,6 +199,7 @@ const class_map = {
 	"CA_HiIncDeductions":	CA_HiIncDeductions,
 	"CA_HiIncExemptions":	CA_HiIncExemptions,
 	"CreditLimitA":			CreditLimitA,
+	"EIC":					EIC,
 	"IncTax":				IncTax,
 	"IRADeduction":			IRADeduction,
 	"Refund":				Refund,

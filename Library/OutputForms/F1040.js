@@ -22,6 +22,7 @@ export class F1040 extends TaxForm {
 		this.title	= `1040 - Individual Income Tax Return`;
 		this.sstax	= TaxFormObj.createForm("SSTax");
 		this.inctax	= TaxFormObj.createForm("IncTax");
+		this.eic	= TaxFormObj.createForm("EIC");
 
 		// Variables for external input. This variable is be used to enter information
 		// that does not come from another tax form.
@@ -138,7 +139,7 @@ export class F1040 extends TaxForm {
 		this.lines["25c"].value	= getValue("F8959", "24");			// Other withholding
 		this.lines["25d"].value	= this.add("25a", "25b", "25c");	// Total Withholding
 		this.lines["26"].value	= this.estimated_payments;			// Estimated payments
-		this.lines["27a"].value	= getValue("EIC", "xx");			// EIC
+		this.lines["27a"].value	= this.eic.calculate();				// EIC
 		this.lines["28"].value	= getValue("F8812P2", "27");		// Additional CTC
 		this.lines["29"].value	= getValue("F8863", "08");			// Amer Opp Cred
 		this.lines["30"].value	= getValue("F8839", "13");			// Refund Adopt Credit

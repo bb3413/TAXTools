@@ -54,10 +54,10 @@ export class F8812P2 extends TaxForm {
 		}
 
 		const [ qualified_children, other_dependents ] = tp.numDependentsForCTC();
-		const additional_ctc = tt.getTaxValue("AdditionalCTC");
+		const refundable_ctc = tt.getTaxValue("CTC_Refundable");
 
 		// Additional Child Tax Credit for all filers
-		this.lines["16b"].value	= qualified_children * additional_ctc;
+		this.lines["16b"].value	= qualified_children * refundable_ctc;
 		this.lines["17"].value	= this.min("16a", "16b");		// Smaller of line 16a or 16b
 		this.lines["18a"].value	= TaxInfo.earnedIncome();		// Earned income
 		this.lines["18b"].value	= TaxFormObj.getValue("F1040", "01i");	// Nontaxable combat pay

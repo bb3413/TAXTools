@@ -1,7 +1,7 @@
 
 //
-// This is the Social Security Benefits Worksheet from the
-// 1040 Instructions (TY2025), lines 6a and 6b, page 32.
+// This is the Credit Limit Worksheet from the Instructions for Schedule 8812 (Form 1040),
+// page 4: https://www.irs.gov/pub/irs-pdf/i1040s8.pdf
 //
 import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
 

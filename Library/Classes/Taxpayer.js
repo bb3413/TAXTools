@@ -130,7 +130,9 @@ export class Taxpayer {
 			}
 		}
 
-		HTML.putElementValue("filing-status", "SINGLE");
+		if (document.getElementById("filing-status")) {
+			HTML.putElementValue("filing-status", "SINGLE");
+		}
 
 		// Restore the fields that were saved.
 		for (const key_name of Object.keys(data)) {
@@ -147,6 +149,10 @@ export class Taxpayer {
 			if (document.getElementById(element_id)) {
 				HTML.putElementValue(element_id, "");
 			}
+		}
+		
+		if (document.getElementById("filing-status")) {
+			HTML.putElementValue("filing-status", "SINGLE");
 		}
 
 		taxpayer = undefined;
@@ -282,7 +288,7 @@ export class Taxpayer {
 			size++;		// Spouse
 		}
 
-		size += this._dependents.length;
+		size += this.dependents.length;
 
 		return size;
 	}
@@ -350,6 +356,10 @@ export class Taxpayer {
 		}
 
 		return [ qualifying_children, other_dependents ];
+	}
+
+	numDependentsForEIC() {
+		return Math.min(3, this.dependents.length);
 	}
 
 	toString() {
