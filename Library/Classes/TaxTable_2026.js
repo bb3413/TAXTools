@@ -73,26 +73,27 @@ export class TaxTable_2026 extends TaxTableTmpl {
 		"CTC_Refundable":				[ 1700,			1700,		1700,		1700,		1700		],
 
 		// EIC - Earned Income Credit	SINGLE			HOH			MFJ			QSS			MFS
+		"EIC_MaxUnearnedIncome":		[ 12200,		12200,		12200,		12200,		12200		],
 		// EIC Base is the maximum amount of earned income that can be used to calculate the credit.
-		"EIC_Base_0_Dep":				[ 8490,			8490,		8490,		8490,		8490		],	// TY25
-		"EIC_Base_1_Dep":				[ 12730,		12730,		12730,		12730,		12730		],	// TY25
-		"EIC_Base_2_Dep":				[ 17880,		17880,		17880,		17880,		17880		],	// TY25
-		"EIC_Base_3_Dep":				[ 17880,		17880,		17880,		17880,		17880		],	// TY25
+		"EIC_Base_0_Dep":				[ 8680,			8680,		8680,		8680,		8680		],
+		"EIC_Base_1_Dep":				[ 13020,		13020,		13020,		13020,		13020		],
+		"EIC_Base_2_Dep":				[ 18290,		18290,		18290,		18290,		18290		],
+		"EIC_Base_3_Dep":				[ 18290,		18290,		18290,		18290,		18290		],
 		// Earned income * EIC_Rate is the maximum amount of the credit.
-		"EIC_Rate_0_Dep":				[ 0.0765,		0.0765,		0.0765,		0.0765,		0.0765		],	// TY25
-		"EIC_Rate_1_Dep":				[ 0.34,			0.34,		0.34,		0.34,		0.34		],	// TY25
-		"EIC_Rate_2_Dep":				[ 0.40,			0.40,		0.40,		0.40,		0.40		],	// TY25
-		"EIC_Rate_3_Dep":				[ 0.45,			0.45,		0.45,		0.45,		0.45		],	// TY25
+		"EIC_Rate_0_Dep":				[ 0.0765,		0.0765,		0.0765,		0.0765,		0.0765		],
+		"EIC_Rate_1_Dep":				[ 0.34,			0.34,		0.34,		0.34,		0.34		],
+		"EIC_Rate_2_Dep":				[ 0.40,			0.40,		0.40,		0.40,		0.40		],
+		"EIC_Rate_3_Dep":				[ 0.45,			0.45,		0.45,		0.45,		0.45		],
 		// EIC_PhaseOutStart is the amount of earned income over which the credit begins to be reduced.
-		"EIC_PhaseOutStart_0_Dep":		[ 10620,		10620,		10620,		10620,		10620		],	// TY25
-		"EIC_PhaseOutStart_1_Dep":		[ 23350,		23350,		23350,		23350,		23350		],	// TY25
-		"EIC_PhaseOutStart_2_Dep":		[ 23350,		23350,		23350,		23350,		23350		],	// TY25
-		"EIC_PhaseOutStart_3_Dep":		[ 23350,		23350,		23350,		23350,		23350		],	// TY25
+		"EIC_PhaseOutStart_0_Dep":		[ 10860,		10860,		18140,		10860,		10860		],
+		"EIC_PhaseOutStart_1_Dep":		[ 23890,		23890,		31160,		23890,		23890		],
+		"EIC_PhaseOutStart_2_Dep":		[ 23890,		23890,		31160,		23890,		23890		],
+		"EIC_PhaseOutStart_3_Dep":		[ 23890,		23890,		31160,		23890,		23890		],
 		// The EIC is reduced by the amount over the phase out start * the phase out rate.
-		"EIC_PhaseOutRate_0_Dep":		[ 0.0765,		0.0765,		0.0765,		0.0765,		0.0765		],	// TY25
-		"EIC_PhaseOutRate_1_Dep":		[ 0.1598,		0.1598,		0.1598,		0.1598,		0.1598		],	// TY25
-		"EIC_PhaseOutRate_2_Dep":		[ 0.2106,		0.2106,		0.2106,		0.2106,		0.2106		],	// TY25
-		"EIC_PhaseOutRate_3_Dep":		[ 0.2106,		0.2106,		0.2106,		0.2106,		0.2106		],	// TY25
+		"EIC_PhaseOutRate_0_Dep":		[ 0.0765,		0.0765,		0.0765,		0.0765,		0.0765		],
+		"EIC_PhaseOutRate_1_Dep":		[ 0.1598,		0.1598,		0.1598,		0.1598,		0.1598		],
+		"EIC_PhaseOutRate_2_Dep":		[ 0.2106,		0.2106,		0.2106,		0.2106,		0.2106		],
+		"EIC_PhaseOutRate_3_Dep":		[ 0.2106,		0.2106,		0.2106,		0.2106,		0.2106		],
 
 		// IRA Contributions			SINGLE			HOH			MFJ			QSS			MFS
 		"MaxIRAContribution":			[ 7500,			7500,		7500,		7500,		7500,		],

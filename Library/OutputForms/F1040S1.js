@@ -85,7 +85,7 @@ export class F1040S1 extends TaxForm {
 		this.lines["08b"].value	= 0;								// Gambling
 		this.lines["08c"].value	= 0;								// Cancelled Debt
 		// Foreign Earned Income Exclusion (Subtract)
-		this.lines["08d"].value	= -(getValue("F2555", "xx"));
+		this.lines["08d"].value	= -(getValue("F2555", "45"));
 		this.lines["08e"].value	= getValue("F8853", "xx");			// Income from 8853
 		this.lines["08f"].value	= getValue("F8889", "16") +			// Income from 8889
 									getValue("F8889", "20");

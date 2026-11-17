@@ -6,24 +6,7 @@ import { Str }			from "../Modules/Str.js";
 import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
-import { SINGLE, HOH, MFJ, QSS, MFS }	from "../TAXTools/TAXTools.js";
-
-const FIELD_INFO = {
-	// Field Name			Value Type	Is Line	Description
-	"dependent-name":		["text",	false,	""],
-	"birthday":				["text",	false,	""],
-	"relationship":			["text",	false,	""],
-	"months-lived-at-home":	["text",	false,	""],
-	"gross-income":			["",		false,	""],
-	"fulltime-student":		["",		false,	""],
-	"mfj":					["",		false,	""],
-	"taxpayer-supported":	["",		false,	""],
-	"dependent-supported":	["",		false,	""],
-	"disabled":				["",		false,	""],
-	"has-ssn":				["",		false,	""],
-	"has-itin":				["",		false,	""],
-	"has-atin":				["",		false,	""],
-};
+import { SINGLE, HOH, MFJ, QSS, MFS } from "../TAXTools/TAXTools.js";
 
 export class TaxpayerDependent {
 	constructor(values) {
@@ -79,7 +62,7 @@ export class TaxpayerDependent {
 		}
 	}
 
-	isQualifiedChild() {
+	isQualifiedChild(forEIC = false) {
 		const tp = Taxpayer.getTaxpayer();
 
 		// Relationship Test - The child must be the taxpayer's child, stepchild, foster
@@ -125,8 +108,10 @@ export class TaxpayerDependent {
 		//		o	A scholarship is not considered support.
 		//		o	Income received by the child, but not spent on their own support is not
 		//			considered support.
-		if (this.dependent_supported) {
-			return false;
+		if (!forEIC) {	// This text not required for EIC
+			if (this.dependent_supported && !forEIC) {
+				return false;
+			}
 		}
 
 		// Joint Return Test - The child must not be filing a joint return for the year
@@ -143,10 +128,10 @@ export class TaxpayerDependent {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		// Qualifying Child Test - The relative cannot be the taxpayer's qualifying child or
-		// the qualifying child of any other taxpayer unless that taxpayer does not file a
+		// Qualified Child Test - The relative cannot be the taxpayer's Qualified child or
+		// the Qualified child of any other taxpayer unless that taxpayer does not file a
 		// tax return.
-		if (this.isQualifyingChild()) {
+		if (this.isQualifiedChild()) {
 			return false;
 		}
 
@@ -181,7 +166,7 @@ export class TaxpayerDependent {
 				case "IN-LAW":		break;
 				case "NOT_RELATED":	break;
 				default: throw new Error(
-					`Unexpected relationship for qualifying relative: ${this.relationship}`);
+					`Unexpected relationship for Qualified relative: ${this.relationship}`);
 			}
 		}
 

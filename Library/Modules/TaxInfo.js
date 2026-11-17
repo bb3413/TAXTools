@@ -14,6 +14,7 @@ export const TaxInfo = {
 	getW2RetirementContributions,
 	getW2TipIncome,
 	hasRetirementPlan,
+	unearnedIncome,
 };
 
 import { Classes }		from "../Modules/Classes.js";
@@ -272,4 +273,8 @@ function hasRetirementPlan(who) {
 	}
 
 	return false;
+}
+
+function unearnedIncome() {
+	return TaxFormObj.getValue("F1040",	"09") - earnedIncome();
 }

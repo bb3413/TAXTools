@@ -73,21 +73,22 @@ export class TaxTable_2024 extends TaxTableTmpl {
 		"CTC_Refundable":				[ 1700,			1700,		1700,		1700,		1700		],
 
 		// EIC - Earned Income Credit	SINGLE			HOH			MFJ			QSS			MFS
+		"EIC_MaxUnearnedIncome":		[ 11600,		11600,		11600,		11600,		11600		],
 		// EIC Base is the maximum amount of earned income that can be used to calculate the credit.
-		"EIC_Base_0_Dep":				[ 8490,			8490,		8490,		8490,		8490		],	// TY25
-		"EIC_Base_1_Dep":				[ 12730,		12730,		12730,		12730,		12730		],	// TY25
-		"EIC_Base_2_Dep":				[ 17880,		17880,		17880,		17880,		17880		],	// TY25
-		"EIC_Base_3_Dep":				[ 17880,		17880,		17880,		17880,		17880		],	// TY25
+		"EIC_Base_0_Dep":				[ 8260,			8260,		8260,		8260,		8260		],
+		"EIC_Base_1_Dep":				[ 12390,		12390,		12390,		12390,		12390		],
+		"EIC_Base_2_Dep":				[ 17400,		17400,		17400,		17400,		17400		],
+		"EIC_Base_3_Dep":				[ 17400,		17400,		17400,		17400,		17400		],
 		// Earned income * EIC_Rate is the maximum amount of the credit.
 		"EIC_Rate_0_Dep":				[ 0.0765,		0.0765,		0.0765,		0.0765,		0.0765		],	// TY25
 		"EIC_Rate_1_Dep":				[ 0.34,			0.34,		0.34,		0.34,		0.34		],	// TY25
 		"EIC_Rate_2_Dep":				[ 0.40,			0.40,		0.40,		0.40,		0.40		],	// TY25
 		"EIC_Rate_3_Dep":				[ 0.45,			0.45,		0.45,		0.45,		0.45		],	// TY25
 		// EIC_PhaseOutStart is the amount of earned income over which the credit begins to be reduced.
-		"EIC_PhaseOutStart_0_Dep":		[ 10620,		10620,		10620,		10620,		10620		],	// TY25
-		"EIC_PhaseOutStart_1_Dep":		[ 23350,		23350,		23350,		23350,		23350		],	// TY25
-		"EIC_PhaseOutStart_2_Dep":		[ 23350,		23350,		23350,		23350,		23350		],	// TY25
-		"EIC_PhaseOutStart_3_Dep":		[ 23350,		23350,		23350,		23350,		23350		],	// TY25
+		"EIC_PhaseOutStart_0_Dep":		[ 10330,		10330,		17250,		10330,		10330		],
+		"EIC_PhaseOutStart_1_Dep":		[ 22720,		22720,		29640,		22720,		22720		],
+		"EIC_PhaseOutStart_2_Dep":		[ 22720,		22720,		29640,		22720,		22720		],
+		"EIC_PhaseOutStart_3_Dep":		[ 22720,		22720,		29640,		22720,		22720		],
 		// The EIC is reduced by the amount over the phase out start * the phase out rate.
 		"EIC_PhaseOutRate_0_Dep":		[ 0.0765,		0.0765,		0.0765,		0.0765,		0.0765		],	// TY25
 		"EIC_PhaseOutRate_1_Dep":		[ 0.1598,		0.1598,		0.1598,		0.1598,		0.1598		],	// TY25

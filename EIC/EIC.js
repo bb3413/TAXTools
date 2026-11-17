@@ -24,13 +24,19 @@ function changeHandler(event) {
 		resetAll();
 		const inputs = getInputs();				// Get inputs from the web page
 		TaxTable.getTaxTable(inputs.tax_year);	// Initialize tax tables
-		Taxpayer.getTaxpayer();					// Initialize taxpayer
+		
+		createTaxpayer();						// Initialize taxpayer
 		mapInputValues(inputs);					// Map input values to tax forms
 		putOutputs();							// Put results on web page
 		Debug.turnOn();							// Put debug info on web page if enabled
 	} catch (error) {
 		Ensure.processError(error);
 	}
+}
+function createTaxpayer() {
+	const taxpayer = Taxpayer.getTaxpayer();
+
+	taxpayer.taxpayers_age = 25;	// Must be older than dependents.
 }
 
 function getInputs() {
@@ -54,7 +60,7 @@ function mapInputValues(inputs) {
 	f1040.lines["01a"].user_value = inputs.earned_income;
 
 	const tp = Taxpayer.getTaxpayer();
-	for (const i = 0; i < inputs.num_dependents; i++) {
+	for (let i = 0; i < inputs.num_dependents; i++) {
 		tp.addDependent({
 			dependent_name:			`Dependent-${i}`,
 			age:					5,
@@ -72,6 +78,9 @@ function mapInputValues(inputs) {
 }
 
 function putOutputs() {
+	const tt = TaxTable.getTaxTable();
+
+	HTML.putUserOutput("unearned-income", tt.getTaxValue("EIC_MaxUnearnedIncome"));
 	HTML.putUserOutput("eic", TaxFormObj.getValue("F1040", "27a"));
 }
 
@@ -83,8 +92,6 @@ function resetAll() {
 	Debug.reset();
 	TaxFormObj.reset();
 	Taxpayer.reset();
-
-	HTML.putUserOutput("filing-status", "SINGLE");
 }
 
 document.addEventListener("DOMContentLoaded", () => {

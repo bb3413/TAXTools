@@ -21,6 +21,7 @@ import { Business }		from "../Library/InputWorksheets/Business.js";
 import { Dependent }	from "../Library/InputWorksheets/Dependent.js";
 import { Expenses }		from "../Library/InputWorksheets/Expenses.js";
 import { Income }		from "../Library/InputWorksheets/Income.js";
+import { TaxpayerWeb }	from "../Library/InputWorksheets/TaxpayerWeb.js";
 
 import { addInputForm }	from "./TaxProgram.js";
 
@@ -209,9 +210,9 @@ function restoreTaxpayer(taxpayer_values) {
 	//
 	// The taxpayer_values parameter is a single name-value pair object.
 	//
-
 	try {
-		Taxpayer.putValues(taxpayer_values);
+		TaxpayerWeb.clearFields();
+		TaxpayerWeb.putValues(taxpayer_values);
 	} catch (error) {
 		error_log.push(`Error restoring taxpayer information; ignoring.`);
 	}
@@ -349,7 +350,7 @@ function saveTaxpayer() {
 	//
 	// Saves an object of name-value pairs.
 	//
-	const values = Taxpayer.getValues(RAW);
+	const values = TaxpayerWeb.getValues(RAW);
 	return Objects.removeUnused(values);
 }
 

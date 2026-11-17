@@ -23,33 +23,36 @@
 
 		<h1 class="title" id="title">Earned Income Credit Calculator</h1>
 
-		<p>The earned income credit (EIC) is a tax credit for the working poor. It is
-		based on the amount of earned income, number of dependents, and the filing status
-		of the taxpayer. Generally, earned income includes employee compensation from
-		working and net earnings from self-employment. It does not include interest,
-		dividends, pension benefits, or profit from the sale of assets (e.g., stocks or
-		home).</p>
+		<p>The earned income credit (EIC) is a tax credit for low-income, working taxpayers.
+		The amount of the credit is based on earned income, the number of dependents, and
+		the filing status of the taxpayer. Generally, earned income consists if employee
+		compensation from working and net earnings from self-employment. It does not include
+		interest, dividends, pension benefits, or profit from the sale of assets (such as
+		stocks).</p>
 
 		<p>The credit is calculated by multiplying the allowed amount of earned income by
 		the EIC percentage. If the earned income is too high, the amount of the credit is
 		reduced by a percentage of the amount over the phase out limit.</p>
 
-		<pre class="formula-container">
-    Earned Income Allowed     = MIN(Total Earned Income, Earned Income Limit)
-    Maximum Credit            = Earned Income Allowed * EIC Percentage
-    IF (Total Earned Income > Earned Income Allowed)
-        Phaseout Amount       = Total Earned Income - Start of Phaseout
-        EIC                   = Maximum Credit - (Phaseout Amount * Phaseout Percentage)
-    ELSE
-        EIC                   = Maximum Credit
-		</pre>
-
 		<h2>Taxpayer Qualifications</h2>
-		<p></p>
+		<ul>
+			<li>You (and your spouse) have a valid Social Security number.</li>
+			<li>You (and your spouse) are a U.S. citizen or resident alien all year.</li>
+			<li>You are not filing Form 2555, Foreign Earned Income.</li>
+			<li>You unearned income cannot be greater than
+				<span id="unearned-income">the current limit</span>.</li>
+			<li>You are not the qualifying child of another taxpayer.</li>
+			<li>If you have no dependents, you must be at least 25 and under 65 years old.</li>
+		</ul>
 
 		<h2>Dependent Qualifications</h2>
-		<p></p>
+		<ul>
+			<li>Is a qualifying child of the taxpayer, except the support test is not required.</li>
+			<li>Has a valid Social Security number.</li>
+			<li>Is not claimed by another taxpayer as a dependent for EIC.</li>
+		</ul>
 
+		<h2>EIC Calculation</h2>
 		<div class="table">
 			<p>Tax Year</p>
 			<select class="button" id="tax-year" >
@@ -68,17 +71,17 @@
 			</select>
 		
 		   	<p>Earned Income</p>
-			<input class="input-field" type="text" autofocus id="earned-income"
+			<input class="input-field left" type="text" autofocus id="earned-income"
 				placeholder="0" />
 
 			<p>Number of Qualified Dependents</p>
-			<input class="input-field" type="text" id="num-dependents"
+			<input class="input-field left" type="text" id="num-dependents"
 				placeholder="0" />
 
 			<p>&nbsp;</p>
 			<p>&nbsp;</p>
 
-			<p>EIC</p>
+			<p>Earned Income Credit</p>
 			<p class="output-field" id="eic">0</p>
 
 		</div>

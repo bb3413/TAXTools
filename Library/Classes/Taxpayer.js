@@ -12,64 +12,29 @@ import { Str }			from "../Modules/Str.js";
 import { Objects }		from "../Modules/Objects.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 import { TaxpayerDependent }	from "../Classes/TaxpayerDependent.js";
-
-const FIELD_INFO = {
-	// Element ID			Value Type
-	"filing-status":		["text"],
-	"taxpayers-name":		["text"],
-	"street-address":		["text"],
-	"city":					["text"],
-	"state":				["text"],
-	"zip-code":				["text"],
-	"taxpayers-birthday":	["text"],
-	"is-taxpayer-blind":	[],
-	"taxpayer-has-ssn":		[],
-	"taxpayer-has-itin":	[],		// Ignored
-
-	// Spouse
-	"spouses-birthday":		["text"],
-	"months-lived-together":[],
-	"is-spouse-blind":		[],
-	"spouse-has-ssn":		[],
-	"spouse-has-itin":		[],		// Ignored
-};
+import { TaxpayerWeb }	from "../InputWorksheets/TaxpayerWeb.js";
 
 let taxpayer = undefined;		// Global variable.
-
-// This functions ignore an error when an element does not exist.
-function putUserOutput(element_id, value, type = "number") {
-	if (document.getElementById(element_id)) {
-		HTML.putUserOutput(element_id, value, type);
-	}
-}
 
 function initializeTaxpayer() {
 	//
 	// Create a new taxpayer and initialize it with information from the Web page.
 	//
 	new Taxpayer();
-		
-	// Initialize the fields from the web page.
-	for (const field_name of Object.keys(FIELD_INFO)) {
-		const value_type	= FIELD_INFO[field_name][0];
-		const key_name		= field_name.replace(/-/g, "_");
-		if (HTML.isValidElementID(field_name)) {
-			switch (key_name) {
-				case "filing_status":
-					taxpayer[key_name] = 
-						strToFilingStatus(HTML.getUserInput(field_name, value_type));
-					break;
-				default:
-					taxpayer[key_name] = HTML.getUserInput(field_name, value_type);
-					break;
-			}
+
+	const values = TaxpayerWeb.getValues();
+	for (const key of Object.keys(values)) {
+		if (key in taxpayer) {
+			taxpayer[key] = values[key];
+		} else {
+			throw new Error(`Invalid key for taxpayer: ${key}`);
 		}
 	}
 
 	if (typeof taxpayer["filing_status"] !== "number") {
 		taxpayer[filing_status] = SINGLE;
 	}
-
+	
 	if (taxpayer.filing_status === MFJ) {
 		if (taxpayer.months_lived_together === "") {
 			taxpayer.months_lived_together = 12;
@@ -85,28 +50,6 @@ export class Taxpayer {
 	//
 	// ---------------- Static Methods ----------------
 	//
-	static getValues(raw = false) {
-		//
-		// Copy values from the web page.
-		//
-		// The return parameter is an object that contains the name-value pairs for all the
-		// fields copied from the web page.  Raw user input is only used to save and restore
-		// user input.
-		//
-		let inputs = {};
-
-		// Copy the fields from the web page.
-		for (const field_name of Object.keys(FIELD_INFO)) {
-			const key_name		= field_name.replace(/-/g, "_");
-			const value_type	= raw ? "raw" : FIELD_INFO[field_name][0];
-			if (document.getElementById(field_name)) {
-				inputs[key_name] = HTML.getUserInput(field_name, value_type);
-			}
-		}
-
-		return inputs;
-	}
-
 	static getTaxpayer() {
 		if (!taxpayer) {
 			initializeTaxpayer();
@@ -114,51 +57,7 @@ export class Taxpayer {
 		return taxpayer;
 	}
 
-	static putValues(data) {
-		//
-		// Copy values to the web page.
-		//
-		// The input parameter is an object that contains the name-value pairs for all the
-		// fields to copy to the web page.
-		//
-		Ensure.isObject(data);
-
-		// Clean all the fields.
-		for (const element_id of Object.keys(FIELD_INFO)) {
-			if (document.getElementById(element_id)) {
-				HTML.putElementValue(element_id, "");
-			}
-		}
-
-		if (document.getElementById("filing-status")) {
-			HTML.putElementValue("filing-status", "SINGLE");
-		}
-
-		// Restore the fields that were saved.
-		for (const key_name of Object.keys(data)) {
-			const element_id = key_name.replace(/_/g, "-");
-			if (document.getElementById(element_id)) {
-				HTML.putElementValue(element_id, data[key_name]);
-			}
-		}	
-	}
-
 	static reset() {
-		// Clear the fields on the web page.
-		for (const element_id of Object.keys(FIELD_INFO)) {
-			if (document.getElementById(element_id)) {
-				HTML.putElementValue(element_id, "");
-			}
-		}
-		
-		if (document.getElementById("filing-status")) {
-			HTML.putElementValue("filing-status", "SINGLE");
-		}
-
-		taxpayer = undefined;
-	}
-
-	static resetCalculation() {
 		taxpayer = undefined;
 	}
 
@@ -272,7 +171,13 @@ export class Taxpayer {
 	//
 	addDependent(inputs) {
 		Ensure.isObject(inputs);
-		this._dependents.push(new TaxpayerDependent(inputs));
+
+		const dependent = new TaxpayerDependent(inputs);
+		if (!dependent.isQualifiedChild() && !dependent.isQualifiedRelative()) {
+			throw new Error("Dependent is not a qualifying child or relative.");
+		}
+
+		this._dependents.push(dependent);
 	}
 
 	clone() {
@@ -341,6 +246,19 @@ export class Taxpayer {
 		return false;
 	}
 
+	isQualifiedForEIC() {
+		if (!this.taxpayer_has_ssn) {
+			return false;
+		}
+		if (this.filing_status === MFJ && !this.spouse_has_ssn) {
+			return false;
+		}
+		if ((this.numDependentsForEIC() === 0) && (this.age <25 || this.age >= 65)) {
+			return false;
+		}
+		return true;
+	}
+
 	numDependentsForCTC() {
 		let qualifying_children = 0;
 		let other_dependents = 0;
@@ -352,14 +270,29 @@ export class Taxpayer {
 		
 			if (dep.isQualifiedChild() && (dep.age < 17)) {
 				qualifying_children++;
+			} else {
+				other_dependents++;
 			}
 		}
 
-		return [ qualifying_children, other_dependents ];
+		return [qualifying_children, other_dependents];
 	}
 
 	numDependentsForEIC() {
-		return Math.min(3, this.dependents.length);
+		let qualifying_dependents = 0;
+
+		for (const dep of this.dependents) {
+			if (!dep.has_ssn) {
+				continue;
+			}
+			if (!dep.isQualifiedChild(true)) {
+				continue;
+			}
+
+			qualifying_dependents++;
+		}
+
+		return Math.min(3, qualifying_dependents);
 	}
 
 	toString() {
