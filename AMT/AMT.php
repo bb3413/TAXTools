@@ -54,14 +54,14 @@
 		<h2 style="margin-top: 0;">Taxpayer Information</h2>
 		<div class="table-3">
 			<p>Tax Year</p>
-			<select class="trigger input-field" id="tax-year" tooltipid="#tax-year-tt">
+			<select class="trigger button" id="tax-year" tooltipid="#tax-year-tt" >
 				<option value="2026">2026</option>
 				<option value="2025">2025</option>
 				<option value="2024">2024</option>
 			</select>
 
 			<p>Filing Status</p>
-			<select class="trigger input-field" id="FilingStatus"
+			<select class="trigger button" id="FilingStatus"
 					tooltipid="#FilingStatusTT">
 				<option value="Single">Single</option>
 				<option value="HoH">HoH</option>
@@ -71,7 +71,7 @@
 			</select>
 
 			<p>Taxpayer's Birthday</p>
-			<input class="trigger input-field" type="text" autofocus id="TaxpayersBirthday"
+			<input class="trigger input-field left" type="text" autofocus id="TaxpayersBirthday"
 				placeholder="mm/dd/yyyy" tooltipid="#TaxpayersBirthdayTT" />
 
 			<p>Taxpayer Is Blind</p>

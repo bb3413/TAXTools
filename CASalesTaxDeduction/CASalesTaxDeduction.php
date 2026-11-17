@@ -66,7 +66,7 @@
 
 		<div class="table-1">
 			<p>Tax Year</p>
-			<select class="trigger input-field left" id="tax-year" tooltipid="#tax-year-tt">
+			<select class="trigger button" id="tax-year" tooltipid="#tax-year-tt">
 				<option value="2026">2026</option>
 				<option value="2025">2025</option>
 				<option value="2024">2024</option>

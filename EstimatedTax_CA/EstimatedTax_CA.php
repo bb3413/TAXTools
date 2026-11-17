@@ -62,7 +62,7 @@
 				</p>
 
 				<p class="label-field right">Filing Status</p>
-				<select class="trigger input-field left" id="FilingStatus"
+				<select class="trigger button" id="FilingStatus"
 					tooltipid="#FilingStatusTT">
 					<option value="Single">Single</option>
 					<option value="HoH">HoH</option>
