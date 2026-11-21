@@ -17,7 +17,8 @@ const HTML_CODE = `
 					<p>Name</p>
 					<input class="trigger input-field left"
 						type="text" autofocus spellcheck="false" size="45"
-						id="dependent-XX-dependent-name" tooltipid="#dependent-dependent-name-tt" />
+						id="dependent-XX-dependent-name"
+						tooltipid="#dependent-dependent-name-tt" />
 				</div>
 				<div class="taxpayer-info-150-400">
 					<p>Relationship</p>
@@ -25,12 +26,14 @@ const HTML_CODE = `
 							tooltipid="#dependent-relationship-tt">
 						<option value="NONE"></option>
 						<option value="CHILD">			Child (son or daughter),
-														Step-child, Foster-child, or Adopted-child,
-														or a decendent of one of these.
+														Step-child, Foster-child, or
+														Adopted-child,
+														or a descendent of one of these.
 														</option>
 						<option value="SIBLING">		Sibling (brother or sister),
-														Half-sibling, Step-sibling, or Foster-sibling,
-														or a decendent of one of these.
+														Half-sibling, Step-sibling, or
+														Foster-sibling,
+														or a descendent of one of these.
 														</option>
 						<option value="PARENT">			Parent (mother or father),
 														or an ancestor of one of these.
@@ -39,7 +42,7 @@ const HTML_CODE = `
 						<option value="AUNT-UNCLE">	 	Aunt or Uncle</option>
 						<option value="IN-LAW">	 		Mother-in-law or Father-in-law,
 														Daughter-in-law or Son-in-law,
-														or Sister-in-law or Brother-in-law	
+														or Sister-in-law or Brother-in-law
 														</option>
 						<option value="NOT_RELATED">	Not related</option>
 					</select>

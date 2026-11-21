@@ -468,10 +468,6 @@ function putOutputs() {
 		}
 	}
 
-	// Put the taxpayer information into form 1040.
-	const tp = Taxpayer.getTaxpayer();
-	tp.fillIn1040();
-
 	// Show the tax return forms.
 	const hm = HTMLMgr.getMgr();
 	const block = hm.getBlock("f1040");

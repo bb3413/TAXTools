@@ -161,6 +161,7 @@ const form_info = {
 };
 
 const class_map = {
+	// Class name			class reference
 	// Input forms
 	"F1098E":				F1098E,
 	"F1098VLI":				F1098VLI,

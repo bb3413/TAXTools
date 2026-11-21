@@ -15,7 +15,7 @@ export class F1040SD extends TaxForm {
 		this.title = `Schedule D - Capital Gains and Losses`;
 
 		// Create the lines on the form.
-		let field_info = FF1040SD_HTML.getFieldInfo();
+		let field_info = F1040SD_HTML.getFieldInfo();
 		for (const field_name of Object.keys(field_info)) {
 			if (field_info[field_name][1]) {
 				this.lines[field_name]= new Line(field_info[field_name][2]);
@@ -32,6 +32,7 @@ export class F1040SD extends TaxForm {
 
 		Debug.enter("F1040SD.calculate()");
 		this.calculated = true;
+		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
 		const f1040 = TaxFormObj.getOrCreateForm("F1040")
