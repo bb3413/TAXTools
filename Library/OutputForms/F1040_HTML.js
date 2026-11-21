@@ -1,8 +1,13 @@
 
+import { filingStatusToStr } from "../TAXTools/TAXTools.js";
+
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
+import { HTML }			from "../Modules/HTML.js";
 import { HTMLBlock }	from "../Classes/HTMLBlock.js";
 import { HTMLMgr }		from "../Classes/HTMLMgr.js";
+import { Str }			from "../Modules/Str.js";
+import { Taxpayer }		from "../Classes/Taxpayer.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
 const HTML_CODE = `
@@ -586,5 +591,53 @@ export class F1040_HTML extends HTMLBlock {
 		this.uid		= HTMLMgr.getMgr().allocateUID(this.name);
 		this.html		= F1040_HTML.getHTML(this.uid);
 		this.fields		= F1040_HTML.getFieldInfo();
+	}
+
+	putValues(values) {
+		//
+		// Copy values to the web page.
+		//
+		// The input parameter is an object that contains the name-value pairs for all the
+		// fields to copy to the web page.
+		//
+		Ensure.isObject(values);
+		super.putValues(values);	// Put the line information on the 1040
+
+		//
+		// Put the taxpayer information on the 1040.
+		//
+		const tp	= Taxpayer.getTaxpayer();
+		const id	= this.getID();
+
+		HTML.putUserOutput(`${id}-filing-status`,
+			filingStatusToStr(tp.filing_status), "text");
+		HTML.putUserOutput(`${id}-taxpayers-name`,
+			tp.taxpayers_name, "text");
+		HTML.putUserOutput(`${id}-street-address`,
+			tp.street_address, "text");
+		if (!Str.empty(tp.city)) {
+			const state = tp.state ? tp.state : "CA";
+			HTML.putUserOutput(`${id}-city-state-zip`,
+				`${tp.city}, ${state} ${tp.zip_code}`.trim(), "text");
+		} else {
+			HTML.putUserOutput(`${id}-city-state-zip`,"", "text");
+		}
+
+		if (!Str.empty(tp.taxpayers_birthday)) {
+			HTML.putUserOutput(`${id}-taxpayers-birthday`,
+				`${tp.taxpayers_birthday} (Age ${tp.taxpayers_age})`, "text");
+		} else {
+			HTML.putUserOutput(`${id}-taxpayers-birthday`, " ", "text");
+		}
+		if (!Str.empty(tp.spouses_birthday)) {
+			HTML.putUserOutput(`${id}-spouses-birthday`,
+				`${tp.spouses_birthday} (Age ${tp.spouses_age})`, "text");
+		} else {
+			HTML.putUserOutput(`${id}-spouses-birthday`, " ", "text");
+		}
+		HTML.putUserOutput(`${id}-taxpayer-is-blind`,
+			tp.is_taxpayer_blind ? "X" : "", "text");
+		HTML.putUserOutput(`${id}-spouse-is-blind`,
+			tp.is_spouse_blind ? "X" : "", "text");
 	}
 }

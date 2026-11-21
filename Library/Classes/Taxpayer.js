@@ -4,10 +4,7 @@ import { filingStatusToStr }			from "../TAXTools/TAXTools.js";
 import { strToFilingStatus }			from "../TAXTools/TAXTools.js";
 
 import { Dates }		from "../Modules/Dates.js";
-import { Dependent }	from "../InputWorksheets/Dependent.js";
 import { Ensure }		from "../Modules/Ensure.js";
-import { HTML }			from "../Modules/HTML.js";
-import { HTMLMgr }		from "../Classes/HTMLMgr.js";
 import { Str }			from "../Modules/Str.js";
 import { Objects }		from "../Modules/Objects.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
@@ -244,46 +241,6 @@ export class Taxpayer {
 		size += this.dependents.length;
 
 		return size;
-	}
-
-	fillIn1040() {
-		//
-		// Put the taxpayer information on the output form 1040.
-		//
-		const hm	= HTMLMgr.getMgr();
-		const block = hm.getBlock("f1040");
-		const id	= block.getID();
-
-		HTML.putUserOutput(`${id}-filing-status`,
-			filingStatusToStr(this.filing_status), "text");
-		HTML.putUserOutput(`${id}-taxpayers-name`,
-			this.taxpayers_name, "text");
-		HTML.putUserOutput(`${id}-street-address`,
-			this.street_address, "text");
-		if (!Str.empty(this.city)) {
-			const state = this.state ? this.state : "CA";
-			HTML.putUserOutput(`${id}-city-state-zip`,
-				`${this.city}, ${state} ${this.zip_code}`.trim(), "text");
-		} else {
-			HTML.putUserOutput(`${id}-city-state-zip`,"", "text");
-		}
-
-		if (!Str.empty(this.taxpayers_birthday)) {
-			HTML.putUserOutput(`${id}-taxpayers-birthday`,
-				`${this.taxpayers_birthday} (Age ${this.taxpayers_age})`, "text");
-		} else {
-			HTML.putUserOutput(`${id}-taxpayers-birthday`, " ", "text");
-		}
-		if (!Str.empty(this.spouses_birthday)) {
-			HTML.putUserOutput(`${id}-spouses-birthday`,
-				`${this.spouses_birthday} (Age ${this.spouses_age})`, "text");
-		} else {
-			HTML.putUserOutput(`${id}-spouses-birthday`, " ", "text");
-		}
-		HTML.putUserOutput(`${id}-taxpayer-is-blind`,
-			this.is_taxpayer_blind ? "X" : "", "text");
-		HTML.putUserOutput(`${id}-spouse-is-blind`,
-			this.is_spouse_blind ? "X" : "", "text");
 	}
 
 	isMarried() {
