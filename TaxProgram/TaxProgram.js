@@ -19,7 +19,7 @@ import { TaxTable }						from "../Library/Modules/TaxTable.js";
 // Tax Forms and Input Worksheet
 import { Assetitem }					from "../Library/InputWorksheets/Assetitem.js";
 import { Business }						from "../Library/InputWorksheets/Business.js";
-import { Dependent }					from "../Library/InputWorksheets/Dependent.js";
+import { DependentWeb }					from "../Library/InputWorksheets/DependentWeb.js";
 import { Expenses }						from "../Library/InputWorksheets/Expenses.js";
 import { Income }						from "../Library/InputWorksheets/Income.js";
 
@@ -65,7 +65,7 @@ function addDependentHandler(event) {
 	//
 	const hm = HTMLMgr.getMgr();
 
-	const block = hm.createAndAddBlock("Dependent", DEPENDENTS_CONTAINER, "beforeend");
+	const block = hm.createAndAddBlock("DependentWeb", DEPENDENTS_CONTAINER, "beforeend");
 
 	// Open the dependent area and scroll the window to it.
 	HTML.openDetails(block.getID());

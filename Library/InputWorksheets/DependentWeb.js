@@ -22,7 +22,8 @@ const HTML_CODE = `
 				</div>
 				<div class="taxpayer-info-150-400">
 					<p>Relationship</p>
-					<select class="trigger input-field left" id="dependent-XX-relationship"
+					<select class="trigger selection-list left"
+							id="dependent-XX-relationship"
 							tooltipid="#dependent-relationship-tt">
 						<option value="NONE"></option>
 						<option value="CHILD">			Child (son or daughter),
@@ -138,7 +139,7 @@ const FIELD_INFO = {
 	"has-atin":				["",		false,	""],
 };
 
-export class Dependent extends HTMLBlock {
+export class DependentWeb extends HTMLBlock {
 	static getFieldInfo() {
 		return FIELD_INFO;
 	}
@@ -152,7 +153,7 @@ export class Dependent extends HTMLBlock {
 		super();
 		this.name		= "dependent";
 		this.uid		= HTMLMgr.getMgr().allocateUID(this.name);
-		this.html		= Dependent.getHTML(this.uid);
-		this.fields		= Dependent.getFieldInfo();
+		this.html		= DependentWeb.getHTML(this.uid);
+		this.fields		= DependentWeb.getFieldInfo();
 	}
 }

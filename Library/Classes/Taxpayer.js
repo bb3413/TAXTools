@@ -4,13 +4,14 @@ import { filingStatusToStr }			from "../TAXTools/TAXTools.js";
 import { strToFilingStatus }			from "../TAXTools/TAXTools.js";
 
 import { Dates }		from "../Modules/Dates.js";
+import { Dependent }	from "../Classes/Dependent.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Str }			from "../Modules/Str.js";
 import { Objects }		from "../Modules/Objects.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
-import { TaxpayerDependent }	from "../Classes/TaxpayerDependent.js";
+
 import { TaxpayerWeb }	from "../InputWorksheets/TaxpayerWeb.js";
 
 let taxpayer = undefined;		// Global variable.
@@ -217,7 +218,7 @@ export class Taxpayer {
 	addDependent(inputs) {
 		Ensure.isObject(inputs);
 
-		const dependent = new TaxpayerDependent(inputs);
+		const dependent = new Dependent(inputs);
 		if (!dependent.isQualifiedChild() && !dependent.isQualifiedRelative()) {
 			throw new Error("Dependent is not a qualifying child or relative.");
 		}
@@ -311,7 +312,7 @@ export class Taxpayer {
 			if ((this.filing_status !== MFJ) && field.match(/spouse/i)) {
 				continue;
 			}
-			if (field === "_dependents") {
+			if (field === "dependents") {
 				continue;
 			}
 

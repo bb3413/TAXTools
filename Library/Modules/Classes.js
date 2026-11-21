@@ -54,7 +54,7 @@ import { StudentLoan }		from "../Worksheets/StudentLoan.js";
 // Input Worksheets
 import { Assetitem }		from "../InputWorksheets/Assetitem.js";
 import { Business }			from "../InputWorksheets/Business.js";
-import { Dependent }		from "../InputWorksheets/Dependent.js";
+import { DependentWeb }		from "../InputWorksheets/DependentWeb.js";
 import { Expenses }			from "../InputWorksheets/Expenses.js";
 import { Income }			from "../InputWorksheets/Income.js";
 
@@ -212,7 +212,7 @@ const class_map = {
 	// Input Worksheets
 	"Assetitem":			Assetitem,
 	"Business":				Business,
-	"Dependent":			Dependent,
+	"DependentWeb":			DependentWeb,
 	"Expenses":				Expenses,
 	"Income":				Income,
 

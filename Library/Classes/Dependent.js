@@ -8,7 +8,7 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 import { SINGLE, HOH, MFJ, QSS, MFS } from "../TAXTools/TAXTools.js";
 
-export class TaxpayerDependent {
+export class Dependent {
 	constructor(values) {
 		Ensure.isObject(values);
 

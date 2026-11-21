@@ -18,7 +18,7 @@ import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 // Input Worksheets
 import { Assetitem }	from "../Library/InputWorksheets/Assetitem.js";
 import { Business }		from "../Library/InputWorksheets/Business.js";
-import { Dependent }	from "../Library/InputWorksheets/Dependent.js";
+import { DependentWeb }	from "../Library/InputWorksheets/DependentWeb.js";
 import { Expenses }		from "../Library/InputWorksheets/Expenses.js";
 import { Income }		from "../Library/InputWorksheets/Income.js";
 import { TaxpayerWeb }	from "../Library/InputWorksheets/TaxpayerWeb.js";
@@ -137,7 +137,7 @@ function restoreDependents(dependents) {
 	for (const dependent_values of dependents) {
 		try {
 			const block =
-				hm.createAndAddBlock("Dependent", DEPENDENTS_CONTAINER, "beforeend");
+				hm.createAndAddBlock("DependentWeb", DEPENDENTS_CONTAINER, "beforeend");
 			block.putValues(dependent_values);
 		} catch (error) {
 			error_log.push(`Error restoring dependent; ignoring.`);

@@ -27,7 +27,14 @@ export class HTMLBlock {
 	}
 
 	getFormname() {
-		return Classes.findClassName(this.name);
+		//
+		// Get the class name of the form associated with this block of HTML.
+		//
+		if (this.name === "dependent") {
+			return "DependentWeb";
+		} else {
+			return Classes.findClassName(this.name);
+		}
 	}
 
 	getID() {
