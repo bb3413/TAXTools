@@ -59,6 +59,7 @@ const FIELD_INFO = {
 	"alimony-received":		["",		false,	""],
 	"divorce-date":			["text",	false,	""],
 	"gambling":				["",		false,	""],
+	"other":				["",		false,	""],
 
 };
 

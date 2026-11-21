@@ -238,7 +238,7 @@ const HTML_CODE = `
 
 const FIELD_INFO = {
 	// Field Name					Value Type	Is Line	Description
-	"healthcare":					[""],
+	"healthcare":					["",		false,	""],
 	"dental":						["",		false,	""],
 	"medicare":						["",		false,	""],
 	"taxpayer-ltc":					["",		false,	""],

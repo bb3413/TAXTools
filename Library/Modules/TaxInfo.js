@@ -5,10 +5,15 @@
 export const TaxInfo = {
 	earnedIncome,
 	formsInPrintOrder,
-	getBusinessIncome,
 	get1099BusinessNames,
+	getBusinessIncome,
 	getIRAValue,
+	getLTCInsurance,
+	getMedicalExpenses,
+	getMedicalInsurancePremiums,
 	getPensionValue,
+	getSalesTaxPaid,
+	getStateTaxPaid,
 	getStateWithholding,
 	getW2OvertimePay,
 	getW2RetirementContributions,
@@ -109,6 +114,33 @@ function formsInPrintOrder() {
 	return forms;
 }
 
+function get1099BusinessNames() {
+	//
+	// Find all the business names listed in 1099 forms.
+	//
+	let business_names = [];
+	let business_forms = TaxFormObj.getForms("F1099NEC")
+							.concat(TaxFormObj.getForms("F1099MISC"))
+							.concat(TaxFormObj.getForms("F1099K"));
+
+	for (const form of business_forms) {
+		if ((form.formname === "F1099MISC") && Str.empty(form.lines["business_name"])) {
+			continue;
+		}
+
+		let business_name = "NO_NAME";
+		if (form.lines["business_name"]) {
+			business_name = Str.clean(form.lines["business_name"].toUpperCase());
+		}
+
+		if (!business_names.includes(business_name) ) {
+			name.push(business_name);
+		}
+	}
+
+	return business_names;
+}
+
 function getBusinessIncome(business_name) {
 	Ensure.isNonEmptyString(business_name);
 
@@ -152,38 +184,54 @@ function getBusinessIncome(business_name) {
 	return sum;
 }
 
-function get1099BusinessNames() {
-	//
-	// Find all the business names listed in 1099 forms.
-	//
-	let business_names = [];
-	let business_forms = TaxFormObj.getForms("F1099NEC")
-							.concat(TaxFormObj.getForms("F1099MISC"))
-							.concat(TaxFormObj.getForms("F1099K"));
-
-	for (const form of business_forms) {
-		if ((form.formname === "F1099MISC") && Str.empty(form.lines["business_name"])) {
-			continue;
-		}
-
-		let business_name = "NO_NAME";
-		if (form.lines["business_name"]) {
-			business_name = Str.clean(form.lines["business_name"].toUpperCase());
-		}
-
-		if (!business_names.includes(business_name) ) {
-			name.push(business_name);
-		}
-	}
-
-	return business_names;
-}
-
 function getIRAValue(lineno) {
 	Ensure.isNonEmptyString(lineno);
 
 	return get1099RValue(lineno, IRA);
 }
+
+function getLTCInsurance() {
+	const tt = TaxTable.getTaxTable();
+	const tp = Taxpayer.getTaxpayer();
+
+	return (
+		Math.min(tp.ltc_taxpayer, tt.getMaxLTC(tp.taxpayers_age)) +
+		Math.min(tp.ltc_taxpayer, tt.getMaxLTC(tp.spouses_age))
+	);
+}
+
+function getMedicalInsurancePremiums() {
+	const tp = Taxpayer.getTaxpayer();
+
+	const medicare =	// Choose Medicare entered as expense or from SSA-1099
+		Math.max(tp.medicare,
+			TaxFormObj.getValue("SSA1099", "03a") +		// Part B
+			TaxFormObj.getValue("SSA1099", "03b"));		// Part D
+
+	return medicare +
+		tp.health_insurance +
+		tp.dental_vision_insurance;
+}
+
+function getMedicalExpenses() {
+	const tt = TaxTable.getTaxTable();
+	const tp = Taxpayer.getTaxpayer();
+
+	const medical_insurance =
+		TaxInfo.getLTCInsurance() +
+		TaxInfo.getMedicalInsurancePremiums() -
+		TaxFormObj.getValue("F7206", "14");		// SEHI
+
+	return medical_insurance +
+		tp.doctor +
+		tp.prescriptions +
+		tp.medical_aids +
+		tp.medical_facilities +
+		tp.nursing_services +
+		tt.getMedicalMileageDeduction(tp.medical_miles) +
+		tp.other_medical;
+	}
+
 
 function getPensionValue(lineno) {
 	Ensure.isNonEmptyString(lineno);
@@ -191,8 +239,32 @@ function getPensionValue(lineno) {
 	return get1099RValue(lineno, PENSION);
 }
 
+function getSalesTaxPaid() {
+	const tp = Taxpayer.getTaxpayer();
+
+	const sales_tax	= TaxFormObj.getOrCreateForm("SalesTax");
+
+	// Calculate sales tax deduction.
+	return (
+		sales_tax.calculate(tp.sales_tax_rate) +
+		tp.extra_sales_tax
+	);
+}
+
+function getStateTaxPaid() {
+	//
+	// Get the amount of tax payments made to the state this year.
+	//
+	const tp = Taxpayer.getTaxpayer();
+
+	// Estimated payments + withholding
+	return tp.estimated_payments_state +
+		tp.state_tax_due_last_year +
+		TaxInfo.getStateWithholding();
+}
+
 function getStateWithholding() {
-	return (	// return cannot be on a line by itself
+	return (
 		TaxFormObj.getValue("W2",			"17") +
 		TaxFormObj.getValue("F1099INT",		"17") +
 		TaxFormObj.getValue("F1099DIV",		"16") +

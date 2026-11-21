@@ -28,14 +28,12 @@ const FIELD_INFO = {
 	"taxpayers-birthday":	["text"],
 	"is-taxpayer-blind":	[],
 	"taxpayer-has-ssn":		[],
-	"taxpayer-has-itin":	[],
 
 	// Spouse
 	"spouses-birthday":		["text"],
 	"months-lived-together":[],
 	"is-spouse-blind":		[],
 	"spouse-has-ssn":		[],
-	"spouse-has-itin":		[],
 };
 
 function clearFields() {
@@ -66,15 +64,7 @@ function getValues(raw = false) {
 		const key_name		= field_name.replace(/-/g, "_");
 		const value_type	= raw ? "raw" : FIELD_INFO[field_name][0];
 		if (HTML.isValidElementID(field_name)) {
-			switch (key_name) {
-				case "filing_status":
-					const value = HTML.getUserInput(field_name, value_type);
-					values[key_name] = strToFilingStatus(value);
-					break;
-				default:
-					values[key_name] = HTML.getUserInput(field_name, value_type);
-					break;
-			}
+			values[key_name] = HTML.getUserInput(field_name, value_type);
 		}
 	}
 
@@ -94,15 +84,7 @@ function putValues(values) {
 		const field_name	= key_name.replace(/_/g, "-");
 		const value_type	= FIELD_INFO[field_name][0];
 		if (HTML.isValidElementID(field_name)) {
-			switch (key_name) {
-				case "filing_status":
-					const value = filingStatusToStr(values[key_name])
-					HTML.putUserOutput(field_name, value, value_type);
-					break;
-				default:
-					HTML.putUserOutput(field_name, values[key_name], value_type);
-					break;
-			}
+			HTML.putUserOutput(field_name, values[key_name], value_type);
 		}
 	}
 }

@@ -132,7 +132,7 @@ export class F540 extends TaxForm {
 
 		// Payments
 		this.lines["071"].value	= TaxInfo.getStateWithholding();		// Withholding
-		this.lines["072"].value	= 0;	// Estimated Payments - set by TaxProgram
+		this.lines["072"].value	= tp.extimated_payments_state;			// Estimated Payments
 		this.lines["073"].value	= 0;									// Withholding
 		this.lines["074"].value	= 0;									// Excess SDI or VPDI
 		this.lines["075"].value	= 0;									// EITC

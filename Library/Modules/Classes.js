@@ -136,7 +136,7 @@ const form_info = {
 	"F1040SA":				[ false,	false,	true,	true	],
 	"F1040SC":				[ false,	false,	false,	false	],
 	"F1040SD":				[ false,	false,	true,	false	],
-	"F1040SSE":				[ false,	false,	false,	true	],
+	"F1040SSE":				[ false,	false,	true,	true	],
 	"F540":					[ false,	false,	true,	true	],
 	"F540CA":				[ false,	false,	true,	true	],
 	"F6251":				[ false,	false,	true,	false	],

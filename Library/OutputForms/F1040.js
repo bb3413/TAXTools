@@ -24,10 +24,6 @@ export class F1040 extends TaxForm {
 		this.inctax	= TaxFormObj.createForm("IncTax");
 		this.eic	= TaxFormObj.createForm("EIC");
 
-		// Variables for external input. This variable is be used to enter information
-		// that does not come from another tax form.
-		this.estimated_payments	= 0;
-
 		// Create the lines on the form.
 		let field_info = F1040_HTML.getFieldInfo();
 		for (const field_name of Object.keys(field_info)) {
@@ -97,7 +93,7 @@ export class F1040 extends TaxForm {
 		this.lines["08"].value	= getValue("F1040S1",	"10");	// Other Income
 
 		// Reorder fields for dependency. Taxable SS, which is on 1040 line 6b, depends
-		// on 1040 lines 1z, 2a, 2b, 3b, 4b, 5b, 6a, 7, 8, and 10. And, 1040 line 9
+		// on 1040 lines 1z, 2a, 2b, 3b, 4b, 5b, 6a, 7a, 8, and 10. And, 1040 line 9
 		// depends on Taxable SS.
 		this.lines["10"].value	= getValue("F1040S1", "26");	// Adjustments to Income
 		this.lines["06b"].value	= this.sstax.calculate();		// Taxable SS
@@ -138,7 +134,7 @@ export class F1040 extends TaxForm {
 			getValue("SSA1099", "06");
 		this.lines["25c"].value	= getValue("F8959", "24");			// Other withholding
 		this.lines["25d"].value	= this.add("25a", "25b", "25c");	// Total Withholding
-		this.lines["26"].value	= this.estimated_payments;			// Estimated payments
+		this.lines["26"].value	= tp.estimated_payments;			// Estimated payments
 		this.lines["27a"].value	= this.eic.calculate();				// EIC
 		this.lines["28"].value	= getValue("F8812P2", "27");		// Additional CTC
 		this.lines["29"].value	= getValue("F8863", "08");			// Amer Opp Cred

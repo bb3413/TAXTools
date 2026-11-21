@@ -17,11 +17,6 @@ export class F8880 extends TaxForm {
 		super(formname);
 		this.title = `Form 8880 - Credit for Qualified Retirement Savings Contributions`;
 
-		// Variables for external input. These variables can be used to enter information
-		// that does not come from another tax form.
-		this.ira_contribution_taxpayer	= 0;
-		this.ira_contribution_spouse	= 0;
-
 		// Create the lines on the form.
 		let field_info = F8880_HTML.getFieldInfo();
 		for (const field_name of Object.keys(field_info)) {
@@ -43,8 +38,8 @@ export class F8880 extends TaxForm {
 		const tt = TaxTable.getTaxTable();
 		const tp = Taxpayer.getTaxpayer();
 
-		this.lines["01a"].value		= this.ira_contribution_taxpayer;
-		this.lines["01b"].value		= this.ira_contribution_spouse;
+		this.lines["01a"].value		= tp.ira_contribution_taxpayer;
+		this.lines["01b"].value		= tp.ira_contribution_spouse;
 		this.lines["02a"].value		= TaxInfo.getW2RetirementContributions(TAXPAYER);
 		this.lines["02b"].value		= TaxInfo.getW2RetirementContributions(SPOUSE);
 		this.lines["03a"].value		= this.add("01a","02a");

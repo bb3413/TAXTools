@@ -152,35 +152,26 @@ function putOutputs(inputs) {
 	//
 	const retirement_contributions	= 0;
 	const net_profit				= TaxFormObj.getValue("F1040SC",	"31");
-	const se_tax					= TaxFormObj.getValue("F1040SSE", "12");
-	const sehi_adjustment			= TaxFormObj.getValue("F7206", "14");
+	const se_tax					= TaxFormObj.getValue("F1040SSE",	"12");
+	const sehi_adjustment			= TaxFormObj.getValue("F7206",		"14");
 	const qbi_deduction				= Math.round(Math.max(0, net_profit -
 										(se_tax / 2) -
 										retirement_contributions -
 										sehi_adjustment) * 0.20);
 
-	HTML.putUserOutput("GrossProfit",
-					   TaxFormObj.getValue("F1040SC", "05"));
-	HTML.putUserOutput("GrossIncome",
-					   TaxFormObj.getValue("F1040SC", "07"));
-	HTML.putUserOutput("NetProfit",
-					   net_profit);
-	HTML.putUserOutput("SelfEmploymentTax",
-					   se_tax);
-	HTML.putUserOutput("QBI_Deduction",
-					   qbi_deduction);
-	HTML.putUserOutput("SelfEmploymentTaxAdjustment",
-					   Math.round(se_tax / 2));
+	HTML.putUserOutput("GrossProfit",		TaxFormObj.getValue("F1040SC", "05"));
+	HTML.putUserOutput("GrossIncome",		TaxFormObj.getValue("F1040SC", "07"));
+	HTML.putUserOutput("NetProfit",			net_profit);
+	HTML.putUserOutput("SelfEmploymentTax",	se_tax);
+	HTML.putUserOutput("QBI_Deduction",		qbi_deduction);
+	HTML.putUserOutput("SelfEmploymentTaxAdjustment",Math.round(se_tax / 2));
 
-	HTML.putUserOutput("NetProfitAfterSEHI",
-						Math.max(0, net_profit - sehi_adjustment));
-	HTML.putUserOutput("SEHI_Adjustment",
-						sehi_adjustment);
+	HTML.putUserOutput("NetProfitAfterSEHI",Math.max(0, net_profit - sehi_adjustment));
+	HTML.putUserOutput("SEHI_Adjustment",	sehi_adjustment);
 	HTML.putUserOutput("MedicalDeduction",
-						Math.max(0, inputs.medical_insurance - sehi_adjustment));
+		Math.max(0, inputs.medical_insurance - sehi_adjustment));
 
-	HTML.putUserOutput("TotalExpenses",
-						TaxFormObj.getValue("F1040SC", "28"));
+	HTML.putUserOutput("TotalExpenses",		TaxFormObj.getValue("F1040SC", "28"));
 }
 
 function resetAll() {

@@ -325,80 +325,66 @@ function getExpenses() {
 	const block		= hm.getBlock("expenses");
 	const values	= block.getValues();
 
+	// Make sure these forms exist so they will be calculated automatically.
 	const f1040		= TaxFormObj.getOrCreateForm("F1040");
 	const f1040s1	= TaxFormObj.getOrCreateForm("F1040S1");
 	const f1040sa	= TaxFormObj.getOrCreateForm("F1040SA");
 	const f540		= TaxFormObj.getOrCreateForm("F540");
 	const f540ca	= TaxFormObj.getOrCreateForm("F540CA");
-
-	// Form 1040
-	f1040.estimated_payments = values["est_payments_federal"];
-
-	// Form 1040, Schedule 1
-	f1040s1.alimony_paid				= values["alimony_paid"];
-	f1040s1.lines["19c"].user_value		= values["divorce_date"];
-	f1040s1.educator_expense_taxpayer	= values["educator_taxpayer"];
-	f1040s1.educator_expense_spouse		= values["educator_spouse"];
-	// Also enter on form 8880.
-	f1040s1.ira_contribution_taxpayer	= values["ira_contribution_taxpayer"];
-	f1040s1.ira_contribution_spouse		= values["ira_contribution_spouse"];
-
-	// Form 1040, Schedule A
-	f1040sa.medicare = values["medicare"];
-	f1040sa.medical_insurance =
-		values["healthcare"] +
-		values["dental"] +
-		Math.min(values["taxpayer_ltc"], tt.getMaxLTC(tp.taxpayers_age)) +
-		Math.min(values["taxpayer_ltc"], tt.getMaxLTC(tp.spouses_age));
-
-	f1040sa.medical_expenses =
-		values["doctor"] +
-		values["prescriptions"] +
-		values["medical_aids"] +
-		values["medical_facilities"] +
-		values["nursing_services"] +
-		tt.getMedicalMileageDeduction(values["medical_miles"]) +
-		values["other_medical"];
-
-	f1040sa.sales_tax_rate			= sales_tax;
-	f1040sa.extra_sales_tax			= values["extra_sales_tax"];
-	f1040sa.est_payments_state		= values["est_payments_state"];
-	f1040sa.state_tax_due			= values["state_tax_due"];
-	f1040sa.property_tax			= values["property_tax"];
-	f1040sa.personal_property_tax	= values["personal_property_tax"];
-	f1040sa.cash_donations			= values["cash_donations"];
-	f1040sa.noncash_donations =
-		values["noncash_donations"]+
-		tt.getCharitableMileageDeduction(values["charitable_miles"]);
-
-	// Form 8880
 	if (values["ira_contribution_taxpayer"] || values["ira_contribution_spouse"]) {
 		const f8880	= TaxFormObj.getOrCreateForm("F8880");
-		// Also enter in form 1040-S1
-		f8880.ira_contribution_taxpayer	= values["ira_contribution_taxpayer"];
-		f8880.ira_contribution_spouse	= values["ira_contribution_spouse"];
 	}
-		
-	// Form 540
-	f540.lines["072"].user_value = values["est_payments_state"];
 
-	// Form 540-CA
-	f540ca.lines["D-20"].user_value	= values["tax_preparation"];
-	f540ca.investment_expenses		= values["investment_expenses"];
+	tp.health_insurance_premiums	= values["healthcare"];
+	tp.dental_vision_insurance		= values["dental"];
+	tp.medicare						= values["medicare"];
+	tp.ltc_taxpayer					= values["taxpayer_ltc"];
+	tp.ltc_spouse					= values["spouse_ltc"];
+
+	tp.doctor						= values["doctor"];
+	tp.prescriptions				= values["prescriptions"];
+	tp.medical_aids					= values["medical_aids"];
+	tp.medical_facilities			= values["medical_facilities"];
+	tp.nursing_services				= values["nursing_services"];
+	tp.medical_miles				= values["medical_miles"];
+	tp.other_medical				= values["other_medical"];
+
+	tp.estimated_payments_federal	= values["est_payments_federal"];
+	tp.estimated_payments_state		= values["est_payments_state"];
+	tp.state_tax_due_last_year		= values["state_tax_due"];
+	tp.property_tax					= values["property_tax"];
+	tp.personal_property_tax		= values["personal_property_tax"];
+	tp.sales_tax_rate				= sales_tax;
+	tp.extra_sales_tax				= values["extra_sales_tax"];
+
+	tp.cash_donations				= values["cash_donations"];
+	tp.non_cash_donations			= values["noncash_donations"];
+	tp.charitable_miles				= values["charitable_miles"];
+
+	tp.educator_expense_taxpayer	= values["educator_taxpayer"];
+	tp.educator_expense_spouse		= values["educator_spouse"];
+	tp.alimony_paid					= values["alimony_paid"];
+	tp.divorce_date					= values["divorce_date"];
+	tp.tax_preparation				= values["tax_preparation"];
+	tp.investment_expenses			= values["investment_expenses"];
+	tp.ira_contribution_taxpayer	= values["ira_contribution_taxpayer"];
+	tp.ira_contribution_spouse		= values["ira_contribution_spouse"];
 }
 
 function getIncome() {
+	const tp		= Taxpayer.getTaxpayer();
 	const hm		= HTMLMgr.getMgr();
 	const block		= hm.getBlock("income")
 	const values	= block.getValues();
-	const f1040s1	= TaxFormObj.getOrCreateForm("F1040S1");
 
-	f1040s1.alimony_received = values["alimony_received"];
+	tp.alimony_received		= values["alimony_received"];
+	tp.jury_duty		 	= values["jury_duty"];
+	tp.gambling_winnings	= values["gambling"];
+	tp.other_income		 	= values["other"];
 
-	f1040s1.lines["24a"].user_value = values["jury_duty"];
-	f1040s1.lines["02b"].user_value = values["divorce_date"];
-	f1040s1.lines["08b"].user_value = values["gambling"];
-	f1040s1.lines["08z"].user_value = values["other"];
+	if (!Str.empty(values["divorce_date"])) {
+		tp.divorce_date		= values["divorce_date"];
+	}
 }
 
 function getInputForms() {
@@ -518,7 +504,7 @@ function resetCalculation() {
 
 	Debug.reset();
 	TaxFormObj.reset();						// Reset the tax calculations.
-	Taxpayer.resetCalculation();			// Re-read the input fields.
+	Taxpayer.reset();						// Re-read the input fields.
 	hm.removeOutputForms();					// Remove tax return (output) web pages
 	HTML.hideElement("output-taxforms-container");
 }

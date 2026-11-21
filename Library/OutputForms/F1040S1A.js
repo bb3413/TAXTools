@@ -116,7 +116,7 @@ export class F1040S1A extends TaxForm {
 		
 		this.lines["20"].value	= this.add("17","19");		// Total Overtime Pay
 		if ((this.line("20") > 0) && this._isQualified()) {
-			this.lines["21"].value	= Math.min(this.line("20"), max_deduction);	// Limit to Max Allowed
+			this.lines["21"].value	= Math.min(this.line("20"), max_deduction);	// Limit
 			this.lines["22"].value	= this.line("03");			// AGI + Foreign Income
 			this.lines["23"].value	= start_of_phase_out;	// Start of Phase Out
 			this.lines["24"].value	= this.subtract("22", "23");	// Amount Over Phase Out
