@@ -22,9 +22,30 @@
 
 		<h1 class="title" id="title">Currency Exchange Calculator Calculator</h1>
 
-		<p>The Currency Exchange Calculator will translate monitary values beteen various
-		foreign currencies and U.S. dollars.</p>
+		<p>The Currency Exchange Calculator will translate monetary values beteen various
+		foreign currencies and U.S. dollars. Enter an amount in any of the monetary fields
+		below and the other three will be calculated. The
+		<a href="https://www.irs.gov/individuals/international-taxpayers/yearly-average-currency-exchange-rates">
+		IRS&apos;s yearly average currency exchange rates</a> are used for the
+		calculation.</p>
 
+		<h3>Formula</h3>
+		<div class="formula">
+			<div>
+				U.S. Dollars
+			</div>
+			<div>
+				= Foreign Currency / Exchange Rate
+			</div>
+			<div>
+				Foreign Currency
+			</div>
+			<div>
+				= U.S. Dollars * Exchange Rate
+			</div>
+		</div>
+
+		<p>&nbsp;</p>
 		<div class="table">
 			<p>Tax Year</p>
 			<select class="button right" id="tax-year" >
@@ -36,10 +57,10 @@
 			<p>&nbsp;</p>
 			<p>&nbsp;</p>
 		   	<p>U.S. Dollars</p>
-			<input class="input-field" type="text" autofocus id="us-dolars"
+			<input class="input-field" type="text" autofocus id="us-dollars"
 				placeholder="0" />
 			<p>Canada Dollars</p>
-			<input class="input-field" type="text" autofocus id="canada-dolars"
+			<input class="input-field" type="text" autofocus id="canada-dollars"
 				placeholder="0" />
 			<p>Euros</p>
 			<input class="input-field" type="text" autofocus id="euros"

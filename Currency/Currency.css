@@ -16,3 +16,9 @@
 	margin-top:				0;
 	margin-bottom:			0;
 }
+
+.formula {
+	display:				grid;
+	grid-template-columns:	8rem 1fr;
+	margin-left:			2rem;
+}
