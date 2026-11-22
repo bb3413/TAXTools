@@ -22,7 +22,7 @@
 
 		<h1 class="title" id="title">Currency Exchange Calculator Calculator</h1>
 
-		<p>The Currency Exchange Calculator will translate monetary values beteen various
+		<p>The Currency Exchange Calculator will translate monetary values between various
 		foreign currencies and U.S. dollars. Enter an amount in any of the monetary fields
 		below and the other three will be calculated. The
 		<a href="https://www.irs.gov/individuals/international-taxpayers/yearly-average-currency-exchange-rates">
