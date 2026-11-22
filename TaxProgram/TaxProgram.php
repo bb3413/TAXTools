@@ -41,10 +41,11 @@
 			planning and analysis, not for filing your taxes.</p>
 
 			<p>Tax information is entered on a variety of worksheets and tax forms at the
-			bottom of this page. You can click on the heading of any worksheet or tax form to
-			alternately expand or collapse that form. After your tax information has been
-			entered, press the Calculate button to create a simulated tax return. Click
-			<a href="TaxProgram-Help.html">this link</a> for more help with this tool.</p>
+			bottom of this page. You can click on the heading of any worksheet or tax form
+			to alternately expand or collapse that form. After your tax information has been
+			entered, press the Calculate Tax Return button to create a simulated tax return.
+			Click <a href="TaxProgram-Help.html">this link</a> for more help with this
+			tool.</p>
 		</div>	<!-- title-container -->
 
 		<div class="border taxpayer-container">

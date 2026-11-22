@@ -1,14 +1,7 @@
 
 export const HTML = {
-	closeDetails,
-	closeAllDetails,
-	openDetails,
-
-	showElement,
 	hideElement,
-
-	changeBackgroundColor,
-	changeTextColor,
+	showElement,
 
 	getUserInput,
 	putUserOutput,
@@ -16,9 +9,16 @@ export const HTML = {
 	getElementValue,
 	putElementValue,
 
+	closeAllDetails,
+	closeDetails,
+	openDetails,
+
 	findSummary,
 	getSummary,
 	putSummary,
+
+	changeBackgroundColor,
+	changeTextColor,
 
 	addListener,
 	dispatchEvent,
@@ -33,44 +33,15 @@ import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Num }			from "../Modules/Num.js";
 
-//-----  Details element  -------------------------------------------------------------------
-function closeDetails(element_id) {
-	const element = Ensure.isValidElementID(element_id);
-	element.open = false;
-}
-
-function closeAllDetails() {
-	const elements = document.querySelectorAll("details");
-	for (const element of elements) {
-		element.open = false;
-	}
-}
-
-function openDetails(element_id) {
-	const element = Ensure.isValidElementID(element_id);
-	element.open = true;
-}
-
 //-----  Show/hide element  -----------------------------------------------------------------
-function showElement(element_id) {
-	const element = Ensure.isValidElementID(element_id);
-	element.classList.remove('hidden');
-}
-
 function hideElement(element_id) {
 	const element = Ensure.isValidElementID(element_id);
 	element.classList.add('hidden');
 }
 
-//---- Change background/foreground color  --------------------------------------------------
-function changeBackgroundColor(element_id, color) {
+function showElement(element_id) {
 	const element = Ensure.isValidElementID(element_id);
-	element.style.background = color;
-}
-
-function changeTextColor(element_id, color) {
-	const element = Ensure.isValidElementID(element_id);
-	element.style.color = color;
+	element.classList.remove('hidden');
 }
 
 //-----  Get/put user input/output  ---------------------------------------------------------
@@ -168,6 +139,24 @@ function putElementValue(element_id, value) {
 	return;
 }
 
+//-----  Details element  -------------------------------------------------------------------
+function closeAllDetails() {
+	const elements = document.querySelectorAll("details");
+	for (const element of elements) {
+		element.open = false;
+	}
+}
+
+function closeDetails(element_id) {
+	const element = Ensure.isValidElementID(element_id);
+	element.open = false;
+}
+
+function openDetails(element_id) {
+	const element = Ensure.isValidElementID(element_id);
+	element.open = true;
+}
+
 //-----  Get/Put the Summary line in a <details> container.  --------------------------------
 function findSummary(details_id) {
 	if (!details_id) {
@@ -186,6 +175,17 @@ function putSummary(details_id, value) {
 	if (summary) {
 		summary.textContent = value ?? "";
 	}
+}
+
+//---- Change background/foreground color  --------------------------------------------------
+function changeBackgroundColor(element_id, color) {
+	const element = Ensure.isValidElementID(element_id);
+	element.style.background = color;
+}
+
+function changeTextColor(element_id, color) {
+	const element = Ensure.isValidElementID(element_id);
+	element.style.color = color;
 }
 
 //-----  Miscellaneous utility functions  ---------------------------------------------------

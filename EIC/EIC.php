@@ -26,9 +26,9 @@
 		<p>The earned income credit (EIC) is a tax credit for low-income, working taxpayers.
 		The amount of the credit is based on earned income, the number of dependents, and
 		the filing status of the taxpayer. Generally, earned income consists if employee
-		compensation from working and net earnings from self-employment. It does not include
-		interest, dividends, pension benefits, or profit from the sale of assets (such as
-		stocks).</p>
+		compensation from working (e.g., W-2, box 1) and net earnings from self-employment.
+		It does not include interest, dividends, pension benefits, or profit from the sale
+		of assets (such as stocks).</p>
 
 		<p>The credit is calculated by multiplying the allowed amount of earned income by
 		the EIC percentage. If the earned income is too high, the amount of the credit is
