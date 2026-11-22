@@ -33,6 +33,7 @@ function changeHandler(event) {
 		Ensure.processError(error);
 	}
 }
+
 function createTaxpayer() {
 	const taxpayer = Taxpayer.getTaxpayer();
 

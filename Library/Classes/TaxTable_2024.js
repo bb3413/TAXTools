@@ -129,6 +129,11 @@ export class TaxTable_2024 extends TaxTableTmpl {
 		"CA_BaseSalesTax":				[ 7.25,			7.25,		7.25,		7.25,		7.25		],
 		"CA_RentersCredit":				[ 60,			120,		120,		120,		60			],
 		"CA_HiIncPhaseout":				[ 244857,		367291,		489719,		489719,		244857		],
+	
+		// Currency Exchange Rate		SINGLE			HOH			MFJ			QSS			MFS
+		"CanadaExchangeRate":			[ 1.370,		1.370,		1.370,		1.370,		1.370		],
+		"EuroExchangeRate":				[ 0.924,		0.924,		0.924,		0.924,		0.924		],
+		"PoundExchangeRate":			[ 0.783,		0.783,		0.783,		0.783,		0.783		],
 	};
 
 	//

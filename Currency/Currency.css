@@ -1,0 +1,18 @@
+
+.table {
+	width:					25rem;
+	display:				grid;
+	grid-template-columns:	1fr 7rem;
+	margin-left:			2rem;
+}
+
+.table p {
+	padding-right:			4px;
+	margin-top:				0;
+	margin-bottom:			0;
+}
+
+.table input {
+	margin-top:				0;
+	margin-bottom:			0;
+}
