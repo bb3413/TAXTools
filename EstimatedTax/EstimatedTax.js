@@ -421,11 +421,11 @@ function mapInputValues(inputs) {
 	f1040S1.lines["25"].user_value	= inputs.other_adjustments;
 
 	// Deductions (non-itemized)
-	f1040.lines   ["13a"].user_value= inputs.qualified_business_income_deduction;
-	f1040S1A.lines["13"].user_value	= inputs.qualified_tips_deduction;
-	f1040S1A.lines["21"].user_value	= inputs.qualified_overtime_deduction;
-	f1040S1A.lines["30"].user_value	= inputs.car_loan_interest_deduction;
-	f1040S1A.lines["37"].user_value	= inputs.senior_deduction;
+	f1040.lines   ["13b"].user_value= inputs.qualified_business_income_deduction;
+	f1040S1A.lines["15"].user_value	= inputs.qualified_tips_deduction;
+	f1040S1A.lines["27"].user_value	= inputs.qualified_overtime_deduction;
+	f1040S1A.lines["36"].user_value	= inputs.car_loan_interest_deduction;
+	f1040S1A.lines["43"].user_value	= inputs.senior_deduction;
 
 	// Deductions
 	const total_medical_deductions =
@@ -465,7 +465,7 @@ function mapInputValues(inputs) {
 	f1040S3.lines["13z"].user_value	= inputs.other_refundable_credits;
 
 	// Payments
-	f1040.lines["25d"].user_value	= inputs.withholding;
+	f1040.lines["25a"].user_value	= inputs.withholding;
 	f1040.lines["26"].user_value	= inputs.estimated_tax_paid;
 }
 
@@ -495,9 +495,9 @@ function putOutputs() {
 	HTML.putUserOutput("TaxableIncome",			TaxFormObj.getValue("F1040", "15"));
 	HTML.putUserOutput("TaxOnTaxableIncome",	TaxFormObj.getValue("F1040", "16"));
 	HTML.putUserOutput("TotalOtherTaxes",		TaxFormObj.getValue("F1040", "23"));
-	HTML.putUserOutput("TotalTax",				TaxFormObj.getValue("F1040", "24"));
+	HTML.putUserOutput("TotalTax",				TaxFormObj.getValue("F1040", "24c"));
 	HTML.putUserOutput("NonrefundableCredits",	TaxFormObj.getValue("F1040", "20"));
-	HTML.putUserOutput("RefundableCredits", 	TaxFormObj.getValue("F1040", "32"));
+	HTML.putUserOutput("RefundableCredits", 	TaxFormObj.getValue("F1040", "32c"));
 	HTML.putUserOutput("Payments", 				payments + withholding);
 	HTML.putUserOutput("AmountDue",				amount_due);
 	HTML.putUserOutput("EstimatedTax",			estimated_tax);
