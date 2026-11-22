@@ -195,4 +195,15 @@ export class F1040S1A extends TaxForm {
 		}
 		return false;
 	}
+
+	isUsed() {
+		//
+		// The form contains at least one non-empty line.
+		//
+		if (this.line("44") > 0) {
+			return true;
+		}
+
+		return false;
+	}
 }
