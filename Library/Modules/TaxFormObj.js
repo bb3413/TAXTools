@@ -10,7 +10,6 @@ export const TaxFormObj = {
 	getTextValue,
 	getValue,
 	reset,
-	toConsole,
 };
 
 import { Classes }		from "../Modules/Classes.js";
@@ -167,16 +166,9 @@ function getValue(formname, ...lineno) {
 		}
 	}
 	Debug.exit(`TaxFormObj.getValue(${sum})`);
-	return isNaN(sum) ? 0 : sum;
+	return sum;
 }
 
 function reset() {
 	instances = {};
-}
-
-function toConsole() {
-	const form_list = TaxFormObj.getForms();
-	for (const form of form_list) {
-		form.toConsole();
-	}
 }

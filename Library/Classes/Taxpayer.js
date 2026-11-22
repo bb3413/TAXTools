@@ -4,71 +4,44 @@ import { filingStatusToStr }			from "../TAXTools/TAXTools.js";
 import { strToFilingStatus }			from "../TAXTools/TAXTools.js";
 
 import { Dates }		from "../Modules/Dates.js";
-import { Dependent }	from "../InputWorksheets/Dependent.js";
+import { Dependent }	from "../Classes/Dependent.js";
 import { Ensure }		from "../Modules/Ensure.js";
-import { HTML }			from "../Modules/HTML.js";
-import { HTMLMgr }		from "../Classes/HTMLMgr.js";
 import { Str }			from "../Modules/Str.js";
 import { Objects }		from "../Modules/Objects.js";
+import { TaxFormObj }	from "../Modules/TaxFormObj.js";
+import { TaxInfo }		from "../Modules/TaxInfo.js";
 import { TaxTable }		from "../Modules/TaxTable.js";
 
-const FIELD_INFO = {
-	// Element ID			Value Type
-	"filing-status":		["text"],
-	"taxpayers-name":		["text"],
-	"street-address":		["text"],
-	"city":					["text"],
-	"state":				["text"],
-	"zip-code":				["text"],
-	"taxpayers-birthday":	["text"],
-	"is-taxpayer-blind":	[],
-	"taxpayer-has-ssn":		[],
-	"taxpayer-has-itin":	[],		// Ignored
-
-	// Spouse
-	"spouses-birthday":		["text"],
-	"months-lived-together":[],
-	"is-spouse-blind":		[],
-	"spouse-has-ssn":		[],
-	"spouse-has-itin":		[],		// Ignored
-};
+import { TaxpayerWeb }	from "../InputWorksheets/TaxpayerWeb.js";
 
 let taxpayer = undefined;		// Global variable.
-
-// This functions ignore an error when an element does not exist.
-function putUserOutput(element_id, value, type = "number") {
-	if (document.getElementById(element_id)) {
-		HTML.putUserOutput(element_id, value, type);
-	}
-}
 
 function initializeTaxpayer() {
 	//
 	// Create a new taxpayer and initialize it with information from the Web page.
 	//
-	const taxpayer = new Taxpayer();
-		
-	// Initialize the fields from the web page.
-	for (const field_name of Object.keys(FIELD_INFO)) {
-		const value_type	= FIELD_INFO[field_name][0];
-		const key_name		= field_name.replace(/-/g, "_");
-		if (HTML.isValidElementID(field_name)) {
-			switch (key_name) {
-				case "filing_status":
-					taxpayer[key_name] = 
-						strToFilingStatus(HTML.getUserInput(field_name, value_type));
-					break;
-				default:
-					taxpayer[key_name] = HTML.getUserInput(field_name, value_type);
-					break;
-			}
+	new Taxpayer();
+
+	const values = TaxpayerWeb.getValues();
+	for (const key of Object.keys(values)) {
+		if (!key in taxpayer) {
+			throw new Error(`Invalid key for taxpayer: ${key}`);
+		}
+
+		switch (key) {
+			case "filing_status":
+				taxpayer[key] = strToFilingStatus(values[key])
+				break;
+			default:
+				taxpayer[key] = values[key];
+				break;
 		}
 	}
 
 	if (typeof taxpayer["filing_status"] !== "number") {
 		taxpayer[filing_status] = SINGLE;
 	}
-
+	
 	if (taxpayer.filing_status === MFJ) {
 		if (taxpayer.months_lived_together === "") {
 			taxpayer.months_lived_together = 12;
@@ -84,28 +57,6 @@ export class Taxpayer {
 	//
 	// ---------------- Static Methods ----------------
 	//
-	static getValues(raw = false) {
-		//
-		// Copy values from the web page.
-		//
-		// The return parameter is an object that contains the name-value pairs for all the
-		// fields copied from the web page.  Raw user input is only used to save and restore
-		// user input.
-		//
-		let inputs = {};
-
-		// Copy the fields from the web page.
-		for (const field_name of Object.keys(FIELD_INFO)) {
-			const key_name		= field_name.replace(/-/g, "_");
-			const value_type	= raw ? "raw" : FIELD_INFO[field_name][0];
-			if (document.getElementById(field_name)) {
-				inputs[key_name] = HTML.getUserInput(field_name, value_type);
-			}
-		}
-
-		return inputs;
-	}
-
 	static getTaxpayer() {
 		if (!taxpayer) {
 			initializeTaxpayer();
@@ -113,45 +64,7 @@ export class Taxpayer {
 		return taxpayer;
 	}
 
-	static putValues(data) {
-		//
-		// Copy values to the web page.
-		//
-		// The input parameter is an object that contains the name-value pairs for all the
-		// fields to copy to the web page.
-		//
-		Ensure.isObject(data);
-
-		// Clean all the fields.
-		for (const element_id of Object.keys(FIELD_INFO)) {
-			if (document.getElementById(element_id)) {
-				HTML.putElementValue(element_id, "");
-			}
-		}
-
-		HTML.putElementValue("filing-status", "SINGLE");
-
-		// Restore the fields that were saved.
-		for (const key_name of Object.keys(data)) {
-			const element_id = key_name.replace(/_/g, "-");
-			if (document.getElementById(element_id)) {
-				HTML.putElementValue(element_id, data[key_name]);
-			}
-		}	
-	}
-
 	static reset() {
-		// Clear the fields on the web page.
-		for (const element_id of Object.keys(FIELD_INFO)) {
-			if (document.getElementById(element_id)) {
-				HTML.putElementValue(element_id, "");
-			}
-		}
-
-		taxpayer = undefined;
-	}
-
-	static resetCalculation() {
 		taxpayer = undefined;
 	}
 
@@ -163,48 +76,91 @@ export class Taxpayer {
 	// ---------------- Constructor ----------------
 	//
 	constructor() {
+		if (taxpayer) {
+			throw new Error("Taxpayer is already initialized.");
+		}
 		taxpayer = this;
 
-		this._filing_status					= SINGLE;
-		this._taxpayers_name				= "";
-		this._street_address				= "";		// Needed for sales tax
-		this._city							= "";		// Needed for sales tax
-		this._state							= "";
-		this._zip_code						= "";		// Needed for sales tax
-		this._taxpayers_birthday			= "";
-		this._taxpayers_age					= 0;
-		this._is_taxpayer_blind				= false;
-		this._taxpayer_has_ssn				= true;		// Not an ITIN
+		this._filing_status				= SINGLE;
+		this.taxpayers_name				= "";
+		this.street_address				= "";		// Needed for sales tax
+		this.city						= "";		// Needed for sales tax
+		this.state						= "";
+		this.zip_code					= "";		// Needed for sales tax
+		this._taxpayers_birthday		= "";
+		this._taxpayers_age				= 0;
+		this.is_taxpayer_blind			= false;
+		this.taxpayer_has_ssn			= true;		// Not an ITIN
 
 		// Spouse
-		this._spouses_birthday				= "";
-		this._spouses_age					= 0;
-		this._months_lived_together			= 12;		// Needed when filing MFS
-		this._is_spouse_blind				= false;
-		this._spouse_has_ssn				= true;		// Not an ITIN
+		this._spouses_birthday			= "";
+		this._spouses_age				= 0;
+		this.months_lived_together		= 12;		// Needed when filing MFS
+		this.is_spouse_blind			= false;
+		this.spouse_has_ssn				= true;		// Not an ITIN
 
-		this._dependents					= [];
+		this.dependents					= [];
+
+		// The following properties contain tax information that is not contained on a tax
+		// form but is needed to calculate some tax forms. These properties can be accessed
+		// directly from the tax forms. The comment following each property shows where it is
+		// referenced from.
+		// Medical insurance premiums
+		this.health_insurance			= 0;	// TaxInfo.getMedicalInsurancePremiums()
+		this.dental_vision_insurance	= 0;	// TaxInfo.getMedicalInsurancePremiums()
+		this.medicare					= 0;	// TaxInfo.getMedicalInsurancePremiums()
+		this.ltc_taxpayer				= 0;	// TaxInfo.getLTCInsurance()
+		this.ltc_spouse					= 0;	// TaxInfo.getLTCInsurance()
+
+		// Other medical expenses
+		this.doctor						= 0;	// TaxInfo.getMedicalExpenses()
+		this.prescriptions				= 0;	// TaxInfo.getMedicalExpenses()
+		this.medical_aids				= 0;	// TaxInfo.getMedicalExpenses()
+		this.medical_facilities			= 0;	// TaxInfo.getMedicalExpenses()
+		this.nursing_services			= 0;	// TaxInfo.getMedicalExpenses()
+		this.medical_miles				= 0;	// TaxInfo.getMedicalExpenses()
+		this.other_medical				= 0;	// TaxInfo.getMedicalExpenses()
+
+		// Taxes paid
+		this.estimated_payments_federal	= 0;	// F1040[26]
+		this.estimated_payments_state	= 0;	// TaxInfo.getStateTaxPaid(), 540[72]
+		this.state_tax_due_last_year	= 0;	// TaxInfo.getStateTaxPaid()
+		this.property_tax				= 0;	// F1040SA[5b]
+		this.personal_property_tax		= 0;	// F1040SA[5c]
+		this.sales_tax_rate				= 0;	// TaxInfo.getSalesTaxPaid()
+		this.extra_sales_tax			= 0;	// TaxInfo.getSalesTaxPaid()
+
+		// Charitable donations
+		this.cash_donations				= 0;	// F1040SA[11]
+		this.non_cash_donations			= 0;	// F1040SA[12]
+		this.charitable_miles			= 0;	// F1040SA[12]
+
+		// Other expenses
+		this.educator_expense_taxpayer	= 0;	// F1040S1[11]
+		this.educator_expense_spouse	= 0;	// F1040S1[11]
+		this.tax_preparation			= 0;	// F540CA[D-20]
+		this.investment_expenses		= 0;	// F540CA[D-21]
+		this.ira_contribution_taxpayer	= 0;	// F1040S1._calculateIRADeduction(), F8880[1a]
+		this.ira_contribution_spouse	= 0;	// F1040S1._calculateIRADeduction(), F8880[1b]
+
+		this.alimony_paid				= 0;	// F1040S1[2a]
+		this.alimony_received			= 0;	// F1040S1[19a]
+		this.divorce_date				= 0;	// F1040S1[2b], F1040S1[19c]
+
+		// Other income
+		this.jury_duty					= 0;	// F1040S1[24a]
+		this.gambling_winnings			= 0;	// F1040S1[8b]
+		this.other_income				= 0;	// F1040S1[8z]
 	}
 
 	//
 	// ---------------- Getter Methods ----------------
 	//
 	get filing_status() {				return this._filing_status};
-	get taxpayers_name() {				return this._taxpayers_name};
-	get street_address() {				return this._street_address};
-	get city() {						return this._city};
-	get state() {						return this._state};
-	get zip_code() {					return this._zip_code};
 	get taxpayers_birthday() {			return this._taxpayers_birthday};
 	get taxpayers_age() {				return this._taxpayers_age};
-	get is_taxpayer_blind() {			return this._is_taxpayer_blind};
-	get taxpayer_has_ssn() {			return this._taxpayer_has_ssn};
-
 	get spouses_birthday() {			return this._spouses_birthday};
 	get spouses_age() {					return this._spouses_age};
-	get months_lived_together() {		return this._months_lived_together};
-	get is_spouse_blind() {				return this._is_spouse_blind};
-	get spouse_has_ssn() {				return this._spouse_has_ssn};
 
 	//
 	// ---------------- Setter Methods ----------------
@@ -213,27 +169,22 @@ export class Taxpayer {
 		Ensure.isNumber(fs);
 		this._filing_status = fs;
 	}
-	set taxpayers_name(name) {			this._taxpayers_name	= name }
-	set street_address(str) {			this._street_address	= str }
-	set city(str) {						this._city				= str }
-	set state(str) {					this._state				= str }
-	set zip_code(str) {					this._zip_code			= str }
-	set is_taxpayer_blind(bool) {		this._is_taxpayer_blind	= bool }
-	set taxpayer_has_ssn(bool) {		this._taxpayer_has_ssn	= bool }
-
-	set months_lived_together(num) {	this._months_lived_together	= num }
-	set is_spouse_blind(bool) {			this._is_spouse_blind	= bool }
-	set spouse_has_ssn(bool) {			this._spouse_has_ssn	= bool }
 
 	set taxpayers_birthday(birthday) {
-		if (birthday === null || birthday === undefined) { return; }
+		if (birthday === null || birthday === undefined) {
+			return;
+		}
+
 		this._taxpayers_birthday = birthday;
 		this._taxpayers_age =
 			Math.max(0, Dates.getEndOfYearAge(birthday, TaxTable.getTaxYear()));
 	}
 
 	set taxpayers_age(age) {
-		if (age === null || age === undefined) { return; }
+		if (age === null || age === undefined) {
+			return;
+		}
+
 		if (age > 0) {
 			this._taxpayers_birthday	= "";
 			this._taxpayers_age			= age;
@@ -241,14 +192,20 @@ export class Taxpayer {
 	}
 
 	set spouses_birthday(birthday) {
-		if (birthday === null || birthday === undefined) { return; }
+		if (birthday === null || birthday === undefined) {
+			return;
+		}
+
 		this._spouses_birthday = birthday;
 		this._spouses_age =
 			Math.max(0, Dates.getEndOfYearAge(birthday, TaxTable.getTaxYear()));
 	}
 
 	set spouses_age(age) {
-		if (age === null || age === undefined) { return; }
+		if (age === null || age === undefined) {
+			return;
+		}
+
 		if (age > 0) {
 			this._spouses_birthday		= "";
 			this._spouses_age			= age;
@@ -260,7 +217,13 @@ export class Taxpayer {
 	//
 	addDependent(inputs) {
 		Ensure.isObject(inputs);
-		this._dependents.push(new Dependent(inputs));
+
+		const dependent = new Dependent(inputs);
+		if (!dependent.isQualifiedChild() && !dependent.isQualifiedRelative()) {
+			throw new Error("Dependent is not a qualifying child or relative.");
+		}
+
+		this.dependents.push(dependent);
 	}
 
 	clone() {
@@ -270,12 +233,13 @@ export class Taxpayer {
 	}
 
 	familySize() {
+		// Family size is used for sales tax calculation.
 		let size = 1;	// Taxpayer
-		if (this._filing_status === MFJ) {
+		if (this.filing_status === MFJ) {
 			size++;		// Spouse
 		}
 
-		size += this._dependents.length;
+		size += this.dependents.length;
 
 		return size;
 	}
@@ -288,44 +252,53 @@ export class Taxpayer {
 		return false;
 	}
 
-	fillIn1040() {
-		//
-		// Put the taxpayer information on the output form 1040.
-		//
-		const hm	= HTMLMgr.getMgr();
-		const block = hm.getBlock("f1040");
-		const id	= block.getID();
+	isQualifiedForEIC() {
+		if (!this.taxpayer_has_ssn) {
+			return false;
+		}
+		if (this.filing_status === MFJ && !this.spouse_has_ssn) {
+			return false;
+		}
+		if ((this.numDependentsForEIC() === 0) && (this.age <25 || this.age >= 65)) {
+			return false;
+		}
+		return true;
+	}
 
-		HTML.putUserOutput(`${id}-filing-status`,
-			filingStatusToStr(this._filing_status), "text");
-		HTML.putUserOutput(`${id}-taxpayers-name`,
-			this._taxpayers_name, "text");
-		HTML.putUserOutput(`${id}-street-address`,
-			this._street_address, "text");
-		if (!Str.empty(this._city)) {
-			const state = this._state ? this._state : "CA";
-			HTML.putUserOutput(`${id}-city-state-zip`,
-				`${this._city}, ${state} ${this._zip_code}`.trim(), "text");
-		} else {
-			HTML.putUserOutput(`${id}-city-state-zip`,"", "text");
+	numDependentsForCTC() {
+		let qualifying_children = 0;
+		let other_dependents = 0;
+		
+		for (const dep of this.dependents) {
+			if (!dep.has_ssn) {
+				continue;
+			}
+		
+			if (dep.isQualifiedChild() && (dep.age < 17)) {
+				qualifying_children++;
+			} else {
+				other_dependents++;
+			}
 		}
 
-		if (!Str.empty(this._taxpayers_birthday)) {
-			HTML.putUserOutput(`${id}-taxpayers-birthday`,
-				`${this._taxpayers_birthday} (Age ${this._taxpayers_age})`, "text");
-		} else {
-			HTML.putUserOutput(`${id}-taxpayers-birthday`, " ", "text");
+		return [qualifying_children, other_dependents];
+	}
+
+	numDependentsForEIC() {
+		let qualifying_dependents = 0;
+
+		for (const dep of this.dependents) {
+			if (!dep.has_ssn) {
+				continue;
+			}
+			if (!dep.isQualifiedChild(true)) {
+				continue;
+			}
+
+			qualifying_dependents++;
 		}
-		if (!Str.empty(this._spouses_birthday)) {
-			HTML.putUserOutput(`${id}-spouses-birthday`,
-				`${this._spouses_birthday} (Age ${this._spouses_age})`, "text");
-		} else {
-			HTML.putUserOutput(`${id}-spouses-birthday`, " ", "text");
-		}
-		HTML.putUserOutput(`${id}-taxpayer-is-blind`,
-			this._is_taxpayer_blind ? "X" : "", "text");
-		HTML.putUserOutput(`${id}-spouse-is-blind`,
-			this._is_spouse_blind ? "X" : "", "text");
+
+		return Math.min(3, qualifying_dependents);
 	}
 
 	toString() {
@@ -336,10 +309,10 @@ export class Taxpayer {
 
 		const fields = Object.keys(this);
 		for (const field of fields) {
-			if ((this._filing_status !== MFJ) && field.match(/spouse/i)) {
+			if ((this.filing_status !== MFJ) && field.match(/spouse/i)) {
 				continue;
 			}
-			if (field === "_dependents") {
+			if (field === "dependents") {
 				continue;
 			}
 

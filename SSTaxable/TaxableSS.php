@@ -39,7 +39,7 @@
 
 		<div class="table-3x">
 			<p class="description-field-right">Filing Status</p>
-			<select class="trigger input-field" id="FilingStatus"
+			<select class="trigger button right" id="FilingStatus"
 					tooltipid="#FilingStatusTT">
 				<option value="Single">Single</option>
 				<option value="HoH">HoH</option>

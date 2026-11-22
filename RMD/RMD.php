@@ -42,18 +42,22 @@
 
 		<div class="table">
 			<p>Tax Year</p>
-			<input class="input-field" type="text" id="tax-year" value="0000" />
+			<select class="button" id="tax-year" >
+				<option value="2026">2026</option>
+				<option value="2025">2025</option>
+				<option value="2024">2024</option>
+			</select>
 
 		   	<p>Retirement Account Balance</p>
-			<input class="input-field" type="text" autofocus id="IRATotal"
+			<input class="input-field left" type="text" autofocus id="IRATotal"
 				placeholder="0" />
 
 			<p>Taxpayer's Birthday</p>
-			<input class="input-field" type="text" id="TaxpayersBirthday"
+			<input class="input-field left" type="text" id="TaxpayersBirthday"
 				placeholder="mm/dd/yyyy" />
 
 			<p>Taxpayer's Age</p>
-			<input class="input-field" type="text" id="TaxpayersAge"
+			<input class="input-field left" type="text" id="TaxpayersAge"
 				placeholder="0" />
 
 			<p>&nbsp;</p>

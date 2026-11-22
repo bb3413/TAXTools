@@ -10,7 +10,7 @@ import { TaxTable }		from "../Modules/TaxTable.js";
 
 const HTML_CODE = `
 		<details class="taxform-details" id="business-XX">
-			<summary class="taxform-summary">Small Business #-UID-</summary>
+			<summary class="taxform-summary">Small Business</summary>
 			<div class="input-worksheet-container">
 				<div class="taxpayer-info-150-400">
 					<p>Business Name</p>

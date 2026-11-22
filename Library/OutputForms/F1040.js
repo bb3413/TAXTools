@@ -22,10 +22,7 @@ export class F1040 extends TaxForm {
 		this.title	= `1040 - Individual Income Tax Return`;
 		this.sstax	= TaxFormObj.createForm("SSTax");
 		this.inctax	= TaxFormObj.createForm("IncTax");
-
-		// Variables for external input. This variable is be used to enter information
-		// that does not come from another tax form.
-		this.estimated_payments	= 0;
+		this.eic	= TaxFormObj.createForm("EIC");
 
 		// Create the lines on the form.
 		let field_info = F1040_HTML.getFieldInfo();
@@ -62,7 +59,7 @@ export class F1040 extends TaxForm {
 		this.lines["01f"].value	= getValue("F8839", "31");	// Adoption Benefits
 		this.lines["01g"].value	= getValue("F8919", "06");	// Wages from f8919
 		this.lines["01h"].value	= 0;					// Other Earned Inc
-		this.lines["01i"].value	= 0;					// Nontaxed Combat
+		this.lines["01i"].value	= 0;					// Non-taxed Combat
 		this.lines["01z"].value	= this.add("01a","01b","01c","01d","01e","01f","01g","01h");
 		this.lines["02a"].value	=						// Tax exempt interest =
 			getValue("F1099INT",	"08") +				// Tax-exempt interest
@@ -96,7 +93,7 @@ export class F1040 extends TaxForm {
 		this.lines["08"].value	= getValue("F1040S1",	"10");	// Other Income
 
 		// Reorder fields for dependency. Taxable SS, which is on 1040 line 6b, depends
-		// on 1040 lines 1z, 2a, 2b, 3b, 4b, 5b, 6a, 7, 8, and 10. And, 1040 line 9
+		// on 1040 lines 1z, 2a, 2b, 3b, 4b, 5b, 6a, 7a, 8, and 10. And, 1040 line 9
 		// depends on Taxable SS.
 		this.lines["10"].value	= getValue("F1040S1", "26");	// Adjustments to Income
 		this.lines["06b"].value	= this.sstax.calculate();		// Taxable SS
@@ -106,21 +103,24 @@ export class F1040 extends TaxForm {
 		this.lines["09"].value	= this.add("01z","02b","03b","04b","05b","06b","07a","08");
 		this.lines["11a"].value	= this.subtract("09", "10");	// AGI
 		this.lines["11b"].value	= this.line("11a");				// AGI
-		this.lines["12e"].value	= Math.max(tt.getStandardDeduction(),
-										   getValue("F1040SA", "17"));
-		this.lines["13a"].value	= getValue("F8995", "15");		// QBI Deduction
-		this.lines["13b"].value	= getValue("F1040S1A", "38");	// Additional Deducts
-		this.lines["14"].value	= this.add("12e","13a","13b");	// Total Deductions
+		const [ deductions, cash_donations ] = this._getDeductions();
+		this.lines["12e"].value	= deductions;		// Standard or itemized deductions
+		this.lines["12f"].value	= cash_donations;	// Cash donations for non-itemizers
+		this.lines["13a"].value	= getValue("F1040S1A", "44");	// Additional Deducts
+		this.lines["13b"].value	= getValue("F8995", "15");		// QBI Deduction
+		this.lines["14"].value	= this.add("12e", "12f","13a","13b");	// Total Deductions
 		this.lines["15"].value	= Math.max(0, this.subtract("11b", "14"));	// Taxable Income
 		this.lines["16"].value	= this.inctax.calculate();		// Income Tax
 		this.lines["17"].value	= getValue("F1040S2", "03");	// Additional Tax
 		this.lines["18"].value	= this.add("16", "17");			// Total Tax
-		this.lines["19"].value	= getValue("F8812", "14");		// Child Tax Credit
+		this.lines["19"].value	= getValue("F8812P1", "14");	// Child Tax Credit
 		this.lines["20"].value	= getValue("F1040S3", "08");	// Non-refund Credits
 		this.lines["21"].value	= this.add("19", "20");
 		this.lines["22"].value	= Math.max(0, this.subtract("18", "21"));	// Tax - Credits
 		this.lines["23"].value	= getValue("F1040S2", "21");	// Other Taxes
-		this.lines["24"].value	= this.add("22", "23");			// Total Tax
+		this.lines["24a"].value	= this.add("22", "23");			// Total Tax
+		this.lines["24b"].value	= getValue("F1062", "15");		// Gain from sale of farm
+		this.lines["24c"].value	= this.add("24a", "24b");		// Total Tax
 		this.lines["25a"].value	= getValue("W2", "02");			// W2 Withholding
 		this.lines["25b"].value	=								// 1099 Withholding
 			getValue("F1099INT", "04") +
@@ -134,22 +134,37 @@ export class F1040 extends TaxForm {
 			getValue("SSA1099", "06");
 		this.lines["25c"].value	= getValue("F8959", "24");			// Other withholding
 		this.lines["25d"].value	= this.add("25a", "25b", "25c");	// Total Withholding
-		this.lines["26"].value	= this.estimated_payments;			// Estimated payments
-		this.lines["27a"].value	= getValue("EIC", "xx");			// EIC
-		this.lines["28"].value	= getValue("F8812", "27");			// Additional CTC
+		this.lines["26"].value	= tp.estimated_payments;			// Estimated payments
+		this.lines["27a"].value	= this.eic.calculate();				// EIC
+		this.lines["28"].value	= getValue("F8812P2", "27");		// Additional CTC
 		this.lines["29"].value	= getValue("F8863", "08");			// Amer Opp Cred
 		this.lines["30"].value	= getValue("F8839", "13");			// Refund Adopt Credit
 		this.lines["31"].value	= getValue("F1040S3", "15");		// Other Refund Credits
 		this.lines["32"].value	= this.add("27a","28","29","30","31");	// Estimated Payments
 		this.lines["33"].value	= this.add("25d","26","32");		// Total Payments
-		if (this.line("33") > this.line("24")) {
-			this.lines["34"].value	= this.subtract("33", "24");	// Overpaid
+		if (this.line("33") > this.line("24c")) {
+			this.lines["34"].value	= this.subtract("33", "24c");	// Overpaid
 			this.lines["35a"].value	= this.subtract("34", "36");	// Refund
 			this.lines["36"].value	= 0;							// Apply to next year
 		} else {
-			this.lines["37"].value	= this.subtract("24", "33");	// Amount Owed
+			this.lines["37"].value	= this.subtract("24c", "33");	// Amount Owed
 			this.lines["38"].value	= getValue("Penalty", "xx");	// EstTax Penalty
 		}
 		Debug.exit("F1040.calculate()");
+	}
+
+	_getDeductions() {
+		const tt = TaxTable.getTaxTable();
+		const standard_deduction	= tt.getStandardDeduction();
+		const itemized_deduction	= TaxFormObj.getValue("F1040SA", "17");
+		const max_donation			= tt.getTaxValue("MaxCashDonation");
+		const cash_donation			=
+			Math.min(max_donation, TaxFormObj.getValue("F1040SA", "11"));
+
+		if (standard_deduction + cash_donation > itemized_deduction) {
+			return [ standard_deduction, cash_donation ];
+		} else {
+			return [ itemized_deduction, 0 ];
+		}
 	}
 }

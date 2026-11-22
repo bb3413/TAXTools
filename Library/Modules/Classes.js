@@ -2,8 +2,6 @@
 //
 // This module provides utilities to manage the names of classes.
 //
-import { SINGLE, HOH, MFJ, QSS, MFS } from "../TAXTools/TAXTools.js";
-
 import { Ensure }		from "../Modules/Ensure.js";
 
 // Input Tax Forms
@@ -36,11 +34,15 @@ import { F540 }			from "../OutputForms/F540.js";		// California Income Tax
 import { F540CA }		from "../OutputForms/F540CA.js";	// California Adjustments
 import { F6251 }		from "../OutputForms/F6251.js";		// AMT worksheet
 import { F7206 }		from "../OutputForms/F7206.js";		// Self-employment Health Ins
+import { F8812P1 }		from "../OutputForms/F8812P1.js";	// CTC
+import { F8812P2 }		from "../OutputForms/F8812P2.js";	// CTC
 import { F8880 }		from "../OutputForms/F8880.js";		// Retirement Credit
 
 // Worksheets
 import { CA_HiIncDeductions }	from "../Worksheets/CA_HiIncDeductions.js";
 import { CA_HiIncExemptions }	from "../Worksheets/CA_HiIncExemptions.js";
+import { CreditLimitA }		from "../Worksheets/CreditLimitA.js";
+import { EIC }				from "../Worksheets/EIC.js";
 import { IncTax }			from "../Worksheets/IncTax.js";
 import { IRADeduction }		from "../Worksheets/IRADeduction.js";
 import { Refund }			from "../Worksheets/Refund.js";
@@ -52,7 +54,7 @@ import { StudentLoan }		from "../Worksheets/StudentLoan.js";
 // Input Worksheets
 import { Assetitem }		from "../InputWorksheets/Assetitem.js";
 import { Business }			from "../InputWorksheets/Business.js";
-import { Dependent }		from "../InputWorksheets/Dependent.js";
+import { DependentWeb }		from "../InputWorksheets/DependentWeb.js";
 import { Expenses }			from "../InputWorksheets/Expenses.js";
 import { Income }			from "../InputWorksheets/Income.js";
 
@@ -85,6 +87,8 @@ import { F540_HTML }		from "../OutputForms/F540_HTML.js";
 import { F540CA_HTML }		from "../OutputForms/F540CA_HTML.js";
 import { F6251_HTML }		from "../OutputForms/F6251_HTML.js";
 import { F7206_HTML }		from "../OutputForms/F7206_HTML.js";
+import { F8812P1_HTML }		from "../OutputForms/F8812P1_HTML.js";
+import { F8812P2_HTML }		from "../OutputForms/F8812P2_HTML.js";
 import { F8880_HTML }		from "../OutputForms/F8880_HTML.js";
 
 export const Classes = {
@@ -132,17 +136,21 @@ const form_info = {
 	"F1040SA":				[ false,	false,	true,	true	],
 	"F1040SC":				[ false,	false,	false,	false	],
 	"F1040SD":				[ false,	false,	true,	false	],
-	"F1040SSE":				[ false,	false,	false,	true	],
+	"F1040SSE":				[ false,	false,	true,	true	],
 	"F540":					[ false,	false,	true,	true	],
 	"F540CA":				[ false,	false,	true,	true	],
 	"F6251":				[ false,	false,	true,	false	],
 	"F7206":				[ false,	false,	true,	false	],
+	"F8812P1":				[ false,	false,	true,	true	],
+	"F8812P2":				[ false,	false,	true,	true	],
 	"F8880":				[ false,	false,	true,	true	],
 
     // Worksheets										Create on
     // Name                 Input   Worksheet	Single  Demand
-    "CA_HiIncDeductions":   [ false,	true,	true,   true    ],
-    "CA_HiIncExemptions":   [ false,	true,	true,   true    ],
+    "CA_HiIncDeductions":	[ false,	true,	true,   true    ],
+    "CA_HiIncExemptions":	[ false,	true,	true,   true    ],
+	"CreditLimitA":			[ false,	true,	true,   true    ],
+	"EIC":					[ false,	true,	true,   true    ],
     "IncTax":               [ false,	true,	true,   true    ],
     "IRADeduction":         [ false,	true,	false,  true    ],
     "Refund":               [ false,	true,	true,   true    ],
@@ -153,6 +161,7 @@ const form_info = {
 };
 
 const class_map = {
+	// Class name			class reference
 	// Input forms
 	"F1098E":				F1098E,
 	"F1098VLI":				F1098VLI,
@@ -183,11 +192,15 @@ const class_map = {
 	"F540CA":				F540CA,
 	"F6251":				F6251,
 	"F7206":				F7206,
+	"F8812P1":				F8812P1,
+	"F8812P2":				F8812P2,
 	"F8880":				F8880,
 
 	// Worksheets
 	"CA_HiIncDeductions":	CA_HiIncDeductions,
 	"CA_HiIncExemptions":	CA_HiIncExemptions,
+	"CreditLimitA":			CreditLimitA,
+	"EIC":					EIC,
 	"IncTax":				IncTax,
 	"IRADeduction":			IRADeduction,
 	"Refund":				Refund,
@@ -199,7 +212,7 @@ const class_map = {
 	// Input Worksheets
 	"Assetitem":			Assetitem,
 	"Business":				Business,
-	"Dependent":			Dependent,
+	"DependentWeb":			DependentWeb,
 	"Expenses":				Expenses,
 	"Income":				Income,
 
@@ -232,6 +245,8 @@ const class_map = {
 	"F540CA_HTML":			F540CA_HTML,
 	"F6251_HTML":			F6251_HTML,
 	"F7206_HTML":			F7206_HTML,
+	"F8812P1_HTML":			F8812P1_HTML,
+	"F8812P2_HTML":			F8812P2_HTML,
 	"F8880_HTML":			F8880_HTML,
 };
 

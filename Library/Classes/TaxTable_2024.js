@@ -33,6 +33,7 @@ export class TaxTable_2024 extends TaxTableTmpl {
 		"CharityMileage":				[ 0.14,			0.14,		0.14,		0.14,		0.14		],
 		"MedicalMileage":				[ 0.21,			0.21,		0.21,		0.21,		0.21		],
 
+		//								SINGLE			HOH			MFJ			QSS			MFS
 		"MaxCapitalLoss":				[ 3000,			3000,		3000,		3000,		1500		],
 		"MaxEducatorExpenses":			[ 300,			300,		300,		300,		300			],	// Per taxpayer
 		"MaxTaxedSS":					[ 176100,		176100,		176100,		176100,		176100		],
@@ -50,28 +51,57 @@ export class TaxTable_2024 extends TaxTableTmpl {
 		"MaxSeniorDeduction":			[ 0,			0,			0,			0,			0			],
 		"SeniorDeductionPhaseOut":		[ 0,			0,			0,			0,			0			],
 
-		// Non-refundable credits			SINGLE			HOH			MFJ			QSS			MFS
+		// Non-refundable credits		SINGLE			HOH			MFJ			QSS			MFS
 		"MaxAmericanOppCreditNoRefund":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
 		"MaxChildAndDependentCareCredit":[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
-		"MaxChildTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
 		"MaxForeignTaxCredit":			[ 300,			300,		600,		300,		300			],
 		"MaxLifetimeLearningCredit":	[ 2000,			2000,		2000,		2000,		0			],
 		"MaxResidentialEnergyCredit":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
 		"MaxRetirementSavingsCredit":	[ 1000,			1000,		2000,		1000,		1000		],
 
-		// Refundable credits				SINGLE			HOH			MFJ			QSS			MFS
+		// Refundable credits			SINGLE			HOH			MFJ			QSS			MFS
 		"MaxAmericanOppCreditRefundable":[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
-		"MaxCreditForOtherDependents":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
 		"MaxEarnedIncomeCredit":		[ 59899,		59899,		66819,		59899,		0			],
 		"MaxPremiumTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	0			],
 
-		// IRA Contributions
+		// CTC - Child Tax Credit		SINGLE			HOH			MFJ			QSS			MFS
+		"MaxChildTaxCredit":			[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
+		"MaxCreditForOtherDependents":	[ MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR,	MAX_DOLLAR	],
+		"CTC_AGILimit":					[ 200000,		200000,		400000,		200000,		200000		],
+		"CTC_Amount":					[ 2000,			2000,		2000,		2000,		2000		],
+		"CTC_OtherDep":					[ 500,			500,		500,		500,		500			],
+		"CTC_Refundable":				[ 1700,			1700,		1700,		1700,		1700		],
+
+		// EIC - Earned Income Credit	SINGLE			HOH			MFJ			QSS			MFS
+		"EIC_MaxUnearnedIncome":		[ 11600,		11600,		11600,		11600,		11600		],
+		// EIC Base is the maximum amount of earned income that can be used to calculate the credit.
+		"EIC_Base_0_Dep":				[ 8260,			8260,		8260,		8260,		8260		],
+		"EIC_Base_1_Dep":				[ 12390,		12390,		12390,		12390,		12390		],
+		"EIC_Base_2_Dep":				[ 17400,		17400,		17400,		17400,		17400		],
+		"EIC_Base_3_Dep":				[ 17400,		17400,		17400,		17400,		17400		],
+		// Earned income * EIC_Rate is the maximum amount of the credit.
+		"EIC_Rate_0_Dep":				[ 0.0765,		0.0765,		0.0765,		0.0765,		0.0765		],	// TY25
+		"EIC_Rate_1_Dep":				[ 0.34,			0.34,		0.34,		0.34,		0.34		],	// TY25
+		"EIC_Rate_2_Dep":				[ 0.40,			0.40,		0.40,		0.40,		0.40		],	// TY25
+		"EIC_Rate_3_Dep":				[ 0.45,			0.45,		0.45,		0.45,		0.45		],	// TY25
+		// EIC_PhaseOutStart is the amount of earned income over which the credit begins to be reduced.
+		"EIC_PhaseOutStart_0_Dep":		[ 10330,		10330,		17250,		10330,		10330		],
+		"EIC_PhaseOutStart_1_Dep":		[ 22720,		22720,		29640,		22720,		22720		],
+		"EIC_PhaseOutStart_2_Dep":		[ 22720,		22720,		29640,		22720,		22720		],
+		"EIC_PhaseOutStart_3_Dep":		[ 22720,		22720,		29640,		22720,		22720		],
+		// The EIC is reduced by the amount over the phase out start * the phase out rate.
+		"EIC_PhaseOutRate_0_Dep":		[ 0.0765,		0.0765,		0.0765,		0.0765,		0.0765		],	// TY25
+		"EIC_PhaseOutRate_1_Dep":		[ 0.1598,		0.1598,		0.1598,		0.1598,		0.1598		],	// TY25
+		"EIC_PhaseOutRate_2_Dep":		[ 0.2106,		0.2106,		0.2106,		0.2106,		0.2106		],	// TY25
+		"EIC_PhaseOutRate_3_Dep":		[ 0.2106,		0.2106,		0.2106,		0.2106,		0.2106		],	// TY25
+
+		// IRA Contributions			SINGLE			HOH			MFJ			QSS			MFS
 		"MaxIRAContribution":			[ 7000,			7000,		7000,		7000,		7000,		],	// TY25
 		"IRAContributionOver50":		[ 1000,			1000,		1000,		1000,		1000,		],	// TY25
 		"IRA_AGILimit":					[ 89000,		89000,		146000,		146000,		89000,		],	// TY25
 		"IRA_AGILimitNoPlan":			[ 89000,		89000,		246000,		146000,		89000,		],	// TY25
 
-		// Dependents
+		// Dependents					SINGLE			HOH			MFJ			QSS			MFS
 		"MaxDependentGrossIncome":		[ 5050,			5050,		5050,		5050,		5050,		],
 
 		// AMT							SINGLE			HOH			MFJ			QSS			MFS
@@ -87,9 +117,10 @@ export class TaxTable_2024 extends TaxTableTmpl {
 		"SS_50PercentRangeEnd":			[ 34000,		34000,		44000,		34000,		34000		],
 		"SS_50PercentRangeLength":		[ 9000,			9000,		12000,		9000,		9000		],
 
-		// Standard deduction
+		// Standard deduction			SINGLE			HOH			MFJ			QSS			MFS
 		"StandardDeduction":			[ 14600,		21900,		29200,		29200,		14600		],
 		"StandardDeductionExtra":		[ 1950,			1950,		1550,		1550,		1550		],
+		"MaxCashDonation":				[ 0,			0,			0,			0,			0			],
 
 		// California constants			SINGLE			HOH			MFJ			QSS			MFS
 		"CA_PersonalExemption":			[ 149,			149,		149,		149,		149			],
@@ -98,6 +129,11 @@ export class TaxTable_2024 extends TaxTableTmpl {
 		"CA_BaseSalesTax":				[ 7.25,			7.25,		7.25,		7.25,		7.25		],
 		"CA_RentersCredit":				[ 60,			120,		120,		120,		60			],
 		"CA_HiIncPhaseout":				[ 244857,		367291,		489719,		489719,		244857		],
+	
+		// Currency Exchange Rate		SINGLE			HOH			MFJ			QSS			MFS
+		"CanadaExchangeRate":			[ 1.370,		1.370,		1.370,		1.370,		1.370		],
+		"EuroExchangeRate":				[ 0.924,		0.924,		0.924,		0.924,		0.924		],
+		"PoundExchangeRate":			[ 0.783,		0.783,		0.783,		0.783,		0.783		],
 	};
 
 	//

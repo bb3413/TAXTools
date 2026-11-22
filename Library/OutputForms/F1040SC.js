@@ -22,45 +22,13 @@ export class F1040SC extends TaxForm {
 
 		this.lines["name"]	= new Line("Business Name");
 
-		// Income
-		this.lines["01"]	= new Line("Gross Receipts or Sales");
-		this.lines["02"]	= new Line("Returns and Allowances");
-		this.lines["03"]	= new Line("Line 1 - Line 2");
-		this.lines["04"]	= new Line("Cost of Goods Sold");
-		this.lines["05"]	= new Line("Gross Profit");
-		this.lines["06"]	= new Line("Other Income");
-		this.lines["07"]	= new Line("Gross Income");
-
-		// Expenses
-		this.lines["08"]	= new Line("Advertising");
-		this.lines["09"]	= new Line("Car and Truck Expense");
-		this.lines["10"]	= new Line("Commission and Fees");
-		this.lines["11"]	= new Line("Contract Labor");
-		this.lines["12"]	= new Line("Depletion");
-		this.lines["13"]	= new Line("Depreciation");
-		this.lines["14"]	= new Line("Employee Benefit Programs");
-		this.lines["15"]	= new Line("Insurance");
-		this.lines["16a"]	= new Line("Mortgage Interest");
-		this.lines["16b"]	= new Line("Other Interest");
-		this.lines["17"]	= new Line("Professional Services");
-		this.lines["18"]	= new Line("Office Expenses");
-		this.lines["19"]	= new Line("Pension Plan");
-		this.lines["20a"]	= new Line("Rent Machinery");
-		this.lines["20b"]	= new Line("Rent Other");
-		this.lines["21"]	= new Line("Repairs and Maintenance");
-		this.lines["22"]	= new Line("Supplies");
-		this.lines["23"]	= new Line("Taxes and Licenses");
-		this.lines["24a"]	= new Line("Travel");
-		this.lines["24b"]	= new Line("Travel Meals");
-		this.lines["25"]	= new Line("Utilities");
-		this.lines["26"]	= new Line("Wages");
-		this.lines["27a"]	= new Line("Energy Efficiency Deduction");
-		this.lines["27b"]	= new Line("Other Expense");
-
-		this.lines["28"]	= new Line("Total Expenses");
-		this.lines["29"]	= new Line("Tentative profit");
-		this.lines["30"]	= new Line("Business Use of Home Expense");
-		this.lines["31"]	= new Line("Net Profit");
+		// Create the lines on the form.
+		let field_info = F1040SC_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F1040SC.Constructor()");
 	}

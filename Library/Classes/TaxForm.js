@@ -130,19 +130,6 @@ export class TaxForm {
 		return values.length ? Math.max(...values) : 0;
 	}
 
-	putInformation(uid) {
-		//
-		// Copy the information from the instance to the output HTML.
-		//
-		Ensure.isNumber(uid);
-
-		const formname = this.formname.toLowerCase();
-
-		for (const lineno of Object.keys(this.lines)) {
-			HTML.putUserOutput(`${formname}-${uid}-${lineno}`, this.line(lineno));
-		}
-	}
-
 	putValues(values) {
 		//
 		// Copy values to the tax form.
@@ -180,10 +167,6 @@ export class TaxForm {
 		this._ensureValidLine(lineno2);
 
 		return this.line(lineno1) - this.line(lineno2);
-	}
-
-	toConsole() {
-		console.log(this.toString());
 	}
 
 	toHTML(uid = "99") {

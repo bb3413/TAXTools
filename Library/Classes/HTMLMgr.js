@@ -15,10 +15,6 @@ let next_uid		= 0;
 let html_mgr		= undefined;
 
 export class HTMLMgr {
-	constructor() {
-		html_mgr = this;
-	}
-
 	addBlock(block, parent_id, where) {
 		//
 		// Add the HTML block into the web page. The parent_id parameter is the

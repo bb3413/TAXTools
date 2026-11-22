@@ -15,26 +15,13 @@ export class F1040SSE extends TaxForm {
 		Debug.enter("F1040SSE.Constructor()");
 		super(formname);
 
-		this.lines["01a"]	= new Line("Not used");
-		this.lines["01b"]	= new Line("Not used");
-		this.lines["02"]	= new Line("Net profit from business");
-		this.lines["03"]	= new Line("Total self-employment income");
-		this.lines["04a"]	= new Line("92.35%");
-		this.lines["04b"]	= new Line("Ignore");
-		this.lines["04c"]	= new Line("Add lines 04a and 04b");
-		this.lines["05a"]	= new Line("Church employee income");
-		this.lines["05b"]	= new Line("92.35%");
-		this.lines["06"]	= new Line("Add lines 04c and 05b");
-		this.lines["07"]	= new Line("Maximum amount of wages subject to SS tax");
-		this.lines["08a"]	= new Line("W-2, boxes 3 and 7");
-		this.lines["08b"]	= new Line("Unreported tips subject to ss tax");
-		this.lines["08c"]	= new Line("Wages subject to ss tax");
-		this.lines["08d"]	= new Line("Wages outside business subject to SS tax");
-		this.lines["09"]	= new Line("");
-		this.lines["10"]	= new Line("12.4% Social Security tax");
-		this.lines["11"]	= new Line("2.9% Medicare tax");
-		this.lines["12"]	= new Line("Social Security + Medicare = SE Tax");
-		this.lines["13"]	= new Line("SE Tax Deduction");
+		// Create the lines on the form.
+		let field_info = F1040SSE_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F1040SSE.Constructor()");
 	}

@@ -12,42 +12,13 @@ export class F1040S3 extends TaxForm {
 		super(formname);
 		this.title = `Schedule 3 - Additional Credits and Payments`;
 
-		// Non-refundable Credits
-		this.lines["01"]	= new Line("Foreign Tax Credit");
-		this.lines["02"]	= new Line("Child and Dependent Care Credit");
-		this.lines["03"]	= new Line("Education Credit");
-		this.lines["04"]	= new Line("Retirement Savings Credit");
-		this.lines["05a"]	= new Line("Residential Clean Energy Credit");
-		this.lines["05b"]	= new Line("Energy Efficient Home Credit");
-		this.lines["06a"]	= new Line("General Business Credit");
-		this.lines["06b"]	= new Line("Credit for Prior Year Minimum Tax");
-		this.lines["06c"]	= new Line("Adoption Credit");
-		this.lines["06d"]	= new Line("Credit for Elderly or Disabled");
-		this.lines["06e"]	= new Line("Reserved for Future Use");
-		this.lines["06f"]	= new Line("Clean Vehicle Credit");
-		this.lines["06g"]	= new Line("Mortgage Interest Credit");
-		this.lines["06h"]	= new Line("DC Home Buyer Credit");
-		this.lines["06i"]	= new Line("EV Credit");
-		this.lines["06j"]	= new Line("Refueling Property Credit");
-		this.lines["06k"]	= new Line("Tax Credit Bond Holder Credit");
-		this.lines["06l"]	= new Line("Partner's Additional Reporting");
-		this.lines["06m"]	= new Line("Used EV Credit");
-		this.lines["06z"]	= new Line("Non-refundable Credits Not Listed");
-		this.lines["07"]	= new Line("Total Other Non-refundable Credits");
-		this.lines["08"]	= new Line("Total Non-refundable Credits");
-
-		// Other Payments and Refundable Credits
-		this.lines["09"]	= new Line("PTC");
-		this.lines["10"]	= new Line("Amount Paid with Extension Request");
-		this.lines["11"]	= new Line("Excess SS Withheld");
-		this.lines["12"]	= new Line("Tax on Fuels Credit");
-		this.lines["13a"]	= new Line("Undistributed LT Gains");
-		this.lines["13b"]	= new Line("Section 1341 Credit");
-		this.lines["13c"]	= new Line("Payment from Form 3800");
-		this.lines["13d"]	= new Line("Deferred 965 Tax Liability");
-		this.lines["13z"]	= new Line("Other Refundable Credits");
-		this.lines["14"]	= new Line("Total Other Refundable Credits");
-		this.lines["15"]	= new Line("Total Refundable Credits");
+		// Create the lines on the form.
+		let field_info = F1040S3_HTML.getFieldInfo();
+		for (const field_name of Object.keys(field_info)) {
+			if (field_info[field_name][1]) {
+				this.lines[field_name]= new Line(field_info[field_name][2]);
+			}
+		}
 
 		Debug.exit("F1040S3.Constructor()");
 	}

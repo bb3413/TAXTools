@@ -26,15 +26,6 @@ export class F1040S1 extends TaxForm {
 			this.spouse_ira_deduction = TaxFormObj.createForm("IRADeduction");
 		}
 
-		// Variables for external input. These variables can be used to enter information
-		// that does not come from another tax form.
-		this.alimony_received			= 0;
-		this.alimony_paid				= 0;
-		this.educator_expense_taxpayer	= 0;
-		this.educator_expense_spouse	= 0;
-		this.ira_contribution_taxpayer	= 0;
-		this.ira_contribution_spouse	= 0;
-
 		// Create the lines on the form.
 		let field_info = F1040S1_HTML.getFieldInfo();
 		for (const field_name of Object.keys(field_info)) {
@@ -69,11 +60,11 @@ export class F1040S1 extends TaxForm {
 
 		// Additions to Income
 		this.lines["01"].value	= this._taxableRefund();
-		this.lines["02a"].value	= 0;									// Alimony Received
-		this.lines["02b"].value	= "";									// Divorce Date
+		this.lines["02a"].value	= 0;								// Alimony Received
+		this.lines["02b"].value	= tp.divorce_date;					// Divorce Date
 		if (Dates.isValid(this.lines["02b"].value)) {
 			if (Dates.isBefore(this.lines["02b"].value, "01/01/2019")) {
-				this.lines["02a"].value	= this.alimony_received;
+				this.lines["02a"].value	= tp.alimony_received;
 			}
 		}
 		this.lines["03"].value	= getValue("F1040SC", "31");		// Business Income
@@ -82,10 +73,10 @@ export class F1040S1 extends TaxForm {
 		this.lines["06"].value	= 0;								// Farm Income
 		this.lines["07"].value	= getValue("F1099G", "01");			// Unemployment Comp
 		this.lines["08a"].value	= 0;  // Subtract					// Net Operating Loss
-		this.lines["08b"].value	= 0;								// Gambling
+		this.lines["08b"].value	= tp.gambling_winnings;				// Gambling
 		this.lines["08c"].value	= 0;								// Cancelled Debt
 		// Foreign Earned Income Exclusion (Subtract)
-		this.lines["08d"].value	= -(getValue("F2555", "xx"));
+		this.lines["08d"].value	= -(getValue("F2555", "45"));
 		this.lines["08e"].value	= getValue("F8853", "xx");			// Income from 8853
 		this.lines["08f"].value	= getValue("F8889", "16") +			// Income from 8889
 									getValue("F8889", "20");
@@ -107,7 +98,7 @@ export class F1040S1 extends TaxForm {
 		this.lines["08t"].value	= 0;								// Non-qualified Plan
 		this.lines["08u"].value	= 0;								// Incarceration Pay
 		this.lines["08v"].value	= 0;								// Digital Assets
-		this.lines["08z"].value	= 0;								// Other Income
+		this.lines["08z"].value	= tp.other_income;					// Other Income
 		this.lines["09"].value	= this.add("08a","08b","08c","08d",
 										   "08e","08f","08g","08h",
 										   "08i","08j","08k","08l",
@@ -119,23 +110,30 @@ export class F1040S1 extends TaxForm {
 
 		// Adjustments to Income
 		this.lines["11"].value =									// Educator Expense
-			Math.min(max_educator_expense, this.educator_expense_taxpayer) +
-			Math.min(max_educator_expense, this.educator_expense_spouse);
+			Math.min(max_educator_expense, tp.educator_expense_taxpayer) +
+			Math.min(max_educator_expense, tp.educator_expense_spouse);
 		this.lines["12"].value	= 0;								// Business Expense
 		this.lines["13"].value	= getValue("F8889", "13");			// HSA Deduction
 		this.lines["14"].value	= 0;								// Moving Expenses
 		this.lines["15"].value	= getValue("F1040SSE", "13");		// Deductible SE Tax
 		this.lines["16"].value	= 0;								// SEP, Simple
-		this.lines["17"].value	= 0;								// SE Health Ins
+		this.lines["17"].value	= getValue("F7206", "14");			// SE Health Ins
+		if (this.line("17") > 0) {
+			const f1040sa = TaxFormObj.getForm("F1040SA");
+			if (f1040sa) {
+				// Subtract SEHI from itemized deduction.
+				f1040sa.lines["01"].value = Math.max(0, f1040sa.line("01") - this.line("17"));
+			}
+		}
 		this.lines["18"].value	=	// Early Withdrawal Penalty
 			getValue("F1099INT", "02") +	
 			getValue("F1099OID", "03");
 		this.lines["19a"].value	= 0;								// Alimony Paid
 		this.lines["19b"].value	= "";								// Recipient SSN
-		this.lines["19c"].value	= "";								// Date of Divorce
+		this.lines["19c"].value	= tp.divorce_date;					// Date of Divorce
 		if (Dates.isValid(this.lines["19c"].value)) {
 			if (Dates.isBefore(this.lines["19c"].value, "01/01/2019")) {
-				this.lines["19a"].value	= this.alimony_paid;
+				this.lines["19a"].value	= tp.alimony_paid;
 			}
 		}
 
@@ -143,7 +141,7 @@ export class F1040S1 extends TaxForm {
 		this.lines["21"].value	= 0;	// This line is calculated further down
 		this.lines["22"].value	= 0;								// Reserved
 		this.lines["23"].value	= 0;								// Archer MSA
-		this.lines["24a"].value	= 0;								// Jury Duty Pay
+		this.lines["24a"].value	= tp.jury_duty;						// Jury Duty Pay
 		this.lines["24b"].value	= 0;								// Rental Expense
 		this.lines["24c"].value	= 0;								// Non-taxable USOC
 		this.lines["24d"].value	= 0;								// Reforestation
@@ -172,13 +170,14 @@ export class F1040S1 extends TaxForm {
 	}
 
 	_calculateIRADeduction() {
+		const tp = Taxpayer.getTaxpayer();
 		let deduction = 0;
 
 		deduction =
-			this.taxpayer_ira_deduction.calculate(TAXPAYER, this.ira_contribution_taxpayer);
+			this.taxpayer_ira_deduction.calculate(TAXPAYER, tp.ira_contribution_taxpayer);
 		if (this.spouse_ira_deduction) {
 			deduction +=
-				this.spouse_ira_deduction.calculate(SPOUSE, this.ira_contribution_spouse);
+				this.spouse_ira_deduction.calculate(SPOUSE, tp.ira_contribution_spouse);
 		}
 
 		return deduction;

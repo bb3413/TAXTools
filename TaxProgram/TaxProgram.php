@@ -28,7 +28,7 @@
 
 			<h1 class="title" id="title">Tax Return Calculator</h1>
 			<h2 class="subtitle">for the Tax Year
-				<select id="tax-year" class="trigger button tax-year"
+				<select class="trigger button tax-year" id="tax-year"
 						tooltipid="#tax-year-tt">
 					<option value="2026">2026</option>
 					<option value="2025">2025</option>
@@ -41,10 +41,11 @@
 			planning and analysis, not for filing your taxes.</p>
 
 			<p>Tax information is entered on a variety of worksheets and tax forms at the
-			bottom of this page. You can click on the heading of any worksheet or tax form to
-			alternately expand or collapse that form. After your tax information has been
-			entered, press the Calculate button to create a simulated tax return. Click
-			<a href="TaxProgram-Help.html">this link</a> for more help with this tool.</p>
+			bottom of this page. You can click on the heading of any worksheet or tax form
+			to alternately expand or collapse that form. After your tax information has been
+			entered, press the Calculate Tax Return button to create a simulated tax return.
+			Click <a href="TaxProgram-Help.html">this link</a> for more help with this
+			tool.</p>
 		</div>	<!-- title-container -->
 
 		<div class="border taxpayer-container">
@@ -61,7 +62,7 @@
 
 			<div class="taxpayer-info-150-100">
 				<p>Filing Status</p>
-				<select class="trigger input-color left pointer" id="filing-status"
+				<select class="trigger selection-list left" id="filing-status"
 						tooltipid="#filing-status-tt">
 					<option value="SINGLE">Single</option>
 					<option value="HOH">HoH</option>
@@ -168,7 +169,7 @@
 			</div>	<!-- spouse-container -->
 
 			<!----------  Dependents  ------------------------------------------------------>
-			<div class="border dependent-container">
+			<div  id="dependents-container" class="border dependents-container">
 				<input type="button" class="trigger button dependent-button"
 					id="dependent-button" value="Add Dependent"
 					tooltipid="#dependent-button-tt" />
@@ -179,7 +180,8 @@
 		<div class="border input-container">
 			<div class="input-header">
 				<h2>Enter Tax Information Here</h2>
-				<select class="trigger button input-form-button" id="input-form-button"
+				<select class="trigger button input-form-button"
+						id="input-form-button"
 						tooltipid="#input-form-button-tt">
 					<option value="None" hidden disabled selected>Add Tax Form</option>
 					<option value="W2">			W-2</option>

@@ -17,6 +17,58 @@ export class TaxTableTmpl {
 		return Math.round(miles * this.getTaxValue("CharityMileage"));
 	}
 
+	getEICBase() {
+		const tp = Taxpayer.getTaxpayer();
+
+		switch (tp.numDependentsForEIC()) {
+			case 0:	return this.getTaxValue("EIC_Base_0_Dep");
+			case 1:	return this.getTaxValue("EIC_Base_1_Dep");
+			case 2:	return this.getTaxValue("EIC_Base_2_Dep");
+			case 3:	return this.getTaxValue("EIC_Base_3_Dep");
+			default:
+				throw new Error(`Invalid number of dependents for EIC: ${num_dependents}`);
+		}
+	}
+
+	getEICRate() {
+		const tp = Taxpayer.getTaxpayer();
+
+		switch (tp.numDependentsForEIC()) {
+			case 0:	return this.getTaxValue("EIC_Rate_0_Dep");
+			case 1:	return this.getTaxValue("EIC_Rate_1_Dep");
+			case 2:	return this.getTaxValue("EIC_Rate_2_Dep");
+			case 3:	return this.getTaxValue("EIC_Rate_3_Dep");
+			default:
+				throw new Error(`Invalid number of dependents for EIC: ${num_dependents}`);
+		}
+	}
+
+	getEICPhaseOutStart() {
+		const tp = Taxpayer.getTaxpayer();
+
+		switch (tp.numDependentsForEIC()) {
+			case 0:	return this.getTaxValue("EIC_PhaseOutStart_0_Dep");
+			case 1:	return this.getTaxValue("EIC_PhaseOutStart_1_Dep");
+			case 2:	return this.getTaxValue("EIC_PhaseOutStart_2_Dep");
+			case 3:	return this.getTaxValue("EIC_PhaseOutStart_3_Dep");
+			default:
+				throw new Error(`Invalid number of dependents for EIC: ${num_dependents}`);
+		}
+	}
+
+	getEICPhaseOutRate() {
+		const tp = Taxpayer.getTaxpayer();
+
+		switch (tp.numDependentsForEIC()) {
+			case 0:	return this.getTaxValue("EIC_PhaseOutRate_0_Dep");
+			case 1:	return this.getTaxValue("EIC_PhaseOutRate_1_Dep");
+			case 2:	return this.getTaxValue("EIC_PhaseOutRate_2_Dep");
+			case 3:	return this.getTaxValue("EIC_PhaseOutRate_3_Dep");
+			default:
+				throw new Error(`Invalid number of dependents for EIC: ${num_dependents}`);
+		}
+	}
+
 	getIncomeTaxFromTable(income) {
 		// Note: there is another function named getIncomeTax() in
 		// Library/IncomeTax.js.
@@ -170,11 +222,6 @@ export class TaxTableTmpl {
 		const tp = Taxpayer.getTaxpayer();
 
 		return this.values[name][tp.filing_status]
-	}
-
-	getTaxYear() {
-		// This is implemented as both a static and instance method.
-		return this.tax_year;
 	}
 
 	get_AMT_Exemption(amt_income) {

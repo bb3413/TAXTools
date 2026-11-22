@@ -18,14 +18,17 @@ import { Taxpayer }		from "../Library/Classes/Taxpayer.js";
 // Input Worksheets
 import { Assetitem }	from "../Library/InputWorksheets/Assetitem.js";
 import { Business }		from "../Library/InputWorksheets/Business.js";
-import { Dependent }	from "../Library/InputWorksheets/Dependent.js";
+import { DependentWeb }	from "../Library/InputWorksheets/DependentWeb.js";
 import { Expenses }		from "../Library/InputWorksheets/Expenses.js";
 import { Income }		from "../Library/InputWorksheets/Income.js";
+import { TaxpayerWeb }	from "../Library/InputWorksheets/TaxpayerWeb.js";
 
 import { addInputForm }	from "./TaxProgram.js";
 
 import { TAXTOOL_CONTAINER }		from "../Library/TAXTools/TAXTools.js";
 import { ERROR_MESSAGE_OUTPUT }		from "../Library/TAXTools/TAXTools.js";
+import { ASSETSALES_CONTAINER }		from "./TaxProgram.js";
+import { DEPENDENTS_CONTAINER }		from "./TaxProgram.js";
 
 // If RAW is true, user input will be copied without changing (debug keywords, expression
 // evaluation, etc. Set it to false to use normal processing of input.
@@ -134,7 +137,7 @@ function restoreDependents(dependents) {
 	for (const dependent_values of dependents) {
 		try {
 			const block =
-				hm.createAndAddBlock("Dependent", DEPENDENTS_CONTAINER, "beforeend");
+				hm.createAndAddBlock("DependentWeb", DEPENDENTS_CONTAINER, "beforeend");
 			block.putValues(dependent_values);
 		} catch (error) {
 			error_log.push(`Error restoring dependent; ignoring.`);
@@ -207,9 +210,9 @@ function restoreTaxpayer(taxpayer_values) {
 	//
 	// The taxpayer_values parameter is a single name-value pair object.
 	//
-
 	try {
-		Taxpayer.putValues(taxpayer_values);
+		TaxpayerWeb.clearFields();
+		TaxpayerWeb.putValues(taxpayer_values);
 	} catch (error) {
 		error_log.push(`Error restoring taxpayer information; ignoring.`);
 	}
@@ -347,7 +350,7 @@ function saveTaxpayer() {
 	//
 	// Saves an object of name-value pairs.
 	//
-	const values = Taxpayer.getValues(RAW);
+	const values = TaxpayerWeb.getValues(RAW);
 	return Objects.removeUnused(values);
 }
 

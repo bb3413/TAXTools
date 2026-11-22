@@ -5,7 +5,10 @@
 // to be saved/restored, and a reference to a function that will reset the tool to its
 // original state.
 //
-// In addition the fields "tax-tools-version", "title", TAXTOOLS_CONTAINER, and
+// This module expects the save button and file selection box to be defined in the DOM and
+// be assigned the IDs "save-button" and "input-file" respectively.
+//
+// In addition, the fields "tax-tools-version", "title", TAXTOOLS_CONTAINER, and
 // ERROR_MESSAGE_OUTPUT need to exist in the HTML file.
 //
 // You should also add tooltips for "save-button-tt" and "restore-button-tt".

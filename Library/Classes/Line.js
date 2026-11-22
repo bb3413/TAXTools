@@ -10,11 +10,11 @@ export class Line {
 		Ensure.isString(label);
 
 		if (label === "") {
-			this._name					= "";
-			this._label					= name;
+			this._name				= "";
+			this._label				= name;
 		} else {
-			this._name					= name;
-			this._label					= label;
+			this._name				= name;
+			this._label				= label;
 		}
 		this._value					= 0;
 		this._min_value				= MIN_DOLLAR;
@@ -36,10 +36,6 @@ export class Line {
 			}
 		}
 		return this._value;
-	}
-
-	isUserSuppliedValue() {
-		return this._user_supplied_value;
 	}
 
 	set label(new_label) {
@@ -74,7 +70,7 @@ export class Line {
 		// value supplied by the user.
 		this.initialized = true;
 		
-		if (this.isUserSuppliedValue()) {
+		if (this._user_supplied_value) {
 			// Ignore new value.
 			return;
 		}

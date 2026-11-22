@@ -8,6 +8,7 @@ import { TAXPAYER, SPOUSE } from "../TAXTools/TAXTools.js";
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { Line }			from "../Classes/Line.js";
+import { Num }			from "../Modules/Num.js";
 import { TaxForm }		from "../Classes/TaxForm.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
 import { TaxInfo }		from "../Modules/TaxInfo.js";
@@ -93,7 +94,7 @@ export class IRADeduction extends TaxForm {
 		this.lines["09"].value	= 0;	// Earned income from small business
 		this.lines["10"].value	= TaxInfo.earnedIncome();
 		this.lines["11"].value	= contributions;
-		this.lines["12"].value	= this.min("07", "10", "11");;
+		this.lines["12"].value	= this.min("07", "10", "11");
 
 		Debug.exit("IRADeduction.calculate()");
 		return this.line("12");
@@ -164,6 +165,6 @@ function doLine7(who) {
 	}
 
 	let line7 = this.line("06") * percent;
-	line7 = Math.min(200, roundup(tmp, 10));
+	line7 = Math.min(200, Num.roundUp(tmp, 10));
 	return line7;
 }

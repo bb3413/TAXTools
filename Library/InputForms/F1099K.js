@@ -8,7 +8,7 @@ import { F1099K_HTML }	from "../InputForms/F1099K_HTML.js";
 import { Debug }		from "../Modules/Debug.js";
 import { Ensure }		from "../Modules/Ensure.js";
 import { TaxFormObj }	from "../Modules/TaxFormObj.js";
-import { TaxTable }		from "../Modules/TaxTable.js";;
+import { TaxTable }		from "../Modules/TaxTable.js";
 
 export class F1099K extends TaxForm {
 	constructor(formname) {
