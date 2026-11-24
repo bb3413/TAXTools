@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPEG Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Header Area -->
+        <header id="header-area">
+            <div class="header-info">
+                <h1 id="header-title">JPEG Viewer</h1>
+                <span id="header-author">Author: —</span>
+            </div>
+            <div class="header-controls">
+                <input type="text" id="folder-url-input" placeholder="Enter image folder URL (e.g., ./images/)" />
+                <button id="load-folder-btn">Load Folder</button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div id="workspace">
+            <!-- Side Panel (Thumbnail Gallery) -->
+            <aside id="side-panel">
+                <div class="side-panel-header">Gallery</div>
+                <div id="thumbnail-list">
+                    <!-- Thumbnails populated dynamically -->
+                </div>
+            </aside>
+
+            <!-- Main Display Area -->
+            <main id="main-display">
+                <div class="image-container">
+                    <img id="main-image" src="" alt="Select or load images to begin" />
+                </div>
+                <div id="main-caption" class="image-caption"></div>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

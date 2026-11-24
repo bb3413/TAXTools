@@ -1,0 +1,35 @@
+I would like you to create a program to display JPEG files. The program should be developed using HTML, CSS, and JavaScript.
+
+The user interface should look professional. The code should be well written and the JavaScript code should be object-oriented.
+
+The display should have three areas:
+1. A header area to display the title of the images and the author.
+2. A side panel for displaying small images of all the JPEG files.
+3. And, a main display area for displaying one image at a time.
+
+The side panel may contain many images, so it may need a scroll bar.
+If the metadata for the image displayed in the main panel contains a title or caption, it should be shown under the image.
+
+The display should fill the available space in the browser window, but the aspect ratio of the images should not be altered, so depending upon whether the orientation of an image is portrait or landscape, it may not fill the available horizontal or vertical space.
+
+is this possible? Do you have any questions?
+
+Yes, this is entirely possible using standard, modern HTML5, CSS3, and vanilla JavaScript (using ES6 class syntax for a clean object-oriented architecture).
+
+To handle local JPEG files directly in the browser, the app can utilize the HTML5 File API and URL.createObjectURL() to render thumbnails and full-size images instantly without needing a backend server. Reading JPEG metadata (like titles or EXIF tags) natively in browser JavaScript can also be handled cleanly.
+
+Before building the complete implementation, here are a few brief clarifying questions to ensure the app fits your exact workflow:
+
+1. File Loading Mechanism: Would you prefer a file picker button (and drag-and-drop zone) where users can select multiple .jpg / .jpeg files from their local folder, or are you looking to point the app to a specific server directory or static image array?
+
+2. JPEG Metadata Parsing: Does your JPEG metadata use standard embedded EXIF/IPTC data tags inside the JPEG files themselves, or are you planning to provide an accompanying JSON array/object containing titles, authors, and captions? (Note: Extracting native EXIF/IPTC metadata directly inside standard browser JS requires a lightweight metadata parsing function or library).
+
+3. Gallery Features: Would you like interactive controls for the main display area (e.g., Previous/Next buttons, keyboard arrow key navigation, or thumbnail click selection)?
+
+Once you let me know your preferences on these points, I can provide the full, single-file HTML/CSS/JS implementation.
+
+1. I would like the images to be read from the server. They sill be in a folder next to the program. The names of the images will be in a JSON file in the folder with the images.
+2. The images will have the standard embedded EXIF/IPTC data tags inside the JPEG files. However, it would be nice to read a JSON file when there is not metadata present in the image file.
+3. I would like to be able to move forward and backward through the images with previous and next buttons, arrow keys, and by selecting a specific thumbnail image.
+4. Could you provide the code in separate files for HTML, CSS, and JavaScript.
+

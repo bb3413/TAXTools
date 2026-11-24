@@ -1,0 +1,35 @@
+
+├── index.html
+├── styles.css
+├── app.js
+├── vacation2026/
+│   ├── images.json
+│   ├── photo1.jpg
+│   └── photo2.jpg
+└── nature/
+    ├── images.json
+    ├── tree.jpg
+    └── river.jpg
+
+You can then link to the viewer using query parameters:
+
+	http://bruceblinn.com/.../index.html?folder=vacation2026
+	http://bruceblinn.com/.../index.html?folder=nature
+
+index.html
+The HTML structure defines the header, sidebar for thumbnails, main viewing container with image caption overlay, and floating navigation controls.
+
+style.css
+The stylesheet uses Flexbox and CSS Grid to ensure the layout dynamically fills 100% of the browser viewport (100vh) while preventing portrait or landscape images from overflowing or altering their natural aspect ratio (object-fit: contain).
+
+app.js
+The application logic is structured cleanly into three object-oriented modules:
+
+ExifParser: Reads raw ArrayBuffers to decode embedded EXIF/IPTC metadata tags (Title, Artist/Author, ImageDescription/Caption) natively without external dependencies.
+
+GalleryModel: Manages manifest data, network fetching, image metadata extraction, and fallback logic.
+
+JPEGGalleryApp: Manages DOM interactions, active selection state, thumbnail rendering, and keyboard/button event listeners.
+
+app-new.js
+Here is the updated object-oriented JavaScript file (app.js). The GalleryModel has been updated to parse the folder parameter from the URL and prepend it to all fetch requests and image paths.
