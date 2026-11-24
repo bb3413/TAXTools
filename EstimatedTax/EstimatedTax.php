@@ -165,28 +165,28 @@
 			</div>
 
 			<div class="data-line">
-				<p>1040, line 20</p>
+				<p>1040, line 21</p>
 				<p>Non-refundable Credits</p>
 				<p class="trigger output-field" tooltipid="#NonrefundableCreditsTT"
 					id="NonrefundableCredits">0</p>
 			</div>
 
 			<div class="data-line">
-				<p>1040, line 24</p>
+				<p>1040, line 24c</p>
 				<p>Total Tax</p>
 				<p class="trigger output-field" tooltipid="#TotalTaxTT"
 					id="TotalTax">0</p>
 			</div>
 
 			<div class="data-line">
-				<p>1040, line 32</p>
+				<p>1040, line 32c</p>
 				<p>Refundable Credits</p>
 				<p class="trigger output-field" tooltipid="#RefundableCreditsTT"
 					id="RefundableCredits">0</p>
 			</div>
 
 			<div class="data-line">
-				<p>1040, line 25, 26</p>
+				<p>1040, line 25d, 26</p>
 				<p>Payments</p>
 				<p class="trigger output-field" tooltipid="#PaymentsTT"
 					id="Payments">0</p>
@@ -389,7 +389,7 @@
 
 		<h3>Deductions (non-itemized)</h3>
 		<div class="data-line">
-			<p>1040, line 13a</p>
+			<p>1040, line 13b</p>
 			<p>Qualified Business Income Deduction</p>
 			<input class="trigger input-field" type="text"
 				tooltipid="#QualifiedBusinessIncomeDeductionTT"
@@ -397,7 +397,7 @@
 		</div>
 
 		<div class="data-line">
-			<p>1040 S1-A, line 13</p>
+			<p>1040 S1-A, line 15</p>
 			<p>Qualified Tips Deduction</p>
 			<input class="trigger input-field" type="text"
 				tooltipid="#QualifiedTipsDeductionTT"
@@ -405,7 +405,7 @@
 		</div>
 
 		<div class="data-line">
-			<p>1040 S1-A, line 21</p>
+			<p>1040 S1-A, line 27</p>
 			<p>Qualified Overtime Deduction</p>
 			<input class="trigger input-field" type="text"
 				tooltipid="#QualifiedOvertimeDeductionTT"
@@ -413,7 +413,7 @@
 		</div>
 
 		<div class="data-line">
-			<p>1040 S1-A, line 30</p>
+			<p>1040 S1-A, line 36</p>
 			<p>Car Loan Interest Deduction</p>
 			<input class="trigger input-field" type="text"
 				tooltipid="#CarLoanInterestDeductionTT"
@@ -421,7 +421,7 @@
 		</div>
 
 		<div class="data-line">
-			<p>1040 S1-A, line 37</p>
+			<p>1040 S1-A, line 43</p>
 			<p>Enhanced Deduction for Seniors</p>
 			<input class="trigger input-field" type="text"
 				tooltipid="#SeniorDeductionTT"
@@ -542,7 +542,7 @@
 		</div>
 
 		<div class="data-line">
-			<p>1040 S1-A, line 10</p>
+			<p>Schedule A, line 12</p>
 			<p>Non-cash Gifts to Charity</p>
 			<input class="trigger input-field" type="text"
 				tooltipid="#NoncashGiftsToCharityTT"
