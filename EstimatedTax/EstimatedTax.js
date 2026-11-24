@@ -132,18 +132,11 @@ function checkInputValues(inputs) {
 	const tp	= Taxpayer.getTaxpayer();
 	const fs	= tp.filing_status;
 
-	const max_educator_expenses = tt.getTaxValue("MaxEducatorExpenses");
-	if (fs === MFJ) {
-		max_educator_expenses *= 2;
-	}
-
 	inputs.ltc_taxpayer =
 		Math.min(inputs.ltc_taxpayer, tt.getMaxLTC(tp.taxpayers_age));
 	inputs.ltc_spouse =
 		Math.min(inputs.ltc_spouse, tt.getMaxLTC(tp.spouses_age));
 
-	inputs.educator_expenses =
-		Math.min(inputs.educator_expenses, max_educator_expenses);
 	inputs.capital_gains =
 		Math.min(inputs.capital_gains,
 				 tt.getTaxValue("MaxCapitalLoss"));
@@ -484,7 +477,7 @@ function putOutputs() {
 	const estimated_tax		= Math.round(Math.max(0, payments - amount_due) / 4);
 
 	HTML.putUserOutput("TodaysDate",			todays_date, "text");
-	HTML.putUserOutput("TaxpayersAge",			tp.tps_age);
+	HTML.putUserOutput("TaxpayersAge",			tp.taxpayers_age);
 	HTML.putUserOutput("SpousesAge",			tp.spouses_age);
 
 	// Estimated Tax
