@@ -241,19 +241,26 @@ input:-webkit-autofill:focus {
  */
 .box			{ border:				1px solid var(--border-color); }
 .noborder		{ border:				none !important; }
+
 .input-color	{ background-color:		var(--input-color); }
 .output-color	{ background-color:		var(--output-color); }
+.black-text		{ color:				#000000; }
+.bold			{ font-weight:			bold; }
+
+.pointer		{ cursor:				pointer; }
+
 .right			{ text-align:			right; }
 .left			{ text-align:			left; }
+.center-text	{ text-align:			center; }
+
 .flex-right		{ justify-content:		right; }
 .flex-left		{ justify-content:		left; }
+
 .span-two		{ grid-column:			span 2; }
 .span-three		{ grid-column:			span 3; }
 .span-four		{ grid-column:			span 4; }
 .span-five		{ grid-column:			span 5; }
 .span-six		{ grid-column:			span 6; }
+
 .flex-right		{ justify-content:		right; }	/* Align elems in a flex-box to right. */
 .flex-center	{ justify-content:		center; }	/* Center the elements in a flex-box. */
-.bold			{ font-weight:			bold; }
-.center-text	{ text-align:			center; }
-.pointer		{ cursor:				pointer; }

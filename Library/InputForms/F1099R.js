@@ -37,11 +37,11 @@ export class F1099R extends TaxForm {
 		Debug.enter("F1099R.calculate()");
 
 		this.calculated = true;
-		this.simple.resetCalculation();
+		// this.simple.resetCalculation();
 
-		if (!this.line("07b")) {
-			this.simple.calculate();
-		}
+		// if (!this.line("07b")) {
+		// 	this.simple.calculate();
+		// }
 
 		Debug.exit("F1099R.calculate()");
 	}
