@@ -60,7 +60,7 @@ export class Simple extends TaxForm {
 		this.lines["10"]	= new Line("Amount Recovered");
 		this.lines["11"]	= new Line("Remaining Cost to Be Recovered");
 
-		this.annuity_start_date		= 0;
+		this.annuity_start_date		= "";
 		this.total_contributions	= 0;
 
 		Debug.exit("Simple.Constructor()");
