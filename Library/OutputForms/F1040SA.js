@@ -87,9 +87,9 @@ export class F1040SA extends TaxForm {
 		this.lines["17j"].value	= 0;								// Impairment Expenses
 		this.lines["17k"].value	=									// Educator expenses
 			Math.max(0, tp.educator_expense_taxpayer -
-					 	tt.getTaxValue("MaxEducatorExpenses") +
+					 	tt.getTaxValue("MaxEducatorExpenses")) +
 			Math.max(0, tp.educator_expense_spouse -
-					 	tt.getTaxValue("MaxEducatorExpenses");
+					 	tt.getTaxValue("MaxEducatorExpenses"));
 		this.lines["17z"].value	= this.add("17a","17b","17c","17d",	// Total Other Deduction
 										   "17e","17f","17g","17h",
 										   "17i","17j","17k");
