@@ -156,7 +156,7 @@ export class F1040 extends TaxForm {
 	_getDeductions() {
 		const tt = TaxTable.getTaxTable();
 		const standard_deduction	= tt.getStandardDeduction();
-		const itemized_deduction	= TaxFormObj.getValue("F1040SA", "17");
+		const itemized_deduction	= TaxFormObj.getValue("F1040SA", "18");
 		const max_donation			= tt.getTaxValue("MaxCashDonation");
 		const cash_donation			=
 			Math.min(max_donation, TaxFormObj.getValue("F1040SA", "11"));

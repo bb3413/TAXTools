@@ -42,13 +42,13 @@ export class F6251 extends TaxForm {
 		const qualified_dividends	= TaxFormObj.getValue("F1040",		"03a");
 		const capital_gains			= TaxFormObj.getValue("F1040",		"07a");
 		const agi					= TaxFormObj.getValue("F1040",		"11b");
-		const qbi_deduction			= TaxFormObj.getValue("F1040",		"13a");
+		const qbi_deduction			= TaxFormObj.getValue("F1040",		"13b");
 		const total_deductions		= TaxFormObj.getValue("F1040",		"14");
 		const taxable_income		= TaxFormObj.getValue("F1040",		"15");
 		const income_tax			= TaxFormObj.getValue("F1040",		"16");
 		const taxable_refund		= TaxFormObj.getValue("F1040S1",	"01");
 		const senior_deduction		= TaxFormObj.getValue("F1040S1A",	"43");
-		const itemized_deductions	= TaxFormObj.getValue("F1040SA",	"17");
+		const itemized_deductions	= TaxFormObj.getValue("F1040SA",	"18");
 		const taxes_paid_deduction	= TaxFormObj.getValue("F1040SA",	"07");
 		const standard_deduction	= tt.getStandardDeduction();
 		const itemized				= itemized_deductions > standard_deduction;

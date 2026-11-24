@@ -632,7 +632,7 @@ export class F540CA extends TaxForm {
 		this.lines["D-12C"].value	= 0;
 
 		// Carry-over Donations
-		this.lines["D-13A"].value	= TaxFormObj.getValue("F1040SA", "13");
+		this.lines["D-13A"].value	= TaxFormObj.getValue("F1040SA", "14");
 		this.lines["D-13B"].value	= 0;
 		this.lines["D-13C"].value	= 0;
 
@@ -642,12 +642,12 @@ export class F540CA extends TaxForm {
 		this.lines["D-14C"].value	= this.add("D-11C","D-12C","D-13C");
 
 		// Casualty and Theft Deduction
-		this.lines["D-15A"].value	= TaxFormObj.getValue("F1040SA", "15");
+		this.lines["D-15A"].value	= TaxFormObj.getValue("F1040SA", "16");
 		this.lines["D-15B"].value	= 0;
 		this.lines["D-15C"].value	= 0;
 
 		// Other Deduction
-		this.lines["D-16A"].value	= TaxFormObj.getValue("F1040SA", "16");
+		this.lines["D-16A"].value	= TaxFormObj.getValue("F1040SA", "17");
 		this.lines["D-16B"].value	= 0;
 		this.lines["D-16C"].value	= 0;
 
