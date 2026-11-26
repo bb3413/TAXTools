@@ -1,4 +1,4 @@
-
+ 
 // Classes
 import { HTMLMgr }						from "../Library/Classes/HTMLMgr.js";
 import { Taxpayer }						from "../Library/Classes/Taxpayer.js";
